@@ -1,5 +1,4 @@
 
-#' @importFrom utils head
 #' @importFrom stats pnorm pt sd
 NULL
 

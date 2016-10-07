@@ -160,28 +160,18 @@ calcAUC <- function(modelPredictions,yValues) {
   yValues <- yValues[ord]
   modelPredictions <- modelPredictions[ord]
   # FPR is the x-axis, TPR the y.
-  dF <- data.frame(
-    x=cumsum(!yValues)/max(1,sum(!yValues)), # FPR
-    y=cumsum(yValues)/max(1,sum(yValues)),   # TPR
-    score=modelPredictions
-  )
-  # each point shoudl be fully after a bunch of points or fully before.
-  # no some points are in situations.
-  dup <- c(dF$score[-1]>=head(dF$score,-1),FALSE)
-  dF <- dF[!dup,]
-  x <- dF$x
-  y <- dF$y
-  # extend out to 0-1 (some corner cases)
-  if((length(x)<=0)||(min(x)>0)) {
-    x <- c(0,x)
-    y <- c(0,y)
-  }
-  if(max(x)<1) {
-    x <- c(x,1)
-    y <- c(y,1)
-  }
-  # sum areas of segments
-  area <- sum( ((y[-1]+head(y,-1))/2) * (x[-1]-head(x,-1)) )
+  x <- cumsum(!yValues)/max(1,sum(!yValues)) # FPR = x-axis
+  y <- cumsum(yValues)/max(1,sum(yValues))   # TPR = y-axis
+  # each point should be fully after a bunch of points or fully before a
+  # decision level. remove dups to achieve this.
+  dup <- c(modelPredictions[-1]>=modelPredictions[-length(modelPredictions)],
+           FALSE)
+  # And add in ideal endpoints just in case (redundancy here is not a problem).
+  x <- c(0,x[!dup],1)
+  y <- c(0,y[!dup],1)
+  # sum areas of segments (triangle topped vertical rectangles)
+  n <- length(y)
+  area <- sum( ((y[-1]+y[-n])/2) * (x[-1]-x[-n]) )
   area
 }
 

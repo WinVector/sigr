@@ -7,9 +7,9 @@
 calcAUC(modelPredictions, yValues)
 }
 \arguments{
-\item{modelPredictions}{numeric predictions}
+\item{modelPredictions}{numeric predictions (not empty)}
 
-\item{yValues}{logical truth}
+\item{yValues}{logical truth (not empty, same lenght as model predictions)}
 }
 \value{
 area under curve
@@ -20,7 +20,7 @@ Based on:
 }
 \examples{
 
-sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE))
+sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE)) # should be 2/3
 
 }
 
