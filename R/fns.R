@@ -146,8 +146,8 @@ calcSSE <- function(pred,y) {
 #' Based on:
 #'  http://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html
 #'
-#' @param modelPredictions numeric predictions
-#' @param yValues logical truth
+#' @param modelPredictions numeric predictions (not empty)
+#' @param yValues logical truth (not empty, same lenght as model predictions)
 #' @return area under curve
 #'
 #' @examples
@@ -159,16 +159,29 @@ calcAUC <- function(modelPredictions,yValues) {
   ord <- order(modelPredictions, decreasing=TRUE)
   yValues <- yValues[ord]
   modelPredictions <- modelPredictions[ord]
+  # FPR is the x-axis, TPR the y.
   dF <- data.frame(
-    FPR=cumsum(!yValues)/max(1,sum(!yValues)),
-    TPR=cumsum(yValues)/max(1,sum(yValues)),
+    x=cumsum(!yValues)/max(1,sum(!yValues)), # FPR
+    y=cumsum(yValues)/max(1,sum(yValues)),   # TPR
     score=modelPredictions
   )
+  # each point shoudl be fully after a bunch of points or fully before.
+  # no some points are in situations.
   dup <- c(dF$score[-1]>=head(dF$score,-1),FALSE)
   dF <- dF[!dup,]
-  TPR <- c(0,dF$TPR,1)
-  FPR <- c(0,dF$FPR,1)
-  sum( ((TPR[-1]+head(TPR,-1))/2) * (FPR[-1]-head(FPR,-1)) )
+  x <- dF$x
+  y <- dF$y
+  # extend out to 0-1 (some corner cases)
+  if((length(x)<=0)||(min(x)>0)) {
+    x <- c(0,x)
+    y <- c(0,y)
+  }
+  if(max(x)<1) {
+    x <- c(x,1)
+    y <- c(y,1)
+  }
+  # sum areas of segments
+  sum( ((y[-1]+head(y,-1))/2) * (x[-1]-head(x,-1)) )
 }
 
 
