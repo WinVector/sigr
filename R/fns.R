@@ -152,7 +152,7 @@ calcSSE <- function(pred,y) {
 #'
 #' @examples
 #'
-#' sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE))
+#' sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE)) # should be 2/3
 #'
 #' @export
 calcAUC <- function(modelPredictions,yValues) {
@@ -181,7 +181,8 @@ calcAUC <- function(modelPredictions,yValues) {
     y <- c(y,1)
   }
   # sum areas of segments
-  sum( ((y[-1]+head(y,-1))/2) * (x[-1]-head(x,-1)) )
+  area <- sum( ((y[-1]+head(y,-1))/2) * (x[-1]-head(x,-1)) )
+  area
 }
 
 
