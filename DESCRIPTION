@@ -1,0 +1,18 @@
+Package: sigr
+Type: Package
+Title: Format signficance summaries for reports
+Version: 0.1.0
+Date: 2016-10-03
+Author: John Mount
+Maintainer: John Mount <jmount@win-vector.com>
+URL: https://github.com/WinVector/sigr
+Description: A packge for succinctly formatting signicance summaries of
+    various models and tests.
+License: GPL-3
+LazyData: TRUE
+RoxygenNote: 5.0.1
+Suggests:  parallel,
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr

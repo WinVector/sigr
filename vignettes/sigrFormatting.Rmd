@@ -1,0 +1,110 @@
+---
+title: "sigr"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sigr formatting}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+Examples of `sigr` formatting.  Inspired by APA format
+(American Psychological Association), but not fully compliant.  Discussed [here](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/).
+
+Please see [here](https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.pdf) and [here](http://my.ilstu.edu/~jhkahn/apastats.html) for some notes.
+
+Simple formatting.
+
+```{r  results='asis'}
+sigr::getRenderingFormat()
+cat(sigr::formatSignificance(1/300))
+```
+
+F-test examples (quality of a numeric model of a numeric outcome).
+
+```{r  results='asis'}
+cat(sigr::formatFTestImpl(numdf=2,dendf=55,FValue=5.56)$formatStr)
+```
+
+```{r}
+d <- data.frame(x=0.2*(1:20))
+d$y <- cos(d$x)
+model <- lm(y~x,data=d)
+d$prediction <- predict(model,newdata=d)
+print(summary(model))
+```
+
+```{r  results='asis'}
+cat(sigr::formatFTest(model,pSmallCutoff=1.0e-12)$formatStr)
+cat(sigr::formatFTest(d,'prediction','y',
+                              pSmallCutoff=1.0e-12)$formatStr)
+```
+
+Chi-squared test examples (quality of a probabilty model 
+of a two category outcome).
+
+```{r}
+d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+       y=c(TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE))
+model <- glm(y~x,data=d,family=binomial)
+model$converged
+summary(model)
+d$pred <- predict(model,type='response',newdata=d)
+```
+```{r results='asis'}
+cat(sigr::formatChiSqTest(model,pLargeCutoff=1)$formatStr)
+cat(sigr::formatChiSqTest(d,'pred','y',pLargeCutoff=1)$formatStr)
+```
+
+```{r}
+d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+               y=c(1,1,2,2,3,3,4,4))
+ct <- cor.test(d$x,d$y)
+```
+```{r results='asis'}
+cat(sigr::formatCorTest(ct)$formatStr)
+```
+
+```{r}
+d <- data.frame(x=c('b','a','a','a','b','b','b'),
+                y=c('1','1','1','2','2','2','2'))
+ft <- fisher.test(table(d))
+```
+```{r results='asis'}
+cat(sigr::formatFisherTest(ft,pLargeCutoff=1)$formatStr)
+```
+
+```{r}
+d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+                y=c(1,1,2,2,3,3,4,4))
+ft <- t.test(d$x,d$y)
+```
+```{r results='asis'}
+cat(sigr::formatTTest(ft,pLargeCutoff=1)$formatStr)
+```
+
+```{r results='asis'}
+parallelCluster <- NULL
+#parallelCluster <- parallel::makeCluster(parallel::detectCores())
+
+d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
+                y=c(FALSE,TRUE,FALSE,FALSE,
+                    TRUE,TRUE,FALSE,TRUE))
+d <- rbind(d,d,d,d)
+sigr::formatAUC(d,'x1','y',TRUE,pLargeCutoff=1,
+                nrep=200,
+                parallelCluster=parallelCluster)
+
+d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
+                x2=1,
+                y=c(FALSE,TRUE,FALSE,FALSE,
+                    TRUE,TRUE,FALSE,TRUE))
+d <- rbind(d,d,d,d)
+sigr::formatAUCpair(d,'x1','x2','y',TRUE,pLargeCutoff=1,
+                    nrep=200,
+                    parallelCluster=parallelCluster)
+if(!is.null(parallelCluster)) {
+  parallel::stopCluster(parallelCluster)
+}
+```
