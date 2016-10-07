@@ -26,6 +26,7 @@ permutationScoreModel <- function(yValues,modelValues,
   pNorm <- pnorm(z,lower.tail=FALSE)
   df = length(v)-1
   pValue <- pt(z,df=df,lower.tail=FALSE)
+  pFreq <- sum(v>=observedScore)/length(v)
   list(observedScore=observedScore,
        df=df,
        #permutedScores=v,
@@ -33,7 +34,8 @@ permutationScoreModel <- function(yValues,modelValues,
        mean=mean(v),
        sd=sd(v),
        pNorm=pNorm,
-       pValue=pValue)
+       pValue=pValue,
+       pFreq=pFreq)
 }
 
 mkResampleDiffWorkder <- function(yValues,
@@ -77,6 +79,7 @@ resampleScoreModelPair <- function(yValues,
   z <- (observedScore1-observedScore2-mean(v))/sd(v)
   pNorm <- pnorm(z,lower.tail=FALSE)
   df = length(v)-1
+  pFreq <- sum(v>=observedScore1-observedScore2)/length(v)
   pValue <- pt(z,df=df,lower.tail=FALSE)
   list(observedScore1=observedScore1,
        observedScore2=observedScore2,
@@ -84,6 +87,7 @@ resampleScoreModelPair <- function(yValues,
        z=z,
        mean=mean(v),
        sd=sd(v),
-       pValue=pValue)
+       pValue=pValue,
+       pFreq=pFreq)
 }
 
