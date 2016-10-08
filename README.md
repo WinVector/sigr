@@ -74,10 +74,10 @@ broom::glance(model)
 ```
 
 ```r
-cat(sigr::formatChiSqTest(model,pLargeCutoff=1)$formatStr)
+cat(sigr::formatChiSqTest(model,pLargeCutoff=1,format='html')$formatStr)
 ```
 
-**Chi-Square Test** summary: *pseudo-<i>R^2^</i>*=0.023 (<i>&chi;^2^</i>(1,*N*=8)=0.25, *p*=0.615).
+<b>Chi-Square Test</b> summary: <i>pseudo-<i>R<sup>2</sup></i></i>=0.023 (<i>&chi;<sup>2</sup></i>(1,<i>N</i>=8)=0.25, <i>p</i>=0.615).
 
 Notice _broom::glance_ does not derive the p-value and returns
 a data.frame (an object needing further formatting), while _sigr::formatChiSqTest_ returns markdown text with the derived p-value.
