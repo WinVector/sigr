@@ -1,3 +1,5 @@
+
+
 #' Format fisher.test.
 #'
 #' @param ft cor.test result
@@ -32,8 +34,8 @@ formatFisherTest <- function(ft,
   }
   fsyms <- syms[format,]
   pString <- formatSignificance(ft$p.value,'p', format,
-                                pLargeCutoff,
-                                pSmallCutoff)
+                                pLargeCutoff=pLargeCutoff,
+                                pSmallCutoff=pSmallCutoff)
   list(ft=ft,
        test='fisher.test',
        formatStr=

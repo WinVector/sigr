@@ -49,15 +49,15 @@ formatAUC <- function(d,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  eScore <- permutationScoreModel(d[[yName]]==yTarget,
-                                  d[[modelName]],
+  eScore <- permutationScoreModel(modelValues=d[[modelName]],
+                                  yValues=d[[yName]]==yTarget,
                                   scoreFn=calcAUC,
                                   nRep=nrep,
                                   parallelCluster=parallelCluster)
   pValue = eScore$pValue
   pString <- formatSignificance(pValue,'p', format,
-                                pLargeCutoff,
-                                pSmallCutoff)
+                                pLargeCutoff=pLargeCutoff,
+                                pSmallCutoff=pSmallCutoff)
   scoreString <- sprintf('%.2g',eScore$observedScore)
   list(pValue=pValue,
        test='AUC differnce test',
@@ -65,12 +65,10 @@ formatAUC <- function(d,
        scoreString=scoreString,
        pString=pString,
        formatStr=
-         paste0(fsyms['startB'],'AUC null test',fsyms['endB'],
+         paste0(fsyms['startB'],'AUC test alt. hyp. AUC>AUC(permuted)',fsyms['endB'],
                 ': (',fsyms['startI'],'AUC',fsyms['endI'],
                 '=',scoreString,
-                ', ',fsyms['startI'],'n',fsyms['endI'],'=',nrow(d),
                 ', ',fsyms['startI'],'s.d.',fsyms['endI'],'=',sprintf('%.2g',eScore$sd),
-                ', ',fsyms['startI'],'z',fsyms['endI'],'=',sprintf('%.2g',eScore$z),
                 ', ',pString,').'))
 }
 
@@ -124,30 +122,30 @@ formatAUCpair <- function(d,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  eScore <- resampleScoreModelPair(
-    d[[yName]]==yTarget,
-    d[[model1Name]],
-    d[[model2Name]],
-    calcAUC,
-    nRep=nrep,
-    parallelCluster=parallelCluster)
+  eScore <- resampleScoreModelPair(model1Values=d[[model1Name]],
+                                   model2Values=d[[model2Name]],
+                                   yValues=d[[yName]]==yTarget,
+                                   scoreFn=calcAUC,
+                                   nRep=nrep,
+                                   parallelCluster=parallelCluster)
   pValue <- eScore$pValue
   pString <- formatSignificance(pValue,'p', format,
-                                pLargeCutoff,
-                                pSmallCutoff)
-  scoreString <- paste0(sprintf('%.2g',eScore$observedScore1),
-                        ';',sprintf('%.2g',eScore$observedScore2))
+                                pLargeCutoff=pLargeCutoff,
+                                pSmallCutoff=pSmallCutoff)
+  scoreString1 <- sprintf('%.2g',eScore$observedScore1)
+  scoreString2 <- sprintf('%.2g',eScore$observedScore2)
+  scoreString <- paste0(scoreString1,';',scoreString2)
   list(pValue=pValue,
        test='AUC results',
        eScore=eScore,
        pString=pString,
+       scoreString1=scoreString1,
+       scoreString2=scoreString2,
        scoreString=scoreString,
        formatStr=
-         paste0(fsyms['startB'],'AUC difference test',fsyms['endB'],
+         paste0(fsyms['startB'],'AUC test alt. hyp. AUC1-AUC2>pooled diffs',fsyms['endB'],
                 ': (',fsyms['startI'],'AUCs',fsyms['endI'],
                 '=',scoreString,
-                ', ',fsyms['startI'],'n',fsyms['endI'],'=',nrow(d),
                 ', ',fsyms['startI'],'s.d.',fsyms['endI'],'=',sprintf('%.2g',eScore$sd),
-                ', ',fsyms['startI'],'z',fsyms['endI'],'=',sprintf('%.2g',eScore$z),
                 ', ',pString,').'))
 }

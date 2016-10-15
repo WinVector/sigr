@@ -59,6 +59,8 @@ getRenderingFormat <- function() {
 #' @param sig numeric the significance value.
 #' @param symbol the name of the value (e.g. p, t, ...).
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
+#' @param ... not used, force use of named binding for later arguments
+#' @param sigDigits integer number of digits to show
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
@@ -70,8 +72,13 @@ getRenderingFormat <- function() {
 #' @export
 formatSignificance <- function(sig,symbol='p',
                               format,
+                              ...,
+                              sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
+  if(length(list(...))>0) {
+    stop("formatSignificance unexpected arguments")
+  }
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
@@ -83,10 +90,11 @@ formatSignificance <- function(sig,symbol='p',
   if(sig>=pLargeCutoff) {
     pString <- paste0(pString,fsyms['eq'],'n.s.')
   } else {
+    sigStr <- paste0('%.',sigDigits,'g')
     if(sig<pSmallCutoff) {
-      pString <- paste0(pString,fsyms['lt'],sprintf('%.3g',pSmallCutoff))
+      pString <- paste0(pString,fsyms['lt'],sprintf(sigStr,pSmallCutoff))
     } else {
-      pString <- paste0(pString,fsyms['eq'],sprintf('%.3g',sig))
+      pString <- paste0(pString,fsyms['eq'],sprintf(sigStr,sig))
     }
   }
   #attr(pString,'format') <- format

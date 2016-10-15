@@ -44,8 +44,8 @@ formatFTestImpl <- function(numdf,dendf,FValue,
                        dendf,
                        lower.tail=FALSE)
   pString <- formatSignificance(pValue,'p', format,
-                                pLargeCutoff,
-                                pSmallCutoff)
+                                pLargeCutoff=pLargeCutoff,
+                                pSmallCutoff=pSmallCutoff)
   list(
     test='F Test',
     numdf=numdf,

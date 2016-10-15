@@ -33,8 +33,8 @@ formatTTest <- function(tt,
   }
   fsyms <- syms[format,]
   pString <- formatSignificance(tt$p.value,'p', format,
-                                pLargeCutoff,
-                                pSmallCutoff)
+                                pLargeCutoff=pLargeCutoff,
+                                pSmallCutoff=pSmallCutoff)
   list(tt=tt,
        test='t.test',
        formatStr=

@@ -32,8 +32,8 @@ formatCorTest <- function(ct,
   }
   fsyms <- syms[format,]
   pString <- formatSignificance(ct$p.value,'p', format,
-                                pLargeCutoff,
-                                pSmallCutoff)
+                                pLargeCutoff=pLargeCutoff,
+                                pSmallCutoff=pSmallCutoff)
   list(ct=ct,
        test='cor.test',
        formatStr=

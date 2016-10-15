@@ -4,8 +4,8 @@
 \alias{formatSignificance}
 \title{Print a significance neatly}
 \usage{
-formatSignificance(sig, symbol = "p", format, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+formatSignificance(sig, symbol = "p", format, ..., sigDigits = 2,
+  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{sig}{numeric the significance value.}
@@ -13,6 +13,10 @@ formatSignificance(sig, symbol = "p", format, pLargeCutoff = 0.05,
 \item{symbol}{the name of the value (e.g. p, t, ...).}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii")}
+
+\item{...}{not used, force use of named binding for later arguments}
+
+\item{sigDigits}{integer number of digits to show}
 
 \item{pLargeCutoff}{value to declare non-significance at or above.}
 
