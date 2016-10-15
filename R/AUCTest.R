@@ -56,7 +56,9 @@ formatAUC <- function(d,
                                   nRep=nrep,
                                   parallelCluster=parallelCluster)
   pValue = eScore$pValue
-  pString <- formatSignificance(pValue,'p', format,
+  pString <- formatSignificance(pValue,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   scoreString <- sprintf('%.2g',eScore$observedScore)
@@ -131,7 +133,9 @@ formatAUCpair <- function(d,
                                    nRep=nrep,
                                    parallelCluster=parallelCluster)
   pValue <- eScore$pValue
-  pString <- formatSignificance(pValue,'p', format,
+  pString <- formatSignificance(pValue,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   scoreString1 <- sprintf('%.2g',eScore$observedScore1)

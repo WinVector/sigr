@@ -31,7 +31,9 @@ formatCorTest <- function(ct,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  pString <- formatSignificance(ct$p.value,'p', format,
+  pString <- formatSignificance(ct$p.value,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   list(ct=ct,

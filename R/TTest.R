@@ -32,7 +32,9 @@ formatTTest <- function(tt,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  pString <- formatSignificance(tt$p.value,'p', format,
+  pString <- formatSignificance(tt$p.value,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   list(tt=tt,

@@ -43,7 +43,9 @@ formatFTestImpl <- function(numdf,dendf,FValue,
                        numdf,
                        dendf,
                        lower.tail=FALSE)
-  pString <- formatSignificance(pValue,'p', format,
+  pString <- formatSignificance(pValue,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   list(

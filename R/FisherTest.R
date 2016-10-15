@@ -33,7 +33,9 @@ formatFisherTest <- function(ft,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  pString <- formatSignificance(ft$p.value,'p', format,
+  pString <- formatSignificance(ft$p.value,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   list(ft=ft,

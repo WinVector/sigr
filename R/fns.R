@@ -57,9 +57,9 @@ getRenderingFormat <- function() {
 #' Print a significance neatly
 #'
 #' @param sig numeric the significance value.
+#' @param ... not used, force use of named binding for later arguments
 #' @param symbol the name of the value (e.g. p, t, ...).
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param ... not used, force use of named binding for later arguments
 #' @param sigDigits integer number of digits to show
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -70,12 +70,13 @@ getRenderingFormat <- function() {
 #' cat(sigr::formatSignificance(1/300))
 #'
 #' @export
-formatSignificance <- function(sig,symbol='p',
-                              format,
-                              ...,
-                              sigDigits=2,
-                              pLargeCutoff=0.05,
-                              pSmallCutoff=1.0e-5) {
+formatSignificance <- function(sig,
+                               ...,
+                               symbol='p',
+                               format,
+                               sigDigits=2,
+                               pLargeCutoff=0.05,
+                               pSmallCutoff=1.0e-5) {
   if(length(list(...))>0) {
     stop("formatSignificance unexpected arguments")
   }

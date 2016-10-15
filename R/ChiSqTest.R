@@ -46,7 +46,9 @@ formatChiSqTestImpl <- function(df.null,df.residual,
   delta_df <- df.null - df.residual
   sig <- stats::pchisq(delta_deviance, delta_df, lower.tail=FALSE)
   pseudoR2 <- 1.0 - deviance/null.deviance # pseudo R-squared
-  pString <- formatSignificance(sig,'p', format,
+  pString <- formatSignificance(sig,
+                                symbol='p',
+                                format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   list(test="Chi-Square test",
