@@ -34,6 +34,7 @@ but we will settle for simple p-value estimates.
 }
 \examples{
 
+set.seed(25325)
 y <- 1:5
 m1 <- c(1,1,2,2,2)
 m2 <- c(1,1,1,1,2)

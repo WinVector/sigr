@@ -88,6 +88,7 @@ cat(sigr::formatTTest(ft,pLargeCutoff=1)$formatStr)
 parallelCluster <- NULL
 #parallelCluster <- parallel::makeCluster(parallel::detectCores())
 
+set.seed(25325)
 d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
                 y=c(FALSE,TRUE,FALSE,FALSE,
                     TRUE,TRUE,FALSE,TRUE))
@@ -96,6 +97,7 @@ sigr::formatAUC(d,'x1','y',TRUE,pLargeCutoff=1,
                 nrep=200,
                 parallelCluster=parallelCluster)
 
+set.seed(25325)
 d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
                 x2=1,
                 y=c(FALSE,TRUE,FALSE,FALSE,
@@ -108,3 +110,56 @@ if(!is.null(parallelCluster)) {
   parallel::stopCluster(parallelCluster)
 }
 ```
+
+
+permutationScoreModel
+
+```{r}
+set.seed(25325)
+y <- 1:5
+m <- c(1,1,2,2,2)
+cor.test(m,y,alternative='greater')
+f <- function(modelValues,yValues) cor(modelValues,yValues)
+sigr::permutationScoreModel(m,y,f)
+```
+
+resampleScoreModel
+
+```{r}
+set.seed(25325)
+y <- 1:5
+m1 <- c(1,1,2,2,2)
+cor.test(m1,y,alternative='greater')
+f <- function(modelValues,yValues) {
+  if((sd(modelValues)<=0)||(sd(yValues)<=0)) {
+    return(0)
+  }
+  cor(modelValues,yValues)
+}
+s <- sigr::resampleScoreModel(m1,y,f)
+print(s)
+z <- s$observedScore/s$sd  # always check size of z relative to bias!
+pValue <- pt(z,df=length(y)-2,lower.tail=FALSE)
+pValue
+```
+
+resampleScoreModelPair
+
+```{r}
+set.seed(25325)
+y <- 1:5
+m1 <- c(1,1,2,2,2)
+m2 <- c(1,1,1,1,2)
+cor(m1,y)
+cor(m2,y)
+f <- function(modelValues,yValues) {
+  if((sd(modelValues)<=0)||(sd(yValues)<=0)) {
+    return(0)
+  }
+  cor(modelValues,yValues)
+}
+sigr::resampleScoreModelPair(m1,m2,y,f)
+```
+
+
+

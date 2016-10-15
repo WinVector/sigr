@@ -22,6 +22,7 @@ NULL
 #'
 #' @examples
 #'
+#' set.seed(25325)
 #' d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
 #'                 y=c(FALSE,TRUE,FALSE,FALSE,
 #'                     TRUE,TRUE,FALSE,TRUE))
@@ -93,6 +94,7 @@ formatAUC <- function(d,
 #'
 #' @examples
 #'
+#' set.seed(25325)
 #' d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
 #'                 x2=1,
 #'                 y=c(FALSE,TRUE,FALSE,FALSE,

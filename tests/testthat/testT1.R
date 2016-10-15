@@ -3,6 +3,7 @@ library('sigr')
 context("Excercise Operations")
 
 test_that("testT1: Test Works As Expected", {
+  set.seed(25325)
   s1 <- sigr::getRenderingFormat()
   s2 <- sigr::formatSignificance(1/300)
   s3 <- sigr::formatFTestImpl(numdf=2,dendf=55,FValue=5.56)

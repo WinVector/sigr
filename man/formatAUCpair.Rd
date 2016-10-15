@@ -39,6 +39,7 @@ Estimate signficance of difference in two AUCs by resampling.
 }
 \examples{
 
+set.seed(25325)
 d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
                 x2=1,
                 y=c(FALSE,TRUE,FALSE,FALSE,

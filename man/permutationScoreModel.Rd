@@ -28,9 +28,10 @@ Treat permutaiton re-samples as similar to bootstrap replications.
 }
 \examples{
 
+set.seed(25325)
 y <- 1:5
 m <- c(1,1,2,2,2)
-cor.test(m,y)
+cor.test(m,y,alternative='greater')
 f <- function(modelValues,yValues) cor(modelValues,yValues)
 permutationScoreModel(m,y,f)
 

@@ -28,9 +28,10 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 #'
 #' @examples
 #'
+#' set.seed(25325)
 #' y <- 1:5
 #' m <- c(1,1,2,2,2)
-#' cor.test(m,y)
+#' cor.test(m,y,alternative='greater')
 #' f <- function(modelValues,yValues) cor(modelValues,yValues)
 #' permutationScoreModel(m,y,f)
 #'
@@ -67,7 +68,87 @@ permutationScoreModel <- function(modelValues,yValues,
        pFreq=pFreq)
 }
 
-mkResampleDiffWorkder <- function(model1Values,
+
+
+
+mkResampleWorker <- function(modelValues,
+                              yValues,
+                              scoreFn) {
+  force(yValues)
+  force(modelValues)
+  force(scoreFn)
+  n <- length(modelValues)
+  if(is.null(yValues)) {
+    yValues <- logical(n)
+  }
+  function(x) {
+    samp <- sample.int(n,n,replace=TRUE)
+    score <- scoreFn(modelValues[samp],yValues[samp])
+    score
+  }
+}
+
+#' Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).
+#'
+#' @param modelValues numeric array of predictions (model to test).
+#' @param yValues numeric/logical array of outcomes, depedendent, or truth values
+#' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
+#' @param ... not used, forces later arguments to be bound by name
+#' @param nRep integer number of repititions to perform
+#' @param parallelCluster optional snow-style parallel cluster.
+#' @return summaries
+#'
+#' @examples
+#'
+#' set.seed(25325)
+#' y <- 1:5
+#' m1 <- c(1,1,2,2,2)
+#' cor.test(m1,y,alternative='greater')
+#' f <- function(modelValues,yValues) {
+#'  if((sd(modelValues)<=0)||(sd(yValues)<=0)) {
+#'    return(0)
+#'  }
+#'  cor(modelValues,yValues)
+#' }
+#' s <- sigr::resampleScoreModel(m1,y,f)
+#' print(s)
+#' z <- s$observedScore/s$sd # always check size of z relative to bias!
+#' pValue <- pt(z,df=length(y)-2,lower.tail=FALSE)
+#' pValue
+#'
+#'
+#' @export
+#'
+#
+resampleScoreModel <- function(modelValues,
+                               yValues,
+                               scoreFn,
+                               ...,
+                               nRep=100,
+                               parallelCluster=NULL) {
+  if(length(list(...))>0) {
+    stop('resampleScoreModelPair unexpected extra arguments')
+  }
+  observedScore <- scoreFn(modelValues,yValues)
+  resampleWorker <- mkResampleWorker(modelValues=modelValues,
+                                          yValues=yValues,
+                                          scoreFn=scoreFn)
+  resampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
+  v <- as.numeric(resampledScores)
+  meanv <- mean(v)
+  sdv <- sqrt(sum((v-meanv)^2)/(length(v)-1))
+  list(fnName='resampleScoreModel',
+       observedScore=observedScore,
+       bias=meanv-observedScore,
+       sd=sdv)
+}
+
+
+
+
+
+
+mkResampleDiffWorker <- function(model1Values,
                                   model2Values,
                                   yValues,
                                   scoreFn) {
@@ -110,6 +191,7 @@ mkResampleDiffWorkder <- function(model1Values,
 #'
 #' @examples
 #'
+#' set.seed(25325)
 #' y <- 1:5
 #' m1 <- c(1,1,2,2,2)
 #' m2 <- c(1,1,1,1,2)
@@ -138,10 +220,12 @@ resampleScoreModelPair <- function(model1Values,
   }
   observedScore1 <- scoreFn(model1Values,yValues)
   observedScore2 <- scoreFn(model2Values,yValues)
-  resampleWorker <- mkResampleDiffWorkder(model1Values=model1Values,
+  resampleWorker <- mkResampleDiffWorker(model1Values=model1Values,
                                           model2Values=model2Values,
                                           yValues=yValues,
                                           scoreFn=scoreFn)
+  # resampleWorker is symmetric so if the empirical mean is near zero
+  # we have some evidence against bias.
   resampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
   v <- as.numeric(resampledScores)
   meanv <- mean(v)
@@ -155,7 +239,7 @@ resampleScoreModelPair <- function(model1Values,
        observedScore1=observedScore1,
        observedScore2=observedScore2,
        z=z,
-       mean=meanv,
+       bias=meanv,
        sd=sdv,
        pValue=pValue,
        pFreq=pFreq)
