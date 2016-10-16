@@ -5,7 +5,7 @@
 \title{Format AUC resampling test results.}
 \usage{
 formatAUCresample(d, modelName, yName, yTarget, ..., format,
-  returnScores = FALSE, nrep = 100, pLargeCutoff = 0.05,
+  returnScores = FALSE, nrep = 100, pLargeCutoff = 2,
   pSmallCutoff = 1e-05, parallelCluster = NULL)
 }
 \arguments{
