@@ -114,7 +114,7 @@ formatAUCresample <- function(d,
                       format,
                       returnScores=FALSE,
                       nrep=100,
-                      pLargeCutoff=0.05,
+                      pLargeCutoff=2.0,
                       pSmallCutoff=1.0e-5,
                       parallelCluster=NULL) {
   if(length(list(...))) {
