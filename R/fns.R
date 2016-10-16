@@ -87,7 +87,7 @@ formatSignificance <- function(sig,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  pString <- paste0(fsyms['startI'],'p',fsyms['endI'])
+  pString <- paste0(fsyms['startI'],symbol,fsyms['endI'])
   if(sig>=pLargeCutoff) {
     pString <- paste0(pString,fsyms['eq'],'n.s.')
   } else {

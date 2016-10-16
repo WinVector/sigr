@@ -161,9 +161,9 @@ resampleScoreModel <- function(modelValues,
 
 
 mkResampleDiffWorker <- function(model1Values,
-                                  model2Values,
-                                  yValues,
-                                  scoreFn) {
+                                 model2Values,
+                                 yValues,
+                                 scoreFn) {
   force(yValues)
   force(model1Values)
   force(model2Values)
@@ -172,13 +172,13 @@ mkResampleDiffWorker <- function(model1Values,
   if(is.null(yValues)) {
     yValues <- logical(n)
   }
-  modelPooled <- c(model1Values,model2Values)
-  yPooled <- c(yValues,yValues)
+  if(is.null(model2Values)) {
+    model2Values <- numeric(n)
+  }
   function(x) {
-    samp <- sample.int(2*n,n,replace=TRUE)
-    score1 <- scoreFn(modelPooled[samp],yPooled[samp])
-    samp <- sample.int(2*n,n,replace=TRUE)
-    score2 <- scoreFn(modelPooled[samp],yPooled[samp])
+    samp <- sample.int(n,n,replace=TRUE)
+    score1 <- scoreFn(model1Values[samp],yValues[samp])
+    score2 <- scoreFn(model2Values[samp],yValues[samp])
     list(score1=score1,score2=score2,diff=score1-score2)
   }
 }
@@ -197,8 +197,7 @@ listToDataFrame <- function(rows) {
   d
 }
 
-#' Studentized bootstrap test of significance of
-#'  scoreFn(yValues,model1Values) - scoreFn(yValues,model1Values) > pooled difference.
+#' Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).
 #'
 #'
 #' True confidence intervals are harder to get right (see
@@ -249,31 +248,27 @@ resampleScoreModelPair <- function(model1Values,
   observedScore1 <- scoreFn(model1Values,yValues)
   observedScore2 <- scoreFn(model2Values,yValues)
   resampleWorker <- mkResampleDiffWorker(model1Values=model1Values,
-                                          model2Values=model2Values,
-                                          yValues=yValues,
-                                          scoreFn=scoreFn)
-  # resampleWorker is symmetric so if the empirical mean is near zero
-  # we have some evidence against bias.
+                                         model2Values=model2Values,
+                                         yValues=yValues,
+                                         scoreFn=scoreFn)
   detailedResampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
   detailedResampledScores <- listToDataFrame(detailedResampledScores)
-  # convert to a single data.frame
   resampledScores <- detailedResampledScores$diff
   meanv <- mean(resampledScores)
   sdv <- sqrt(sum((resampledScores-meanv)^2)/(length(resampledScores)-1))
-  z <- (observedScore1-observedScore2-meanv)/sdv
+  z <- (observedScore1-observedScore2)/sdv
   df = length(resampledScores)-1
-  pFreq <- sum(resampledScores>=(observedScore1-observedScore2))/
-    length(resampledScores)
-  pValue <- stats::pt(z,df=df,lower.tail=FALSE)
+  eFreq <- sum(resampledScores<=0)/length(resampledScores)
+  eValue <- stats::pt(z,df=df,lower.tail=FALSE)
   ret <- list(fnName='resampleScoreModelPair',
-              test="is score1-score2 greater than pooled differences",
+              test="is score1 greater than score2",
               observedScore1=observedScore1,
               observedScore2=observedScore2,
               z=z,
-              bias=meanv,
+              meanv=meanv,
               sd=sdv,
-              pValue=pValue,
-              pFreq=pFreq)
+              eValue=eValue,
+              eFreq=eFreq)
   if(returnScores) {
     ret$resampledScores <- detailedResampledScores
   }

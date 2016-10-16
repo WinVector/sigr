@@ -218,26 +218,26 @@ formatAUCpair <- function(d,
                                    returnScores=returnScores,
                                    nRep=nrep,
                                    parallelCluster=parallelCluster)
-  pValue <- eScore$pValue
-  pString <- formatSignificance(pValue,
-                                symbol='p',
+  eValue <- eScore$eValue
+  eString <- formatSignificance(eValue,
+                                symbol='e',
                                 format=format,
                                 pLargeCutoff=pLargeCutoff,
                                 pSmallCutoff=pSmallCutoff)
   scoreString1 <- sprintf('%.2g',eScore$observedScore1)
   scoreString2 <- sprintf('%.2g',eScore$observedScore2)
   scoreString <- paste0(scoreString1,';',scoreString2)
-  list(pValue=pValue,
+  list(eValue=eValue,
+       eString=eString,
        test='AUC results',
        eScore=eScore,
-       pString=pString,
        scoreString1=scoreString1,
        scoreString2=scoreString2,
        scoreString=scoreString,
        formatStr=
-         paste0(fsyms['startB'],'AUC test alt. hyp. AUC1-AUC2>pooled diffs',fsyms['endB'],
+         paste0(fsyms['startB'],'AUC test AUC1>AUC2',fsyms['endB'],
                 ': (',fsyms['startI'],'AUCs',fsyms['endI'],
                 '=',scoreString,
                 ', ',fsyms['startI'],'s.d.',fsyms['endI'],'=',sprintf('%.2g',eScore$sd),
-                ', ',pString,').'))
+                ', ',eString,').'))
 }

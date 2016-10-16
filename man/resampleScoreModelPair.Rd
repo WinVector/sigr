@@ -2,8 +2,7 @@
 % Please edit documentation in R/EmpiricalFns.R
 \name{resampleScoreModelPair}
 \alias{resampleScoreModelPair}
-\title{Studentized bootstrap test of significance of
- scoreFn(yValues,model1Values) - scoreFn(yValues,model1Values) > pooled difference.}
+\title{Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).}
 \usage{
 resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
   returnScores = FALSE, nRep = 100, parallelCluster = NULL)
