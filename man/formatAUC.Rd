@@ -2,10 +2,11 @@
 % Please edit documentation in R/AUCTest.R
 \name{formatAUC}
 \alias{formatAUC}
-\title{Format AUC results.}
+\title{Format AUC permutation test results.}
 \usage{
-formatAUC(d, modelName, yName, yTarget, ..., format, nrep = 100,
-  pLargeCutoff = 0.05, pSmallCutoff = 1e-05, parallelCluster = NULL)
+formatAUC(d, modelName, yName, yTarget, ..., format, returnScores = FALSE,
+  nrep = 100, pLargeCutoff = 0.05, pSmallCutoff = 1e-05,
+  parallelCluster = NULL)
 }
 \arguments{
 \item{d}{data.frame}
@@ -19,6 +20,8 @@ formatAUC(d, modelName, yName, yTarget, ..., format, nrep = 100,
 \item{...}{extra arguments (not used)}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)}
+
+\item{returnScores}{logical if TRUE return detailed permutedScores}
 
 \item{nrep}{number of permutation repititions to estimate p values.}
 

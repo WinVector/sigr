@@ -4,8 +4,8 @@
 \alias{resampleScoreModel}
 \title{Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).}
 \usage{
-resampleScoreModel(modelValues, yValues, scoreFn, ..., nRep = 100,
-  parallelCluster = NULL)
+resampleScoreModel(modelValues, yValues, scoreFn, ..., returnScores = FALSE,
+  nRep = 100, parallelCluster = NULL)
 }
 \arguments{
 \item{modelValues}{numeric array of predictions (model to test).}
@@ -15,6 +15,8 @@ resampleScoreModel(modelValues, yValues, scoreFn, ..., nRep = 100,
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
 \item{...}{not used, forces later arguments to be bound by name}
+
+\item{returnScores}{logical if TRUE return detailed resampledScores}
 
 \item{nRep}{integer number of repititions to perform}
 
@@ -40,7 +42,7 @@ f <- function(modelValues,yValues) {
 }
 s <- sigr::resampleScoreModel(m1,y,f)
 print(s)
-z <- s$observedScore/s$sd # always check size of z relative to bias!
+z <- (s$observedScore-0)/s$sd # should check size of z relative to bias!
 pValue <- pt(z,df=length(y)-2,lower.tail=FALSE)
 pValue
 

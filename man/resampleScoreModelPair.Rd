@@ -6,7 +6,7 @@
  scoreFn(yValues,model1Values) - scoreFn(yValues,model1Values) > pooled difference.}
 \usage{
 resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
-  nRep = 100, parallelCluster = NULL)
+  returnScores = FALSE, nRep = 100, parallelCluster = NULL)
 }
 \arguments{
 \item{model1Values}{numeric array of predictions (model to test).}
@@ -18,6 +18,8 @@ resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
 \item{...}{not used, forces later arguments to be bound by name}
+
+\item{returnScores}{logical if TRUE return detailed resampledScores}
 
 \item{nRep}{integer number of repititions to perform}
 

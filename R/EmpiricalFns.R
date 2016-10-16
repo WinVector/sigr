@@ -22,6 +22,7 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
+#' @param returnScores logical if TRUE return detailed permutedScores
 #' @param nRep integer number of repititions to perform
 #' @param parallelCluster optional snow-style parallel cluster.
 #' @return summaries
@@ -40,6 +41,7 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 permutationScoreModel <- function(modelValues,yValues,
                                   scoreFn,
                                   ...,
+                                  returnScores=FALSE,
                                   nRep=100,
                                   parallelCluster=NULL) {
   if(length(list(...))>0) {
@@ -50,22 +52,26 @@ permutationScoreModel <- function(modelValues,yValues,
                              yValues=yValues,
                              scoreFn=scoreFn)
   permutedScores <- plapply(1:nRep,permWorker,parallelCluster)
-  v <- as.numeric(permutedScores)
-  meanv <- mean(v)
-  sdv <- sqrt(sum((v-meanv)^2)/(length(v)-1))
+  permutedScores <- as.numeric(permutedScores)
+  meanv <- mean(permutedScores)
+  sdv <- sqrt(sum((permutedScores-meanv)^2)/(length(permutedScores)-1))
   z <- (observedScore-meanv)/sdv
-  df = length(v)-1
-  pValue <- pt(z,df=df,lower.tail=FALSE)
-  pFreq <- sum(v>=observedScore)/length(v)
-  list(fnName='permutationScoreModel',
-       test='is observed score greater than permuted score',
-       observedScore=observedScore,
-       df=df,
-       z=z,
-       mean=meanv,
-       sd=sdv,
-       pValue=pValue,
-       pFreq=pFreq)
+  df = length(permutedScores)-1
+  pValue <- stats::pt(z,df=df,lower.tail=FALSE)
+  pFreq <- sum(permutedScores>=observedScore)/length(permutedScores)
+  ret <- list(fnName='permutationScoreModel',
+              test='is observed score greater than permuted score',
+              observedScore=observedScore,
+              df=df,
+              z=z,
+              mean=meanv,
+              sd=sdv,
+              pValue=pValue,
+              pFreq=pFreq)
+  if(returnScores) {
+    ret$permutedScores <- permutedScores
+  }
+  ret
 }
 
 
@@ -94,6 +100,7 @@ mkResampleWorker <- function(modelValues,
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
+#' @param returnScores logical if TRUE return detailed resampledScores
 #' @param nRep integer number of repititions to perform
 #' @param parallelCluster optional snow-style parallel cluster.
 #' @return summaries
@@ -112,7 +119,7 @@ mkResampleWorker <- function(modelValues,
 #' }
 #' s <- sigr::resampleScoreModel(m1,y,f)
 #' print(s)
-#' z <- s$observedScore/s$sd # always check size of z relative to bias!
+#' z <- (s$observedScore-0)/s$sd # should check size of z relative to bias!
 #' pValue <- pt(z,df=length(y)-2,lower.tail=FALSE)
 #' pValue
 #'
@@ -124,6 +131,7 @@ resampleScoreModel <- function(modelValues,
                                yValues,
                                scoreFn,
                                ...,
+                               returnScores=FALSE,
                                nRep=100,
                                parallelCluster=NULL) {
   if(length(list(...))>0) {
@@ -134,13 +142,17 @@ resampleScoreModel <- function(modelValues,
                                           yValues=yValues,
                                           scoreFn=scoreFn)
   resampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
-  v <- as.numeric(resampledScores)
-  meanv <- mean(v)
-  sdv <- sqrt(sum((v-meanv)^2)/(length(v)-1))
-  list(fnName='resampleScoreModel',
-       observedScore=observedScore,
-       bias=meanv-observedScore,
-       sd=sdv)
+  resampledScores <- as.numeric(resampledScores)
+  meanv <- mean(resampledScores)
+  sdv <- sqrt(sum((resampledScores-meanv)^2)/(length(resampledScores)-1))
+  ret <- list(fnName='resampleScoreModel',
+              observedScore=observedScore,
+              bias=meanv-observedScore,
+              sd=sdv)
+  if(returnScores) {
+    ret$resampledScores <- resampledScores
+  }
+  ret
 }
 
 
@@ -167,8 +179,22 @@ mkResampleDiffWorker <- function(model1Values,
     score1 <- scoreFn(modelPooled[samp],yPooled[samp])
     samp <- sample.int(2*n,n,replace=TRUE)
     score2 <- scoreFn(modelPooled[samp],yPooled[samp])
-    score1-score2
+    list(score1=score1,score2=score2,diff=score1-score2)
   }
+}
+
+# convert a non-empty list of single row data frames with the identical non-empty
+# numeric column structure into a data frame (without bringing in dplyr/tidyr
+# dependency, and faster than do.call(rbind,rows)).
+listToDataFrame <- function(rows) {
+  n <- length(rows)
+  cols <- names(rows[[1]])
+  d <- data.frame(x=numeric(n))
+  colnames(d) <- cols[[1]]
+  for(ci in cols) {
+    d[[ci]] <- vapply(rows,function(ri) { ri[[ci]] },numeric(1))
+  }
+  d
 }
 
 #' Studentized bootstrap test of significance of
@@ -185,6 +211,7 @@ mkResampleDiffWorker <- function(model1Values,
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
+#' @param returnScores logical if TRUE return detailed resampledScores
 #' @param nRep integer number of repititions to perform
 #' @param parallelCluster optional snow-style parallel cluster.
 #' @return summaries
@@ -213,6 +240,7 @@ resampleScoreModelPair <- function(model1Values,
                                    yValues,
                                    scoreFn,
                                    ...,
+                                   returnScores=FALSE,
                                    nRep=100,
                                    parallelCluster=NULL) {
   if(length(list(...))>0) {
@@ -226,22 +254,29 @@ resampleScoreModelPair <- function(model1Values,
                                           scoreFn=scoreFn)
   # resampleWorker is symmetric so if the empirical mean is near zero
   # we have some evidence against bias.
-  resampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
-  v <- as.numeric(resampledScores)
-  meanv <- mean(v)
-  sdv <- sqrt(sum((v-meanv)^2)/(length(v)-1))
+  detailedResampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
+  detailedResampledScores <- listToDataFrame(detailedResampledScores)
+  # convert to a single data.frame
+  resampledScores <- detailedResampledScores$diff
+  meanv <- mean(resampledScores)
+  sdv <- sqrt(sum((resampledScores-meanv)^2)/(length(resampledScores)-1))
   z <- (observedScore1-observedScore2-meanv)/sdv
-  df = length(v)-1
-  pFreq <- sum(v>=observedScore1-observedScore2)/length(v)
-  pValue <- pt(z,df=df,lower.tail=FALSE)
-  list(fnName='resampleScoreModelPair',
-       test="is score1-score2 greater than pooled differences",
-       observedScore1=observedScore1,
-       observedScore2=observedScore2,
-       z=z,
-       bias=meanv,
-       sd=sdv,
-       pValue=pValue,
-       pFreq=pFreq)
+  df = length(resampledScores)-1
+  pFreq <- sum(resampledScores>=(observedScore1-observedScore2))/
+    length(resampledScores)
+  pValue <- stats::pt(z,df=df,lower.tail=FALSE)
+  ret <- list(fnName='resampleScoreModelPair',
+              test="is score1-score2 greater than pooled differences",
+              observedScore1=observedScore1,
+              observedScore2=observedScore2,
+              z=z,
+              bias=meanv,
+              sd=sdv,
+              pValue=pValue,
+              pFreq=pFreq)
+  if(returnScores) {
+    ret$resampledScores <- detailedResampledScores
+  }
+  ret
 }
 
