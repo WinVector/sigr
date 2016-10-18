@@ -103,7 +103,7 @@ formatFTest.lm <- function(x,
     stop(paste("format",format,"not recognized"))
   }
   if(!'lm' %in% class(linearRegressionModel)) {
-    stop('formatFTestFromModel expected class lm')
+    stop('formatFTest.lm expected class lm')
   }
   fitSummary <- summary(linearRegressionModel)
   fstats <- fitSummary$fstatistic

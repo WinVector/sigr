@@ -107,8 +107,8 @@ formatChiSqTest.glm <- function(x,
   if(!(format %in% formats)) {
     stop(paste("format",format,"not recognized"))
   }
-  if(!'lm' %in% class(logisticRegressionModel)) {
-    stop('formatFTestFromModel expected class lm')
+  if(!'glm' %in% class(logisticRegressionModel)) {
+    stop('formatChiSqTest.glm expected class glm')
   }
   if(logisticRegressionModel$family$family!='binomial') {
     warning('formatChiSqTestFromModel: model family was not binomial')
