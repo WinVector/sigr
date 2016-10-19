@@ -88,7 +88,9 @@ formatSignificance <- function(sig,
   }
   fsyms <- syms[format,]
   pString <- paste0(fsyms['startI'],symbol,fsyms['endI'])
-  if(sig>=pLargeCutoff) {
+  if(is.na(sig)||is.infinite(sig)||is.nan(sig)) {
+    pString <- 'n.a.'
+  } else if(sig>=pLargeCutoff) {
     pString <- paste0(pString,fsyms['eq'],'n.s.')
   } else {
     sigStr <- paste0('%.',sigDigits,'g')
