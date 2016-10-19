@@ -31,6 +31,9 @@ formatTTest <- function(tt,
   if(!(format %in% formats)) {
     stop(paste("format",format,"not recognized"))
   }
+  if(!'htest' %in% class(tt)) {
+    stop('formatTTest expected class htest')
+  }
   fsyms <- syms[format,]
   pString <- formatSignificance(tt$p.value,
                                 symbol='p',
