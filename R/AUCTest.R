@@ -235,7 +235,7 @@ formatAUCpair <- function(d,
        scoreString2=scoreString2,
        scoreString=scoreString,
        formatStr=
-         paste0(fsyms['startB'],'AUC test AUC1>AUC2',fsyms['endB'],
+         paste0(fsyms['startB'],'AUC test resampled AUC1>AUC2',fsyms['endB'],
                 ': (',fsyms['startI'],'AUCs',fsyms['endI'],
                 '=',scoreString,
                 ', ',fsyms['startI'],'s.d.',fsyms['endI'],'=',sprintf('%.2g',eScore$sd),
