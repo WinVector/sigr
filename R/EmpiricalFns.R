@@ -197,8 +197,37 @@ listToDataFrame <- function(rows) {
   d
 }
 
-#' Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).
+#' Studentized estimate of how often a difference is below zero.
 #'
+#' @param resampledDiffs numeric vector resampled observations
+#' @return estimated probbility of seeing a re-sampled difference below zero.
+#'
+#' @examples
+#'
+#' set.seed(2352)
+#' resampledDiffs <- rnorm(10)+1
+#' estimateDifferenceZeroCrossing(resampledDiffs)
+#'
+#' @export
+#'
+estimateDifferenceZeroCrossing <- function(resampledDiffs) {
+  meanv <- mean(resampledDiffs)
+  sdv <- sqrt(sum((resampledDiffs-meanv)^2)/(length(resampledDiffs)-1))
+  z <- meanv/sdv
+  df = length(resampledDiffs)-1
+  eFreq <- sum(resampledDiffs<=0)/length(resampledDiffs)
+  eValue <- stats::pt(z,df=df,lower.tail=FALSE)
+  ret <- list(fnName='estimateDifferenceZeroCrossing',
+              test="is difference greater than zero on re-samples",
+              z=z,
+              meanv=meanv,
+              sd=sdv,
+              eValue=eValue,
+              eFreq=eFreq)
+  ret
+}
+
+#' Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).
 #'
 #' True confidence intervals are harder to get right (see
 #' "An Introduction to the Bootstrap", Bradely Efron,
@@ -252,25 +281,15 @@ resampleScoreModelPair <- function(model1Values,
                                          yValues=yValues,
                                          scoreFn=scoreFn)
   detailedResampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
+  observedDiff <- observedScore1-observedScore2
   detailedResampledScores <- listToDataFrame(detailedResampledScores)
-  resampledScores <- detailedResampledScores$diff
-  meanv <- mean(resampledScores)
-  sdv <- sqrt(sum((resampledScores-meanv)^2)/(length(resampledScores)-1))
-  z <- (observedScore1-observedScore2)/sdv
-  df = length(resampledScores)-1
-  eFreq <- sum(resampledScores<=0)/length(resampledScores)
-  eValue <- stats::pt(z,df=df,lower.tail=FALSE)
-  ret <- list(fnName='resampleScoreModelPair',
-              test="is score1 greater than score2",
-              observedScore1=observedScore1,
-              observedScore2=observedScore2,
-              z=z,
-              meanv=meanv,
-              sd=sdv,
-              eValue=eValue,
-              eFreq=eFreq)
+  resampledDiffs <- detailedResampledScores$diff
+  ret <- estimateDifferenceZeroCrossing(resampledDiffs)
+  ret$observedScore1 <- observedScore1
+  ret$observedScore2 <- observedScore2
+  ret$observedDiff <- observedDiff
   if(returnScores) {
-    ret$resampledScores <- detailedResampledScores
+    ret$detailedResampledScores <- detailedResampledScores
   }
   ret
 }
