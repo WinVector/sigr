@@ -1,6 +1,8 @@
 
 # set up per-format symbols
-formats <- c('markdown','html','ascii','latex', 'docx', 'pandoc')
+formats <- c('markdown','html','ascii','latex', 'docx', 'pandoc',
+             'markdown_github')
+markdownSynonyms <- c('markdown_github')
 symCodes <- c('startB','endB','startI','endI','eq','lt',
               'RSq','chiSq')
 syms <- matrix('',nrow=length(formats),ncol=length(symCodes),
@@ -32,6 +34,9 @@ syms['markdown','RSq'] <- '<i>R^2^</i>'
 syms['markdown','chiSq'] <- '<i>&chi;^2^</i>'
 syms['pandoc',] <- syms['markdown',]
 syms['docx',] <- syms['markdown',]
+for(fi in markdownSynonyms) {
+  syms[fi,] <- syms['markdown',]
+}
 
 #' Detect rendering format (using knitr).
 #'
