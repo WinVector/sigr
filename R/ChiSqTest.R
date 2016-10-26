@@ -88,7 +88,7 @@ formatChiSqTestImpl <- function(df.null,df.residual,
 #'       y=c(TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE))
 #' model <- glm(y~x,data=d,family=binomial)
 #' summary(model)
-#' sigr::formatChiSqTest(model,pLargeCutoff=1)$formatStr
+#' sigr::formatChiSqTest(model,pLargeCutoff=1,format='ascii')$formatStr
 #'
 #'
 #' @export

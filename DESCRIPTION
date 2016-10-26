@@ -2,12 +2,15 @@ Package: sigr
 Type: Package
 Title: Format signficance summaries for reports
 Version: 0.1.0
-Date: 2016-10-03
-Author: John Mount
+Date: 2016-10-26
+Author: John Mount, Nina Zumel
 Maintainer: John Mount <jmount@win-vector.com>
 URL: https://github.com/WinVector/sigr
-Description: A packge for succinctly formatting signicance summaries of
-    various models and tests.
+BugReports: https://github.com/WinVector/sigr/issues
+Description: sigr is a package for succinctly formatting significance summaries of
+    various models and tests.  The main purpose is unified reporting and planning
+    of experimental results, working around issue such as the difficulty of
+    extracting model significances (such as with lm/glm).
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
