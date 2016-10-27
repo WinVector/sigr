@@ -28,8 +28,9 @@ Format t.test.
 d <- data.frame(x=c(1,2,3,4,5,6,7,7),
                 y=c(1,1,2,2,3,3,4,4))
 tt <- t.test(d$x,d$y)
-sigr::formatTTest(tt)$formatStr
-
+sigr::formatTTest(tt,pLargeCutoff=1,format='ascii')$formatStr
+# confirm not rescaling, as a correlation test would
+sigr::formatTTest(t.test(d$x,2*d$y),pLargeCutoff=1,format='ascii')$formatStr
 
 }
 
