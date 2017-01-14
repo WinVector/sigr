@@ -1,35 +1,36 @@
 
 
-#' Format quality of a linear regression roughly in "APA Style" ( American Psychological Association ).
+
+#' Wrap F-test (significane of a linear relation).
 #'
 #' @param x numeric, data.frame or lm where to get model or data to score.
 #' @param ... extra arguments
 #'
-#' @seealso \code{\link{formatFTestImpl}},  \code{\link{formatFTest.lm}},  and \code{\link{formatFTest.data.frame}}
+#' @seealso \code{\link{wrapFTestImpl}},  \code{\link{wrapFTest.lm}},  and \code{\link{wrapFTest.data.frame}}
 #' @export
-formatFTest <- function(x,...) UseMethod('formatFTest')
+wrapFTest <- function(x,...) UseMethod('wrapFTest')
 
-#' Format quality of a linear regression roughly in "APA Style" ( American Psychological Association ).
+#' Format an F-test
 #'
-#' @param numdf degrees of freedom 1.
-#' @param dendf degrees of freedom 2.
-#' @param FValue observe F test statistic
+#' @param statistic wrapped test
+#' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
+#' @param sigDigits integer number of digits to show
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
 #'
-#' @importFrom stats pf
-#'
-#' @examples
-#'
-#' cat(sigr::formatFTestImpl(numdf=2,dendf=55,FValue=5.56)$formatStr)
 #'
 #' @export
-formatFTestImpl <- function(numdf,dendf,FValue,
-                                format,
-                                pLargeCutoff=0.05,
-                                pSmallCutoff=1.0e-5) {
+render.sigr_ftest <- function(statistic,
+                              ...,
+                              format,
+                              sigDigits=2,
+                              pLargeCutoff=0.05,
+                              pSmallCutoff=1.0e-5) {
+  if(length(list(...))>0) {
+    stop("render.sigr_ftest unexpected arguments")
+  }
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
@@ -37,38 +38,59 @@ formatFTestImpl <- function(numdf,dendf,FValue,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
+  pString <- render(wrapSignificance(statistic$pValue,
+                                     symbol='p'),
+                    format=format,
+                    sigDigits=sigDigits,
+                    pLargeCutoff=pLargeCutoff,
+                    pSmallCutoff=pSmallCutoff)
+  formatStr =
+    paste0(fsyms['startB'],'F Test',fsyms['endB'],
+           ' summary: (',fsyms['RSq'],'=',
+           sprintf('%.2g',statistic$R2),
+           ', ',fsyms['startI'],'F',fsyms['endI'],
+           '(',statistic$numdf,',',statistic$dendf,')=',
+           sprintf('%.2g',statistic$FValue),
+           ', ',pString,').')
+  formatStr
+}
+
+#' Wrap F-test (significane of a linear relation).
+#'
+#' @param numdf degrees of freedom 1.
+#' @param dendf degrees of freedom 2.
+#' @param FValue observed F test statistic
+#' @return wrapped statistic
+#'
+#' @importFrom stats pf
+#'
+#' @examples
+#'
+#' wrapFTestImpl(numdf=2,dendf=55,FValue=5.56)
+#'
+#' @export
+wrapFTestImpl <- function(numdf,dendf,FValue,
+                                format,
+                                pLargeCutoff=0.05,
+                                pSmallCutoff=1.0e-5) {
   Funscaled <- FValue*(numdf/dendf)
   R2 <- 1 - 1/(Funscaled+1)
-  pValue <-  stats::pf(FValue,
-                       numdf,
-                       dendf,
-                       lower.tail=FALSE)
-  pString <- formatSignificance(pValue,
-                                symbol='p',
-                                format=format,
-                                pLargeCutoff=pLargeCutoff,
-                                pSmallCutoff=pSmallCutoff)
-  list(
+  pValue <- stats::pf(FValue,
+                      numdf,
+                      dendf,
+                      lower.tail = FALSE)
+  r <- list(
     test='F Test',
     numdf=numdf,
     dendf=dendf,
     FValue=FValue,
-    format=format,
-    pLargeCutoff=pLargeCutoff,
-    pSmallCutoff=pSmallCutoff,
     R2=R2,
-    pValue=pValue,
-    formatStr=
-      paste0(fsyms['startB'],'F Test',fsyms['endB'],
-             ' summary: (',fsyms['RSq'],'=',
-             sprintf('%.2g',R2),
-             ', ',fsyms['startI'],'F',fsyms['endI'],'(',numdf,',',dendf,')=',
-             sprintf('%.2g',FValue),
-             ', ',pString,').')
-  )
+    pValue=pValue)
+  class(r) <- c('sigr_ftest', 'sigr_statistic')
+  r
 }
 
-#' Format FTest from model.
+#' Wrap quality statistic of a linear regression.
 #'
 #' @param x lm model
 #' @param ... extra arguments (not used)
@@ -83,18 +105,18 @@ formatFTestImpl <- function(numdf,dendf,FValue,
 #'                 y=c(1,1,2,2,3,3,4,4))
 #' model <- lm(y~x,data=d)
 #' summary(model)
-#' sigr::formatFTest(model)$formatStr
+#' sigr::wrapFTest(model)
 #'
 #'
 #' @export
-formatFTest.lm <- function(x,
+wrapFTest.lm <- function(x,
                            ...,
                            format,
                            pLargeCutoff=0.05,
                            pSmallCutoff=1.0e-5) {
   linearRegressionModel <- x
   if(length(list(...))) {
-    stop('formatFTest.lm extra arguments')
+    stop('wrapFTest.lm extra arguments')
   }
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
@@ -103,17 +125,17 @@ formatFTest.lm <- function(x,
     stop(paste("format",format,"not recognized"))
   }
   if(!'lm' %in% class(linearRegressionModel)) {
-    stop('formatFTest.lm expected class lm')
+    stop('wrapFTest.lm expected class lm')
   }
   fitSummary <- summary(linearRegressionModel)
   fstats <- fitSummary$fstatistic
   FValue <- fstats[['value']]
   numdf <-  fstats[['numdf']]
   dendf <- fstats[['dendf']]
-  formatFTestImpl(numdf,dendf,FValue,format,pLargeCutoff,pSmallCutoff)
+  wrapFTestImpl(numdf,dendf,FValue,format,pLargeCutoff,pSmallCutoff)
 }
 
-#' Format FTest from data.
+#' Wrap quality statistic of a linear relation from data.
 #'
 #' @param x data frame containing columns to compare
 #' @param predictionColumnName character name of prediction column
@@ -133,10 +155,10 @@ formatFTest.lm <- function(x,
 #' model <- lm(y~x,data=d)
 #' summary(model)
 #' d$pred <- predict(model,newdata=d)
-#' sigr::formatFTest(d,'pred','y')$formatStr
+#' sigr::wrapFTest(d,'pred','y')
 #'
 #' @export
-formatFTest.data.frame <- function(x,
+wrapFTest.data.frame <- function(x,
                                    predictionColumnName,yColumnName,
                                    nParameters=1,
                                    meany=mean(x[[yColumnName]]),
@@ -148,7 +170,7 @@ formatFTest.data.frame <- function(x,
   y <- d[[yColumnName]]
   predictions <- d[[predictionColumnName]]
   if(length(list(...))) {
-    stop('formatFTest.data.frame extra arguments')
+    stop('wrapFTest.data.frame extra arguments')
   }
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
@@ -157,7 +179,7 @@ formatFTest.data.frame <- function(x,
     stop(paste("format",format,"not recognized"))
   }
   if(!is.numeric(predictions)) {
-    stop('formatFTestFromData expected numeric argument')
+    stop('wrapFTestFromData expected numeric argument')
   }
   n <- length(y)
   rss1 <- sum((y-meany)^2)
@@ -165,5 +187,5 @@ formatFTest.data.frame <- function(x,
   p1 <- 1
   p2 <- 1 + nParameters
   FValue = ((rss1-rss2)/(p2-p1))/(rss2/(n-p2))
-  formatFTestImpl(p2-p1,n-p2,FValue,format,pLargeCutoff,pSmallCutoff)
+  wrapFTestImpl(p2-p1,n-p2,FValue,format,pLargeCutoff,pSmallCutoff)
 }

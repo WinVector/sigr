@@ -1,13 +1,62 @@
 
+# TODO: lookup Breyer score of forecast
 
-#' Format quality of a linear regression roughly in "APA Style" ( American Psychological Association ).
+#' Format a chi-square test (quality of categorical prediction)
+#'
+#' @param statistic wrapped T-test
+#' @param ... not used, force use of named binding for later arguments
+#' @param format if set the format to return ("html", "latex", "markdown", "ascii")
+#' @param sigDigits integer number of digits to show
+#' @param pLargeCutoff value to declare non-significance at or above.
+#' @param pSmallCutoff smallest value to print
+#' @return formatted string
+#'
+#'
+#' @export
+render.sigr_chisqtest <- function(statistic,
+                              ...,
+                              format,
+                              sigDigits=2,
+                              pLargeCutoff=0.05,
+                              pSmallCutoff=1.0e-5) {
+  if(length(list(...))>0) {
+    stop("render.sigr_ttest unexpected arguments")
+  }
+  if (missing(format) || is.null(format)) {
+    format <- getRenderingFormat()
+  }
+  if(!(format %in% formats)) {
+    stop(paste("format",format,"not recognized"))
+  }
+  fsyms <- syms[format,]
+  pString <- render(wrapSignificance(statistic$pValue,
+                                     symbol='p'),
+                    format=format,
+                    sigDigits=sigDigits,
+                    pLargeCutoff=pLargeCutoff,
+                    pSmallCutoff=pSmallCutoff)
+  formatStr <- paste0(fsyms['startB'],'Chi-Square Test',fsyms['endB'],
+                      ' summary: ',
+                      fsyms['startI'],'pseudo-',fsyms['RSq'],fsyms['endI'],'=',
+                      sprintf('%.2g',statistic$pseudoR2),
+                      ' (',
+                      fsyms['chiSq'],'(',
+                      statistic$delta_df,
+                      ',', fsyms['startI'],'N',fsyms['endI'],
+                      '=',(1+statistic$df.null),')=',
+                      sprintf('%.2g',statistic$delta_deviance),
+                      ', ',pString,').')
+  formatStr
+}
+
+#' Wrap quality of a categorical prediction roughly in "APA Style" ( American Psychological Association ).
 #'
 #' @param x numeric, data.frame or lm where to get model or data to score.
 #' @param ... extra arguments
 #'
-#' @seealso \code{\link{formatChiSqTestImpl}},  \code{\link{formatChiSqTest.glm}},  and \code{\link{formatChiSqTest.data.frame}}
+#' @seealso \code{\link{wrapChiSqTestImpl}},  \code{\link{wrapChiSqTest.glm}},  and \code{\link{wrapChiSqTest.data.frame}}
 #' @export
-formatChiSqTest <- function(x,...) UseMethod('formatChiSqTest')
+wrapChiSqTest <- function(x,...) UseMethod('wrapChiSqTest')
 
 
 #' Format quality of a logistic regression roughly in "APA Style"
@@ -17,70 +66,41 @@ formatChiSqTest <- function(x,...) UseMethod('formatChiSqTest')
 #' @param df.residual residual degrees of freedom.
 #' @param null.deviance null deviance
 #' @param deviance residual deviance
-#' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
-#' @param pLargeCutoff value to declare non-significance at or above.
-#' @param pSmallCutoff smallest value to print
-#' @return formatted string
+#' @return wrapped statistic
 #'
 #' @importFrom stats pchisq
 #'
 #' @examples
 #'
-#' cat(sigr::formatChiSqTestImpl(df.null=7,df.residual=6,
-#'     null.deviance=11.09035,deviance=10.83726)$formatStr)
+#' cat(sigr::wrapChiSqTestImpl(df.null=7,df.residual=6,
+#'     null.deviance=11.09035,deviance=10.83726))
 #'
 #' @export
-formatChiSqTestImpl <- function(df.null,df.residual,
-                                    null.deviance,deviance,
-                                    format,
-                                    pLargeCutoff=0.05,
-                                    pSmallCutoff=1.0e-5) {
-  if (missing(format) || is.null(format)) {
-    format <- getRenderingFormat()
-  }
-  if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
-  }
-  fsyms <- syms[format,]
+wrapChiSqTestImpl <- function(df.null,df.residual,
+                                    null.deviance,deviance) {
   delta_deviance <- null.deviance - deviance
   delta_df <- df.null - df.residual
   sig <- stats::pchisq(delta_deviance, delta_df, lower.tail=FALSE)
   pseudoR2 <- 1.0 - deviance/null.deviance # pseudo R-squared
-  pString <- formatSignificance(sig,
-                                symbol='p',
-                                format=format,
-                                pLargeCutoff=pLargeCutoff,
-                                pSmallCutoff=pSmallCutoff)
-  list(test="Chi-Square test",
-       df.null=df.null,
-       df.residual=df.residual,
-       null.deviance=null.deviance,
-       deviance=deviance,
-       format=format,
-       pLargeCutoff=pLargeCutoff,
-       pSmallCutoff=pSmallCutoff,
-       pseudoR2=pseudoR2,
-       pValue=sig,
-       formatStr=paste0(fsyms['startB'],'Chi-Square Test',fsyms['endB'],
-                        ' summary: ',
-                        fsyms['startI'],'pseudo-',fsyms['RSq'],fsyms['endI'],'=',
-                        sprintf('%.2g',pseudoR2),
-                        ' (',
-                        fsyms['chiSq'],'(',
-                        delta_df,
-                        ',', fsyms['startI'],'N',fsyms['endI'],'=',(1+df.null),')=',
-                        sprintf('%.2g',delta_deviance),
-                        ', ',pString,').'))
+  r <- list(test="Chi-Square test",
+            df.null=df.null,
+            df.residual=df.residual,
+            null.deviance=null.deviance,
+            deviance=deviance,
+            pseudoR2=pseudoR2,
+            pValue=sig,
+            sig=sig,
+            delta_deviance=delta_deviance,
+            delta_df=delta_df)
+  class(r) <- c('sigr_chisqtest', 'sigr_statistic')
+  r
 }
 
 #' Format ChiSqTest from model.
 #'
 #' @param x glm logistic regression model
 #' @param ... extra arguments (not used)
-#' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param pLargeCutoff value to declare non-significance at or above.
-#' @param pSmallCutoff smallest value to print
-#' @return formatted string
+#' @return wrapped test
 #'
 #' @examples
 #'
@@ -88,27 +108,18 @@ formatChiSqTestImpl <- function(df.null,df.residual,
 #'       y=c(TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE))
 #' model <- glm(y~x,data=d,family=binomial)
 #' summary(model)
-#' sigr::formatChiSqTest(model,pLargeCutoff=1,format='ascii')$formatStr
+#' render(wrapChiSqTest(model),pLargeCutoff=1,format='ascii')
 #'
 #'
 #' @export
-formatChiSqTest.glm <- function(x,
-                                ...,
-                                format,
-                                pLargeCutoff=0.05,
-                                pSmallCutoff=1.0e-5) {
+wrapChiSqTest.glm <- function(x,
+                                ...) {
   logisticRegressionModel <- x
   if(length(list(...))) {
-    stop('formatChiSqTest.glm extra arguments')
-  }
-  if (missing(format) || is.null(format)) {
-    format <- getRenderingFormat()
-  }
-  if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    stop('wrapChiSqTest.glm extra arguments')
   }
   if(!'glm' %in% class(logisticRegressionModel)) {
-    stop('formatChiSqTest.glm expected class glm')
+    stop('wrapChiSqTest.glm expected class glm')
   }
   if(logisticRegressionModel$family$family!='binomial') {
     warning('formatChiSqTestFromModel: model family was not binomial')
@@ -119,11 +130,10 @@ formatChiSqTest.glm <- function(x,
   if(!logisticRegressionModel$converged) {
     warning("formatChiSqTestFromModel: model did not converge")
   }
-  formatChiSqTestImpl(logisticRegressionModel$df.null,
+  wrapChiSqTestImpl(logisticRegressionModel$df.null,
                   logisticRegressionModel$df.residual,
                   logisticRegressionModel$null.deviance,
-                  logisticRegressionModel$deviance,
-                  format,pLargeCutoff,pSmallCutoff)
+                  logisticRegressionModel$deviance)
 }
 
 
@@ -136,10 +146,7 @@ formatChiSqTest.glm <- function(x,
 #' @param nParameters number of variables in model
 #' @param meany (optional) mean of y
 #' @param ... extra arguments (not used)
-#' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param pLargeCutoff value to declare non-significance at or above.
-#' @param pSmallCutoff smallest value to print
-#' @return formatted string
+#' @return wrapped test
 #'
 #' @examples
 #'
@@ -148,36 +155,26 @@ formatChiSqTest.glm <- function(x,
 #' model <- glm(y~x,data=d,family=binomial)
 #' summary(model)
 #' d$pred <- predict(model,type='response',newdata=d)
-#' sigr::formatChiSqTest(d,'pred','y',pLargeCutoff=1)$formatStr
+#' render(wrapChiSqTest(d,'pred','y'),pLargeCutoff=1)
 #'
 #' @export
-formatChiSqTest.data.frame <- function(x,
+wrapChiSqTest.data.frame <- function(x,
                                        predictionColumnName,yColumnName,
                                        nParameters=1,
                                        meany=mean(x[[yColumnName]]),
-                                       ...,
-                                       format,
-                                       pLargeCutoff=0.05,
-                                       pSmallCutoff=1.0e-5) {
+                                       ...) {
   d <- x
   y <- d[[yColumnName]]
   predictions <- d[[predictionColumnName]]
   if(length(list(...))) {
-    stop('formatChiSqTest.data.frame extra arguments')
-  }
-  if (missing(format) || is.null(format)) {
-    format <- getRenderingFormat()
-  }
-  if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    stop('wrapChiSqTest.data.frame extra arguments')
   }
   n <- length(y)
   df.null <- n-1
   df.residual <- n-(1+nParameters)
   null.deviance <- calcDeviance(meany,y)
   deviance <- calcDeviance(predictions,y)
-  formatChiSqTestImpl(df.null,df.residual,
-                  null.deviance,deviance,
-                  format,pLargeCutoff,pSmallCutoff)
+  wrapChiSqTestImpl(df.null,df.residual,
+                  null.deviance,deviance)
 }
 

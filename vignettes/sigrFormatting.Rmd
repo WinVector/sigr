@@ -17,14 +17,15 @@ Please see [here](https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.
 Simple formatting.
 
 ```{r  results='asis'}
+library("sigr")
 sigr::getRenderingFormat()
-cat(sigr::formatSignificance(1/300))
+cat(render(wrapSignificance(1/300)))
 ```
 
 F-test examples (quality of a numeric model of a numeric outcome).
 
 ```{r  results='asis'}
-cat(sigr::formatFTestImpl(numdf=2,dendf=55,FValue=5.56)$formatStr)
+cat(render(wrapFTestImpl(numdf=2,dendf=55,FValue=5.56)))
 ```
 
 ```{r}
@@ -36,9 +37,9 @@ print(summary(model))
 ```
 
 ```{r  results='asis'}
-cat(sigr::formatFTest(model,pSmallCutoff=1.0e-12)$formatStr)
-cat(sigr::formatFTest(d,'prediction','y',
-                              pSmallCutoff=1.0e-12)$formatStr)
+cat(render(wrapFTest(model),pSmallCutoff=1.0e-12))
+cat(render(wrapFTest(d,'prediction','y'),
+                              pSmallCutoff=1.0e-12))
 ```
 
 Chi-squared test examples (quality of a probabilty model 
@@ -53,8 +54,8 @@ summary(model)
 d$pred <- predict(model,type='response',newdata=d)
 ```
 ```{r results='asis'}
-cat(sigr::formatChiSqTest(model,pLargeCutoff=1)$formatStr)
-cat(sigr::formatChiSqTest(d,'pred','y',pLargeCutoff=1)$formatStr)
+cat(render(wrapChiSqTest(model),pLargeCutoff=1))
+cat(render(wrapChiSqTest(d,'pred','y'),pLargeCutoff=1))
 ```
 
 ```{r}
@@ -63,7 +64,7 @@ d <- data.frame(x=c(1,2,3,4,5,6,7,7),
 ct <- cor.test(d$x,d$y)
 ```
 ```{r results='asis'}
-cat(sigr::formatCorTest(ct)$formatStr)
+cat(render(wrapCorTest(ct)))
 ```
 
 ```{r}
@@ -72,7 +73,7 @@ d <- data.frame(x=c('b','a','a','a','b','b','b'),
 ft <- fisher.test(table(d))
 ```
 ```{r results='asis'}
-cat(sigr::formatFisherTest(ft,pLargeCutoff=1)$formatStr)
+cat(render(wrapFisherTest(ft),pLargeCutoff=1))
 ```
 
 ```{r}
@@ -81,7 +82,7 @@ d <- data.frame(x=c(1,2,3,4,5,6,7,7),
 ft <- t.test(d$x,d$y)
 ```
 ```{r results='asis'}
-cat(sigr::formatTTest(ft,pLargeCutoff=1)$formatStr)
+cat(render(wrapTTest(ft),pLargeCutoff=1))
 ```
 
 ```{r results='asis'}
@@ -93,7 +94,7 @@ d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
                 y=c(FALSE,TRUE,FALSE,FALSE,
                     TRUE,TRUE,FALSE,TRUE))
 d <- rbind(d,d,d,d)
-sigr::formatAUC(d,'x1','y',TRUE,pLargeCutoff=1,
+sigr::resampleTestAUC(d,'x1','y',TRUE,
                 nrep=200,
                 parallelCluster=parallelCluster)
 
@@ -103,7 +104,7 @@ d <- data.frame(x1=c(1,2,3,4,5,6,7,7),
                 y=c(FALSE,TRUE,FALSE,FALSE,
                     TRUE,TRUE,FALSE,TRUE))
 d <- rbind(d,d,d,d)
-sigr::formatAUCpair(d,'x1','x2','y',TRUE,pLargeCutoff=1,
+sigr::testAUCpair(d,'x1','x2','y',TRUE,
                     nrep=200,
                     parallelCluster=parallelCluster)
 if(!is.null(parallelCluster)) {

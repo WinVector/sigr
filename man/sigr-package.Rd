@@ -15,8 +15,8 @@ sigr: a package for formatting significances
 \tabular{ll}{
 Package: \tab sigr\cr
 Type: \tab Package\cr
-Version: \tab 0.1.0\cr
-Date: \tab 2016-10-26\cr
+Version: \tab 0.1.3\cr
+Date: \tab 2016-01-14\cr
 License: \tab GNU General Public License version 3\cr
 }
 }
