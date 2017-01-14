@@ -14,7 +14,49 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
   }
 }
 
-#' Empirical permuation test of significance of scoreFn(modelValues,yValues) > scoreFn(modelValues,perm(yValues)).
+
+#' Format an empirical test (quality of categorical prediction)
+#'
+#' @param statistic wrapped T-test
+#' @param ... not used, force use of named binding for later arguments
+#' @param format if set the format to return ("html", "latex", "markdown", "ascii")
+#' @param sigDigits integer number of digits to show
+#' @param pLargeCutoff value to declare non-significance at or above.
+#' @param pSmallCutoff smallest value to print
+#' @return formatted string
+#'
+#'
+#' @export
+render.sigr_permtest <- function(statistic,
+                                  ...,
+                                  format,
+                                  sigDigits=2,
+                                  pLargeCutoff=0.05,
+                                  pSmallCutoff=1.0e-5) {
+  if(length(list(...))>0) {
+    stop("render.sigr_emptest unexpected arguments")
+  }
+  if (missing(format) || is.null(format)) {
+    format <- getRenderingFormat()
+  }
+  if(!(format %in% formats)) {
+    stop(paste("format",format,"not recognized"))
+  }
+  fsyms <- syms[format,]
+  pString <- render(wrapSignificance(statistic$pValue,
+                                     symbol='p'),
+                    format=format,
+                    sigDigits=sigDigits,
+                    pLargeCutoff=pLargeCutoff,
+                    pSmallCutoff=pSmallCutoff)
+  formatStr <- paste0(fsyms['startB'],'Studentized permutation test',fsyms['endB'],
+                      ': ',statistic$test,', ',
+                      ' summary: ',pString)
+  formatStr
+}
+
+
+#' Empirical permuation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).
 #'
 #' Treat permutaiton re-samples as similar to bootstrap replications.
 #'
@@ -71,6 +113,7 @@ permutationScoreModel <- function(modelValues,yValues,
   if(returnScores) {
     ret$permutedScores <- permutedScores
   }
+  class(ret) <- c('sigr_permtest', 'sigr_statistic')
   ret
 }
 
@@ -197,6 +240,48 @@ listToDataFrame <- function(rows) {
   d
 }
 
+
+#' Format an empirical test (quality of categorical prediction)
+#'
+#' @param statistic wrapped T-test
+#' @param ... not used, force use of named binding for later arguments
+#' @param format if set the format to return ("html", "latex", "markdown", "ascii")
+#' @param sigDigits integer number of digits to show
+#' @param pLargeCutoff value to declare non-significance at or above.
+#' @param pSmallCutoff smallest value to print
+#' @return formatted string
+#'
+#'
+#' @export
+render.sigr_emptest <- function(statistic,
+                                ...,
+                                format,
+                                sigDigits=2,
+                                pLargeCutoff=0.05,
+                                pSmallCutoff=1.0e-5) {
+  if(length(list(...))>0) {
+    stop("render.sigr_emptest unexpected arguments")
+  }
+  if (missing(format) || is.null(format)) {
+    format <- getRenderingFormat()
+  }
+  if(!(format %in% formats)) {
+    stop(paste("format",format,"not recognized"))
+  }
+  fsyms <- syms[format,]
+  pString <- render(wrapSignificance(statistic$eValue,
+                                     symbol='e'),
+                    format=format,
+                    sigDigits=sigDigits,
+                    pLargeCutoff=pLargeCutoff,
+                    pSmallCutoff=pSmallCutoff)
+  formatStr <- paste0(fsyms['startB'],'Studentized empirical test',fsyms['endB'],
+                      ': ',statistic$test,', ',
+                      ' summary: ',pString)
+  formatStr
+}
+
+
 #' Studentized estimate of how often a difference is below zero.
 #'
 #' @param resampledDiffs numeric vector resampled observations
@@ -224,6 +309,7 @@ estimateDifferenceZeroCrossing <- function(resampledDiffs) {
               sd=sdv,
               eValue=eValue,
               eFreq=eFreq)
+  class(ret) <- c('sigr_emptest', 'sigr_statistic')
   ret
 }
 

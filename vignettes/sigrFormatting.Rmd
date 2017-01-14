@@ -159,7 +159,8 @@ f <- function(modelValues,yValues) {
   }
   cor(modelValues,yValues)
 }
-sigr::resampleScoreModelPair(m1,m2,y,f)
+sigr::render(sigr::resampleScoreModelPair(m1,m2,y,f),
+             pLargeCutoff=1,format='ascii')
 ```
 
 

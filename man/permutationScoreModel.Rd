@@ -2,7 +2,7 @@
 % Please edit documentation in R/EmpiricalFns.R
 \name{permutationScoreModel}
 \alias{permutationScoreModel}
-\title{Empirical permuation test of significance of scoreFn(modelValues,yValues) > scoreFn(modelValues,perm(yValues)).}
+\title{Empirical permuation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).}
 \usage{
 permutationScoreModel(modelValues, yValues, scoreFn, ...,
   returnScores = FALSE, nRep = 100, parallelCluster = NULL)
