@@ -4,8 +4,7 @@
 \alias{wrapFTestImpl}
 \title{Wrap F-test (significane of a linear relation).}
 \usage{
-wrapFTestImpl(numdf, dendf, FValue, format, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+wrapFTestImpl(numdf, dendf, FValue)
 }
 \arguments{
 \item{numdf}{degrees of freedom 1.}

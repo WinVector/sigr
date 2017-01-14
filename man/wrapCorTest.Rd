@@ -4,7 +4,7 @@
 \alias{wrapCorTest}
 \title{Wrap cor.test (test of liner correlation).}
 \usage{
-wrapCorTest(ct, ..., format, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+wrapCorTest(ct, ...)
 }
 \arguments{
 \item{ct}{cor.test result}

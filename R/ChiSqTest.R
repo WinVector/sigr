@@ -72,8 +72,8 @@ wrapChiSqTest <- function(x,...) UseMethod('wrapChiSqTest')
 #'
 #' @examples
 #'
-#' cat(sigr::wrapChiSqTestImpl(df.null=7,df.residual=6,
-#'     null.deviance=11.09035,deviance=10.83726))
+#' wrapChiSqTestImpl(df.null=7,df.residual=6,
+#'     null.deviance=11.09035,deviance=10.83726)
 #'
 #' @export
 wrapChiSqTestImpl <- function(df.null,df.residual,
@@ -122,13 +122,13 @@ wrapChiSqTest.glm <- function(x,
     stop('wrapChiSqTest.glm expected class glm')
   }
   if(logisticRegressionModel$family$family!='binomial') {
-    warning('formatChiSqTestFromModel: model family was not binomial')
+    warning('wrapChiSqTest.glm: model family was not binomial')
   }
   if(logisticRegressionModel$family$link!='logit') {
-    warning('formatChiSqTestFromModel: model link was not logit')
+    warning('wrapChiSqTest.glm: model link was not logit')
   }
   if(!logisticRegressionModel$converged) {
-    warning("formatChiSqTestFromModel: model did not converge")
+    warning("wrapChiSqTest.glm: model did not converge")
   }
   wrapChiSqTestImpl(logisticRegressionModel$df.null,
                   logisticRegressionModel$df.residual,

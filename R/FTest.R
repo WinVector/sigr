@@ -69,10 +69,7 @@ render.sigr_ftest <- function(statistic,
 #' wrapFTestImpl(numdf=2,dendf=55,FValue=5.56)
 #'
 #' @export
-wrapFTestImpl <- function(numdf,dendf,FValue,
-                                format,
-                                pLargeCutoff=0.05,
-                                pSmallCutoff=1.0e-5) {
+wrapFTestImpl <- function(numdf,dendf,FValue) {
   Funscaled <- FValue*(numdf/dendf)
   R2 <- 1 - 1/(Funscaled+1)
   pValue <- stats::pf(FValue,
@@ -132,7 +129,7 @@ wrapFTest.lm <- function(x,
   FValue <- fstats[['value']]
   numdf <-  fstats[['numdf']]
   dendf <- fstats[['dendf']]
-  wrapFTestImpl(numdf,dendf,FValue,format,pLargeCutoff,pSmallCutoff)
+  wrapFTestImpl(numdf,dendf,FValue)
 }
 
 #' Wrap quality statistic of a linear relation from data.
@@ -187,5 +184,5 @@ wrapFTest.data.frame <- function(x,
   p1 <- 1
   p2 <- 1 + nParameters
   FValue = ((rss1-rss2)/(p2-p1))/(rss2/(n-p2))
-  wrapFTestImpl(p2-p1,n-p2,FValue,format,pLargeCutoff,pSmallCutoff)
+  wrapFTestImpl(p2-p1,n-p2,FValue)
 }

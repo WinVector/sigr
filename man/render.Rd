@@ -4,12 +4,13 @@
 \alias{render}
 \title{Format summary roughly in "APA Style" ( American Psychological Association ).}
 \usage{
-render(x, ...)
+render(statistic, ..., format, sigDigits = 2, pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05)
 }
 \arguments{
-\item{...}{extra arguments}
-
 \item{statistic}{sigr summary statistic}
+
+\item{...}{extra arguments}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii")}
 

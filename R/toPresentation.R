@@ -11,7 +11,11 @@
 #'
 #' @seealso \code{\link{render.sigr_significance}}, \code{\link{render.sigr_ftest}}
 #' @export
-render <- function(x,...) UseMethod('render')
+render <- function(statistic,...,
+                   format,
+                   sigDigits=2,
+                   pLargeCutoff=0.05,
+                   pSmallCutoff=1.0e-5) UseMethod('render')
 
 
 #' Format a significance
@@ -67,6 +71,7 @@ render.sigr_significance <- function(statistic,
 #' Print
 #'
 #' @param x sigr wrapper to print
+#' @param ... extra arguments
 #' @return formatted string
 #' @examples
 #'
@@ -74,7 +79,7 @@ render.sigr_significance <- function(statistic,
 #'
 #' @export
 print.sigr_statistic <- function(x, ...) {
-  print(render(x,format='ascii'))
+  print(render(x,format='ascii'), ...)
 }
 
 #' Wrap a significance

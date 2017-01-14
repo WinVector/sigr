@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{sigr wrapper to print}
+
+\item{...}{extra arguments}
 }
 \value{
 formatted string

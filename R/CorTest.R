@@ -65,10 +65,7 @@ render.sigr_cortest <- function(statistic,
 #'
 #' @export
 wrapCorTest <- function(ct,
-                          ...,
-                          format,
-                          pLargeCutoff=0.05,
-                          pSmallCutoff=1.0e-5) {
+                          ...) {
   if(length(list(...))) {
     stop('wrapCorTest extra arguments')
   }

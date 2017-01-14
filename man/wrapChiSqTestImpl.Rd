@@ -25,8 +25,8 @@ Format quality of a logistic regression roughly in "APA Style"
 }
 \examples{
 
-cat(sigr::wrapChiSqTestImpl(df.null=7,df.residual=6,
-    null.deviance=11.09035,deviance=10.83726))
+wrapChiSqTestImpl(df.null=7,df.residual=6,
+    null.deviance=11.09035,deviance=10.83726)
 
 }
 
