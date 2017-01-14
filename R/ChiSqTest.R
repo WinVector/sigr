@@ -1,5 +1,4 @@
 
-# TODO: lookup Breyer score of forecast
 
 #' Format a chi-square test (quality of categorical prediction)
 #'
