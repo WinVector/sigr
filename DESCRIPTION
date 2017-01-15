@@ -10,7 +10,7 @@ BugReports: https://github.com/WinVector/sigr/issues
 Description:  Succinctly format significance summaries of
     various models and tests.  The main purpose is unified reporting and planning
     of experimental results, working around issue such as the difficulty of
-    extracting model significances (such as with lm/glm).  This package also
+    extracting model summary facts (such as with 'lm'/'glm').  This package also
     includes empirical tests, such as bootstrap estimates.
 License: GPL-3
 LazyData: TRUE
