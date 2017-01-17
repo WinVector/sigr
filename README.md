@@ -57,7 +57,11 @@ summary(model)
 
 ``` r
 library("sigr")
-cat(render(wrapChiSqTest(model),pLargeCutoff=1))
 ```
 
-    ## **Chi-Square Test** summary: *pseudo-<i>R^2^</i>*=0.023 (<i>&chi;^2^</i>(1,*N*=8)=0.25, *p*=0.61).
+``` r
+cat(render(wrapChiSqTest(model),
+           pLargeCutoff=1, format='markdown'))
+```
+
+**Chi-Square Test** summary: *pseudo-<i>R<sup>2</sup></i>*=0.023 (<i>χ<sup>2</sup></i>(1,*N*=8)=0.25, *p*=0.61).

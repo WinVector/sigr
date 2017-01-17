@@ -45,5 +45,8 @@ summary(model)
 
 ```{r}
 library("sigr")
-cat(render(wrapChiSqTest(model),pLargeCutoff=1))
+```
+```{r results='asis'}
+cat(render(wrapChiSqTest(model),
+           pLargeCutoff=1, format='markdown'))
 ```
