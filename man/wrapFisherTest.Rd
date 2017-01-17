@@ -4,26 +4,17 @@
 \alias{wrapFisherTest}
 \title{Wrap fisher.test (test of categorial indendence).}
 \usage{
-wrapFisherTest(ft, ...)
+wrapFisherTest(x, ...)
 }
 \arguments{
-\item{ft}{cor.test result}
+\item{x}{numeric, data.frame or test.}
 
-\item{...}{extra arguments (not used)}
-}
-\value{
-wrapped test.
+\item{...}{extra arguments}
 }
 \description{
 Wrap fisher.test (test of categorial indendence).
 }
-\examples{
-
-d <- data.frame(x=c('b','a','a','a','b','b','b'),
-                y=c('1','1','1','2','2','2','2'))
-ft <- fisher.test(table(d))
-wrapFisherTest(ft)
-
-
+\seealso{
+\code{\link{wrapFisherTest.htest}}, and  \code{\link{wrapFisherTest.data.frame}}
 }
 

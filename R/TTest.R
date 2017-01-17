@@ -1,5 +1,4 @@
 
-# TODO: add S3 generic access (like FTest).
 
 #' Format a T-test (difference in means by group)
 #'
@@ -47,7 +46,17 @@ render.sigr_ttest <- function(statistic,
 
 #' Wrap t.test (difference in means by group).
 #'
-#' @param tt t.test result
+#' @param x numeric, data.frame or test.
+#' @param ... extra arguments
+#'
+#' @seealso \code{\link{wrapTTest.htest}}, and  \code{\link{wrapTTest.data.frame}}
+#' @export
+wrapTTest <- function(x,...) UseMethod('wrapTTest')
+
+
+#' Wrap t.test (difference in means by group).
+#'
+#' @param x t.test result
 #' @param ... extra arguments (not used)
 #' @return formatted string and fields
 #'
@@ -61,16 +70,51 @@ render.sigr_ttest <- function(statistic,
 #' render(wrapTTest(t.test(d$x,2*d$y)),pLargeCutoff=1)
 #'
 #' @export
-wrapTTest <- function(tt,
+wrapTTest.htest <- function(x,
                           ...) {
   if(length(list(...))) {
     stop('wrapTTest extra arguments')
   }
-  if(!'htest' %in% class(tt)) {
+  if(!'htest' %in% class(x)) {
     stop('wrapTTest expected class htest')
   }
-  r <- list(tt=tt,
+  r <- list(tt=x,
        test='t.test')
+  class(r) <- c('sigr_ttest', 'sigr_statistic')
+  r
+}
+
+#' Wrap t.test (difference in means by group).
+#'
+#' @param x data.frame
+#' @param Column1Name character column 1 name
+#' @param Column2Name character column 2 name
+#' @param ... extra arguments
+#' @return formatted string and fields
+#'
+#' @examples
+#'
+#' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+#'                 y=c(1,1,2,2,3,3,4,4))
+#' render(wrapTTest(d,'x','y'),pLargeCutoff=1)
+#' # confirm p not order depedent
+#' render(wrapTTest(d,'y','x'),pLargeCutoff=1)
+#'
+#' @importFrom stats t.test
+#'
+#' @export
+wrapTTest.data.frame <- function(x,
+                                 Column1Name,
+                                 Column2Name,
+                            ...) {
+  if(!'data.frame' %in% class(x)) {
+    stop('wrapTTest expected class data.frame')
+  }
+  tt <- t.test(x[[Column1Name]],x[[Column2Name]],...)
+  r <- list(tt=tt,
+            test='t.test',
+            Column1Name=Column1Name,
+            Column2Name=Column2Name)
   class(r) <- c('sigr_ttest', 'sigr_statistic')
   r
 }

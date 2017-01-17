@@ -4,27 +4,17 @@
 \alias{wrapTTest}
 \title{Wrap t.test (difference in means by group).}
 \usage{
-wrapTTest(tt, ...)
+wrapTTest(x, ...)
 }
 \arguments{
-\item{tt}{t.test result}
+\item{x}{numeric, data.frame or test.}
 
-\item{...}{extra arguments (not used)}
-}
-\value{
-formatted string and fields
+\item{...}{extra arguments}
 }
 \description{
 Wrap t.test (difference in means by group).
 }
-\examples{
-
-d <- data.frame(x=c(1,2,3,4,5,6,7,7),
-                y=c(1,1,2,2,3,3,4,4))
-tt <- t.test(d$x,d$y)
-render(wrapTTest(tt),pLargeCutoff=1)
-# confirm not rescaling, as a correlation test would
-render(wrapTTest(t.test(d$x,2*d$y)),pLargeCutoff=1)
-
+\seealso{
+\code{\link{wrapTTest.htest}}, and  \code{\link{wrapTTest.data.frame}}
 }
 

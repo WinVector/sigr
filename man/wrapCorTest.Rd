@@ -4,26 +4,17 @@
 \alias{wrapCorTest}
 \title{Wrap cor.test (test of liner correlation).}
 \usage{
-wrapCorTest(ct, ...)
+wrapCorTest(x, ...)
 }
 \arguments{
-\item{ct}{cor.test result}
+\item{x}{numeric, data.frame or test.}
 
-\item{...}{extra arguments (not used)}
-}
-\value{
-wrapped stat
+\item{...}{extra arguments}
 }
 \description{
 Wrap cor.test (test of liner correlation).
 }
-\examples{
-
-d <- data.frame(x=c(1,2,3,4,5,6,7,7),
-                y=c(1,1,2,2,3,3,4,4))
-ct <- cor.test(d$x,d$y)
-wrapCorTest(ct)
-
-
+\seealso{
+\code{\link{wrapCorTest.htest}}, and  \code{\link{wrapCorTest.data.frame}}
 }
 
