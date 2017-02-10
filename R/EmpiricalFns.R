@@ -206,11 +206,13 @@ resampleScoreModel <- function(modelValues,
 mkResampleDiffWorker <- function(model1Values,
                                  model2Values,
                                  yValues,
-                                 scoreFn) {
+                                 scoreFn,
+                                 sameSample) {
   force(yValues)
   force(model1Values)
   force(model2Values)
   force(scoreFn)
+  force(sameSample)
   n <- length(model1Values)
   if(is.null(yValues)) {
     yValues <- logical(n)
@@ -219,9 +221,14 @@ mkResampleDiffWorker <- function(model1Values,
     model2Values <- numeric(n)
   }
   function(x) {
-    samp <- sample.int(n,n,replace=TRUE)
-    score1 <- scoreFn(model1Values[samp],yValues[samp])
-    score2 <- scoreFn(model2Values[samp],yValues[samp])
+    samp1 <- sample.int(n,n,replace=TRUE)
+    if(sameSample) {
+      samp2 <- samp1
+    } else {
+      samp2 <- sample.int(n,n,replace=TRUE)
+    }
+    score1 <- scoreFn(model1Values[samp1],yValues[samp1])
+    score2 <- scoreFn(model2Values[samp2],yValues[samp2])
     list(score1=score1,score2=score2,diff=score1-score2)
   }
 }
@@ -324,10 +331,11 @@ estimateDifferenceZeroCrossing <- function(resampledDiffs) {
 #' @param model2Values numeric array of predictions (reference model).
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
-#' @param ... not used, forces later arguments to be bound by name
-#' @param returnScores logical if TRUE return detailed resampledScores
-#' @param nRep integer number of repititions to perform
+#' @param ... not used, forces later arguments to be bound by name.
+#' @param returnScores logical if TRUE return detailed resampledScores.
+#' @param nRep integer number of repititions to perform.
 #' @param parallelCluster optional snow-style parallel cluster.
+#' @param sameSample logical if TRUE use the same sample in computing both scores during bootstrap replication (else use independent samples).
 #' @return summaries
 #'
 #' @examples
@@ -354,9 +362,10 @@ resampleScoreModelPair <- function(model1Values,
                                    yValues,
                                    scoreFn,
                                    ...,
-                                   returnScores=FALSE,
-                                   nRep=100,
-                                   parallelCluster=NULL) {
+                                   returnScores= FALSE,
+                                   nRep= 100,
+                                   parallelCluster= NULL,
+                                   sameSample= FALSE) {
   if(length(list(...))>0) {
     stop('resampleScoreModelPair unexpected extra arguments')
   }
@@ -365,7 +374,8 @@ resampleScoreModelPair <- function(model1Values,
   resampleWorker <- mkResampleDiffWorker(model1Values=model1Values,
                                          model2Values=model2Values,
                                          yValues=yValues,
-                                         scoreFn=scoreFn)
+                                         scoreFn=scoreFn,
+                                         sameSample=sameSample)
   detailedResampledScores <- plapply(1:nRep,resampleWorker,parallelCluster)
   observedDiff <- observedScore1-observedScore2
   detailedResampledScores <- listToDataFrame(detailedResampledScores)
@@ -374,6 +384,7 @@ resampleScoreModelPair <- function(model1Values,
   ret$observedScore1 <- observedScore1
   ret$observedScore2 <- observedScore2
   ret$observedDiff <- observedDiff
+  ret$sameSample <- sameSample
   if(returnScores) {
     ret$detailedResampledScores <- detailedResampledScores
   }

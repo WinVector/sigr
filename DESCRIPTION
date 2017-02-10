@@ -2,7 +2,7 @@ Package: sigr
 Type: Package
 Title: Format Significance Summaries for Reports
 Version: 0.1.4
-Date: 2017-01-17
+Date: 2017-02-09
 Author: John Mount, Nina Zumel
 Maintainer: John Mount <jmount@win-vector.com>
 URL: https://github.com/WinVector/sigr

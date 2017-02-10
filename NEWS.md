@@ -1,8 +1,9 @@
 
-'sigr'0.1.4 2017/01/17
+'sigr'0.1.4 2017-02-09
 
  * More standard (data.frame plus column names) interfaces.
+ * Default to independent samples in resampleScoreModelPair.
 
-'sigr'0.1.3 2017/01/15
+'sigr'0.1.3 2017-01-15
 
  * First CRAN submission.

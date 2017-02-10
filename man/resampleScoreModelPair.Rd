@@ -5,7 +5,8 @@
 \title{Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).}
 \usage{
 resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
-  returnScores = FALSE, nRep = 100, parallelCluster = NULL)
+  returnScores = FALSE, nRep = 100, parallelCluster = NULL,
+  sameSample = FALSE)
 }
 \arguments{
 \item{model1Values}{numeric array of predictions (model to test).}
@@ -16,13 +17,15 @@ resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
 
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
-\item{...}{not used, forces later arguments to be bound by name}
+\item{...}{not used, forces later arguments to be bound by name.}
 
-\item{returnScores}{logical if TRUE return detailed resampledScores}
+\item{returnScores}{logical if TRUE return detailed resampledScores.}
 
-\item{nRep}{integer number of repititions to perform}
+\item{nRep}{integer number of repititions to perform.}
 
 \item{parallelCluster}{optional snow-style parallel cluster.}
+
+\item{sameSample}{logical if TRUE use the same sample in computing both scores during bootstrap replication (else use independent samples).}
 }
 \value{
 summaries
