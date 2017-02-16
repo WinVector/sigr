@@ -1,5 +1,5 @@
 
-'sigr'0.1.4 2017-02-09
+'sigr'0.1.4 2017-02-16
 
  * More standard (data.frame plus column names) interfaces.
  * Default to independent samples in resampleScoreModelPair.
