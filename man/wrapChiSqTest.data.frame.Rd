@@ -36,4 +36,3 @@ d$pred <- predict(model,type='response',newdata=d)
 render(wrapChiSqTest(d,'pred','y'),pLargeCutoff=1)
 
 }
-

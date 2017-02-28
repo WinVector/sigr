@@ -17,4 +17,3 @@ Wrap cor.test (test of liner correlation).
 \seealso{
 \code{\link{wrapCorTest.htest}}, and  \code{\link{wrapCorTest.data.frame}}
 }
-

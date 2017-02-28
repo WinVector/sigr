@@ -26,4 +26,3 @@ formatted string
 \description{
 Format a T-test (difference in means by group)
 }
-

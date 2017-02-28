@@ -29,4 +29,3 @@ wrapChiSqTestImpl(df.null=7,df.residual=6,
     null.deviance=11.09035,deviance=10.83726)
 
 }
-

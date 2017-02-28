@@ -22,4 +22,3 @@ resampledDiffs <- rnorm(10)+1
 estimateDifferenceZeroCrossing(resampledDiffs)
 
 }
-

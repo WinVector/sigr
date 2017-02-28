@@ -24,4 +24,3 @@ Wrap F-test (significane of a linear relation).
 wrapFTestImpl(numdf=2,dendf=55,FValue=5.56)
 
 }
-

@@ -17,4 +17,3 @@ Wrap fisher.test (test of categorial indendence).
 \seealso{
 \code{\link{wrapFisherTest.htest}}, and  \code{\link{wrapFisherTest.data.frame}}
 }
-

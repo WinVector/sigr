@@ -17,4 +17,3 @@ Wrap t.test (difference in means by group).
 \seealso{
 \code{\link{wrapTTest.htest}}, and  \code{\link{wrapTTest.data.frame}}
 }
-

@@ -22,4 +22,3 @@ Wrap a significance
 wrapSignificance(1/300)
 
 }
-

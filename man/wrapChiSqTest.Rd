@@ -17,4 +17,3 @@ Wrap quality of a categorical prediction roughly in "APA Style" ( American Psych
 \seealso{
 \code{\link{wrapChiSqTestImpl}},  \code{\link{wrapChiSqTest.glm}},  and \code{\link{wrapChiSqTest.data.frame}}
 }
-

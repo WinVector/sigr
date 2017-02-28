@@ -43,4 +43,3 @@ d$pred <- predict(model,newdata=d)
 sigr::wrapFTest(d,'pred','y')
 
 }
-

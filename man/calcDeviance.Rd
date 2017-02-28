@@ -22,4 +22,3 @@ Calculate deviance.
 sigr::calcDeviance(1:4,c(TRUE,FALSE,TRUE,TRUE))
 
 }
-

@@ -17,4 +17,3 @@ Detect rendering format (using knitr).
 getRenderingFormat()
 
 }
-

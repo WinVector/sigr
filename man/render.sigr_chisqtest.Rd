@@ -26,4 +26,3 @@ formatted string
 \description{
 Format a chi-square test (quality of categorical prediction)
 }
-

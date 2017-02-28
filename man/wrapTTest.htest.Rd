@@ -27,4 +27,3 @@ render(wrapTTest(tt),pLargeCutoff=1)
 render(wrapTTest(t.test(d$x,2*d$y)),pLargeCutoff=1)
 
 }
-

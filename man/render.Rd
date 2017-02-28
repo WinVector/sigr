@@ -29,4 +29,3 @@ Format summary roughly in "APA Style" ( American Psychological Association ).
 \seealso{
 \code{\link{render.sigr_significance}}, \code{\link{render.sigr_ftest}}
 }
-

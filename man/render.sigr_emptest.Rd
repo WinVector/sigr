@@ -26,4 +26,3 @@ formatted string
 \description{
 Format an empirical test (quality of categorical prediction)
 }
-

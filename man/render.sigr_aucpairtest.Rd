@@ -26,4 +26,3 @@ formatted string
 \description{
 Format an AUC-test (quality of a probability score)
 }
-

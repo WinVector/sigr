@@ -38,4 +38,3 @@ f <- function(modelValues,yValues) cor(modelValues,yValues)
 permutationScoreModel(m,y,f)
 
 }
-

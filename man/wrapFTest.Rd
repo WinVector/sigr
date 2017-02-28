@@ -17,4 +17,3 @@ Wrap F-test (significane of a linear relation).
 \seealso{
 \code{\link{wrapFTestImpl}},  \code{\link{wrapFTest.lm}},  and \code{\link{wrapFTest.data.frame}}
 }
-

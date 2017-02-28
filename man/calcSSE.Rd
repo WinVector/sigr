@@ -22,4 +22,3 @@ Calculate sum of squared error.
 sigr::calcSSE(1:4,c(TRUE,FALSE,TRUE,TRUE))
 
 }
-

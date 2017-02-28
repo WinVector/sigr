@@ -23,4 +23,3 @@ Based on:
 sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE)) # should be 2/3
 
 }
-

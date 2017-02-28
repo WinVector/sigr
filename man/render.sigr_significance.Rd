@@ -31,4 +31,3 @@ Format a significance
 cat(render(wrapSignificance(1/300),format='html'))
 
 }
-
