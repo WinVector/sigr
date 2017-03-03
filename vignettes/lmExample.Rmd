@@ -1,0 +1,45 @@
+---
+title: "lm example"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{lm example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library('sigr')
+set.seed(352532)
+d <- data.frame(x=1:10, z=c(4,5))
+d$y <- 2*d$x + 0.1*rnorm(nrow(d))
+
+```
+
+```{r lm}
+model <- lm(y~x+z, data=d)
+d$pred <- predict(model, newdata = d)
+
+s <- summary(model)
+print(s)
+print(s$fstatistic)
+```
+
+```{r cortest1, results='asis'}
+cat(render(wrapFTest(model),
+    pSmallCutoff=0))
+```
+
+```{r cortestp, results='asis'}
+cat(render(wrapFTest(d, 'pred', 'y', nParameters=2),
+    pSmallCutoff=0))
+```
+
+Intententionally forget to inform `wrapFTest` of the true
+number of parameters:
+
+```{r cortestpwrong, results='asis'}
+cat(render(wrapFTest(d, 'pred', 'y'),
+    pSmallCutoff=0))
+```
