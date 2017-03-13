@@ -1,18 +1,19 @@
 
 ## Test environments
-* local OS X install x86_64-apple-darwin13.4.0 (64-bit)
-* R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-* win-builder (devel and release)
 
-## R CMD check --as-cran sigr_0.1.4.tar.gz
-* using R version 3.3.2 (2016-10-31)
+ * local OS X install x86_64-apple-darwin13.4.0 (64-bit)
+ * R version 3.3.3
+ * win-builder (devel and release) 
+
+## R CMD check --as-cran sigr_0.1.5.tar.gz 
+
+* using R version 3.3.3 (2017-03-06)
 * using platform: x86_64-apple-darwin13.4.0 (64-bit)
 * using session charset: UTF-8
 * using option ‘--as-cran’
 
-R CMD check results
-0 errors | 0 warnings | 1 notes
-
+No NOTEs, WARNINGs or ERRORs
+Status: OK
 
 ## Downstream dependencies
 
