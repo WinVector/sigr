@@ -180,7 +180,7 @@ resampleScoreModel <- function(modelValues,
   if(length(list(...))>0) {
     stop('resampleScoreModelPair unexpected extra arguments')
   }
-  observedScore <- scoreFn(modelValues,yValues)
+  observedScore <- scoreFn(modelValues, yValues)
   resampleWorker <- mkResampleWorker(modelValues=modelValues,
                                           yValues=yValues,
                                           scoreFn=scoreFn)

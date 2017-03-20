@@ -64,7 +64,7 @@ getRenderingFormat <- function() {
 NULL
 
 # maybe run parallel
-plapply <- function(workList,worker,parallelCluster) {
+plapply <- function(workList, worker, parallelCluster) {
   if(is.null(parallelCluster) || (!requireNamespace("parallel",quietly=TRUE))) {
     res <- lapply(workList,worker)
   } else {
@@ -85,7 +85,13 @@ plapply <- function(workList,worker,parallelCluster) {
 #' sigr::calcDeviance(1:4,c(TRUE,FALSE,TRUE,TRUE))
 #'
 #' @export
-calcDeviance <- function(pred,y) {
+calcDeviance <- function(pred, y) {
+  if(!is.numeric(pred)) {
+    stop("sigr::calcDeviance pred must be numeric")
+  }
+  if(!is.logical(y)) {
+    stop("sigr::calcDeviance y must be logical")
+  }
   eps <- 1.0e-6
   -2*sum(log(pmin(1-eps,pmax(eps,ifelse(y,pred,1-pred)))))
 }
@@ -102,7 +108,13 @@ calcDeviance <- function(pred,y) {
 #' sigr::calcSSE(1:4,c(TRUE,FALSE,TRUE,TRUE))
 #'
 #' @export
-calcSSE <- function(pred,y) {
+calcSSE <- function(pred, y) {
+  if(!is.numeric(pred)) {
+    stop("sigr::calcSSE pred must be numeric")
+  }
+  if(!is.numeric(y)) {
+    stop("sigr::calcSSE y must be numeric")
+  }
   sum((y-pred)^2)
 }
 
@@ -122,7 +134,13 @@ calcSSE <- function(pred,y) {
 #' sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE)) # should be 2/3
 #'
 #' @export
-calcAUC <- function(modelPredictions,yValues) {
+calcAUC <- function(modelPredictions, yValues) {
+  if(!is.numeric(modelPredictions)) {
+    stop("sigr::calcAUC modelPredictions must be numeric")
+  }
+  if(!is.logical(yValues)) {
+    stop("sigr::calcAUC yValues must be logical")
+  }
   ord <- order(modelPredictions, decreasing=TRUE)
   yValues <- yValues[ord]
   modelPredictions <- modelPredictions[ord]
