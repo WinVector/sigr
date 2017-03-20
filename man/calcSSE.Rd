@@ -19,6 +19,6 @@ Calculate sum of squared error.
 }
 \examples{
 
-sigr::calcSSE(1:4,c(TRUE,FALSE,TRUE,TRUE))
+sigr::calcSSE(1:4,c(1,0,1,1))
 
 }

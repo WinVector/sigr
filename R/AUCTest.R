@@ -81,6 +81,9 @@ permTestAUC <- function(d,
   if(length(list(...))) {
     stop('permTestAUC extra arguments')
   }
+  if(!is.numeric(d[[modelName]])) {
+    stop("wrapr::permTestAUC model column must be numeric")
+  }
   eScore <- permutationScoreModel(modelValues=d[[modelName]],
                                   yValues=d[[yName]]==yTarget,
                                   scoreFn=calcAUC,
@@ -177,6 +180,9 @@ resampleTestAUC <- function(d,
                       parallelCluster=NULL) {
   if(length(list(...))) {
     stop('formatAUCresample extra arguments')
+  }
+  if(!is.numeric(d[[modelName]])) {
+    stop("wrapr::resampleTestAUC model column must be numeric")
   }
   eScore <- resampleScoreModel(modelValues=d[[modelName]],
                                yValues=d[[yName]]==yTarget,
@@ -283,6 +289,12 @@ testAUCpair <- function(d,
                           parallelCluster=NULL) {
   if(length(list(...))) {
     stop('formatAUC extra arguments')
+  }
+  if(!is.numeric(d[[model1Name]])) {
+    stop("wrapr::testAUCpair model 1 must be numeric")
+  }
+  if(!is.numeric(d[[model2Name]])) {
+    stop("wrapr::testAUCpair model 2 must be numeric")
   }
   eScore <- resampleScoreModelPair(model1Values=d[[model1Name]],
                                    model2Values=d[[model2Name]],

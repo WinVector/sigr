@@ -108,7 +108,13 @@ wrapTTest.data.frame <- function(x,
                                  Column2Name,
                             ...) {
   if(!'data.frame' %in% class(x)) {
-    stop('wrapTTest expected class data.frame')
+    stop('sigr::wrapTTest expected class data.frame')
+  }
+  if(!is.numeric(x[[Column1Name]])) {
+    stop("sigr::wrapTTest expected column 1 to be numeric")
+  }
+  if(!is.numeric(x[[Column2Name]])) {
+    stop("sigr::wrapTTest expected column 2 to be numeric")
   }
   tt <- t.test(x[[Column1Name]],x[[Column2Name]],...)
   r <- list(tt=tt,

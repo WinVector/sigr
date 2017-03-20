@@ -158,13 +158,19 @@ wrapChiSqTest.glm <- function(x,
 #'
 #' @export
 wrapChiSqTest.data.frame <- function(x,
-                                       predictionColumnName,yColumnName,
+                                       predictionColumnName, yColumnName,
                                        nParameters=1,
                                        meany=mean(x[[yColumnName]]),
                                        ...) {
   d <- x
   y <- d[[yColumnName]]
+  if(!is.logical(y)) {
+    stop("wrapr::wrapChiSqTest.data.frame y column must be logical")
+  }
   predictions <- d[[predictionColumnName]]
+  if(!is.numeric(predictions)) {
+    stop("wrapr::wrapChiSqTest.data.frame prediction column must be numeric")
+  }
   if(length(list(...))) {
     stop('wrapChiSqTest.data.frame extra arguments')
   }

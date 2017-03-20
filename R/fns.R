@@ -105,7 +105,7 @@ calcDeviance <- function(pred, y) {
 #'
 #' @examples
 #'
-#' sigr::calcSSE(1:4,c(TRUE,FALSE,TRUE,TRUE))
+#' sigr::calcSSE(1:4,c(1,0,1,1))
 #'
 #' @export
 calcSSE <- function(pred, y) {

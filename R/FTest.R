@@ -69,7 +69,7 @@ render.sigr_ftest <- function(statistic,
 #' wrapFTestImpl(numdf=2,dendf=55,FValue=5.56)
 #'
 #' @export
-wrapFTestImpl <- function(numdf,dendf,FValue) {
+wrapFTestImpl <- function(numdf, dendf, FValue) {
   Funscaled <- FValue*(numdf/dendf)
   R2 <- 1 - 1/(Funscaled+1)
   pValue <- stats::pf(FValue,
@@ -156,7 +156,7 @@ wrapFTest.lm <- function(x,
 #'
 #' @export
 wrapFTest.data.frame <- function(x,
-                                   predictionColumnName,yColumnName,
+                                   predictionColumnName, yColumnName,
                                    nParameters=1,
                                    meany=mean(x[[yColumnName]]),
                                    ...,
@@ -165,7 +165,13 @@ wrapFTest.data.frame <- function(x,
                                    pSmallCutoff=1.0e-5) {
   d <- x
   y <- d[[yColumnName]]
+  if(!is.numeric(y)) {
+    stop("wrapr::wrapFTest.data.frame y column must be numeric")
+  }
   predictions <- d[[predictionColumnName]]
+  if(!is.numeric(predictions)) {
+    stop("wrapr::wrapFTest.data.frame prediction column must be numeric")
+  }
   if(length(list(...))) {
     stop('wrapFTest.data.frame extra arguments')
   }

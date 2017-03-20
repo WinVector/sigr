@@ -109,6 +109,12 @@ wrapCorTest.data.frame <- function(x,
                                    Column1Name,
                                    Column2Name,
                               ...) {
+  if(!is.numeric(x[[Column1Name]])) {
+    stop("wrapr::wrapCorTest.data.frame column 1 must be numeric")
+  }
+  if(!is.numeric(x[[Column2Name]])) {
+    stop("wrapr::wrapCorTest.data.frame column 2 must be numeric")
+  }
   ct <- cor.test(x[[Column1Name]],x[[Column2Name]],...)
   r <- list(ct=ct,
             test='cor.test',
