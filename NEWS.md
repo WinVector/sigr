@@ -1,5 +1,5 @@
 
-'sigr' 0.1.5 2017-03-20
+'sigr' 0.1.5 2017-03-24
 
  * Enforce more types in calculations
 
