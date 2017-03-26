@@ -92,6 +92,12 @@ calcDeviance <- function(pred, y) {
   if(!is.logical(y)) {
     stop("sigr::calcDeviance y must be logical")
   }
+  if((length(pred)==1)&&(length(y)>1)) {
+    pred <- rep(pred, length(y))
+  }
+  if(length(pred)!=length(y)) {
+    stop("sigr::calcDeviance must have length(pred)==length(y)")
+  }
   eps <- 1.0e-6
   -2*sum(log(pmin(1-eps,pmax(eps,ifelse(y,pred,1-pred)))))
 }
@@ -114,6 +120,12 @@ calcSSE <- function(pred, y) {
   }
   if(!is.numeric(y)) {
     stop("sigr::calcSSE y must be numeric")
+  }
+  if((length(pred)==1)&&(length(y)>1)) {
+    pred <- rep(pred, length(y))
+  }
+  if(length(pred)!=length(y)) {
+    stop("sigr::calcSSE must have length(pred)==length(y)")
   }
   sum((y-pred)^2)
 }
@@ -140,6 +152,9 @@ calcAUC <- function(modelPredictions, yValues) {
   }
   if(!is.logical(yValues)) {
     stop("sigr::calcAUC yValues must be logical")
+  }
+  if(length(modelPredictions)!=length(yValues)) {
+    stop("sigr::calcAUC must have length(modelPredictions)==length(yValues)")
   }
   ord <- order(modelPredictions, decreasing=TRUE)
   yValues <- yValues[ord]
