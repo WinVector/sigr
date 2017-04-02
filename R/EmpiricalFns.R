@@ -80,7 +80,7 @@ render.sigr_permtest <- function(statistic,
 #'
 #' @export
 #'
-permutationScoreModel <- function(modelValues,yValues,
+permutationScoreModel <- function(modelValues, yValues,
                                   scoreFn,
                                   ...,
                                   returnScores=FALSE,
@@ -88,6 +88,15 @@ permutationScoreModel <- function(modelValues,yValues,
                                   parallelCluster=NULL) {
   if(length(list(...))>0) {
     stop('permutationScoreModel unexpected extra arguments')
+  }
+  if(!is.numeric(modelValues)) {
+    stop("sigr::permutationScoreModel modelValues must be numeric")
+  }
+  if((!is.logical(yValues)) &&(!is.numeric(yValues))) {
+    stop("sigr::permutationScoreModel yValues must be logical or numeric")
+  }
+  if(length(modelValues)!=length(yValues)) {
+    stop("sigr::permutationScoreModel must have length(modelValues)==length(yValues)")
   }
   observedScore <- scoreFn(modelValues,yValues)
   permWorker <- mkPermWorker(modelValues=modelValues,
@@ -179,6 +188,15 @@ resampleScoreModel <- function(modelValues,
                                parallelCluster=NULL) {
   if(length(list(...))>0) {
     stop('resampleScoreModelPair unexpected extra arguments')
+  }
+  if(!is.numeric(modelValues)) {
+    stop("sigr::resampleScoreModel modelValues must be numeric")
+  }
+  if((!is.logical(yValues)) &&(!is.numeric(yValues))) {
+    stop("sigr::resampleScoreModel yValues must be logical or numeric")
+  }
+  if(length(modelValues)!=length(yValues)) {
+    stop("sigr::resampleScoreModel must have length(modelValues)==length(yValues)")
   }
   observedScore <- scoreFn(modelValues, yValues)
   resampleWorker <- mkResampleWorker(modelValues=modelValues,
@@ -368,6 +386,21 @@ resampleScoreModelPair <- function(model1Values,
                                    sameSample= FALSE) {
   if(length(list(...))>0) {
     stop('resampleScoreModelPair unexpected extra arguments')
+  }
+  if(!is.numeric(model1Values)) {
+    stop("sigr::resampleScoreModelPair model1Values must be numeric")
+  }
+  if(!is.numeric(model2Values)) {
+    stop("sigr::resampleScoreModelPair model2Values must be numeric")
+  }
+  if((!is.logical(yValues)) &&(!is.numeric(yValues))) {
+    stop("sigr::resampleScoreModelPair yValues must be logical or numeric")
+  }
+  if(length(model1Values)!=length(yValues)) {
+    stop("sigr::resampleScoreModelPair must have length(model1Values)==length(yValues)")
+  }
+  if(length(model2Values)!=length(yValues)) {
+    stop("sigr::resampleScoreModelPair must have length(model2Values)==length(yValues)")
   }
   observedScore1 <- scoreFn(model1Values,yValues)
   observedScore2 <- scoreFn(model2Values,yValues)

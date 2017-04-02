@@ -120,7 +120,7 @@ set.seed(25325)
 y <- 1:5
 m <- c(1,1,2,2,2)
 cor.test(m,y,alternative='greater')
-f <- function(modelValues,yValues) cor(modelValues,yValues)
+f <- function(modelValues, yValues) { cor(modelValues, yValues) }
 sigr::permutationScoreModel(m,y,f)
 ```
 
