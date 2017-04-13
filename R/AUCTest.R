@@ -55,6 +55,7 @@ render.sigr_aucpermtest <- function(statistic,
 #' @param yName character outcome column name
 #' @param yTarget target to match to y
 #' @param ... extra arguments (not used)
+#' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed permutedScores
 #' @param nrep number of permutation repititions to estimate p values.
 #' @param parallelCluster (optional) a cluster object created by package parallel or package snow
@@ -75,9 +76,10 @@ permTestAUC <- function(d,
                       yName,
                       yTarget,
                       ...,
-                      returnScores=FALSE,
-                      nrep=100,
-                      parallelCluster=NULL) {
+                      na.rm= FALSE,
+                      returnScores= FALSE,
+                      nrep= 100,
+                      parallelCluster= NULL) {
   if(length(list(...))) {
     stop('permTestAUC extra arguments')
   }
@@ -87,6 +89,7 @@ permTestAUC <- function(d,
   eScore <- permutationScoreModel(modelValues=d[[modelName]],
                                   yValues=d[[yName]]==yTarget,
                                   scoreFn=calcAUC,
+                                  na.rm=na.rm,
                                   returnScores=returnScores,
                                   nRep=nrep,
                                   parallelCluster=parallelCluster)
@@ -155,6 +158,7 @@ render.sigr_aucresamptest <- function(statistic,
 #' @param yName character outcome column name
 #' @param yTarget target to match to y
 #' @param ... extra arguments (not used)
+#' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed resampledScores.
 #' @param nrep number of permutation repititions to estimate p values.
 #' @param parallelCluster (optional) a cluster object created by package parallel or package snow.
@@ -175,9 +179,10 @@ resampleTestAUC <- function(d,
                       yName,
                       yTarget,
                       ...,
-                      returnScores=FALSE,
-                      nrep=100,
-                      parallelCluster=NULL) {
+                      na.rm= FALSE,
+                      returnScores= FALSE,
+                      nrep= 100,
+                      parallelCluster= NULL) {
   if(length(list(...))) {
     stop('formatAUCresample extra arguments')
   }
@@ -187,6 +192,7 @@ resampleTestAUC <- function(d,
   eScore <- resampleScoreModel(modelValues=d[[modelName]],
                                yValues=d[[yName]]==yTarget,
                                scoreFn=calcAUC,
+                               na.rm=na.rm,
                                returnScores=returnScores,
                                nRep=nrep,
                                parallelCluster=parallelCluster)
@@ -262,6 +268,7 @@ render.sigr_aucpairtest <- function(statistic,
 #' @param yName character outcome column name
 #' @param yTarget target to match to y
 #' @param ... extra arguments (not used)
+#' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed resampledScores
 #' @param nrep number of re-sample repetition to estimate p value.
 #' @param parallelCluster (optional) a cluster object created by package parallel or package snow
@@ -279,14 +286,15 @@ render.sigr_aucpairtest <- function(statistic,
 #'
 #' @export
 testAUCpair <- function(d,
-                          model1Name,
-                          model2Name,
-                          yName,
-                          yTarget,
-                          ...,
-                          returnScores=FALSE,
-                          nrep=100,
-                          parallelCluster=NULL) {
+                        model1Name,
+                        model2Name,
+                        yName,
+                        yTarget,
+                        ...,
+                        na.rm= FALSE,
+                        returnScores= FALSE,
+                        nrep= 100,
+                        parallelCluster= NULL) {
   if(length(list(...))) {
     stop('formatAUC extra arguments')
   }
@@ -300,6 +308,7 @@ testAUCpair <- function(d,
                                    model2Values=d[[model2Name]],
                                    yValues=d[[yName]]==yTarget,
                                    scoreFn=calcAUC,
+                                   na.rm=na.rm,
                                    returnScores=returnScores,
                                    nRep=nrep,
                                    parallelCluster=parallelCluster)

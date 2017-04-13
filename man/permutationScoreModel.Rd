@@ -4,7 +4,7 @@
 \alias{permutationScoreModel}
 \title{Empirical permuation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).}
 \usage{
-permutationScoreModel(modelValues, yValues, scoreFn, ...,
+permutationScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
   returnScores = FALSE, nRep = 100, parallelCluster = NULL)
 }
 \arguments{
@@ -15,6 +15,8 @@ permutationScoreModel(modelValues, yValues, scoreFn, ...,
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
 \item{...}{not used, forces later arguments to be bound by name}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 
 \item{returnScores}{logical if TRUE return detailed permutedScores}
 

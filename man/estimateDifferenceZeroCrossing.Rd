@@ -4,10 +4,12 @@
 \alias{estimateDifferenceZeroCrossing}
 \title{Studentized estimate of how often a difference is below zero.}
 \usage{
-estimateDifferenceZeroCrossing(resampledDiffs)
+estimateDifferenceZeroCrossing(resampledDiffs, na.rm = FALSE)
 }
 \arguments{
 \item{resampledDiffs}{numeric vector resampled observations}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 estimated probbility of seeing a re-sampled difference below zero.

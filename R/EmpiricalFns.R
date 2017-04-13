@@ -64,6 +64,7 @@ render.sigr_permtest <- function(statistic,
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
+#' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed permutedScores
 #' @param nRep integer number of repititions to perform
 #' @param parallelCluster optional snow-style parallel cluster.
@@ -83,9 +84,10 @@ render.sigr_permtest <- function(statistic,
 permutationScoreModel <- function(modelValues, yValues,
                                   scoreFn,
                                   ...,
-                                  returnScores=FALSE,
-                                  nRep=100,
-                                  parallelCluster=NULL) {
+                                  na.rm= FALSE,
+                                  returnScores= FALSE,
+                                  nRep= 100,
+                                  parallelCluster= NULL) {
   if(length(list(...))>0) {
     stop('permutationScoreModel unexpected extra arguments')
   }
@@ -98,6 +100,13 @@ permutationScoreModel <- function(modelValues, yValues,
   if(length(modelValues)!=length(yValues)) {
     stop("sigr::permutationScoreModel must have length(modelValues)==length(yValues)")
   }
+  nNA <- sum(is.na(modelValues) | is.na(yValues))
+  if(na.rm) {
+    goodPosns <- (!is.na(modelValues)) & (!is.na(yValues))
+    modelValues <- modelValues[goodPosns]
+    yValues <- yValues[goodPosns]
+  }
+  dim <- length(yValues)
   observedScore <- scoreFn(modelValues,yValues)
   permWorker <- mkPermWorker(modelValues=modelValues,
                              yValues=yValues,
@@ -118,7 +127,9 @@ permutationScoreModel <- function(modelValues, yValues,
               mean=meanv,
               sd=sdv,
               pValue=pValue,
-              pFreq=pFreq)
+              pFreq=pFreq,
+              nNA=nNA,
+              n=dim)
   if(returnScores) {
     ret$permutedScores <- permutedScores
   }
@@ -152,6 +163,7 @@ mkResampleWorker <- function(modelValues,
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
+#' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed resampledScores
 #' @param nRep integer number of repititions to perform
 #' @param parallelCluster optional snow-style parallel cluster.
@@ -183,9 +195,10 @@ resampleScoreModel <- function(modelValues,
                                yValues,
                                scoreFn,
                                ...,
-                               returnScores=FALSE,
-                               nRep=100,
-                               parallelCluster=NULL) {
+                               na.rm= FALSE,
+                               returnScores= FALSE,
+                               nRep= 100,
+                               parallelCluster= NULL) {
   if(length(list(...))>0) {
     stop('resampleScoreModelPair unexpected extra arguments')
   }
@@ -198,6 +211,13 @@ resampleScoreModel <- function(modelValues,
   if(length(modelValues)!=length(yValues)) {
     stop("sigr::resampleScoreModel must have length(modelValues)==length(yValues)")
   }
+  nNA <- sum(is.na(modelValues) | is.na(yValues))
+  if(na.rm) {
+    goodPosns <- (!is.na(modelValues)) & (!is.na(yValues))
+    modelValues <- modelValues[goodPosns]
+    yValues <- yValues[goodPosns]
+  }
+  dim <- length(yValues)
   observedScore <- scoreFn(modelValues, yValues)
   resampleWorker <- mkResampleWorker(modelValues=modelValues,
                                           yValues=yValues,
@@ -209,7 +229,9 @@ resampleScoreModel <- function(modelValues,
   ret <- list(fnName='resampleScoreModel',
               observedScore=observedScore,
               bias=meanv-observedScore,
-              sd=sdv)
+              sd=sdv,
+              nNA=nNA,
+              n=dim)
   if(returnScores) {
     ret$resampledScores <- resampledScores
   }
@@ -310,6 +332,7 @@ render.sigr_emptest <- function(statistic,
 #' Studentized estimate of how often a difference is below zero.
 #'
 #' @param resampledDiffs numeric vector resampled observations
+#' @param na.rm logical, if TRUE remove NA values
 #' @return estimated probbility of seeing a re-sampled difference below zero.
 #'
 #' @examples
@@ -320,7 +343,14 @@ render.sigr_emptest <- function(statistic,
 #'
 #' @export
 #'
-estimateDifferenceZeroCrossing <- function(resampledDiffs) {
+estimateDifferenceZeroCrossing <- function(resampledDiffs,
+                                           na.rm= FALSE) {
+  nNA <- sum(is.na(resampledDiffs))
+  if(na.rm) {
+    goodPosns <- !is.na(resampledDiffs)
+    resampledDiffs <- resampledDiffs[goodPosns]
+  }
+  dim <- length(resampledDiffs)
   meanv <- mean(resampledDiffs)
   sdv <- sqrt(sum((resampledDiffs-meanv)^2)/(length(resampledDiffs)-1))
   z <- meanv/sdv
@@ -333,7 +363,9 @@ estimateDifferenceZeroCrossing <- function(resampledDiffs) {
               meanv=meanv,
               sd=sdv,
               eValue=eValue,
-              eFreq=eFreq)
+              eFreq=eFreq,
+              nNA=nNA,
+              n=dim)
   class(ret) <- c('sigr_emptest', 'sigr_statistic')
   ret
 }
@@ -350,6 +382,7 @@ estimateDifferenceZeroCrossing <- function(resampledDiffs) {
 #' @param yValues numeric/logical array of outcomes, depedendent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name.
+#' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed resampledScores.
 #' @param nRep integer number of repititions to perform.
 #' @param parallelCluster optional snow-style parallel cluster.
@@ -380,6 +413,7 @@ resampleScoreModelPair <- function(model1Values,
                                    yValues,
                                    scoreFn,
                                    ...,
+                                   na.rm= FALSE,
                                    returnScores= FALSE,
                                    nRep= 100,
                                    parallelCluster= NULL,
@@ -402,6 +436,14 @@ resampleScoreModelPair <- function(model1Values,
   if(length(model2Values)!=length(yValues)) {
     stop("sigr::resampleScoreModelPair must have length(model2Values)==length(yValues)")
   }
+  nNA <- sum(is.na(model1Values) | is.na(model2Values) | is.na(yValues))
+  if(na.rm) {
+    goodPosns <- (!is.na(model1Values)) & (!is.na(model2Values)) & (!is.na(yValues))
+    model1Values <- model1Values[goodPosns]
+    model2Values <- model2Values[goodPosns]
+    yValues <- yValues[goodPosns]
+  }
+  dim <- length(yValues)
   observedScore1 <- scoreFn(model1Values,yValues)
   observedScore2 <- scoreFn(model2Values,yValues)
   resampleWorker <- mkResampleDiffWorker(model1Values=model1Values,
@@ -413,7 +455,9 @@ resampleScoreModelPair <- function(model1Values,
   observedDiff <- observedScore1-observedScore2
   detailedResampledScores <- listToDataFrame(detailedResampledScores)
   resampledDiffs <- detailedResampledScores$diff
-  ret <- estimateDifferenceZeroCrossing(resampledDiffs)
+  ret <- estimateDifferenceZeroCrossing(resampledDiffs, na.rm=FALSE)
+  ret$nNA <- nNA
+  ret$n <- dim
   ret$observedScore1 <- observedScore1
   ret$observedScore2 <- observedScore2
   ret$observedDiff <- observedDiff

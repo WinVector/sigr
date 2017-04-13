@@ -5,8 +5,8 @@
 \title{Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).}
 \usage{
 resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
-  returnScores = FALSE, nRep = 100, parallelCluster = NULL,
-  sameSample = FALSE)
+  na.rm = FALSE, returnScores = FALSE, nRep = 100,
+  parallelCluster = NULL, sameSample = FALSE)
 }
 \arguments{
 \item{model1Values}{numeric array of predictions (model to test).}
@@ -18,6 +18,8 @@ resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
 \item{...}{not used, forces later arguments to be bound by name.}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 
 \item{returnScores}{logical if TRUE return detailed resampledScores.}
 

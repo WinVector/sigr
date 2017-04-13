@@ -4,8 +4,8 @@
 \alias{resampleScoreModel}
 \title{Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).}
 \usage{
-resampleScoreModel(modelValues, yValues, scoreFn, ..., returnScores = FALSE,
-  nRep = 100, parallelCluster = NULL)
+resampleScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
+  returnScores = FALSE, nRep = 100, parallelCluster = NULL)
 }
 \arguments{
 \item{modelValues}{numeric array of predictions (model to test).}
@@ -15,6 +15,8 @@ resampleScoreModel(modelValues, yValues, scoreFn, ..., returnScores = FALSE,
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
 \item{...}{not used, forces later arguments to be bound by name}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 
 \item{returnScores}{logical if TRUE return detailed resampledScores}
 

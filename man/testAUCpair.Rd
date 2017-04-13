@@ -4,7 +4,7 @@
 \alias{testAUCpair}
 \title{Test AUC pair results.}
 \usage{
-testAUCpair(d, model1Name, model2Name, yName, yTarget, ...,
+testAUCpair(d, model1Name, model2Name, yName, yTarget, ..., na.rm = FALSE,
   returnScores = FALSE, nrep = 100, parallelCluster = NULL)
 }
 \arguments{
@@ -19,6 +19,8 @@ testAUCpair(d, model1Name, model2Name, yName, yTarget, ...,
 \item{yTarget}{target to match to y}
 
 \item{...}{extra arguments (not used)}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 
 \item{returnScores}{logical if TRUE return detailed resampledScores}
 

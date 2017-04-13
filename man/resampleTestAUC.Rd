@@ -4,8 +4,8 @@
 \alias{resampleTestAUC}
 \title{Wrap AUC resampling test results.}
 \usage{
-resampleTestAUC(d, modelName, yName, yTarget, ..., returnScores = FALSE,
-  nrep = 100, parallelCluster = NULL)
+resampleTestAUC(d, modelName, yName, yTarget, ..., na.rm = FALSE,
+  returnScores = FALSE, nrep = 100, parallelCluster = NULL)
 }
 \arguments{
 \item{d}{data.frame}
@@ -17,6 +17,8 @@ resampleTestAUC(d, modelName, yName, yTarget, ..., returnScores = FALSE,
 \item{yTarget}{target to match to y}
 
 \item{...}{extra arguments (not used)}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 
 \item{returnScores}{logical if TRUE return detailed resampledScores.}
 
