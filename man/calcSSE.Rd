@@ -4,12 +4,14 @@
 \alias{calcSSE}
 \title{Calculate sum of squared error.}
 \usage{
-calcSSE(pred, y)
+calcSSE(pred, y, na.rm = FALSE)
 }
 \arguments{
 \item{pred}{numeric predictions}
 
 \item{y}{numeric truth}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 sum of squared error

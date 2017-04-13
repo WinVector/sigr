@@ -5,8 +5,8 @@
 \title{Wrap quality statistic of a linear relation from data.}
 \usage{
 \method{wrapFTest}{data.frame}(x, predictionColumnName, yColumnName,
-  nParameters = 1, meany = mean(x[[yColumnName]]), ..., format,
-  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+  nParameters = 1, meany = mean(x[[yColumnName]]), ..., na.rm = FALSE,
+  format, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}
@@ -20,6 +20,8 @@
 \item{meany}{(optional) mean of y}
 
 \item{...}{extra arguments (not used)}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii", "docx")}
 

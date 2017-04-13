@@ -1,11 +1,12 @@
 
-'sigr' 0.1.6 2017-03-25
+'sigr' 0.1.6 2017-04-13
 
- * Enforce more types in calculations
+ * Enforce more types in calculations.
+ * Add na.rm options.
  
 'sigr' 0.1.5 2017-03-24
 
- * Enforce more types in calculations
+ * Enforce more types in calculations.
 
 'sigr' 0.1.4 2017-03-13
 

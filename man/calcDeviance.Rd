@@ -4,12 +4,16 @@
 \alias{calcDeviance}
 \title{Calculate deviance.}
 \usage{
-calcDeviance(pred, y)
+calcDeviance(pred, y, na.rm = FALSE, eps = 1e-06)
 }
 \arguments{
 \item{pred}{numeric predictions}
 
 \item{y}{logical truth}
+
+\item{na.rm}{logical, if TRUE remove NA values}
+
+\item{eps}{numeric, smoothing term}
 }
 \value{
 deviance

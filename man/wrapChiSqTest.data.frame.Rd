@@ -5,7 +5,7 @@
 \title{Format ChiSqTest from data.}
 \usage{
 \method{wrapChiSqTest}{data.frame}(x, predictionColumnName, yColumnName,
-  nParameters = 1, meany = mean(x[[yColumnName]]), ...)
+  nParameters = 1, meany = mean(x[[yColumnName]]), ..., na.rm = FALSE)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}
@@ -19,6 +19,8 @@
 \item{meany}{(optional) mean of y}
 
 \item{...}{extra arguments (not used)}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 wrapped test

@@ -140,6 +140,7 @@ wrapFTest.lm <- function(x,
 #' @param nParameters number of variables in model
 #' @param meany (optional) mean of y
 #' @param ... extra arguments (not used)
+#' @param na.rm logical, if TRUE remove NA values
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx")
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -156,13 +157,14 @@ wrapFTest.lm <- function(x,
 #'
 #' @export
 wrapFTest.data.frame <- function(x,
-                                   predictionColumnName, yColumnName,
-                                   nParameters=1,
-                                   meany=mean(x[[yColumnName]]),
-                                   ...,
-                                   format,
-                                   pLargeCutoff=0.05,
-                                   pSmallCutoff=1.0e-5) {
+                                 predictionColumnName, yColumnName,
+                                 nParameters= 1,
+                                 meany= mean(x[[yColumnName]]),
+                                 ...,
+                                 na.rm= FALSE,
+                                 format,
+                                 pLargeCutoff= 0.05,
+                                 pSmallCutoff= 1.0e-5) {
   d <- x
   y <- d[[yColumnName]]
   if(!is.numeric(y)) {
@@ -175,6 +177,13 @@ wrapFTest.data.frame <- function(x,
   if(length(list(...))) {
     stop('wrapFTest.data.frame extra arguments')
   }
+  nNA <- sum(is.na(predictionColumnName) | is.na(yColumnName))
+  if(na.rm) {
+    goodPosns <- (!is.na(predictionColumnName)) & (!is.na(yColumnName))
+    predictionColumnName <- predictionColumnName[goodPosns]
+    yColumnName <- yColumnName[goodPosns]
+  }
+  n <- length(predictionColumnName)
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
@@ -190,5 +199,8 @@ wrapFTest.data.frame <- function(x,
   p1 <- 1
   p2 <- 1 + nParameters
   FValue = ((rss1-rss2)/(p2-p1))/(rss2/(n-p2))
-  wrapFTestImpl(p2-p1,n-p2,FValue)
+  res <- wrapFTestImpl(p2-p1,n-p2,FValue)
+  res$n <- n
+  res$nNA <- nNA
+  res
 }

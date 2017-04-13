@@ -4,12 +4,14 @@
 \alias{calcAUC}
 \title{calculate AUC.}
 \usage{
-calcAUC(modelPredictions, yValues)
+calcAUC(modelPredictions, yValues, na.rm = FALSE)
 }
 \arguments{
 \item{modelPredictions}{numeric predictions (not empty)}
 
 \item{yValues}{logical truth (not empty, same lenght as model predictions)}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 area under curve

@@ -92,7 +92,8 @@ wrapFisherTest.htest <- function(x,
 #' @param x data.frame
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
-#' @param ... extra arguments
+#' @param ... extra arguments passed to fisher.test
+#' @param na.rm logical, if TRUE remove NA values
 #' @return wrapped test.
 #'
 #' @examples
@@ -108,15 +109,24 @@ wrapFisherTest.htest <- function(x,
 wrapFisherTest.data.frame <- function(x,
                                       Column1Name,
                                       Column2Name,
-                                 ...) {
-  if(length(list(...))) {
-    stop('wrapFisherTest.data.frame extra arguments')
+                                      ...,
+                                      na.rm= FALSE) {
+  c1 <- x[[Column1Name]]
+  c2 <- x[[Column2Name]]
+  nNA <- sum(is.na(c1) | is.na(c2))
+  if(na.rm) {
+    goodPosns <- (!is.na(c1)) & (!is.na(c2))
+    c1 <- c1[goodPosns]
+    c2 <- c2[goodPosns]
   }
-  ft <- fisher.test(table(x[[Column1Name]],x[[Column2Name]]),...)
+  n <- length(c1)
+  ft <- fisher.test(table(c1,c2),...)
   r <- list(ft=ft,
             test='fisher.test',
             Column1Name=Column1Name,
-            Column2Name=Column2Name)
+            Column2Name=Column2Name,
+            n=n,
+            nNA=nNA)
   class(r) <- c('sigr_fishertest', 'sigr_statistic')
   r
 }

@@ -4,7 +4,8 @@
 \alias{wrapTTest.data.frame}
 \title{Wrap t.test (difference in means by group).}
 \usage{
-\method{wrapTTest}{data.frame}(x, Column1Name, Column2Name, ...)
+\method{wrapTTest}{data.frame}(x, Column1Name, Column2Name, ...,
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
@@ -13,7 +14,9 @@
 
 \item{Column2Name}{character column 2 name}
 
-\item{...}{extra arguments}
+\item{...}{extra arguments passed to ttest}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 formatted string and fields

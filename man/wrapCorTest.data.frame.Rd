@@ -4,7 +4,8 @@
 \alias{wrapCorTest.data.frame}
 \title{Wrap cor.test (test of liner correlation).}
 \usage{
-\method{wrapCorTest}{data.frame}(x, Column1Name, Column2Name, ...)
+\method{wrapCorTest}{data.frame}(x, Column1Name, Column2Name, ...,
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
@@ -13,7 +14,9 @@
 
 \item{Column2Name}{character column 2 name}
 
-\item{...}{extra arguments}
+\item{...}{extra arguments passed to cor.test}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 wrapped stat

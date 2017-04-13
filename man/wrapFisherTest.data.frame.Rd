@@ -4,7 +4,8 @@
 \alias{wrapFisherTest.data.frame}
 \title{Wrap fisher.test (test of categorial indendence).}
 \usage{
-\method{wrapFisherTest}{data.frame}(x, Column1Name, Column2Name, ...)
+\method{wrapFisherTest}{data.frame}(x, Column1Name, Column2Name, ...,
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
@@ -13,7 +14,9 @@
 
 \item{Column2Name}{character column 2 name}
 
-\item{...}{extra arguments}
+\item{...}{extra arguments passed to fisher.test}
+
+\item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
 wrapped test.

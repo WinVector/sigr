@@ -92,7 +92,8 @@ wrapCorTest.htest <- function(x,
 #' @param x data.frame
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
-#' @param ... extra arguments
+#' @param ... extra arguments passed to cor.test
+#' @param na.rm logical, if TRUE remove NA values
 #' @return wrapped stat
 #'
 #' @examples
@@ -108,18 +109,30 @@ wrapCorTest.htest <- function(x,
 wrapCorTest.data.frame <- function(x,
                                    Column1Name,
                                    Column2Name,
-                              ...) {
+                                   ...,
+                                   na.rm= FALSE) {
   if(!is.numeric(x[[Column1Name]])) {
     stop("wrapr::wrapCorTest.data.frame column 1 must be numeric")
   }
   if(!is.numeric(x[[Column2Name]])) {
     stop("wrapr::wrapCorTest.data.frame column 2 must be numeric")
   }
-  ct <- cor.test(x[[Column1Name]],x[[Column2Name]],...)
+  c1 <- x[[Column1Name]]
+  c2 <- x[[Column2Name]]
+  nNA <- sum(is.na(c1) | is.na(c2))
+  if(na.rm) {
+    goodPosns <- (!is.na(c1)) & (!is.na(c2))
+    c1 <- c1[goodPosns]
+    c2 <- c2[goodPosns]
+  }
+  n <- length(c1)
+  ct <- cor.test(c1,c2,...)
   r <- list(ct=ct,
             test='cor.test',
             Column1Name=Column1Name,
-            Column2Name=Column2Name)
+            Column2Name=Column2Name,
+            n=n,
+            nNA=nNA)
   class(r) <- c('sigr_cortest', 'sigr_statistic')
   r
 }

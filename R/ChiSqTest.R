@@ -145,6 +145,7 @@ wrapChiSqTest.glm <- function(x,
 #' @param nParameters number of variables in model
 #' @param meany (optional) mean of y
 #' @param ... extra arguments (not used)
+#' @param na.rm logical, if TRUE remove NA values
 #' @return wrapped test
 #'
 #' @examples
@@ -158,10 +159,11 @@ wrapChiSqTest.glm <- function(x,
 #'
 #' @export
 wrapChiSqTest.data.frame <- function(x,
-                                       predictionColumnName, yColumnName,
-                                       nParameters=1,
-                                       meany=mean(x[[yColumnName]]),
-                                       ...) {
+                                     predictionColumnName, yColumnName,
+                                     nParameters= 1,
+                                     meany= mean(x[[yColumnName]]),
+                                     ...,
+                                     na.rm= FALSE) {
   d <- x
   y <- d[[yColumnName]]
   if(!is.logical(y)) {
@@ -174,12 +176,21 @@ wrapChiSqTest.data.frame <- function(x,
   if(length(list(...))) {
     stop('wrapChiSqTest.data.frame extra arguments')
   }
+  nNA <- sum(is.na(predictions) | is.na(t))
+  if(na.rm) {
+    goodPosns <- (!is.na(predictions)) & (!is.na(y))
+    predictions <- predictions[goodPosns]
+    y <- y[goodPosns]
+  }
   n <- length(y)
   df.null <- n-1
   df.residual <- n-(1+nParameters)
   null.deviance <- calcDeviance(meany,y)
   deviance <- calcDeviance(predictions,y)
-  wrapChiSqTestImpl(df.null,df.residual,
+  res <- wrapChiSqTestImpl(df.null,df.residual,
                   null.deviance,deviance)
+  res$nNA <- nNA
+  res$n <- n
+  res
 }
 

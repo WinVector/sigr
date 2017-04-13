@@ -78,6 +78,8 @@ plapply <- function(workList, worker, parallelCluster) {
 #'
 #' @param pred numeric predictions
 #' @param y logical truth
+#' @param na.rm logical, if TRUE remove NA values
+#' @param eps numeric, smoothing term
 #' @return deviance
 #'
 #' @examples
@@ -85,7 +87,9 @@ plapply <- function(workList, worker, parallelCluster) {
 #' sigr::calcDeviance(1:4,c(TRUE,FALSE,TRUE,TRUE))
 #'
 #' @export
-calcDeviance <- function(pred, y) {
+calcDeviance <- function(pred, y,
+                         na.rm= FALSE,
+                         eps= 1.0e-6) {
   if(!is.numeric(pred)) {
     stop("sigr::calcDeviance pred must be numeric")
   }
@@ -98,7 +102,11 @@ calcDeviance <- function(pred, y) {
   if(length(pred)!=length(y)) {
     stop("sigr::calcDeviance must have length(pred)==length(y)")
   }
-  eps <- 1.0e-6
+  if(na.rm) {
+    goodPosns <- (!is.na(pred)) & (!is.na(y))
+    pred <- pred[goodPosns]
+    y <- y[goodPosns]
+  }
   -2*sum(log(pmin(1-eps,pmax(eps,ifelse(y,pred,1-pred)))))
 }
 
@@ -107,6 +115,7 @@ calcDeviance <- function(pred, y) {
 #'
 #' @param pred numeric predictions
 #' @param y numeric truth
+#' @param na.rm logical, if TRUE remove NA values
 #' @return sum of squared error
 #'
 #' @examples
@@ -114,7 +123,8 @@ calcDeviance <- function(pred, y) {
 #' sigr::calcSSE(1:4,c(1,0,1,1))
 #'
 #' @export
-calcSSE <- function(pred, y) {
+calcSSE <- function(pred, y,
+                    na.rm= FALSE) {
   if(!is.numeric(pred)) {
     stop("sigr::calcSSE pred must be numeric")
   }
@@ -126,6 +136,11 @@ calcSSE <- function(pred, y) {
   }
   if(length(pred)!=length(y)) {
     stop("sigr::calcSSE must have length(pred)==length(y)")
+  }
+  if(na.rm) {
+    goodPosns <- (!is.na(pred)) & (!is.na(y))
+    pred <- pred[goodPosns]
+    y <- y[goodPosns]
   }
   sum((y-pred)^2)
 }
@@ -139,6 +154,7 @@ calcSSE <- function(pred, y) {
 #'
 #' @param modelPredictions numeric predictions (not empty)
 #' @param yValues logical truth (not empty, same lenght as model predictions)
+#' @param na.rm logical, if TRUE remove NA values
 #' @return area under curve
 #'
 #' @examples
@@ -146,7 +162,8 @@ calcSSE <- function(pred, y) {
 #' sigr::calcAUC(1:4,c(TRUE,FALSE,TRUE,TRUE)) # should be 2/3
 #'
 #' @export
-calcAUC <- function(modelPredictions, yValues) {
+calcAUC <- function(modelPredictions, yValues,
+                    na.rm= FALSE) {
   if(!is.numeric(modelPredictions)) {
     stop("sigr::calcAUC modelPredictions must be numeric")
   }
@@ -155,6 +172,11 @@ calcAUC <- function(modelPredictions, yValues) {
   }
   if(length(modelPredictions)!=length(yValues)) {
     stop("sigr::calcAUC must have length(modelPredictions)==length(yValues)")
+  }
+  if(na.rm) {
+    goodPosns <- (!is.na(modelPredictions)) & (!is.na(yValues))
+    modelPredictions <- modelPredictions[goodPosns]
+    yValues <- yValues[goodPosns]
   }
   ord <- order(modelPredictions, decreasing=TRUE)
   yValues <- yValues[ord]
