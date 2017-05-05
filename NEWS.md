@@ -1,5 +1,5 @@
 
-'sigr' 0.1.6 2017-04-13
+'sigr' 0.1.6 2017-05-05
 
  * Enforce more types in calculations.
  * Add na.rm options.
