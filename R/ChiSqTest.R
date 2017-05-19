@@ -176,7 +176,7 @@ wrapChiSqTest.data.frame <- function(x,
   if(length(list(...))) {
     stop('wrapChiSqTest.data.frame extra arguments')
   }
-  nNA <- sum(is.na(predictions) | is.na(t))
+  nNA <- sum(is.na(predictions) | is.na(y))
   if(na.rm) {
     goodPosns <- (!is.na(predictions)) & (!is.na(y))
     predictions <- predictions[goodPosns]
