@@ -1,5 +1,5 @@
 
-'sigr' 0.1.7 2017-05-18
+'sigr' 0.1.7 2017-07-04
 
  * Fix NA warning bug in wrapChiSqTest.data.frame.
 
