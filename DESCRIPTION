@@ -20,3 +20,4 @@ Suggests: parallel,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
+ByteCompile: true
