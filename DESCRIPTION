@@ -3,9 +3,13 @@ Type: Package
 Title: Format Significance Summaries for Reports
 Version: 0.1.7
 Date: 2017-07-04
-Author: John Mount, Nina Zumel
+Authors@R: c(
+    person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
+    person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
+    person(family = "Win-Vector LLC", role = c("cph"))
+    )
+URL: http://winvector.github.io/sigr/
 Maintainer: John Mount <jmount@win-vector.com>
-URL: https://github.com/WinVector/sigr
 BugReports: https://github.com/WinVector/sigr/issues
 Description: Succinctly format significance summaries of
     various models and tests (F-test, Chi-Sq-test, Fisher-test, T-test, and rank-significance).  The main purpose is unified reporting and planning

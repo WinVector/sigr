@@ -1,10 +1,11 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 sigr
 ====
 
 Concise formatting of significances in R (GPL3 license).
 
-![](tools/sigr.png)
+![](https://github.com/WinVector/sigr/raw/master/tools/sigr.png)
 
 Please see [Adding polished significance summaries to papers using R](http://www.win-vector.com/blog/2016/10/adding-polished-significance-summaries-to-papers-using-r/) for some discussion.
 
