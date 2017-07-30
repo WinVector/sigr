@@ -8,7 +8,7 @@ Authors@R: c(
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
     person(family = "Win-Vector LLC", role = c("cph"))
     )
-URL: http://winvector.github.io/sigr/
+URL: https://github.com/WinVector/sigr/, https://winvector.github.io/sigr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/sigr/issues
 Description: Succinctly format significance summaries of
