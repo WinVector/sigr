@@ -4,8 +4,8 @@
 \alias{render}
 \title{Format summary roughly in "APA Style" ( American Psychological Association ).}
 \usage{
-render(statistic, ..., format, sigDigits = 2, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+render(statistic, ..., format, statDigits = 2, sigDigits = 2,
+  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{statistic}{sigr summary statistic}
@@ -14,7 +14,9 @@ render(statistic, ..., format, sigDigits = 2, pLargeCutoff = 0.05,
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii")}
 
-\item{sigDigits}{integer number of digits to show}
+\item{statDigits}{integer number of digits to show in summaries (not yet implemented in all classes).}
+
+\item{sigDigits}{integer number of digits to show in significances.}
 
 \item{pLargeCutoff}{value to declare non-significance at or above.}
 

@@ -5,7 +5,8 @@
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param sigDigits integer number of digits to show
+#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
@@ -15,6 +16,7 @@
 render.sigr_chisqtest <- function(statistic,
                               ...,
                               format,
+                              statDigits=2,
                               sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {

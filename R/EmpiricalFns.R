@@ -20,7 +20,8 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param sigDigits integer number of digits to show
+#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
@@ -28,11 +29,12 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 #'
 #' @export
 render.sigr_permtest <- function(statistic,
-                                  ...,
-                                  format,
-                                  sigDigits=2,
-                                  pLargeCutoff=0.05,
-                                  pSmallCutoff=1.0e-5) {
+                                 ...,
+                                 format,
+                                 statDigits=2,
+                                 sigDigits=2,
+                                 pLargeCutoff=0.05,
+                                 pSmallCutoff=1.0e-5) {
   if(length(list(...))>0) {
     stop("render.sigr_emptest unexpected arguments")
   }
@@ -293,7 +295,8 @@ listToDataFrame <- function(rows) {
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param sigDigits integer number of digits to show
+#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
@@ -303,6 +306,7 @@ listToDataFrame <- function(rows) {
 render.sigr_emptest <- function(statistic,
                                 ...,
                                 format,
+                                statDigits=2,
                                 sigDigits=2,
                                 pLargeCutoff=0.05,
                                 pSmallCutoff=1.0e-5) {

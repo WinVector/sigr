@@ -1,4 +1,8 @@
 
+# sigr 0.2.0 2017-08-14
+
+ * Make sigfig a bit more flexible.
+
 # sigr 0.1.7 2017-07-04
 
  * Fix NA warning bug in wrapChiSqTest.data.frame.

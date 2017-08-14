@@ -6,7 +6,8 @@
 #' @param statistic wrapped cor.test.
 #' @param ... extra arguments (not used)
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
-#' @param sigDigits integer number of digits to show
+#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
@@ -23,6 +24,7 @@
 render.sigr_cortest <- function(statistic,
                           ...,
                           format,
+                          statDigits=2,
                           sigDigits=2,
                           pLargeCutoff=0.05,
                           pSmallCutoff=1.0e-5) {

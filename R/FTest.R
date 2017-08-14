@@ -15,7 +15,8 @@ wrapFTest <- function(x,...) UseMethod('wrapFTest')
 #' @param statistic wrapped test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param sigDigits integer number of digits to show
+#' @param statDigits integer number of digits to show in summaries.
+#' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
 #' @return formatted string
@@ -25,6 +26,7 @@ wrapFTest <- function(x,...) UseMethod('wrapFTest')
 render.sigr_ftest <- function(statistic,
                               ...,
                               format,
+                              statDigits=3,
                               sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
@@ -44,13 +46,14 @@ render.sigr_ftest <- function(statistic,
                     sigDigits=sigDigits,
                     pLargeCutoff=pLargeCutoff,
                     pSmallCutoff=pSmallCutoff)
+  statStr <- paste0('%.',statDigits,'g')
   formatStr =
     paste0(fsyms['startB'],'F Test',fsyms['endB'],
            ' summary: (',fsyms['RSq'],'=',
-           sprintf('%.2g',statistic$R2),
+           sprintf(statStr,statistic$R2),
            ', ',fsyms['startI'],'F',fsyms['endI'],
            '(',statistic$numdf,',',statistic$dendf,')=',
-           sprintf('%.2g',statistic$FValue),
+           sprintf(statStr,statistic$FValue),
            ', ',pString,').')
   formatStr
 }

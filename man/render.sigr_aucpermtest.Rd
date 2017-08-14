@@ -4,8 +4,8 @@
 \alias{render.sigr_aucpermtest}
 \title{Format an AUC-test (quality of a probability score)}
 \usage{
-\method{render}{sigr_aucpermtest}(statistic, ..., format, sigDigits = 2,
-  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{render}{sigr_aucpermtest}(statistic, ..., format, statDigits = 2,
+  sigDigits = 2, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{statistic}{wrapped AUC test}
@@ -14,7 +14,9 @@
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii")}
 
-\item{sigDigits}{integer number of digits to show}
+\item{statDigits}{integer number of digits to show in summaries (not implemented yet).}
+
+\item{sigDigits}{integer number of digits to show in significances.}
 
 \item{pLargeCutoff}{value to declare non-significance at or above.}
 

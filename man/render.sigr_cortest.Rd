@@ -4,8 +4,8 @@
 \alias{render.sigr_cortest}
 \title{Format cor.test (test of liner correlation).}
 \usage{
-\method{render}{sigr_cortest}(statistic, ..., format, sigDigits = 2,
-  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{render}{sigr_cortest}(statistic, ..., format, statDigits = 2,
+  sigDigits = 2, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{statistic}{wrapped cor.test.}
@@ -14,7 +14,9 @@
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)}
 
-\item{sigDigits}{integer number of digits to show}
+\item{statDigits}{integer number of digits to show in summaries (not yet implemented).}
+
+\item{sigDigits}{integer number of digits to show in significances.}
 
 \item{pLargeCutoff}{value to declare non-significance at or above.}
 
