@@ -5,7 +5,7 @@
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param statDigits integer number of digits to show in summaries.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -30,6 +30,7 @@ render.sigr_chisqtest <- function(statistic,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
+  statStr <- paste0('%.',statDigits,'g')
   pString <- render(wrapSignificance(statistic$pValue,
                                      symbol='p'),
                     format=format,
@@ -39,13 +40,13 @@ render.sigr_chisqtest <- function(statistic,
   formatStr <- paste0(fsyms['startB'],'Chi-Square Test',fsyms['endB'],
                       ' summary: ',
                       fsyms['startI'],'pseudo-',fsyms['RSq'],fsyms['endI'],'=',
-                      sprintf('%.2g',statistic$pseudoR2),
+                      sprintf(statStr,statistic$pseudoR2),
                       ' (',
                       fsyms['chiSq'],'(',
                       statistic$delta_df,
                       ',', fsyms['startI'],'N',fsyms['endI'],
                       '=',(1+statistic$df.null),')=',
-                      sprintf('%.2g',statistic$delta_deviance),
+                      sprintf(statStr,statistic$delta_deviance),
                       ', ',pString,').')
   formatStr
 }
