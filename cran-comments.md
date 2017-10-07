@@ -3,7 +3,9 @@
 
  * using R version 3.4.1 (2017-06-30)
  * using platform: x86_64-apple-darwin15.6.0 (64-bit)
- * win-builder (devel and release) 
+ 
+ * using R Under development (unstable) (2017-09-12 r73242)
+ * using platform: x86_64-w64-mingw32 (64-bit)
 
 ## R CMD check --as-cran sigr_0.2.0.tar.gz 
 
