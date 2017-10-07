@@ -209,7 +209,7 @@ wrapFTest.data.frame <- function(x,
 }
 
 
-#' Wrap quality statistic of a linear relation from data.
+#' Wrap quality statistic of a linear relation from anova.
 #'
 #' @param x result from stats::anova(stats::lm())
 #' @param ... extra arguments (not used)
@@ -246,3 +246,25 @@ wrapFTest.anova <- function(x,
   names(res) <- attr(x,"row.names")[seq_len(n-1)]
   res
 }
+
+#' Wrap quality statistic of a linear relation from ezANOVA (package ez).
+#'
+#' Please see \url{https://github.com/WinVector/sigr/issues/1#issuecomment-322311947} for an example.
+#'
+#' @param x list result from ezANOVA (package ez).
+#' @param ... extra arguments (not used)
+#' @return formatted string and fields
+#'
+#'
+#' @export
+wrapFTestezANOVA <- function(x,
+                            ...) {
+  fs <- lapply(seq_len(nrow(x$ANOVA)),
+               function(rowIndex) {
+                 row <- x$ANOVA[rowIndex, , drop=FALSE]
+                 sigr::wrapFTestImpl(row$DFn, row$DFd, row$F)
+               })
+  names(fs) <- x$ANOVA$Effect
+  fs
+}
+

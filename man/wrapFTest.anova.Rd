@@ -2,7 +2,7 @@
 % Please edit documentation in R/FTest.R
 \name{wrapFTest.anova}
 \alias{wrapFTest.anova}
-\title{Wrap quality statistic of a linear relation from data.}
+\title{Wrap quality statistic of a linear relation from anova.}
 \usage{
 \method{wrapFTest}{anova}(x, ...)
 }
@@ -15,7 +15,7 @@
 formatted string and fields
 }
 \description{
-Wrap quality statistic of a linear relation from data.
+Wrap quality statistic of a linear relation from anova.
 }
 \examples{
 

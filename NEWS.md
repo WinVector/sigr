@@ -4,6 +4,7 @@
  * Make sigfig a bit more flexible.
  * Add Cohen's d.
  * Add lm() anova wrapper wrapFTest.anova().
+ * Add ez::ezANOVA adapter.
 
 # sigr 0.1.7 2017-07-04
 
