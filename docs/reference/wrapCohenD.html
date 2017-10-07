@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Format an AUC-test (quality of a probability score) — render.sigr_aucresamptest • sigr</title>
+<title>Wrap Cohen's D (effect size between groups). — wrapCohenD • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -95,53 +95,31 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Format an AUC-test (quality of a probability score)</h1>
+    <h1>Wrap Cohen's D (effect size between groups).</h1>
     </div>
 
     
-    <p>Format an AUC-test (quality of a probability score)</p>
+    <p>Wrap Cohen's D (effect size between groups).</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for sigr_aucresamptest</span>
-<span class='fu'><a href='render.html'>render</a></span>(<span class='no'>statistic</span>, <span class='no'>...</span>, <span class='no'>format</span>, <span class='kw'>statDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>sigDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>pSmallCutoff</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>)</pre>
+    <pre class="usage"><span class='fu'>wrapCohenD</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>statistic</th>
-      <td><p>wrapped AUC test</p></td>
+      <th>x</th>
+      <td><p>numeric, data.frame or test.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>not used, force use of named binding for later arguments</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>if set the format to return ("html", "latex", "markdown", "ascii")</p></td>
-    </tr>
-    <tr>
-      <th>statDigits</th>
-      <td><p>integer number of digits to show in summaries (not implemented yet).</p></td>
-    </tr>
-    <tr>
-      <th>sigDigits</th>
-      <td><p>integer number of digits to show in significances.</p></td>
-    </tr>
-    <tr>
-      <th>pLargeCutoff</th>
-      <td><p>value to declare non-significance at or above.</p></td>
-    </tr>
-    <tr>
-      <th>pSmallCutoff</th>
-      <td><p>smallest value to print</p></td>
+      <td><p>extra arguments</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>formatted string</p>
+    <p><code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code>, <code><a href='wrapCohenD.effsize.html'>wrapCohenD.effsize</a></code>, and <code><a href='wrapCohenD.data.frame.html'>wrapCohenD.data.frame</a></code></p>
     
 
   </div>
@@ -150,7 +128,7 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

@@ -103,8 +103,8 @@
     
 
     <pre class="usage"><span class='co'># S3 method for sigr_fishertest</span>
-<span class='fu'><a href='render.html'>render</a></span>(<span class='no'>statistic</span>, <span class='no'>...</span>, <span class='no'>format</span>, <span class='kw'>sigDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>pSmallCutoff</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>)</pre>
+<span class='fu'><a href='render.html'>render</a></span>(<span class='no'>statistic</span>, <span class='no'>...</span>, <span class='no'>format</span>, <span class='kw'>statDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>sigDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>pSmallCutoff</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -122,8 +122,12 @@
       <td><p>if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)</p></td>
     </tr>
     <tr>
+      <th>statDigits</th>
+      <td><p>integer number of digits to show in summaries (not yet implemented).</p></td>
+    </tr>
+    <tr>
       <th>sigDigits</th>
-      <td><p>integer number of digits to show</p></td>
+      <td><p>integer number of digits to show in significances.</p></td>
     </tr>
     <tr>
       <th>pLargeCutoff</th>
