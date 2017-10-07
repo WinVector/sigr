@@ -222,7 +222,7 @@ wrapFTest.data.frame <- function(x,
 #'                 y =  c(1,1,2,2,3,3,4,4))
 #' model <- lm(y~x1+x2, data=d)
 #' summary(model)
-#' sigr::wrapFTest(model, pLargeCutoff= 1, pSmallCutoff= 0)
+#' sigr::wrapFTest(model)
 #' anov <- stats::anova(model)
 #' print(anov)
 #' lapply(sigr::wrapFTest(anov),
