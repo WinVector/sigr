@@ -213,7 +213,7 @@ wrapFTest.data.frame <- function(x,
 #'
 #' @param x result from stats::anova(stats::lm())
 #' @param ... extra arguments (not used)
-#' @return formatted string and fields
+#' @return list of formatted string and fields
 #'
 #' @examples
 #'
@@ -253,7 +253,7 @@ wrapFTest.anova <- function(x,
 #'
 #' @param x list result from ezANOVA (package ez).
 #' @param ... extra arguments (not used)
-#' @return formatted string and fields
+#' @return list of formatted string and fields
 #'
 #'
 #' @export

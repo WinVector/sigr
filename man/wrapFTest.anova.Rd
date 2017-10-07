@@ -12,7 +12,7 @@
 \item{...}{extra arguments (not used)}
 }
 \value{
-formatted string and fields
+list of formatted string and fields
 }
 \description{
 Wrap quality statistic of a linear relation from anova.

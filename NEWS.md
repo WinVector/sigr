@@ -4,7 +4,9 @@
  * Make sigfig a bit more flexible.
  * Add Cohen's d.
  * Add lm() anova wrapper wrapFTest.anova().
- * Add ez::ezANOVA adapter.
+ * Add glm(family=binomial) anova wrapper wrapChiSqTest.anova().
+ * Add ez::ezANOVA linear adapter.
+ * Some statistic presentation sigfig fixes.
 
 # sigr 0.1.7 2017-07-04
 

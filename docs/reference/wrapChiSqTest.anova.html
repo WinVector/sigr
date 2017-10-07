@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap quality statistic of a linear relation from anova. — wrapFTest.anova • sigr</title>
+<title>Format ChiSqTest from anova of logistic model. — wrapChiSqTest.anova • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -95,22 +95,22 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap quality statistic of a linear relation from anova.</h1>
+    <h1>Format ChiSqTest from anova of logistic model.</h1>
     </div>
 
     
-    <p>Wrap quality statistic of a linear relation from anova.</p>
+    <p>Format ChiSqTest from anova of logistic model.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for anova</span>
-<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>result from stats::anova(stats::lm())</p></td>
+      <td><p>result from stats::anova(stats::glm(family=binomial))</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -125,39 +125,46 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x1</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
-                <span class='kw'>x2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>3</span>,<span class='fl'>0</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>0</span>,<span class='fl'>7</span>),
-                <span class='kw'>y</span> <span class='kw'>=</span>  <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>))
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span>~<span class='no'>x1</span>+<span class='no'>x2</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span>)
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x1</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
+                <span class='kw'>x2</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>3</span>,<span class='fl'>0</span>,<span class='fl'>5</span>,<span class='fl'>0</span>,<span class='fl'>7</span>,<span class='fl'>0</span>),
+                <span class='kw'>y</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>FALSE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>))
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>y</span>~<span class='no'>x1</span>+<span class='no'>x2</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='no'>binomial</span>)
 <span class='fu'>summary</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
-#&gt; lm(formula = y ~ x1 + x2, data = d)
+#&gt; glm(formula = y ~ x1 + x2, family = binomial, data = d)
 #&gt; 
-#&gt; Residuals:
-#&gt;       1       2       3       4       5       6       7       8 
-#&gt;  0.2321 -0.2550  0.1891 -0.2636  0.1461 -0.3754  0.2235  0.1032 
+#&gt; Deviance Residuals: 
+#&gt;       1        2        3        4        5        6        7        8  
+#&gt;  1.4129  -0.8023  -1.4143  -0.8406   0.6005   1.5073   0.3604  -0.9003  
 #&gt; 
 #&gt; Coefficients:
-#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
-#&gt; (Intercept)  0.24642    0.24273   1.015 0.356584    
-#&gt; x1           0.50430    0.05820   8.665 0.000338 ***
-#&gt; x2           0.01719    0.04519   0.380 0.719246    
-#&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt;             Estimate Std. Error z value Pr(&gt;|z|)
+#&gt; (Intercept) -1.07841    1.82679  -0.590    0.555
+#&gt; x1           0.05496    0.38834   0.142    0.887
+#&gt; x2           0.48504    0.41171   1.178    0.239
 #&gt; 
-#&gt; Residual standard error: 0.299 on 5 degrees of freedom
-#&gt; Multiple R-squared:  0.9553,	Adjusted R-squared:  0.9374 
-#&gt; F-statistic: 53.43 on 2 and 5 DF,  p-value: 0.0004224
-#&gt; </div><div class='input'><span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sigr/topics/wrapFTest'>wrapFTest</a></span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.955, F(2,5)=53.4, p=0.00042)."</div><div class='input'><span class='no'>anov</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>model</span>)
-<span class='fu'>print</span>(<span class='no'>anov</span>)</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; (Dispersion parameter for binomial family taken to be 1)
+#&gt; 
+#&gt;     Null deviance: 11.0904  on 7  degrees of freedom
+#&gt; Residual deviance:  8.9199  on 5  degrees of freedom
+#&gt; AIC: 14.92
+#&gt; 
+#&gt; Number of Fisher Scoring iterations: 4
+#&gt; </div><div class='input'><span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='no'>model</span>),
+       <span class='kw'>pLargeCutoff</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>'ascii'</span>)</div><div class='output co'>#&gt; [1] "Chi-Square Test summary: pseudo-R2=0.2 (X2(2,N=8)=2.2, p=0.34)."</div><div class='input'><span class='no'>anov</span> <span class='kw'>&lt;-</span> <span class='fu'>anova</span>(<span class='no'>model</span>)
+<span class='fu'>print</span>(<span class='no'>anov</span>)</div><div class='output co'>#&gt; Analysis of Deviance Table
+#&gt; 
+#&gt; Model: binomial, link: logit
 #&gt; 
 #&gt; Response: y
-#&gt;           Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
-#&gt; x1         1 9.5401  9.5401 106.7142 0.0001463 ***
-#&gt; x2         1 0.0129  0.0129   0.1447 0.7192462    
-#&gt; Residuals  5 0.4470  0.0894                       
-#&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'>lapply</span>(<span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sigr/topics/wrapFTest'>wrapFTest</a></span>(<span class='no'>anov</span>),
+#&gt; 
+#&gt; Terms added sequentially (first to last)
+#&gt; 
+#&gt; 
+#&gt;      Df Deviance Resid. Df Resid. Dev
+#&gt; NULL                     7    11.0904
+#&gt; x1    1  0.25309         6    10.8373
+#&gt; x2    1  1.91735         5     8.9199</div><div class='input'><span class='fu'>lapply</span>(<span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sigr/topics/wrapChiSqTest'>wrapChiSqTest</a></span>(<span class='no'>anov</span>),
        <span class='kw'>function</span>(<span class='no'>ti</span>) {
          <span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sigr/topics/render'>render</a></span>(<span class='no'>ti</span>,
                       <span class='kw'>pLargeCutoff</span><span class='kw'>=</span> <span class='fl'>1</span>,
@@ -166,10 +173,10 @@
                       <span class='kw'>sigDigits</span><span class='kw'>=</span><span class='fl'>3</span>,
                       <span class='kw'>format</span><span class='kw'>=</span><span class='st'>'ascii'</span>)
        })</div><div class='output co'>#&gt; $x1
-#&gt; [1] "F Test summary: (R2=0.9552, F(1,5)=106.7, p=0.000146)."
+#&gt; [1] "Chi-Square Test summary: pseudo-R2=0.02282 (X2(1,N=8)=0.2531, p=0.615)."
 #&gt; 
 #&gt; $x2
-#&gt; [1] "F Test summary: (R2=0.02813, F(1,5)=0.1447, p=0.719)."
+#&gt; [1] "Chi-Square Test summary: pseudo-R2=0.1957 (X2(2,N=8)=2.17, p=0.338)."
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

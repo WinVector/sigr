@@ -12,7 +12,7 @@ wrapFTestezANOVA(x, ...)
 \item{...}{extra arguments (not used)}
 }
 \value{
-formatted string and fields
+list of formatted string and fields
 }
 \description{
 Please see \url{https://github.com/WinVector/sigr/issues/1#issuecomment-322311947} for an example.
