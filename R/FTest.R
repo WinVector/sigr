@@ -207,3 +207,42 @@ wrapFTest.data.frame <- function(x,
   res$nNA <- nNA
   res
 }
+
+
+#' Wrap quality statistic of a linear relation from data.
+#'
+#' @param x result from stats::anova(stats::lm())
+#' @param ... extra arguments (not used)
+#' @return formatted string and fields
+#'
+#' @examples
+#'
+#' d <- data.frame(x1 = c(1,2,3,4,5,6,7,7),
+#'                 x2 = c(1,0,3,0,5,6,0,7),
+#'                 y =  c(1,1,2,2,3,3,4,4))
+#' model <- lm(y~x1+x2, data=d)
+#' summary(model)
+#' sigr::wrapFTest(model, pLargeCutoff= 1, pSmallCutoff= 0)
+#' anov <- stats::anova(model)
+#' print(anov)
+#' lapply(sigr::wrapFTest(anov),
+#'        function(ti) {
+#'          sigr::render(ti,
+#'                       pLargeCutoff= 1,
+#'                       pSmallCutoff= 0,
+#'                       statDigits=4,
+#'                       sigDigits=3,
+#'                       format='ascii')
+#'        })
+#'
+#' @export
+wrapFTest.anova <- function(x,
+                            ...) {
+  n <- length(x$Df)
+  res <- lapply(seq_len(n-1),
+                function(i) {
+                  wrapFTestImpl(x$Df[[i]], x$Df[[n]], x$`F value`[[i]])
+                })
+  names(res) <- attr(x,"row.names")[seq_len(n-1)]
+  res
+}

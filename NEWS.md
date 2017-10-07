@@ -2,7 +2,8 @@
 # sigr 0.2.0 2017-10-07
 
  * Make sigfig a bit more flexible.
- * Add Cohen's d
+ * Add Cohen's d.
+ * Add lm() anova wrapper wrapFTest.anova().
 
 # sigr 0.1.7 2017-07-04
 
