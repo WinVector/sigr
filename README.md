@@ -20,7 +20,7 @@ See also:
 -   [broom](https://cran.r-project.org/package=broom)
 -   [modelr](https://cran.r-project.org/package=modelr)
 -   [ralfer/apa\_format\_and\_misc](https://github.com/ralfer/apa_format_and_misc)
--   [boost](https://cran.r-project.org/package=boost)
+-   [bootstrap](https://CRAN.R-project.org/package=bootstrap)
 
 Used to render the [support material](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/) for [Proofing statistics in papers](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/).
 
