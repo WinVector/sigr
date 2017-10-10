@@ -104,7 +104,8 @@
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
 <span class='fu'><a href='wrapCohenD.html'>wrapCohenD</a></span>(<span class='no'>x</span>, <span class='no'>Column1Name</span>, <span class='no'>Column2Name</span>, <span class='no'>...</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>pooled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>hedges.correction</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>noncentral</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -126,8 +127,28 @@
       <td><p>extra arguments passed to effsize::cohen.d</p></td>
     </tr>
     <tr>
+      <th>pooled</th>
+      <td><p>passed to effsize::cohen.d, please see <code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code></p></td>
+    </tr>
+    <tr>
+      <th>paired</th>
+      <td><p>passed to effsize::cohen.d, please see <code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code></p></td>
+    </tr>
+    <tr>
       <th>na.rm</th>
-      <td><p>logical, if TRUE remove NA values</p></td>
+      <td><p>passed to effsize::cohen.d, please see <code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code></p></td>
+    </tr>
+    <tr>
+      <th>hedges.correction</th>
+      <td><p>passed to effsize::cohen.d, please see <code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code></p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>passed to effsize::cohen.d, please see <code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code></p></td>
+    </tr>
+    <tr>
+      <th>noncentral</th>
+      <td><p>passed to effsize::cohen.d, please see <code><a href='http://www.rdocumentation.org/packages/effsize/topics/cohen.d'>cohen.d</a></code></p></td>
     </tr>
     </table>
     

@@ -90,7 +90,12 @@ wrapCohenD.effsize <- function(x,
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
 #' @param ... extra arguments passed to effsize::cohen.d
-#' @param na.rm logical, if TRUE remove NA values
+#' @param pooled passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
+#' @param paired passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
+#' @param na.rm passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
+#' @param hedges.correction passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
+#' @param conf.level passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
+#' @param noncentral passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
 #' @return formatted string and fields
 #'
 #' @examples
@@ -106,7 +111,9 @@ wrapCohenD.data.frame <- function(x,
                                  Column1Name,
                                  Column2Name,
                                  ...,
-                                 na.rm= FALSE) {
+                                 pooled=TRUE,paired=FALSE,
+                                 na.rm=FALSE, hedges.correction=FALSE,
+                                 conf.level=0.95,noncentral=FALSE) {
   if(!'data.frame' %in% class(x)) {
     stop('sigr::wrapCohenD expected class data.frame')
   }
@@ -125,7 +132,10 @@ wrapCohenD.data.frame <- function(x,
     c2 <- c2[goodPosns]
   }
   n <- length(c1)
-  cohen_d <- cohen.d(c1,c2,...)
+  cohen_d <- effsize::cohen.d(c1,c2,...,
+                              pooled=pooled,paired=paired,
+                              na.rm=na.rm, hedges.correction=hedges.correction,
+                              conf.level=conf.level,noncentral=noncentral)
   r <- list(cohen_d=cohen_d,
             test='cohen.d',
             Column1Name=Column1Name,

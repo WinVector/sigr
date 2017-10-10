@@ -1,4 +1,8 @@
 
+# sigr 0.2.0 2017-10-09
+
+ * Pass more arguments to effect size.
+
 # sigr 0.2.0 2017-10-07
 
  * Make sigfig a bit more flexible.

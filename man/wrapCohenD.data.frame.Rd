@@ -5,7 +5,8 @@
 \title{Wrap Cohen's D (effect size between groups).}
 \usage{
 \method{wrapCohenD}{data.frame}(x, Column1Name, Column2Name, ...,
-  na.rm = FALSE)
+  pooled = TRUE, paired = FALSE, na.rm = FALSE,
+  hedges.correction = FALSE, conf.level = 0.95, noncentral = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
@@ -16,7 +17,17 @@
 
 \item{...}{extra arguments passed to effsize::cohen.d}
 
-\item{na.rm}{logical, if TRUE remove NA values}
+\item{pooled}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+
+\item{paired}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+
+\item{na.rm}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+
+\item{hedges.correction}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+
+\item{conf.level}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+
+\item{noncentral}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
 }
 \value{
 formatted string and fields
