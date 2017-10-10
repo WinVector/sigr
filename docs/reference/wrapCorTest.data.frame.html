@@ -104,7 +104,9 @@
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
 <span class='fu'><a href='wrapCorTest.html'>wrapCorTest</a></span>(<span class='no'>x</span>, <span class='no'>Column1Name</span>, <span class='no'>Column2Name</span>, <span class='no'>...</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"pearson"</span>,
+  <span class='st'>"kendall"</span>, <span class='st'>"spearman"</span>), <span class='kw'>exact</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>continuity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,6 +126,26 @@
     <tr>
       <th>...</th>
       <td><p>extra arguments passed to cor.test</p></td>
+    </tr>
+    <tr>
+      <th>alternative</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>exact</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>continuity</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></code></p></td>
     </tr>
     <tr>
       <th>na.rm</th>

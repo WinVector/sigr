@@ -90,12 +90,12 @@ wrapCohenD.effsize <- function(x,
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
 #' @param ... extra arguments passed to effsize::cohen.d
-#' @param pooled passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
-#' @param paired passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
-#' @param na.rm passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
-#' @param hedges.correction passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
-#' @param conf.level passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
-#' @param noncentral passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}
+#' @param pooled passed to \code{\link[effsize]{cohen.d}}
+#' @param paired passed to \code{\link[effsize]{cohen.d}}
+#' @param na.rm passed to \code{\link[effsize]{cohen.d}}
+#' @param hedges.correction passed to \code{\link[effsize]{cohen.d}}
+#' @param conf.level passed to \code{\link[effsize]{cohen.d}}
+#' @param noncentral passed to \code{\link[effsize]{cohen.d}}
 #' @return formatted string and fields
 #'
 #' @examples

@@ -1,7 +1,7 @@
 
 # sigr 0.2.0 2017-10-09
 
- * Pass more arguments to effect size.
+ * Pass more arguments to tests.
 
 # sigr 0.2.0 2017-10-07
 

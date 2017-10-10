@@ -94,8 +94,17 @@ wrapFisherTest.htest <- function(x,
 #' @param x data.frame
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
-#' @param ... extra arguments passed to fisher.test
+#' @param ... extra arguments (not used)
 #' @param na.rm logical, if TRUE remove NA values
+#' @param workspace passed to \code{\link[stats]{fisher.test}}
+#' @param hybrid passed to \code{\link[stats]{fisher.test}}
+#' @param control passed to \code{\link[stats]{fisher.test}}
+#' @param or passed to \code{\link[stats]{fisher.test}}
+#' @param alternative passed to \code{\link[stats]{fisher.test}}
+#' @param conf.int passed to \code{\link[stats]{fisher.test}}
+#' @param conf.level passed to \code{\link[stats]{fisher.test}}
+#' @param simulate.p.value passed to \code{\link[stats]{fisher.test}}
+#' @param B passed to \code{\link[stats]{fisher.test}}
 #' @return wrapped test.
 #'
 #' @examples
@@ -112,7 +121,11 @@ wrapFisherTest.data.frame <- function(x,
                                       Column1Name,
                                       Column2Name,
                                       ...,
-                                      na.rm= FALSE) {
+                                      na.rm= FALSE,
+                                      workspace = 200000, hybrid = FALSE,
+                                      control = list(), or = 1, alternative = "two.sided",
+                                      conf.int = TRUE, conf.level = 0.95,
+                                      simulate.p.value = FALSE, B = 2000) {
   c1 <- x[[Column1Name]]
   c2 <- x[[Column2Name]]
   nNA <- sum(is.na(c1) | is.na(c2))
@@ -122,7 +135,12 @@ wrapFisherTest.data.frame <- function(x,
     c2 <- c2[goodPosns]
   }
   n <- length(c1)
-  ft <- fisher.test(table(c1,c2),...)
+  ft <- stats::fisher.test(x=table(c1,c2),
+                           y=NULL,
+                           workspace = workspace, hybrid = hybrid,
+                           control = control, or = or, alternative = alternative,
+                           conf.int = conf.int, conf.level = conf.level,
+                           simulate.p.value = simulate.p.value, B = B)
   r <- list(ft=ft,
             test='fisher.test',
             Column1Name=Column1Name,

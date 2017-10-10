@@ -5,7 +5,9 @@
 \title{Wrap fisher.test (test of categorial indendence).}
 \usage{
 \method{wrapFisherTest}{data.frame}(x, Column1Name, Column2Name, ...,
-  na.rm = FALSE)
+  na.rm = FALSE, workspace = 2e+05, hybrid = FALSE, control = list(),
+  or = 1, alternative = "two.sided", conf.int = TRUE, conf.level = 0.95,
+  simulate.p.value = FALSE, B = 2000)
 }
 \arguments{
 \item{x}{data.frame}
@@ -14,9 +16,27 @@
 
 \item{Column2Name}{character column 2 name}
 
-\item{...}{extra arguments passed to fisher.test}
+\item{...}{extra arguments (not used)}
 
 \item{na.rm}{logical, if TRUE remove NA values}
+
+\item{workspace}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{hybrid}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{control}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{or}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{alternative}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{conf.int}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{conf.level}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{simulate.p.value}{passed to \code{\link[stats]{fisher.test}}}
+
+\item{B}{passed to \code{\link[stats]{fisher.test}}}
 }
 \value{
 wrapped test.

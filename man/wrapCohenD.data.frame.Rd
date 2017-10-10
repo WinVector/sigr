@@ -17,17 +17,17 @@
 
 \item{...}{extra arguments passed to effsize::cohen.d}
 
-\item{pooled}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+\item{pooled}{passed to \code{\link[effsize]{cohen.d}}}
 
-\item{paired}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+\item{paired}{passed to \code{\link[effsize]{cohen.d}}}
 
-\item{na.rm}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+\item{na.rm}{passed to \code{\link[effsize]{cohen.d}}}
 
-\item{hedges.correction}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+\item{hedges.correction}{passed to \code{\link[effsize]{cohen.d}}}
 
-\item{conf.level}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+\item{conf.level}{passed to \code{\link[effsize]{cohen.d}}}
 
-\item{noncentral}{passed to effsize::cohen.d, please see \code{\link[effsize]{cohen.d}}}
+\item{noncentral}{passed to \code{\link[effsize]{cohen.d}}}
 }
 \value{
 formatted string and fields

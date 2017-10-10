@@ -104,7 +104,9 @@
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
 <span class='fu'><a href='wrapFisherTest.html'>wrapFisherTest</a></span>(<span class='no'>x</span>, <span class='no'>Column1Name</span>, <span class='no'>Column2Name</span>, <span class='no'>...</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>workspace</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>hybrid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
+  <span class='kw'>or</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>simulate.p.value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>2000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -123,11 +125,47 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>extra arguments passed to fisher.test</p></td>
+      <td><p>extra arguments (not used)</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
       <td><p>logical, if TRUE remove NA values</p></td>
+    </tr>
+    <tr>
+      <th>workspace</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>hybrid</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>control</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>or</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>alternative</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>conf.int</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>simulate.p.value</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code></p></td>
     </tr>
     </table>
     

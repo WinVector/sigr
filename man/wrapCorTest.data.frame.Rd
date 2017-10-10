@@ -5,7 +5,9 @@
 \title{Wrap cor.test (test of liner correlation).}
 \usage{
 \method{wrapCorTest}{data.frame}(x, Column1Name, Column2Name, ...,
-  na.rm = FALSE)
+  alternative = c("two.sided", "less", "greater"), method = c("pearson",
+  "kendall", "spearman"), exact = NULL, conf.level = 0.95,
+  continuity = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
@@ -15,6 +17,16 @@
 \item{Column2Name}{character column 2 name}
 
 \item{...}{extra arguments passed to cor.test}
+
+\item{alternative}{passed to \code{\link[stats]{cor.test}}}
+
+\item{method}{passed to \code{\link[stats]{cor.test}}}
+
+\item{exact}{passed to \code{\link[stats]{cor.test}}}
+
+\item{conf.level}{passed to \code{\link[stats]{cor.test}}}
+
+\item{continuity}{passed to \code{\link[stats]{cor.test}}}
 
 \item{na.rm}{logical, if TRUE remove NA values}
 }

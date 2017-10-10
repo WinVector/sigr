@@ -92,6 +92,12 @@ wrapTTest.htest <- function(x,
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
 #' @param ... extra arguments passed to ttest
+#' @param y passed to \code{\link[stats]{t.test}}
+#' @param alternative passed to \code{\link[stats]{t.test}}
+#' @param mu passed to \code{\link[stats]{t.test}}
+#' @param paired passed to \code{\link[stats]{t.test}}
+#' @param var.equal passed to \code{\link[stats]{t.test}}
+#' @param conf.level passed to \code{\link[stats]{t.test}}
 #' @param na.rm logical, if TRUE remove NA values
 #' @return formatted string and fields
 #'
@@ -110,6 +116,10 @@ wrapTTest.data.frame <- function(x,
                                  Column1Name,
                                  Column2Name,
                                  ...,
+                                 y = NULL,
+                                 alternative = c("two.sided", "less", "greater"),
+                                 mu = 0, paired = FALSE, var.equal = FALSE,
+                                 conf.level = 0.95,
                                  na.rm= FALSE) {
   if(!'data.frame' %in% class(x)) {
     stop('sigr::wrapTTest expected class data.frame')
@@ -129,7 +139,10 @@ wrapTTest.data.frame <- function(x,
     c2 <- c2[goodPosns]
   }
   n <- length(c1)
-  tt <- t.test(c1,c2,...)
+  tt <- stats::t.test(c1,c2,
+                      alternative = c("two.sided", "less", "greater"),
+                      mu = 0, paired = FALSE, var.equal = FALSE,
+                      conf.level = 0.95, ...)
   r <- list(tt=tt,
             test='t.test',
             Column1Name=Column1Name,
