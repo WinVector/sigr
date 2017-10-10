@@ -100,7 +100,7 @@ wrapChiSqTestImpl <- function(df.null,df.residual,
 
 #' Format ChiSqTest from model.
 #'
-#' @param x glm logistic regression model
+#' @param x glm logistic regression model (glm(family=binomial))
 #' @param ... extra arguments (not used)
 #' @return wrapped test
 #'
@@ -139,6 +139,46 @@ wrapChiSqTest.glm <- function(x,
 }
 
 
+#' Format ChiSqTest from model summary.
+#'
+#' @param x summary(glm(family=binomial)) object.
+#' @param ... extra arguments (not used)
+#' @return wrapped test
+#'
+#' @examples
+#'
+#' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+#'       y=c(TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE))
+#' model <- glm(y~x,data=d,family=binomial)
+#' sum <- summary(model)
+#' render(wrapChiSqTest(sum),pLargeCutoff=1,format='ascii')
+#'
+#'
+#' @export
+wrapChiSqTest.summary.glm <- function(x,
+                              ...) {
+  logisticRegressionModelSummary <- x
+  if(length(list(...))) {
+    stop('wrapChiSqTest.summary.glm extra arguments')
+  }
+  if(!'summary.glm' %in% class(logisticRegressionModelSummary)) {
+    stop('wrapChiSqTest.summary.glm expected class summary.glm')
+  }
+  if(logisticRegressionModelSummary$family$family!='binomial') {
+    warning('wrapChiSqTest.summary.glm: model family was not binomial')
+  }
+  if(logisticRegressionModelSummary$family$link!='logit') {
+    warning('wrapChiSqTest.summary.glm: model link was not logit')
+  }
+  wrapChiSqTestImpl(logisticRegressionModelSummary$df.null,
+                    logisticRegressionModelSummary$df.residual,
+                    logisticRegressionModelSummary$null.deviance,
+                    logisticRegressionModelSummary$deviance)
+}
+
+
+
+
 
 #' Format ChiSqTest from data.
 #'
@@ -155,7 +195,7 @@ wrapChiSqTest.glm <- function(x,
 #'
 #' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
 #'       y=c(TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE))
-#' model <- glm(y~x,data=d,family=binomial)
+#' model <- glm(y~x, data=d, family=binomial)
 #' summary(model)
 #' d$pred <- predict(model,type='response',newdata=d)
 #' render(wrapChiSqTest(d,'pred','y'),pLargeCutoff=1)

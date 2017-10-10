@@ -135,6 +135,54 @@ wrapFTest.lm <- function(x,
   wrapFTestImpl(numdf,dendf,FValue)
 }
 
+
+
+#' Wrap quality statistic of a linear regression summary.
+#'
+#' @param x summary.lm summary(lm()) object
+#' @param ... extra arguments (not used)
+#' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
+#' @param pLargeCutoff value to declare non-significance at or above.
+#' @param pSmallCutoff smallest value to print
+#' @return formatted string
+#'
+#' @examples
+#'
+#' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+#'                 y=c(1,1,2,2,3,3,4,4))
+#' model <- lm(y~x,data=d)
+#' sum <- summary(model)
+#' sigr::wrapFTest(sum)
+#'
+#'
+#' @export
+wrapFTest.summary.lm <- function(x,
+                         ...,
+                         format,
+                         pLargeCutoff=0.05,
+                         pSmallCutoff=1.0e-5) {
+  fitSummary <- x
+  if(length(list(...))) {
+    stop('wrapFTest.summary.lm extra arguments')
+  }
+  if (missing(format) || is.null(format)) {
+    format <- getRenderingFormat()
+  }
+  if(!(format %in% formats)) {
+    stop(paste("format",format,"not recognized"))
+  }
+  if(!'summary.lm' %in% class(fitSummary)) {
+    stop('wrapFTest.summary.lm expected class summary.lm')
+  }
+  fstats <- fitSummary$fstatistic
+  FValue <- fstats[['value']]
+  numdf <-  fstats[['numdf']]
+  dendf <- fstats[['dendf']]
+  wrapFTestImpl(numdf,dendf,FValue)
+}
+
+
+
 #' Wrap quality statistic of a linear relation from data.
 #'
 #' @param x data frame containing columns to compare
