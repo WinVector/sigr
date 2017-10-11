@@ -3,6 +3,7 @@
 
  * Pass more arguments to tests.
  * Switch to own Cohen-d estimate.
+ * Add vector signatures.
 
 # sigr 0.2.0 2017-10-07
 

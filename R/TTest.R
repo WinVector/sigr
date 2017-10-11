@@ -152,3 +152,66 @@ wrapTTest.data.frame <- function(x,
   class(r) <- c('sigr_ttest', 'sigr_statistic')
   r
 }
+
+
+#' Wrap t.test (difference in means by group).
+#'
+#' @param x numeric population 1
+#' @param pop2 numeric population 2
+#' @param ... extra arguments passed to ttest
+#' @param y passed to \code{\link[stats]{t.test}}
+#' @param alternative passed to \code{\link[stats]{t.test}}
+#' @param mu passed to \code{\link[stats]{t.test}}
+#' @param paired passed to \code{\link[stats]{t.test}}
+#' @param var.equal passed to \code{\link[stats]{t.test}}
+#' @param conf.level passed to \code{\link[stats]{t.test}}
+#' @param na.rm logical, if TRUE remove NA values
+#' @return formatted string and fields
+#'
+#' @examples
+#'
+#' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
+#'                 y=c(1,1,2,2,3,3,4,4))
+#' render(wrapTTest(d$x, d$y), pLargeCutoff=1)
+#' # confirm p not order depedent
+#' render(wrapTTest(d$y, d$x),pLargeCutoff=1)
+#'
+#' @importFrom stats t.test
+#'
+#' @export
+wrapTTest.numeric <- function(x,
+                              pop2,
+                              ...,
+                              y = NULL,
+                              alternative = c("two.sided", "less", "greater"),
+                              mu = 0, paired = FALSE, var.equal = FALSE,
+                              conf.level = 0.95,
+                              na.rm= FALSE) {
+  if(!is.numeric(x)) {
+    stop("sigr::wrapTTest expected x to be numeric")
+  }
+  if(!is.numeric(pop2)) {
+    stop("sigr::wrapTTest expected pop2 to be numeric")
+  }
+  c1 <- x
+  c2 <- pop2
+  nNA <- sum(is.na(c1) | is.na(c2))
+  if(na.rm) {
+    goodPosns <- (!is.na(c1)) & (!is.na(c2))
+    c1 <- c1[goodPosns]
+    c2 <- c2[goodPosns]
+  }
+  n <- length(c1)
+  tt <- stats::t.test(c1,c2,
+                      alternative = c("two.sided", "less", "greater"),
+                      mu = 0, paired = FALSE, var.equal = FALSE,
+                      conf.level = 0.95, ...)
+  r <- list(tt=tt,
+            test='t.test',
+            Column1Name='x',
+            Column2Name='pop2',
+            n=n,
+            nNA=nNA)
+  class(r) <- c('sigr_ttest', 'sigr_statistic')
+  r
+}
