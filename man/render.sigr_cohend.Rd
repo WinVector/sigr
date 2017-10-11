@@ -8,7 +8,7 @@
   sigDigits = 2, pLargeCutoff = 1, pSmallCutoff = 0)
 }
 \arguments{
-\item{statistic}{wrapped effsize::cohen.d}
+\item{statistic}{CohenD-approximation}
 
 \item{...}{not used, force use of named binding for later arguments}
 

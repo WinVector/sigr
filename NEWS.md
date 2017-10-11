@@ -1,7 +1,8 @@
 
-# sigr 0.2.0 2017-10-09
+# sigr 0.2.1 2017-10-11
 
  * Pass more arguments to tests.
+ * Switch to own Cohen-d estimate.
 
 # sigr 0.2.0 2017-10-07
 

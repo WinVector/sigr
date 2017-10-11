@@ -5,8 +5,7 @@
 \title{Wrap Cohen's D (effect size between groups).}
 \usage{
 \method{wrapCohenD}{data.frame}(x, Column1Name, Column2Name, ...,
-  pooled = TRUE, paired = FALSE, na.rm = FALSE,
-  hedges.correction = FALSE, conf.level = 0.95, noncentral = FALSE)
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
@@ -15,19 +14,9 @@
 
 \item{Column2Name}{character column 2 name}
 
-\item{...}{extra arguments passed to effsize::cohen.d}
+\item{...}{extra arguments (not used)}
 
-\item{pooled}{passed to \code{\link[effsize]{cohen.d}}}
-
-\item{paired}{passed to \code{\link[effsize]{cohen.d}}}
-
-\item{na.rm}{passed to \code{\link[effsize]{cohen.d}}}
-
-\item{hedges.correction}{passed to \code{\link[effsize]{cohen.d}}}
-
-\item{conf.level}{passed to \code{\link[effsize]{cohen.d}}}
-
-\item{noncentral}{passed to \code{\link[effsize]{cohen.d}}}
+\item{na.rm}{if TRUE remove NAs}
 }
 \value{
 formatted string and fields
@@ -37,8 +26,8 @@ Wrap Cohen's D (effect size between groups).
 }
 \examples{
 
-d <- data.frame(x=c(1,2,3,4,5,6,7,7),
-                y=c(1,1,2,2,3,3,4,4))
+d <- data.frame(x = c(1,1,2,2,3,3,4,4),
+                y = c(1,2,3,4,5,6,7,7))
 render(wrapCohenD(d,'x','y'))
 
 }

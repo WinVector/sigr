@@ -15,5 +15,5 @@ wrapCohenD(x, ...)
 Wrap Cohen's D (effect size between groups).
 }
 \seealso{
-\code{\link[effsize]{cohen.d}}, \code{\link{wrapCohenD.effsize}}, and \code{\link{wrapCohenD.data.frame}}
+\code{\link{wrapCohenD.data.frame}}
 }

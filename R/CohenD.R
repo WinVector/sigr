@@ -1,8 +1,11 @@
 
 
+
+
+
 #' Format Cohen-D (effect size between groups)
 #'
-#' @param statistic wrapped effsize::cohen.d
+#' @param statistic CohenD-approximation
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
 #' @param statDigits integer number of digits to show in summaries (not yet implemented).
@@ -30,19 +33,9 @@ render.sigr_cohend <- function(statistic,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
-  cohen_d <- statistic$cohen_d
   stat_format_str <- paste0('%.',statDigits,'g')
-  pString <- render(wrapSignificance(1-cohen_d$conf.level,
-                                     symbol='p'),
-                    format=format,
-                    pLargeCutoff=pLargeCutoff,
-                    pSmallCutoff=pSmallCutoff)
-  formatStr <- paste0(fsyms['startB'],cohen_d$method,fsyms['endB'],
-                      ': ', sprintf(stat_format_str,cohen_d$estimate),
-                      ' ("',cohen_d$magnitude,
-                      '", interval [', sprintf(stat_format_str,cohen_d$conf.int[[1]]),
-                      ', ', sprintf(stat_format_str,cohen_d$conf.int[[2]]),'] at ',
-                      pString,').')
+  formatStr <- paste0(fsyms['startB'],statistic$test,fsyms['endB'],
+                      ': ', sprintf(stat_format_str,statistic$cohen_d))
   formatStr
 }
 
@@ -51,69 +44,41 @@ render.sigr_cohend <- function(statistic,
 #' @param x numeric, data.frame or test.
 #' @param ... extra arguments
 #'
-#' @seealso \code{\link[effsize]{cohen.d}}, \code{\link{wrapCohenD.effsize}}, and \code{\link{wrapCohenD.data.frame}}
+#' @seealso \code{\link{wrapCohenD.data.frame}}
 #' @export
 wrapCohenD <- function(x,...) UseMethod('wrapCohenD')
 
 
-#' Wrap Cohen's D (effect size between groups).
-#'
-#' @param x effsize::cohen.d result
-#' @param ... extra arguments (not used)
-#' @return formatted string and fields
-#'
-#' @examples
-#'
-#' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
-#'                 y=c(1,1,2,2,3,3,4,4))
-#' cohen_d <- effsize::cohen.d(d$x,d$y)
-#' render(wrapCohenD(cohen_d))
-#'
-#' @export
-wrapCohenD.effsize <- function(x,
-                            ...) {
-  if(length(list(...))) {
-    stop('wrapCohenD extra arguments')
-  }
-  if(!'effsize' %in% class(x)) {
-    stop('wrapCohenD expected class effsize')
-  }
-  r <- list(cohen_d=x,
-            test='cohen.d')
-  class(r) <- c('sigr_cohend', 'sigr_statistic')
-  r
+# NOT following strict definition, ad-hoc sensible calculation.
+calcCohenD <- function(pop1, pop2) {
+  pooledSD <- sd(c(pop1 - mean(pop1), pop2 - mean(pop2)))
+  popDiff <- mean(pop2) - mean(pop1)
+  CohenD <- popDiff/pooledSD
+  CohenD
 }
+
 
 #' Wrap Cohen's D (effect size between groups).
 #'
 #' @param x data.frame
 #' @param Column1Name character column 1 name
 #' @param Column2Name character column 2 name
-#' @param ... extra arguments passed to effsize::cohen.d
-#' @param pooled passed to \code{\link[effsize]{cohen.d}}
-#' @param paired passed to \code{\link[effsize]{cohen.d}}
-#' @param na.rm passed to \code{\link[effsize]{cohen.d}}
-#' @param hedges.correction passed to \code{\link[effsize]{cohen.d}}
-#' @param conf.level passed to \code{\link[effsize]{cohen.d}}
-#' @param noncentral passed to \code{\link[effsize]{cohen.d}}
+#' @param ... extra arguments (not used)
+#' @param na.rm if TRUE remove NAs
 #' @return formatted string and fields
 #'
 #' @examples
 #'
-#' d <- data.frame(x=c(1,2,3,4,5,6,7,7),
-#'                 y=c(1,1,2,2,3,3,4,4))
+#' d <- data.frame(x = c(1,1,2,2,3,3,4,4),
+#'                 y = c(1,2,3,4,5,6,7,7))
 #' render(wrapCohenD(d,'x','y'))
-#'
-#' @importFrom effsize cohen.d
 #'
 #' @export
 wrapCohenD.data.frame <- function(x,
                                  Column1Name,
                                  Column2Name,
                                  ...,
-                                 pooled=TRUE,paired=FALSE,
-                                 na.rm=FALSE, hedges.correction=FALSE,
-                                 conf.level=0.95,noncentral=FALSE) {
+                                 na.rm = FALSE) {
   if(!'data.frame' %in% class(x)) {
     stop('sigr::wrapCohenD expected class data.frame')
   }
@@ -132,12 +97,9 @@ wrapCohenD.data.frame <- function(x,
     c2 <- c2[goodPosns]
   }
   n <- length(c1)
-  cohen_d <- effsize::cohen.d(c1,c2,...,
-                              pooled=pooled,paired=paired,
-                              na.rm=na.rm, hedges.correction=hedges.correction,
-                              conf.level=conf.level,noncentral=noncentral)
+  cohen_d <- calcCohenD(c1, c2)
   r <- list(cohen_d=cohen_d,
-            test='cohen.d',
+            test='Cohen_D_approx',
             Column1Name=Column1Name,
             Column2Name=Column2Name,
             n=n,
