@@ -2,7 +2,7 @@ Package: sigr
 Type: Package
 Title: Format Significance Summaries for Reports
 Version: 0.2.1
-Date: 2017-10-11
+Date: 2017-10-14
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),

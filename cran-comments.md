@@ -1,21 +1,22 @@
 
 ## Test environments
 
- * using R version 3.4.1 (2017-06-30)
+ * using R version 3.4.2 (2017-09-28)
  * using platform: x86_64-apple-darwin15.6.0 (64-bit)
  
  * using R Under development (unstable) (2017-09-12 r73242)
  * using platform: x86_64-w64-mingw32 (64-bit)
 
-## R CMD check --as-cran sigr_0.2.0.tar.gz 
+## R CMD check --as-cran sigr_0.2.1.tar.gz 
 
-* using R version 3.4.1 (2017-06-30)
-* using platform: x86_64-apple-darwin15.6.0 (64-bit)
-* using session charset: UTF-8
-* using option ‘--as-cran’
-* checking for file ‘sigr/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘sigr’ version ‘0.2.0’
+ * using R version 3.4.2 (2017-09-28)
+ * using platform: x86_64-apple-darwin15.6.0 (64-bit)
+ * using session charset: UTF-8
+ * using option ‘--as-cran’
+ * checking for file ‘sigr/DESCRIPTION’ ... OK
+ * checking extension type ... Package
+ * this is package ‘sigr’ version ‘0.2.1’
+
 
 One NOTE:
 
