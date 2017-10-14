@@ -14,7 +14,7 @@ render(statistic, ..., format, statDigits = 2, sigDigits = 2,
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii")}
 
-\item{statDigits}{integer number of digits to show in summaries (not yet implemented in all classes).}
+\item{statDigits}{integer number of digits to show in summaries.}
 
 \item{sigDigits}{integer number of digits to show in significances.}
 

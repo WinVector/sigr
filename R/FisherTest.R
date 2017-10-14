@@ -6,7 +6,7 @@
 #' @param statistic wrapped Fisher test
 #' @param ... extra arguments (not used)
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
-#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param statDigits integer number of digits to show in summaries.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -38,6 +38,7 @@ render.sigr_fishertest <- function(statistic,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
+  stat_format_str <- paste0('%.',statDigits,'g')
   ft <- statistic$ft
   pString <- render(wrapSignificance(ft$p.value,
                                      symbol='p'),
@@ -47,7 +48,7 @@ render.sigr_fishertest <- function(statistic,
                     pSmallCutoff=pSmallCutoff)
  formatStr <- paste0(fsyms['startB'],ft$method,fsyms['endB'],
                 ': (',fsyms['startI'],'odds.ratio',fsyms['endI'],
-                '=',sprintf('%.2g',ft$estimate),
+                '=',sprintf(stat_format_str,ft$estimate),
                 ', ',pString,').')
  formatStr
 }

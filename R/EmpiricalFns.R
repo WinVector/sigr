@@ -20,7 +20,7 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param statDigits integer number of digits to show in summarie.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -295,7 +295,7 @@ listToDataFrame <- function(rows) {
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param statDigits integer number of digits to show in summaries.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print

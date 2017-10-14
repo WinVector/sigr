@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Format fisher.test (test of categorial indendence). — render.sigr_fishertest • sigr</title>
+<title>Wrap pwr test (difference in means by group). — wrapPWR • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -95,73 +95,41 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Format fisher.test (test of categorial indendence).</h1>
+    <h1>Wrap pwr test (difference in means by group).</h1>
     </div>
 
     
-    <p>Format fisher.test (test of categorial indendence).</p>
+    <p>Wrap pwr test (difference in means by group).</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for sigr_fishertest</span>
-<span class='fu'><a href='render.html'>render</a></span>(<span class='no'>statistic</span>, <span class='no'>...</span>, <span class='no'>format</span>, <span class='kw'>statDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>sigDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>pSmallCutoff</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>)</pre>
+    <pre class="usage"><span class='fu'>wrapPWR</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>statistic</th>
-      <td><p>wrapped Fisher test</p></td>
+      <th>x</th>
+      <td><p>test from pwr package</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>extra arguments (not used)</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)</p></td>
-    </tr>
-    <tr>
-      <th>statDigits</th>
-      <td><p>integer number of digits to show in summaries.</p></td>
-    </tr>
-    <tr>
-      <th>sigDigits</th>
-      <td><p>integer number of digits to show in significances.</p></td>
-    </tr>
-    <tr>
-      <th>pLargeCutoff</th>
-      <td><p>value to declare non-significance at or above.</p></td>
-    </tr>
-    <tr>
-      <th>pSmallCutoff</th>
-      <td><p>smallest value to print</p></td>
+      <td><p>extra arguments</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>formatted string and fields</p>
+    <p><code><a href='http://www.rdocumentation.org/packages/pwr/topics/pwr.2p.test'>pwr.2p.test</a></code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'b'</span>,<span class='st'>'a'</span>,<span class='st'>'a'</span>,<span class='st'>'a'</span>,<span class='st'>'b'</span>,<span class='st'>'b'</span>,<span class='st'>'b'</span>),
-                <span class='kw'>y</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'1'</span>,<span class='st'>'1'</span>,<span class='st'>'1'</span>,<span class='st'>'2'</span>,<span class='st'>'2'</span>,<span class='st'>'2'</span>,<span class='st'>'2'</span>))
-<span class='no'>ft</span> <span class='kw'>&lt;-</span> <span class='fu'>fisher.test</span>(<span class='fu'>table</span>(<span class='no'>d</span>))
-<span class='fu'><a href='wrapFisherTest.html'>wrapFisherTest</a></span>(<span class='no'>ft</span>)</div><div class='output co'>#&gt; [1] "Fisher's Exact Test for Count Data: (odds.ratio=4.4, p=n.s.)."</div><div class='input'>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

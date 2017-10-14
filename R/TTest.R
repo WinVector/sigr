@@ -5,7 +5,7 @@
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param statDigits integer number of digits to show in summaries.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -31,6 +31,7 @@ render.sigr_ttest <- function(statistic,
   }
   fsyms <- syms[format,]
   tt <- statistic$tt
+  stat_format_str <- paste0('%.',statDigits,'g')
   pString <- render(wrapSignificance(tt$p.value,
                                      symbol='p'),
                     format=format,
@@ -39,9 +40,9 @@ render.sigr_ttest <- function(statistic,
   formatStr <- paste0(fsyms['startB'],tt$method,fsyms['endB'],
                      ', ',tt$alternative,
                      ': (',fsyms['startI'],'t',fsyms['endI'],
-                     '=',paste(sprintf('%.2g',tt$statistic),collapse=','),
+                     '=',paste(sprintf(stat_format_str,tt$statistic),collapse=','),
                      ', ',fsyms['startI'],'df',fsyms['endI'],'=',
-                     sprintf('%.2g',tt$parameter),', ',
+                     sprintf(stat_format_str,tt$parameter),', ',
                      pString,').')
   formatStr
 }

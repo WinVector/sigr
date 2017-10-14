@@ -4,7 +4,7 @@
 #' @param statistic sigr summary statistic
 #' @param ... extra arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param statDigits integer number of digits to show in summaries (not yet implemented in all classes).
+#' @param statDigits integer number of digits to show in summaries.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print

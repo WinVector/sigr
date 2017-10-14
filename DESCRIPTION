@@ -19,6 +19,7 @@ Description: Succinctly format significance summaries of
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 6.0.1
+Imports: pwr
 Suggests: parallel,
     knitr,
     rmarkdown,

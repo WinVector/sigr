@@ -6,7 +6,7 @@
 #' @param statistic wrapped cor.test.
 #' @param ... extra arguments (not used)
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
-#' @param statDigits integer number of digits to show in summaries (not yet implemented).
+#' @param statDigits integer number of digits to show in summaries.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -38,6 +38,7 @@ render.sigr_cortest <- function(statistic,
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
+  stat_format_str <- paste0('%.',statDigits,'g')
   ct <- statistic$ct
   pString <- render(wrapSignificance(ct$p.value,
                                      symbol='p'),
@@ -46,7 +47,7 @@ render.sigr_cortest <- function(statistic,
                     pSmallCutoff=pSmallCutoff)
   formatStr <- paste0(fsyms['startB'],ct$method,fsyms['endB'],
                 ': (',fsyms['startI'],'r',fsyms['endI'],
-                '=',sprintf('%.2g',ct$estimate),
+                '=',sprintf(stat_format_str,ct$estimate),
                 ', ',pString,').')
   formatStr
 }
