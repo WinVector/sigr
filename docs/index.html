@@ -105,7 +105,7 @@
 <p>For example here is formatting the quality of a logistic regression.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>),
       <span class="dt">y=</span><span class="kw">c</span>(<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>))
-model &lt;-<span class="st"> </span><span class="kw">glm</span>(y~x,<span class="dt">data=</span>d,<span class="dt">family=</span>binomial)
+model &lt;-<span class="st"> </span><span class="kw">glm</span>(y<span class="op">~</span>x,<span class="dt">data=</span>d,<span class="dt">family=</span>binomial)
 <span class="kw">summary</span>(model)</code></pre></div>
 <pre><code>## 
 ## Call:

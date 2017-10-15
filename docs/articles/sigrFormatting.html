@@ -75,7 +75,7 @@
       <h1>sigr</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2017-10-14</h4>
+            <h4 class="date">2017-10-15</h4>
           </div>
 
     
@@ -85,17 +85,17 @@
 <p>Please see <a href="https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.pdf">here</a> and <a href="http://my.ilstu.edu/~jhkahn/apastats.html">here</a> for some notes.</p>
 <p>Simple formatting.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"sigr"</span>)
-sigr::<span class="kw"><a href="../reference/getRenderingFormat.html">getRenderingFormat</a></span>()</code></pre></div>
+sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/getRenderingFormat">getRenderingFormat</a></span>()</code></pre></div>
 <p>[1] “html”</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapSignificance.html">wrapSignificance</a></span>(<span class="dv">1</span>/<span class="dv">300</span>)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapSignificance.html">wrapSignificance</a></span>(<span class="dv">1</span><span class="op">/</span><span class="dv">300</span>)))</code></pre></div>
 <p><i>p</i>=0.0033</p>
 <p>F-test examples (quality of a numeric model of a numeric outcome).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapFTestImpl.html">wrapFTestImpl</a></span>(<span class="dt">numdf=</span><span class="dv">2</span>,<span class="dt">dendf=</span><span class="dv">55</span>,<span class="dt">FValue=</span><span class="fl">5.56</span>)))</code></pre></div>
 <p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.168, <i>F</i>(2,55)=5.56, <i>p</i>=0.0063).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="fl">0.2</span>*(<span class="dv">1</span>:<span class="dv">20</span>))
-d$y &lt;-<span class="st"> </span><span class="kw">cos</span>(d$x)
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y~x,<span class="dt">data=</span>d)
-d$prediction &lt;-<span class="st"> </span><span class="kw">predict</span>(model,<span class="dt">newdata=</span>d)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="fl">0.2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>))
+d<span class="op">$</span>y &lt;-<span class="st"> </span><span class="kw">cos</span>(d<span class="op">$</span>x)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y<span class="op">~</span>x,<span class="dt">data=</span>d)
+d<span class="op">$</span>prediction &lt;-<span class="st"> </span><span class="kw">predict</span>(model,<span class="dt">newdata=</span>d)
 <span class="kw">print</span>(<span class="kw">summary</span>(model))</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -123,8 +123,8 @@ d$prediction &lt;-<span class="st"> </span><span class="kw">predict</span>(model
 <p>Chi-squared test examples (quality of a probabilty model of a two category outcome).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>),
        <span class="dt">y=</span><span class="kw">c</span>(<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>))
-model &lt;-<span class="st"> </span><span class="kw">glm</span>(y~x,<span class="dt">data=</span>d,<span class="dt">family=</span>binomial)
-model$converged</code></pre></div>
+model &lt;-<span class="st"> </span><span class="kw">glm</span>(y<span class="op">~</span>x,<span class="dt">data=</span>d,<span class="dt">family=</span>binomial)
+model<span class="op">$</span>converged</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(model)</code></pre></div>
 <pre><code>## 
@@ -147,14 +147,14 @@ model$converged</code></pre></div>
 ## AIC: 14.837
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d$pred &lt;-<span class="st"> </span><span class="kw">predict</span>(model,<span class="dt">type=</span><span class="st">'response'</span>,<span class="dt">newdata=</span>d)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">predict</span>(model,<span class="dt">type=</span><span class="st">'response'</span>,<span class="dt">newdata=</span>d)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapChiSqTest.html">wrapChiSqTest</a></span>(model),<span class="dt">pLargeCutoff=</span><span class="dv">1</span>))</code></pre></div>
 <p><b>Chi-Square Test</b> summary: <i>pseudo-<i>R<sup>2</sup></i></i>=0.023 (<i>χ<sup>2</sup></i>(1,<i>N</i>=8)=0.25, <i>p</i>=0.61).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapChiSqTest.html">wrapChiSqTest</a></span>(d,<span class="st">'pred'</span>,<span class="st">'y'</span>),<span class="dt">pLargeCutoff=</span><span class="dv">1</span>))</code></pre></div>
 <p><b>Chi-Square Test</b> summary: <i>pseudo-<i>R<sup>2</sup></i></i>=0.023 (<i>χ<sup>2</sup></i>(1,<i>N</i>=8)=0.25, <i>p</i>=0.61).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>),
                <span class="dt">y=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>))
-ct &lt;-<span class="st"> </span><span class="kw">cor.test</span>(d$x,d$y)</code></pre></div>
+ct &lt;-<span class="st"> </span><span class="kw">cor.test</span>(d<span class="op">$</span>x,d<span class="op">$</span>y)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapCorTest.html">wrapCorTest</a></span>(ct)))</code></pre></div>
 <p><b>Pearson’s product-moment correlation</b>: (<i>r</i>=0.98, <i>p</i>=3.1e-05).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'a'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>),
@@ -164,7 +164,7 @@ ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(<span class
 <p><b>Fisher’s Exact Test for Count Data</b>: (<i>odds.ratio</i>=4.4, <i>p</i>=0.49).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>),
                 <span class="dt">y=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>))
-ft &lt;-<span class="st"> </span><span class="kw">t.test</span>(d$x,d$y)</code></pre></div>
+ft &lt;-<span class="st"> </span><span class="kw">t.test</span>(d<span class="op">$</span>x,d<span class="op">$</span>y)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapTTest.html">wrapTTest</a></span>(ft),<span class="dt">pLargeCutoff=</span><span class="dv">1</span>))</code></pre></div>
 <p><b>Welch Two Sample t-test</b>, two.sided: (<i>t</i>=2.1, <i>df</i>=11, <i>p</i>=0.063).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parallelCluster &lt;-<span class="st"> </span><span class="ot">NULL</span>
@@ -175,7 +175,7 @@ d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="
                 <span class="dt">y=</span><span class="kw">c</span>(<span class="ot">FALSE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>,
                     <span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">TRUE</span>))
 d &lt;-<span class="st"> </span><span class="kw">rbind</span>(d,d,d,d)
-sigr::<span class="kw"><a href="../reference/resampleTestAUC.html">resampleTestAUC</a></span>(d,<span class="st">'x1'</span>,<span class="st">'y'</span>,<span class="ot">TRUE</span>,
+sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/resampleTestAUC">resampleTestAUC</a></span>(d,<span class="st">'x1'</span>,<span class="st">'y'</span>,<span class="ot">TRUE</span>,
                 <span class="dt">nrep=</span><span class="dv">200</span>,
                 <span class="dt">parallelCluster=</span>parallelCluster)</code></pre></div>
 <p>[1] “AUC test alt. hyp. AUC&gt;0.5: (AUC=0.66, s.d.=0.11, p=n.s.).”</p>
@@ -185,16 +185,16 @@ d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="
                 <span class="dt">y=</span><span class="kw">c</span>(<span class="ot">FALSE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>,
                     <span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">TRUE</span>))
 d &lt;-<span class="st"> </span><span class="kw">rbind</span>(d,d,d,d)
-sigr::<span class="kw"><a href="../reference/testAUCpair.html">testAUCpair</a></span>(d,<span class="st">'x1'</span>,<span class="st">'x2'</span>,<span class="st">'y'</span>,<span class="ot">TRUE</span>,
+sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/testAUCpair">testAUCpair</a></span>(d,<span class="st">'x1'</span>,<span class="st">'x2'</span>,<span class="st">'y'</span>,<span class="ot">TRUE</span>,
                     <span class="dt">nrep=</span><span class="dv">200</span>,
                     <span class="dt">parallelCluster=</span>parallelCluster)</code></pre></div>
 <p>[1] “AUC test resampled AUC1&gt;AUC2: (AUCs=0.66;0.5, s.d.=0.11, e=n.s.).”</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if(!<span class="kw">is.null</span>(parallelCluster)) {
-  parallel::<span class="kw">stopCluster</span>(parallelCluster)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span>(<span class="op">!</span><span class="kw">is.null</span>(parallelCluster)) {
+  parallel<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/parallel/topics/makeCluster">stopCluster</a></span>(parallelCluster)
 }</code></pre></div>
 <p>permutationScoreModel</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">25325</span>)
-y &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
 m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)
 <span class="kw">cor.test</span>(m,y,<span class="dt">alternative=</span><span class="st">'greater'</span>)</code></pre></div>
 <pre><code>## 
@@ -208,12 +208,12 @@ m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</sp
 ## sample estimates:
 ##       cor 
 ## 0.8660254</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(modelValues, yValues) { <span class="kw">cor</span>(modelValues, yValues) }
-sigr::<span class="kw"><a href="../reference/permutationScoreModel.html">permutationScoreModel</a></span>(m,y,f)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(modelValues, yValues) { <span class="kw">cor</span>(modelValues, yValues) }
+sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/permutationScoreModel">permutationScoreModel</a></span>(m,y,f)</code></pre></div>
 <pre><code>## [1] "Studentized permutation test: is observed score greater than permuted score,  summary: p=0.021"</code></pre>
 <p>resampleScoreModel</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">25325</span>)
-y &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
 m1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)
 <span class="kw">cor.test</span>(m1,y,<span class="dt">alternative=</span><span class="st">'greater'</span>)</code></pre></div>
 <pre><code>## 
@@ -227,13 +227,13 @@ m1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</s
 ## sample estimates:
 ##       cor 
 ## 0.8660254</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(modelValues,yValues) {
-  if((<span class="kw">sd</span>(modelValues)&lt;=<span class="dv">0</span>)||(<span class="kw">sd</span>(yValues)&lt;=<span class="dv">0</span>)) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(modelValues,yValues) {
+  <span class="cf">if</span>((<span class="kw">sd</span>(modelValues)<span class="op">&lt;=</span><span class="dv">0</span>)<span class="op">||</span>(<span class="kw">sd</span>(yValues)<span class="op">&lt;=</span><span class="dv">0</span>)) {
     <span class="kw">return</span>(<span class="dv">0</span>)
   }
   <span class="kw">cor</span>(modelValues,yValues)
 }
-s &lt;-<span class="st"> </span>sigr::<span class="kw"><a href="../reference/resampleScoreModel.html">resampleScoreModel</a></span>(m1,y,f)
+s &lt;-<span class="st"> </span>sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/resampleScoreModel">resampleScoreModel</a></span>(m1,y,f)
 <span class="kw">print</span>(s)</code></pre></div>
 <pre><code>## $fnName
 ## [1] "resampleScoreModel"
@@ -252,26 +252,26 @@ s &lt;-<span class="st"> </span>sigr::<span class="kw"><a href="../reference/res
 ## 
 ## $n
 ## [1] 5</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span>s$observedScore/s$sd  <span class="co"># always check size of z relative to bias!</span>
-pValue &lt;-<span class="st"> </span><span class="kw">pt</span>(z,<span class="dt">df=</span><span class="kw">length</span>(y)-<span class="dv">2</span>,<span class="dt">lower.tail=</span><span class="ot">FALSE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span>s<span class="op">$</span>observedScore<span class="op">/</span>s<span class="op">$</span>sd  <span class="co"># always check size of z relative to bias!</span>
+pValue &lt;-<span class="st"> </span><span class="kw">pt</span>(z,<span class="dt">df=</span><span class="kw">length</span>(y)<span class="op">-</span><span class="dv">2</span>,<span class="dt">lower.tail=</span><span class="ot">FALSE</span>)
 pValue</code></pre></div>
 <pre><code>## [1] 0.01552841</code></pre>
 <p>resampleScoreModelPair</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">25325</span>)
-y &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
 m1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)
 m2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>)
 <span class="kw">cor</span>(m1,y)</code></pre></div>
 <pre><code>## [1] 0.8660254</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(m2,y)</code></pre></div>
 <pre><code>## [1] 0.7071068</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(modelValues,yValues) {
-  if((<span class="kw">sd</span>(modelValues)&lt;=<span class="dv">0</span>)||(<span class="kw">sd</span>(yValues)&lt;=<span class="dv">0</span>)) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(modelValues,yValues) {
+  <span class="cf">if</span>((<span class="kw">sd</span>(modelValues)<span class="op">&lt;=</span><span class="dv">0</span>)<span class="op">||</span>(<span class="kw">sd</span>(yValues)<span class="op">&lt;=</span><span class="dv">0</span>)) {
     <span class="kw">return</span>(<span class="dv">0</span>)
   }
   <span class="kw">cor</span>(modelValues,yValues)
 }
-sigr::<span class="kw"><a href="../reference/render.html">render</a></span>(sigr::<span class="kw"><a href="../reference/resampleScoreModelPair.html">resampleScoreModelPair</a></span>(m1,m2,y,f),
+sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/render">render</a></span>(sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/resampleScoreModelPair">resampleScoreModelPair</a></span>(m1,m2,y,f),
              <span class="dt">pLargeCutoff=</span><span class="dv">1</span>,<span class="dt">format=</span><span class="st">'ascii'</span>)</code></pre></div>
 <pre><code>## [1] "Studentized empirical test: is difference greater than zero on re-samples,  summary: e=0.22"</code></pre>
 </div>

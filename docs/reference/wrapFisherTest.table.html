@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap fisher.test (test of categorial indendence). — wrapFisherTest.data.frame • sigr</title>
+<title>Wrap fisher.test (test of categorial indendence). — wrapFisherTest.table • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -102,10 +102,10 @@
     <p>Wrap fisher.test (test of categorial indendence).</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for data.frame</span>
+    <pre class="usage"><span class='co'># S3 method for table</span>
 <span class='fu'><a href='wrapFisherTest.html'>wrapFisherTest</a></span>(<span class='no'>x</span>, <span class='no'>Column1Name</span>, <span class='no'>Column2Name</span>, <span class='no'>...</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>workspace</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>hybrid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
-  <span class='kw'>or</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>workspace</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>hybrid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>or</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
   <span class='kw'>simulate.p.value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>2000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -126,10 +126,6 @@
     <tr>
       <th>...</th>
       <td><p>extra arguments (not used)</p></td>
-    </tr>
-    <tr>
-      <th>na.rm</th>
-      <td><p>logical, if TRUE remove NA values</p></td>
     </tr>
     <tr>
       <th>workspace</th>
@@ -178,7 +174,8 @@
     <pre class="examples"><div class='input'>
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'b'</span>,<span class='st'>'a'</span>,<span class='st'>'a'</span>,<span class='st'>'a'</span>,<span class='st'>'b'</span>,<span class='st'>'b'</span>,<span class='st'>'b'</span>),
                 <span class='kw'>y</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'1'</span>,<span class='st'>'1'</span>,<span class='st'>'1'</span>,<span class='st'>'2'</span>,<span class='st'>'2'</span>,<span class='st'>'2'</span>,<span class='st'>'2'</span>))
-<span class='fu'><a href='wrapFisherTest.html'>wrapFisherTest</a></span>(<span class='no'>d</span>, <span class='st'>'x'</span>, <span class='st'>'y'</span>)</div><div class='output co'>#&gt; [1] "Fisher's Exact Test for Count Data: (odds.ratio=4.4, p=n.s.)."</div><div class='input'>
+<span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>table</span>(<span class='no'>d</span>)
+<span class='fu'><a href='wrapFisherTest.html'>wrapFisherTest</a></span>(<span class='no'>t</span>, <span class='st'>'x'</span>, <span class='st'>'y'</span>)</div><div class='output co'>#&gt; [1] "Fisher's Exact Test for Count Data: (odds.ratio=4.4, p=n.s.)."</div><div class='input'>
 
 </div></pre>
   </div>

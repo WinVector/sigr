@@ -112,7 +112,7 @@ wrapFisherTest.htest <- function(x,
 #'
 #' d <- data.frame(x=c('b','a','a','a','b','b','b'),
 #'                 y=c('1','1','1','2','2','2','2'))
-#' wrapFisherTest(d,'x','y')
+#' wrapFisherTest(d, 'x', 'y')
 #'
 #'
 #' @importFrom stats fisher.test
@@ -151,5 +151,59 @@ wrapFisherTest.data.frame <- function(x,
   class(r) <- c('sigr_fishertest', 'sigr_statistic')
   r
 }
+
+
+#' Wrap fisher.test (test of categorial indendence).
+#'
+#' @param x data.frame
+#' @param Column1Name character column 1 name
+#' @param Column2Name character column 2 name
+#' @param ... extra arguments (not used)
+#' @param workspace passed to \code{\link[stats]{fisher.test}}
+#' @param hybrid passed to \code{\link[stats]{fisher.test}}
+#' @param control passed to \code{\link[stats]{fisher.test}}
+#' @param or passed to \code{\link[stats]{fisher.test}}
+#' @param alternative passed to \code{\link[stats]{fisher.test}}
+#' @param conf.int passed to \code{\link[stats]{fisher.test}}
+#' @param conf.level passed to \code{\link[stats]{fisher.test}}
+#' @param simulate.p.value passed to \code{\link[stats]{fisher.test}}
+#' @param B passed to \code{\link[stats]{fisher.test}}
+#' @return wrapped test.
+#'
+#' @examples
+#'
+#' d <- data.frame(x=c('b','a','a','a','b','b','b'),
+#'                 y=c('1','1','1','2','2','2','2'))
+#' t <- table(d)
+#' wrapFisherTest(t, 'x', 'y')
+#'
+#'
+#' @importFrom stats fisher.test
+#'
+#' @export
+wrapFisherTest.table <- function(x,
+                                 Column1Name,
+                                 Column2Name,
+                                 ...,
+                                 workspace = 200000, hybrid = FALSE,
+                                 control = list(), or = 1, alternative = "two.sided",
+                                 conf.int = TRUE, conf.level = 0.95,
+                                 simulate.p.value = FALSE, B = 2000) {
+  n <- sum(x)
+  ft <- stats::fisher.test(x,
+                           workspace = workspace, hybrid = hybrid,
+                           control = control, or = or, alternative = alternative,
+                           conf.int = conf.int, conf.level = conf.level,
+                           simulate.p.value = simulate.p.value, B = B)
+  r <- list(ft=ft,
+            test='fisher.test',
+            Column1Name=Column1Name,
+            Column2Name=Column2Name,
+            n=n,
+            nNA=0)
+  class(r) <- c('sigr_fishertest', 'sigr_statistic')
+  r
+}
+
 
 

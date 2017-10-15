@@ -1,4 +1,8 @@
 
+# sigr 0.2.2 2017-10-15
+
+ * Add table Fisher test.
+
 # sigr 0.2.1 2017-10-14
 
  * Pass more arguments to tests.
