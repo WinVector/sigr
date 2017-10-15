@@ -156,8 +156,6 @@ wrapFisherTest.data.frame <- function(x,
 #' Wrap fisher.test (test of categorial indendence).
 #'
 #' @param x data.frame
-#' @param Column1Name character column 1 name
-#' @param Column2Name character column 2 name
 #' @param ... extra arguments (not used)
 #' @param workspace passed to \code{\link[stats]{fisher.test}}
 #' @param hybrid passed to \code{\link[stats]{fisher.test}}
@@ -175,21 +173,22 @@ wrapFisherTest.data.frame <- function(x,
 #' d <- data.frame(x=c('b','a','a','a','b','b','b'),
 #'                 y=c('1','1','1','2','2','2','2'))
 #' t <- table(d)
-#' wrapFisherTest(t, 'x', 'y')
+#' wrapFisherTest(t)
 #'
 #'
 #' @importFrom stats fisher.test
 #'
 #' @export
 wrapFisherTest.table <- function(x,
-                                 Column1Name,
-                                 Column2Name,
-                                 ...,
+                                ...,
                                  workspace = 200000, hybrid = FALSE,
                                  control = list(), or = 1, alternative = "two.sided",
                                  conf.int = TRUE, conf.level = 0.95,
                                  simulate.p.value = FALSE, B = 2000) {
   n <- sum(x)
+  dimnames <- attr(t, 'dimnames')
+  Column1Name <- names(dimnames)[[1]]
+  Column2Name <- names(dimnames)[[2]]
   ft <- stats::fisher.test(x,
                            workspace = workspace, hybrid = hybrid,
                            control = control, or = or, alternative = alternative,

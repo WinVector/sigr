@@ -4,17 +4,12 @@
 \alias{wrapFisherTest.table}
 \title{Wrap fisher.test (test of categorial indendence).}
 \usage{
-\method{wrapFisherTest}{table}(x, Column1Name, Column2Name, ...,
-  workspace = 2e+05, hybrid = FALSE, control = list(), or = 1,
-  alternative = "two.sided", conf.int = TRUE, conf.level = 0.95,
-  simulate.p.value = FALSE, B = 2000)
+\method{wrapFisherTest}{table}(x, ..., workspace = 2e+05, hybrid = FALSE,
+  control = list(), or = 1, alternative = "two.sided", conf.int = TRUE,
+  conf.level = 0.95, simulate.p.value = FALSE, B = 2000)
 }
 \arguments{
 \item{x}{data.frame}
-
-\item{Column1Name}{character column 1 name}
-
-\item{Column2Name}{character column 2 name}
 
 \item{...}{extra arguments (not used)}
 
@@ -47,7 +42,7 @@ Wrap fisher.test (test of categorial indendence).
 d <- data.frame(x=c('b','a','a','a','b','b','b'),
                 y=c('1','1','1','2','2','2','2'))
 t <- table(d)
-wrapFisherTest(t, 'x', 'y')
+wrapFisherTest(t)
 
 
 }
