@@ -141,9 +141,9 @@ wrapTTest.data.frame <- function(x,
   }
   n <- length(c1)
   tt <- stats::t.test(c1,c2,
-                      alternative = c("two.sided", "less", "greater"),
-                      mu = 0, paired = FALSE, var.equal = FALSE,
-                      conf.level = 0.95, ...)
+                      alternative =alternative,
+                      mu = mu, paired = paired, var.equal =  var.equal,
+                      conf.level = conf.level, ...)
   r <- list(tt=tt,
             test='t.test',
             Column1Name=Column1Name,
@@ -204,9 +204,9 @@ wrapTTest.numeric <- function(x,
   }
   n <- length(c1)
   tt <- stats::t.test(c1,c2,
-                      alternative = c("two.sided", "less", "greater"),
-                      mu = 0, paired = FALSE, var.equal = FALSE,
-                      conf.level = 0.95, ...)
+                      alternative = alternative,
+                      mu = mu, paired = paired, var.equal = var.equal,
+                      conf.level = conf.level, ...)
   r <- list(tt=tt,
             test='t.test',
             Column1Name='x',

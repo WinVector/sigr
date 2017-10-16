@@ -1,7 +1,8 @@
 
-# sigr 0.2.2 2017-10-15
+# sigr 0.2.2 2017-10-16
 
  * Add table Fisher test.
+ * Fix "not connected" options on TTest and others.
 
 # sigr 0.2.1 2017-10-14
 
