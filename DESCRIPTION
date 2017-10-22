@@ -1,6 +1,6 @@
 Package: sigr
 Type: Package
-Title: Format Significance Summaries for Reports
+Title: Succinct and Correct Statistical Summaries for Reports
 Version: 0.2.2
 Date: 2017-10-22
 Authors@R: c(
@@ -11,7 +11,7 @@ Authors@R: c(
 URL: https://github.com/WinVector/sigr/, https://winvector.github.io/sigr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/sigr/issues
-Description: Succinctly format significance summaries of
+Description: Succinctly and correctly format statistical summaries of
     various models and tests (F-test, Chi-Sq-test, Fisher-test, T-test, and rank-significance).  The main purpose is unified reporting and planning
     of experimental results, working around issue such as the difficulty of
     extracting model summary facts (such as with 'lm'/'glm').  This package also
