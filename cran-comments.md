@@ -8,7 +8,7 @@ Minor maitinance update (clean up imports to improve CRAN results).
    * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 
    * Windows
-   * using R Under development (unstable) (2017-09-12 r73242)
+   * using R Under development (unstable) (2018-01-26 r74169)
    * using platform: x86_64-w64-mingw32 (64-bit)
 
 ## R CMD check --as-cran sigr_0.2.3.tar.gz 
