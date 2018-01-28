@@ -1,25 +1,26 @@
 
+Minor maitinance update (clean up imports to improve CRAN results).
+
 ## Test environments
 
- * OSX
- * using R version 3.4.2 (2017-09-28)
- * using platform: x86_64-apple-darwin15.6.0 (64-bit)
+   * OSX
+   * using R version 3.4.3 (2017-11-30)
+   * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 
- * Windows
- * using R Under development (unstable) (2017-09-12 r73242)
- * using platform: x86_64-w64-mingw32 (64-bit)
+   * Windows
+   * using R Under development (unstable) (2017-09-12 r73242)
+   * using platform: x86_64-w64-mingw32 (64-bit)
 
-## R CMD check --as-cran sigr_0.2.2.tar.gz 
+## R CMD check --as-cran sigr_0.2.3.tar.gz 
 
- * using session charset: UTF-8
- * using option ‘--as-cran’
- * checking for file ‘sigr/DESCRIPTION’ ... OK
- * checking extension type ... Package
- * this is package ‘sigr’ version ‘0.2.2’
+   * using option ‘--as-cran’
+   * checking for file ‘sigr/DESCRIPTION’ ... OK
+   * checking extension type ... Package
+   * this is package ‘sigr’ version ‘0.2.3’
 
 
-Note_to_CRAN_maintainers
-Maintainer: ‘John Mount <jmount@win-vector.com>’
+  * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+  Maintainer: ‘John Mount <jmount@win-vector.com>’
 
 Status: OK
 

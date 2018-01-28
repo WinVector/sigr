@@ -1,4 +1,8 @@
 
+# sigr 0.2.3 2017-01-28
+
+ * Improve import declarations.
+
 # sigr 0.2.2 2017-10-22
 
  * Add table Fisher test.
