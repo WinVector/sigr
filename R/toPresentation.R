@@ -57,7 +57,7 @@ render.sigr_significance <- function(statistic,
   fsyms <- syms[format,]
   pString <- paste0(fsyms['startI'],symbol,fsyms['endI'])
   if(is.na(sig)||is.infinite(sig)||is.nan(sig)) {
-    pString <- 'n.a.'
+    pString <- paste0(pString,fsyms['eq'],'n.a.')
   } else if(sig>=pLargeCutoff) {
     pString <- paste0(pString,fsyms['eq'],'n.s.')
   } else {
@@ -70,6 +70,20 @@ render.sigr_significance <- function(statistic,
   }
   #attr(pString,'format') <- format
   pString
+}
+
+#' Format
+#'
+#' @param x sigr wrapper to print
+#' @param ... extra arguments (not used)
+#' @return formatted string
+#' @examples
+#'
+#' format(wrapSignificance(1/300))
+#'
+#' @export
+format.sigr_statistic <- function(x, ...) {
+  render(x,format='ascii')
 }
 
 #' Print

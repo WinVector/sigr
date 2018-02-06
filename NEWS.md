@@ -1,5 +1,10 @@
 
-# sigr 0.2.3 2017-01-28
+# sigr 0.2.4 2018-02-06
+
+ * Minor formatting improvements.
+ * Add format S3 method.
+
+# sigr 0.2.3 2018-01-28
 
  * Improve import declarations.
 
