@@ -17,10 +17,10 @@ See also:
 -   [Adding polished significance summaries to papers using R](http://www.win-vector.com/blog/2016/10/adding-polished-significance-summaries-to-papers-using-r/)
 -   [Publication Manual of the American Psychological Association, Sixth Edition](http://www.apastyle.org/manual/)
 -   [Proofing statistics in papers](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/)
--   [broom](https://cran.r-project.org/package=broom)
--   [modelr](https://cran.r-project.org/package=modelr)
--   [ralfer/apa\_format\_and\_misc](https://github.com/ralfer/apa_format_and_misc)
+-   [apa](https://CRAN.R-project.org/package=apa)
 -   [bootstrap](https://CRAN.R-project.org/package=bootstrap)
+-   [broom](https://cran.r-project.org/package=broom)
+-   [ralfer/apa\_format\_and\_misc](https://github.com/ralfer/apa_format_and_misc)
 -   [pwr](https://CRAN.R-project.org/package=pwr)
 
 Used to render the [support material](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/) for [Proofing statistics in papers](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/).
