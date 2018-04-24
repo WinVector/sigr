@@ -27,7 +27,7 @@ render.sigr_chisqtest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   statStr <- paste0('%.',statDigits,'g')

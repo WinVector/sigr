@@ -52,7 +52,7 @@ render.sigr_significance <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   pString <- paste0(fsyms['startI'],symbol,fsyms['endI'])

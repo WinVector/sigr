@@ -18,13 +18,16 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +35,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,8 +52,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">sigr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">sigr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.5</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -76,7 +85,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -85,6 +94,7 @@
   <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -92,383 +102,378 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.2.4</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="calcAUC.html">calcAUC</a></code> </p>
-          </td>
-          <td><p>calculate AUC.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="calcDeviance.html">calcDeviance</a></code> </p>
-          </td>
-          <td><p>Calculate deviance.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="calcSSE.html">calcSSE</a></code> </p>
-          </td>
-          <td><p>Calculate sum of squared error.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="estimateDifferenceZeroCrossing.html">estimateDifferenceZeroCrossing</a></code> </p>
-          </td>
-          <td><p>Studentized estimate of how often a difference is below zero.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="format.sigr_statistic.html">format</a></code> </p>
-          </td>
-          <td><p>Format</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getRenderingFormat.html">getRenderingFormat</a></code> </p>
-          </td>
-          <td><p>Detect rendering format (using knitr).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="permTestAUC.html">permTestAUC</a></code> </p>
-          </td>
-          <td><p>Perform AUC permutation test.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="permutationScoreModel.html">permutationScoreModel</a></code> </p>
-          </td>
-          <td><p>Empirical permuation test of significance of scoreFn(modelValues,yValues) &gt;= scoreFn(modelValues,perm(yValues)).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="print.sigr_statistic.html">print</a></code> </p>
-          </td>
-          <td><p>Print</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.html">render</a></code> </p>
-          </td>
-          <td><p>Format summary roughly in "APA Style" ( American Psychological Association ).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_aucpairtest.html">render</a></code> </p>
-          </td>
-          <td><p>Format an AUC-test (quality of a probability score)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_aucpermtest.html">render</a></code> </p>
-          </td>
-          <td><p>Format an AUC-test (quality of a probability score)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_aucresamptest.html">render</a></code> </p>
-          </td>
-          <td><p>Format an AUC-test (quality of a probability score)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_chisqtest.html">render</a></code> </p>
-          </td>
-          <td><p>Format a chi-square test (quality of categorical prediction)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_cohend.html">render</a></code> </p>
-          </td>
-          <td><p>Format Cohen-D (effect size between groups)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_cortest.html">render</a></code> </p>
-          </td>
-          <td><p>Format cor.test (test of liner correlation).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_emptest.html">render</a></code> </p>
-          </td>
-          <td><p>Format an empirical test (quality of categorical prediction)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_fishertest.html">render</a></code> </p>
-          </td>
-          <td><p>Format fisher.test (test of categorial indendence).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_ftest.html">render</a></code> </p>
-          </td>
-          <td><p>Format an F-test</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_permtest.html">render</a></code> </p>
-          </td>
-          <td><p>Format an empirical test (quality of categorical prediction)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_pwr_htest.html">render</a></code> </p>
-          </td>
-          <td><p>Format a pwr-test</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_significance.html">render</a></code> </p>
-          </td>
-          <td><p>Format a significance</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="render.sigr_ttest.html">render</a></code> </p>
-          </td>
-          <td><p>Format a T-test (difference in means by group)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="resampleScoreModel.html">resampleScoreModel</a></code> </p>
-          </td>
-          <td><p>Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="resampleScoreModelPair.html">resampleScoreModelPair</a></code> </p>
-          </td>
-          <td><p>Studentized bootstrap test of strength of scoreFn(yValues,model1Values) &gt; scoreFn(yValues,model1Values).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="resampleTestAUC.html">resampleTestAUC</a></code> </p>
-          </td>
-          <td><p>Wrap AUC resampling test results.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="sigr.html">sigr</a></code> </p>
-          </td>
-          <td><p>sigr: Format Significance Summaries for Reports</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="testAUCpair.html">testAUCpair</a></code> </p>
-          </td>
-          <td><p>Test AUC pair results.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapChiSqTest.anova.html">wrapChiSqTest</a></code> </p>
-          </td>
-          <td><p>Format ChiSqTest from anova of logistic model.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapChiSqTest.data.frame.html">wrapChiSqTest</a></code> </p>
-          </td>
-          <td><p>Format ChiSqTest from data.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapChiSqTest.glm.html">wrapChiSqTest</a></code> </p>
-          </td>
-          <td><p>Format ChiSqTest from model.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapChiSqTest.html">wrapChiSqTest</a></code> </p>
-          </td>
-          <td><p>Wrap quality of a categorical prediction roughly in "APA Style" ( American Psychological Association ).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapChiSqTest.summary.glm.html">wrapChiSqTest</a></code> </p>
-          </td>
-          <td><p>Format ChiSqTest from model summary.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapChiSqTestImpl.html">wrapChiSqTestImpl</a></code> </p>
-          </td>
-          <td><p>Format quality of a logistic regression roughly in "APA Style"
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="calcAUC.html">calcAUC()</a></code> </p>
+        </td>
+        <td><p>calculate AUC.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="calcDeviance.html">calcDeviance()</a></code> </p>
+        </td>
+        <td><p>Calculate deviance.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="calcSSE.html">calcSSE()</a></code> </p>
+        </td>
+        <td><p>Calculate sum of squared error.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="estimateDifferenceZeroCrossing.html">estimateDifferenceZeroCrossing()</a></code> </p>
+        </td>
+        <td><p>Studentized estimate of how often a difference is below zero.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="format.sigr_statistic.html">format(<i>&lt;sigr_statistic&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getRenderingFormat.html">getRenderingFormat()</a></code> </p>
+        </td>
+        <td><p>Detect rendering format (using knitr).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="permTestAUC.html">permTestAUC()</a></code> </p>
+        </td>
+        <td><p>Perform AUC permutation test.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="permutationScoreModel.html">permutationScoreModel()</a></code> </p>
+        </td>
+        <td><p>Empirical permuation test of significance of scoreFn(modelValues,yValues) &gt;= scoreFn(modelValues,perm(yValues)).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="print.sigr_statistic.html">print(<i>&lt;sigr_statistic&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.html">render()</a></code> </p>
+        </td>
+        <td><p>Format summary roughly in "APA Style" ( American Psychological Association ).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_aucpairtest.html">render(<i>&lt;sigr_aucpairtest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format an AUC-test (quality of a probability score)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_aucpermtest.html">render(<i>&lt;sigr_aucpermtest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format an AUC-test (quality of a probability score)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_aucresamptest.html">render(<i>&lt;sigr_aucresamptest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format an AUC-test (quality of a probability score)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_chisqtest.html">render(<i>&lt;sigr_chisqtest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format a chi-square test (quality of categorical prediction)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_cohend.html">render(<i>&lt;sigr_cohend&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format Cohen-D (effect size between groups)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_cortest.html">render(<i>&lt;sigr_cortest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format cor.test (test of liner correlation).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_emptest.html">render(<i>&lt;sigr_emptest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format an empirical test (quality of categorical prediction)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_fishertest.html">render(<i>&lt;sigr_fishertest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format fisher.test (test of categorial indendence).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_ftest.html">render(<i>&lt;sigr_ftest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format an F-test</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_permtest.html">render(<i>&lt;sigr_permtest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format an empirical test (quality of categorical prediction)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_pwr_htest.html">render(<i>&lt;sigr_pwr_htest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format a pwr-test</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_significance.html">render(<i>&lt;sigr_significance&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format a significance</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="render.sigr_ttest.html">render(<i>&lt;sigr_ttest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format a T-test (difference in means by group)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="resampleScoreModel.html">resampleScoreModel()</a></code> </p>
+        </td>
+        <td><p>Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="resampleScoreModelPair.html">resampleScoreModelPair()</a></code> </p>
+        </td>
+        <td><p>Studentized bootstrap test of strength of scoreFn(yValues,model1Values) &gt; scoreFn(yValues,model1Values).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="resampleTestAUC.html">resampleTestAUC()</a></code> </p>
+        </td>
+        <td><p>Wrap AUC resampling test results.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="sigr.html">sigr</a></code> </p>
+        </td>
+        <td><p>sigr: Format Significance Summaries for Reports</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="testAUCpair.html">testAUCpair()</a></code> </p>
+        </td>
+        <td><p>Test AUC pair results.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapChiSqTest.html">wrapChiSqTest()</a></code> </p>
+        </td>
+        <td><p>Wrap quality of a categorical prediction roughly in "APA Style" ( American Psychological Association ).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapChiSqTest.anova.html">wrapChiSqTest(<i>&lt;anova&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format ChiSqTest from anova of logistic model.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapChiSqTest.data.frame.html">wrapChiSqTest(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format ChiSqTest from data.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapChiSqTest.glm.html">wrapChiSqTest(<i>&lt;glm&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format ChiSqTest from model.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapChiSqTest.summary.glm.html">wrapChiSqTest(<i>&lt;summary.glm&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Format ChiSqTest from model summary.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapChiSqTestImpl.html">wrapChiSqTestImpl()</a></code> </p>
+        </td>
+        <td><p>Format quality of a logistic regression roughly in "APA Style"
  ( American Psychological Association ).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapCohenD.data.frame.html">wrapCohenD</a></code> </p>
-          </td>
-          <td><p>Wrap Cohen's D (effect size between groups).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapCohenD.numeric.html">wrapCohenD</a></code> </p>
-          </td>
-          <td><p>Wrap Cohen's D (effect size between groups).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapCohenD.html">wrapCohenD</a></code> </p>
-          </td>
-          <td><p>Wrap Cohen's D (effect size between groups).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapCorTest.data.frame.html">wrapCorTest</a></code> </p>
-          </td>
-          <td><p>Wrap cor.test (test of liner correlation).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapCorTest.htest.html">wrapCorTest</a></code> </p>
-          </td>
-          <td><p>Wrap cor.test (test of liner correlation).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapCorTest.html">wrapCorTest</a></code> </p>
-          </td>
-          <td><p>Wrap cor.test (test of liner correlation).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFisherTest.data.frame.html">wrapFisherTest</a></code> </p>
-          </td>
-          <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFisherTest.htest.html">wrapFisherTest</a></code> </p>
-          </td>
-          <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFisherTest.html">wrapFisherTest</a></code> </p>
-          </td>
-          <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFisherTest.table.html">wrapFisherTest</a></code> </p>
-          </td>
-          <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTest.anova.html">wrapFTest</a></code> </p>
-          </td>
-          <td><p>Wrap quality statistic of a linear relation from anova.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTest.data.frame.html">wrapFTest</a></code> </p>
-          </td>
-          <td><p>Wrap quality statistic of a linear relation from data.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTest.lm.html">wrapFTest</a></code> </p>
-          </td>
-          <td><p>Wrap quality statistic of a linear regression.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTest.html">wrapFTest</a></code> </p>
-          </td>
-          <td><p>Wrap F-test (significane of a linear relation).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTest.summary.lm.html">wrapFTest</a></code> </p>
-          </td>
-          <td><p>Wrap quality statistic of a linear regression summary.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTestezANOVA.html">wrapFTestezANOVA</a></code> </p>
-          </td>
-          <td><p>Wrap quality statistic of a linear relation from ezANOVA (package ez).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapFTestImpl.html">wrapFTestImpl</a></code> </p>
-          </td>
-          <td><p>Wrap F-test (significane of a linear relation).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapPWR.power.htest.html">wrapPWR</a></code> </p>
-          </td>
-          <td><p>Wrap pwr test.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapPWR.html">wrapPWR</a></code> </p>
-          </td>
-          <td><p>Wrap pwr test (difference in means by group).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapSignificance.html">wrapSignificance</a></code> </p>
-          </td>
-          <td><p>Wrap a significance</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapTTest.data.frame.html">wrapTTest</a></code> </p>
-          </td>
-          <td><p>Wrap t.test (difference in means by group).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapTTest.htest.html">wrapTTest</a></code> </p>
-          </td>
-          <td><p>Wrap t.test (difference in means by group).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapTTest.numeric.html">wrapTTest</a></code> </p>
-          </td>
-          <td><p>Wrap t.test (difference in means by group).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapTTest.html">wrapTTest</a></code> </p>
-          </td>
-          <td><p>Wrap t.test (difference in means by group).</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapCohenD.html">wrapCohenD()</a></code> </p>
+        </td>
+        <td><p>Wrap Cohen's D (effect size between groups).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapCohenD.data.frame.html">wrapCohenD(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap Cohen's D (effect size between groups).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapCohenD.numeric.html">wrapCohenD(<i>&lt;numeric&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap Cohen's D (effect size between groups).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapCorTest.html">wrapCorTest()</a></code> </p>
+        </td>
+        <td><p>Wrap cor.test (test of liner correlation).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapCorTest.data.frame.html">wrapCorTest(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap cor.test (test of liner correlation).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapCorTest.htest.html">wrapCorTest(<i>&lt;htest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap cor.test (test of liner correlation).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTest.html">wrapFTest()</a></code> </p>
+        </td>
+        <td><p>Wrap F-test (significane of a linear relation).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTest.anova.html">wrapFTest(<i>&lt;anova&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap quality statistic of a linear relation from anova.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTest.data.frame.html">wrapFTest(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap quality statistic of a linear relation from data.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTest.lm.html">wrapFTest(<i>&lt;lm&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap quality statistic of a linear regression.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTest.summary.lm.html">wrapFTest(<i>&lt;summary.lm&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap quality statistic of a linear regression summary.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTestImpl.html">wrapFTestImpl()</a></code> </p>
+        </td>
+        <td><p>Wrap F-test (significane of a linear relation).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFTestezANOVA.html">wrapFTestezANOVA()</a></code> </p>
+        </td>
+        <td><p>Wrap quality statistic of a linear relation from ezANOVA (package ez).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFisherTest.html">wrapFisherTest()</a></code> </p>
+        </td>
+        <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFisherTest.data.frame.html">wrapFisherTest(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFisherTest.htest.html">wrapFisherTest(<i>&lt;htest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapFisherTest.table.html">wrapFisherTest(<i>&lt;table&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap fisher.test (test of categorial indendence).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapPWR.html">wrapPWR()</a></code> </p>
+        </td>
+        <td><p>Wrap pwr test (difference in means by group).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapPWR.power.htest.html">wrapPWR(<i>&lt;power.htest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap pwr test.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapSignificance.html">wrapSignificance()</a></code> </p>
+        </td>
+        <td><p>Wrap a significance</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapTTest.html">wrapTTest()</a></code> </p>
+        </td>
+        <td><p>Wrap t.test (difference in means by group).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapTTest.data.frame.html">wrapTTest(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap t.test (difference in means by group).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapTTest.htest.html">wrapTTest(<i>&lt;htest&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap t.test (difference in means by group).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapTTest.numeric.html">wrapTTest(<i>&lt;numeric&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrap t.test (difference in means by group).</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -485,11 +490,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

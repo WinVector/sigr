@@ -30,7 +30,7 @@ render.sigr_cohend <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   stat_format_str <- paste0('%.',statDigits,'g')

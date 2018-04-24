@@ -1,26 +1,25 @@
 
-Minor maitinance update (better S3 linkages).
+Minor maintenance update, be more lenient with formats.
 
 ## Test environments
 
     * OSX
-    * using R version 3.4.3 (2017-11-30)
-    * using platform: x86_64-apple-darwin15.6.0 (64-bit)
-
+ 
     * Windows
-    * using R Under development (unstable) (2018-03-12 r74391)
-    * using platform: x86_64-w64-mingw32 (64-bit)
+ 
+## R CMD check --as-cran sigr_0.2.5.tar.gz 
 
-## R CMD check --as-cran sigr_0.2.4.tar.gz 
-
+    * using R version 3.4.4 (2018-03-15)
+    * using platform: x86_64-apple-darwin15.6.0 (64-bit)
+    * using session charset: UTF-8
     * using option ‘--as-cran’
     * checking for file ‘sigr/DESCRIPTION’ ... OK
     * checking extension type ... Package
-    * this is package ‘sigr’ version ‘0.2.4’
+    * this is package ‘sigr’ version ‘0.2.5’
     * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
-      Maintainer: ‘John Mount <jmount@win-vector.com>’
-
-Status: OK
+    Maintainer: ‘John Mount <jmount@win-vector.com>’
+    
+    Status: OK
 
 ## Downstream dependencies
 

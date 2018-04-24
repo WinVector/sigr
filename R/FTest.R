@@ -37,7 +37,7 @@ render.sigr_ftest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   pString <- render(wrapSignificance(statistic$pValue,
@@ -122,7 +122,7 @@ wrapFTest.lm <- function(x,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   if(!'lm' %in% class(linearRegressionModel)) {
     stop('wrapFTest.lm expected class lm')
@@ -169,7 +169,7 @@ wrapFTest.summary.lm <- function(x,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   if(!'summary.lm' %in% class(fitSummary)) {
     stop('wrapFTest.summary.lm expected class summary.lm')
@@ -239,7 +239,7 @@ wrapFTest.data.frame <- function(x,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   if(!is.numeric(predictions)) {
     stop('wrapFTestFromData expected numeric argument')

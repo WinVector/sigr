@@ -30,7 +30,7 @@ render.sigr_aucpermtest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   stat_format_str <- paste0('%.',statDigits,'g')
@@ -135,7 +135,7 @@ render.sigr_aucresamptest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   eScore <- statistic$eScore
@@ -245,7 +245,7 @@ render.sigr_aucpairtest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   eScore <- statistic$eScore

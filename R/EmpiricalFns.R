@@ -42,7 +42,7 @@ render.sigr_permtest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   pString <- render(wrapSignificance(statistic$pValue,
@@ -317,7 +317,7 @@ render.sigr_emptest <- function(statistic,
     format <- getRenderingFormat()
   }
   if(!(format %in% formats)) {
-    stop(paste("format",format,"not recognized"))
+    format <- "ascii"
   }
   fsyms <- syms[format,]
   pString <- render(wrapSignificance(statistic$eValue,
