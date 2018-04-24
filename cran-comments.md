@@ -4,13 +4,15 @@ Minor maintenance update, be more lenient with formats.
 ## Test environments
 
     * OSX
+    * using R version 3.4.4 (2018-03-15)
+    * using platform: x86_64-apple-darwin15.6.0 (64-bit)
  
     * Windows
+    * using R Under development (unstable) (2018-04-24 r74636)
+    * using platform: x86_64-w64-mingw32 (64-bit)
  
 ## R CMD check --as-cran sigr_0.2.5.tar.gz 
 
-    * using R version 3.4.4 (2018-03-15)
-    * using platform: x86_64-apple-darwin15.6.0 (64-bit)
     * using session charset: UTF-8
     * using option ‘--as-cran’
     * checking for file ‘sigr/DESCRIPTION’ ... OK
