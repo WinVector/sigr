@@ -1,8 +1,8 @@
 Package: sigr
 Type: Package
 Title: Succinct and Correct Statistical Summaries for Reports
-Version: 0.2.5
-Date: 2018-04-24
+Version: 0.2.6
+Date: 2018-05-18
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -19,6 +19,8 @@ Description: Succinctly and correctly format statistical summaries of
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 6.0.1
+Depends:
+  R (>= 3.0.0)
 Imports: pwr
 Suggests: parallel,
     knitr,

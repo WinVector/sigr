@@ -1,4 +1,8 @@
 
+# sigr 0.2.5 2018-05-18
+
+ * Adjust dependencies.
+
 # sigr 0.2.5 2018-04-24
 
  * Allow more formats.
