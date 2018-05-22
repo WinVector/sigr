@@ -17,7 +17,9 @@ render <- function(statistic,...,
                    statDigits=2,
                    sigDigits=2,
                    pLargeCutoff=0.05,
-                   pSmallCutoff=1.0e-5) UseMethod('render')
+                   pSmallCutoff=1.0e-5) {
+  UseMethod('render')
+}
 
 
 #' Format a significance
@@ -70,6 +72,20 @@ render.sigr_significance <- function(statistic,
   }
   #attr(pString,'format') <- format
   pString
+}
+
+#' as.character
+#'
+#' @param x sigr wrapper to print
+#' @param ... extra arguments (not used)
+#' @return formatted string
+#' @examples
+#'
+#' as.character(wrapSignificance(1/300))
+#'
+#' @export
+as.character.sigr_statistic <- function(x, ...) {
+  render(x,format='ascii')
 }
 
 #' Format
