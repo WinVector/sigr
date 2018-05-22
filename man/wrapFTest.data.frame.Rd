@@ -2,7 +2,7 @@
 % Please edit documentation in R/FTest.R
 \name{wrapFTest.data.frame}
 \alias{wrapFTest.data.frame}
-\title{Wrap quality statistic of a linear relation from data.}
+\title{Wrap quality statistic of identity relation from data.}
 \usage{
 \method{wrapFTest}{data.frame}(x, predictionColumnName, yColumnName,
   nParameters = 1, meany = mean(x[[yColumnName]]), ..., na.rm = FALSE,
@@ -33,7 +33,7 @@
 formatted string and fields
 }
 \description{
-Wrap quality statistic of a linear relation from data.
+Wrap quality statistic of identity relation from data.
 }
 \examples{
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/FTest.R
 \name{wrapFTest.summary.lm}
 \alias{wrapFTest.summary.lm}
-\title{Wrap quality statistic of a linear regression summary.}
+\title{Wrap quality statistic of linear regression summary.}
 \usage{
 \method{wrapFTest}{summary.lm}(x, ..., format, pLargeCutoff = 0.05,
   pSmallCutoff = 1e-05)
@@ -22,7 +22,7 @@
 formatted string
 }
 \description{
-Wrap quality statistic of a linear regression summary.
+Wrap quality statistic of linear regression summary.
 }
 \examples{
 

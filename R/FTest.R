@@ -1,7 +1,7 @@
 
 
 
-#' Wrap F-test (significane of a linear relation).
+#' Wrap F-test (significane identity relation).
 #'
 #' @param x numeric, data.frame or lm where to get model or data to score.
 #' @param ... extra arguments
@@ -58,7 +58,7 @@ render.sigr_ftest <- function(statistic,
   formatStr
 }
 
-#' Wrap F-test (significane of a linear relation).
+#' Wrap F-test (significane of identity relation).
 #'
 #' @param numdf degrees of freedom 1.
 #' @param dendf degrees of freedom 2.
@@ -90,7 +90,7 @@ wrapFTestImpl <- function(numdf, dendf, FValue) {
   r
 }
 
-#' Wrap quality statistic of a linear regression.
+#' Wrap quality statistic of identity r regression.
 #'
 #' @param x lm model
 #' @param ... extra arguments (not used)
@@ -137,7 +137,7 @@ wrapFTest.lm <- function(x,
 
 
 
-#' Wrap quality statistic of a linear regression summary.
+#' Wrap quality statistic of linear regression summary.
 #'
 #' @param x summary.lm summary(lm()) object
 #' @param ... extra arguments (not used)
@@ -183,7 +183,7 @@ wrapFTest.summary.lm <- function(x,
 
 
 
-#' Wrap quality statistic of a linear relation from data.
+#' Wrap quality statistic of identity relation from data.
 #'
 #' @param x data frame containing columns to compare
 #' @param predictionColumnName character name of prediction column

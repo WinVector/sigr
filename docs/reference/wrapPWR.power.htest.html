@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Wrap pwr test. — wrapPWR.power.htest" />
 
 <meta property="og:description" content="Wrap pwr test." />
@@ -38,8 +41,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -57,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.6</span>
       </span>
     </div>
 
@@ -109,13 +110,15 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrap pwr test.</h1>
-    <small>Source: <a href='https://github.com/WinVector/sigr//blob/master/R/pwr.R'><code>R/pwr.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/pwr.R'><code>R/pwr.R</code></a></small>
     <div class="hidden name"><code>wrapPWR.power.htest.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Wrap pwr test.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for power.htest</span>
 <span class='fu'><a href='wrapPWR.html'>wrapPWR</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
@@ -140,10 +143,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># Example from pwr package</span>
-<span class='co'>#  Exercise 6.1 p. 198 from Cohen (1988)</span>
-<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>pwr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/pwr/topics/pwr.2p.test'>pwr.2p.test</a></span>(<span class='kw'>h</span><span class='kw'>=</span><span class='fl'>0.3</span>,<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>80</span>,<span class='kw'>sig.level</span><span class='kw'>=</span><span class='fl'>0.05</span>,<span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>)
-<span class='fu'><a href='wrapPWR.html'>wrapPWR</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt; [1] "Difference of proportion power calculation for binomial distribution (arcsine transformation) sig=0.05, 1-pwr=0.4; h: 0.3, n: 80, alternative: greater."</div><div class='input'>
+<span class='kw'>if</span>(<span class='fu'>require</span>(<span class='st'>"pwr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+  <span class='co'># Example from pwr package</span>
+  <span class='co'>#  Exercise 6.1 p. 198 from Cohen (1988)</span>
+  <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>pwr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/pwr/topics/pwr.2p.test'>pwr.2p.test</a></span>(<span class='kw'>h</span><span class='kw'>=</span><span class='fl'>0.3</span>,<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>80</span>,<span class='kw'>sig.level</span><span class='kw'>=</span><span class='fl'>0.05</span>,<span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>)
+  <span class='fu'><a href='wrapPWR.html'>wrapPWR</a></span>(<span class='no'>test</span>)
+}</div><div class='output co'>#&gt; [1] "Difference of proportion power calculation for binomial distribution (arcsine transformation) sig=0.05, 1-pwr=0.4; h: 0.3, n: 80, alternative: greater."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

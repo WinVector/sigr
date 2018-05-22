@@ -2,7 +2,7 @@
 % Please edit documentation in R/FTest.R
 \name{wrapFTestImpl}
 \alias{wrapFTestImpl}
-\title{Wrap F-test (significane of a linear relation).}
+\title{Wrap F-test (significane of identity relation).}
 \usage{
 wrapFTestImpl(numdf, dendf, FValue)
 }
@@ -17,7 +17,7 @@ wrapFTestImpl(numdf, dendf, FValue)
 wrapped statistic
 }
 \description{
-Wrap F-test (significane of a linear relation).
+Wrap F-test (significane of identity relation).
 }
 \examples{
 

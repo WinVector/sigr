@@ -2,7 +2,7 @@
 % Please edit documentation in R/FTest.R
 \name{wrapFTest}
 \alias{wrapFTest}
-\title{Wrap F-test (significane of a linear relation).}
+\title{Wrap F-test (significane identity relation).}
 \usage{
 wrapFTest(x, ...)
 }
@@ -12,7 +12,7 @@ wrapFTest(x, ...)
 \item{...}{extra arguments}
 }
 \description{
-Wrap F-test (significane of a linear relation).
+Wrap F-test (significane identity relation).
 }
 \seealso{
 \code{\link{wrapFTestImpl}},  \code{\link{wrapFTest.lm}},  and \code{\link{wrapFTest.data.frame}}

@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Studentized bootstrap test of strength of scoreFn(yValues,model1Values) &gt; scoreFn(yValues,model1Values). — resampleScoreModelPair" />
 
 <meta property="og:description" content="True confidence intervals are harder to get right (see
@@ -43,8 +46,6 @@ but we will settle for simple p-value estimates." />
 <![endif]-->
 
 
-
-
   </head>
 
   <body>
@@ -60,7 +61,7 @@ but we will settle for simple p-value estimates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.6</span>
       </span>
     </div>
 
@@ -112,16 +113,18 @@ but we will settle for simple p-value estimates." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Studentized bootstrap test of strength of scoreFn(yValues,model1Values) &gt; scoreFn(yValues,model1Values).</h1>
-    <small>Source: <a href='https://github.com/WinVector/sigr//blob/master/R/EmpiricalFns.R'><code>R/EmpiricalFns.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/EmpiricalFns.R'><code>R/EmpiricalFns.R</code></a></small>
     <div class="hidden name"><code>resampleScoreModelPair.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>True confidence intervals are harder to get right (see
 "An Introduction to the Bootstrap", Bradely Efron,
 and Robert J. Tibshirani, Chapman &amp; Hall/CRC, 1993.),
 but we will settle for simple p-value estimates.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>resampleScoreModelPair</span>(<span class='no'>model1Values</span>, <span class='no'>model2Values</span>, <span class='no'>yValues</span>, <span class='no'>scoreFn</span>, <span class='no'>...</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>returnScores</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nRep</span> <span class='kw'>=</span> <span class='fl'>100</span>,

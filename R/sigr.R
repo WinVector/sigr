@@ -14,5 +14,3 @@
 #' @name sigr
 NULL
 
-#' @importFrom pwr pwr.2p.test
-NULL
