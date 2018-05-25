@@ -23,13 +23,11 @@ render.sigr_cohend <- function(statistic,
                               sigDigits=2,
                               pLargeCutoff=1,
                               pSmallCutoff=0) {
-  if(length(list(...))>0) {
-    stop("render.sigr_cohend unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_cohend")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -46,7 +44,9 @@ render.sigr_cohend <- function(statistic,
 #'
 #' @seealso \code{\link{wrapCohenD.data.frame}}
 #' @export
-wrapCohenD <- function(x,...) UseMethod('wrapCohenD')
+wrapCohenD <- function(x,...) {
+  UseMethod('wrapCohenD')
+}
 
 
 # NOT following strict definition, ad-hoc sensible calculation.
@@ -79,6 +79,7 @@ wrapCohenD.data.frame <- function(x,
                                  Column2Name,
                                  ...,
                                  na.rm = FALSE) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapCohenD.data.frame")
   if(!'data.frame' %in% class(x)) {
     stop('sigr::wrapCohenD expected class data.frame')
   }
@@ -128,6 +129,7 @@ wrapCohenD.numeric <- function(x,
                                treatment,
                                ...,
                                na.rm = FALSE) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapCohenD.numeric")
   if(!is.numeric(x)) {
     stop('sigr::wrapCohenD expected class x to be numeric')
   }

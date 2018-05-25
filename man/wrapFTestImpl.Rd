@@ -4,7 +4,7 @@
 \alias{wrapFTestImpl}
 \title{Wrap F-test (significane of identity relation).}
 \usage{
-wrapFTestImpl(numdf, dendf, FValue)
+wrapFTestImpl(numdf, dendf, FValue, ..., format = NULL)
 }
 \arguments{
 \item{numdf}{degrees of freedom 1.}
@@ -12,6 +12,10 @@ wrapFTestImpl(numdf, dendf, FValue)
 \item{dendf}{degrees of freedom 2.}
 
 \item{FValue}{observed F test statistic}
+
+\item{...}{not used, force later arguments to bind by name}
+
+\item{format}{optional, suggested format}
 }
 \value{
 wrapped statistic

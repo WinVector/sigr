@@ -1,5 +1,4 @@
 
-# TODO: S3 genericize wrapping.
 
 #' Format cor.test (test of liner correlation).
 #'
@@ -28,13 +27,11 @@ render.sigr_cortest <- function(statistic,
                           sigDigits=2,
                           pLargeCutoff=0.05,
                           pSmallCutoff=1.0e-5) {
-  if(length(list(...))) {
-    stop('render.sigr_cortest extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_cortest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -60,7 +57,9 @@ render.sigr_cortest <- function(statistic,
 #'
 #' @seealso \code{\link{wrapCorTest.htest}}, and  \code{\link{wrapCorTest.data.frame}}
 #' @export
-wrapCorTest <- function(x,...) UseMethod('wrapCorTest')
+wrapCorTest <- function(x,...) {
+  UseMethod('wrapCorTest')
+}
 
 
 
@@ -81,9 +80,7 @@ wrapCorTest <- function(x,...) UseMethod('wrapCorTest')
 #' @export
 wrapCorTest.htest <- function(x,
                           ...) {
-  if(length(list(...))) {
-    stop('wrapCorTest.htest extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapCorTest.htest")
   r <- list(ct=x,
             test='cor.test')
   class(r) <- c('sigr_cortest', 'sigr_statistic')

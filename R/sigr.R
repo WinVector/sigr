@@ -14,3 +14,5 @@
 #' @name sigr
 NULL
 
+#' @importFrom wrapr stop_if_dot_args
+NULL

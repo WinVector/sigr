@@ -35,13 +35,11 @@ render.sigr_permtest <- function(statistic,
                                  sigDigits=2,
                                  pLargeCutoff=0.05,
                                  pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_emptest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_permtest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -90,9 +88,7 @@ permutationScoreModel <- function(modelValues, yValues,
                                   returnScores= FALSE,
                                   nRep= 100,
                                   parallelCluster= NULL) {
-  if(length(list(...))>0) {
-    stop('permutationScoreModel unexpected extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::permutationScoreModel")
   if(!is.numeric(modelValues)) {
     stop("sigr::permutationScoreModel modelValues must be numeric")
   }
@@ -201,9 +197,7 @@ resampleScoreModel <- function(modelValues,
                                returnScores= FALSE,
                                nRep= 100,
                                parallelCluster= NULL) {
-  if(length(list(...))>0) {
-    stop('resampleScoreModelPair unexpected extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::resampleScoreModel")
   if(!is.numeric(modelValues)) {
     stop("sigr::resampleScoreModel modelValues must be numeric")
   }
@@ -310,13 +304,11 @@ render.sigr_emptest <- function(statistic,
                                 sigDigits=2,
                                 pLargeCutoff=0.05,
                                 pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_emptest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_emptest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -422,9 +414,7 @@ resampleScoreModelPair <- function(model1Values,
                                    nRep= 100,
                                    parallelCluster= NULL,
                                    sameSample= FALSE) {
-  if(length(list(...))>0) {
-    stop('resampleScoreModelPair unexpected extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::resampleScoreModelPair")
   if(!is.numeric(model1Values)) {
     stop("sigr::resampleScoreModelPair model1Values must be numeric")
   }

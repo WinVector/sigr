@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{sigr wrapper to print}
 
-\item{...}{extra arguments (not used)}
+\item{...}{extra arguments for sigr::render}
 }
 \value{
 formatted string

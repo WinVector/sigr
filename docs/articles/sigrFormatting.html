@@ -94,8 +94,9 @@
 <p>Examples of <code>sigr</code> formatting. Inspired by APA format (American Psychological Association), but not fully compliant. Discussed <a href="http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/">here</a>.</p>
 <p>Please see <a href="https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.pdf">here</a> and <a href="http://my.ilstu.edu/~jhkahn/apastats.html">here</a> for some notes.</p>
 <p>Simple formatting.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"sigr"</span>)
-sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/getRenderingFormat">getRenderingFormat</a></span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"sigr"</span>)</code></pre></div>
+<pre><code>## Loading required package: wrapr</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/getRenderingFormat">getRenderingFormat</a></span>()</code></pre></div>
 <p>[1] “html”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapSignificance.html">wrapSignificance</a></span>(<span class="dv">1</span><span class="op">/</span><span class="dv">300</span>)))</code></pre></div>
 <p><i>p</i>=0.0033</p>
@@ -188,7 +189,7 @@ d &lt;-<span class="st"> </span><span class="kw">rbind</span>(d,d,d,d)
 sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/resampleTestAUC">resampleTestAUC</a></span>(d,<span class="st">'x1'</span>,<span class="st">'y'</span>,<span class="ot">TRUE</span>,
                 <span class="dt">nrep=</span><span class="dv">200</span>,
                 <span class="dt">parallelCluster=</span>parallelCluster)</code></pre></div>
-<p>[1] “AUC test alt. hyp. AUC&gt;0.5: (AUC=0.66, s.d.=0.11, p=n.s.).”</p>
+<p>[1] “<b>AUC test alt. hyp. AUC&gt;0.5</b>: (<i>AUC</i>=0.66, <i>s.d.</i>=0.11, <i>p</i>=n.s.).”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">25325</span>)
 d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x1=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>),
                 <span class="dt">x2=</span><span class="dv">1</span>,
@@ -198,7 +199,7 @@ d &lt;-<span class="st"> </span><span class="kw">rbind</span>(d,d,d,d)
 sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/testAUCpair">testAUCpair</a></span>(d,<span class="st">'x1'</span>,<span class="st">'x2'</span>,<span class="st">'y'</span>,<span class="ot">TRUE</span>,
                     <span class="dt">nrep=</span><span class="dv">200</span>,
                     <span class="dt">parallelCluster=</span>parallelCluster)</code></pre></div>
-<p>[1] “AUC test resampled AUC1&gt;AUC2: (AUCs=0.66;0.5, s.d.=0.11, e=n.s.).”</p>
+<p>[1] “<b>AUC test resampled AUC1&gt;AUC2</b>: (<i>AUCs</i>=0.66;0.5, <i>s.d.</i>=0.11, <i>e</i>=n.s.).”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span>(<span class="op">!</span><span class="kw">is.null</span>(parallelCluster)) {
   parallel<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/parallel/topics/makeCluster">stopCluster</a></span>(parallelCluster)
 }</code></pre></div>
@@ -220,7 +221,7 @@ m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</sp
 ## 0.8660254</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(modelValues, yValues) { <span class="kw">cor</span>(modelValues, yValues) }
 sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/permutationScoreModel">permutationScoreModel</a></span>(m,y,f)</code></pre></div>
-<pre><code>## [1] "Studentized permutation test: is observed score greater than permuted score,  summary: p=0.021"</code></pre>
+<pre><code>## [1] "&lt;b&gt;Studentized permutation test&lt;/b&gt;: is observed score greater than permuted score,  summary: &lt;i&gt;p&lt;/i&gt;=0.021"</code></pre>
 <p>resampleScoreModel</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">25325</span>)
 y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>

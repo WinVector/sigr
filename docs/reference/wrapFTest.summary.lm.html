@@ -121,7 +121,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for summary.lm</span>
-<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>format</span>, <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>pSmallCutoff</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -160,7 +160,7 @@
                 <span class='kw'>y</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>))
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span>~<span class='no'>x</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span>)
 <span class='no'>sum</span> <span class='kw'>&lt;-</span> <span class='fu'>summary</span>(<span class='no'>model</span>)
-<span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sigr/topics/wrapFTest'>wrapFTest</a></span>(<span class='no'>sum</span>)</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.954, F(1,6)=124, p=3.1e-05)."</div><div class='input'>
+<span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sigr/topics/wrapFTest'>wrapFTest</a></span>(<span class='no'>sum</span>)</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.95, F(1,6)=1.2e+02, p=3.1e-05)."</div><div class='input'>
 
 </div></pre>
   </div>

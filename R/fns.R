@@ -56,6 +56,9 @@ getRenderingFormat <- function() {
   if(is.null(fmt)) {
     fmt <- 'ascii'
   }
+  if(!isTRUE(fmt %in% formats)) {
+    fmt <- "ascii"
+  }
   fmt
 }
 

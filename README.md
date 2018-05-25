@@ -63,6 +63,8 @@ summary(model)
 library("sigr")
 ```
 
+    ## Loading required package: wrapr
+
 ``` r
 cat(render(wrapChiSqTest(model),
            pLargeCutoff=1, format='markdown'))

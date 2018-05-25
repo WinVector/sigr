@@ -91,8 +91,9 @@
 
     
     
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">'sigr'</span>)
-<span class="kw">set.seed</span>(<span class="dv">352532</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">'sigr'</span>)</code></pre></div>
+<pre><code>## Loading required package: wrapr</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">352532</span>)
 d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">z=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>))
 d<span class="op">$</span>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>d<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span><span class="op">*</span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(d))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y<span class="op">~</span>x<span class="op">+</span>z, <span class="dt">data=</span>d)

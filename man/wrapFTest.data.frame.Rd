@@ -6,7 +6,7 @@
 \usage{
 \method{wrapFTest}{data.frame}(x, predictionColumnName, yColumnName,
   nParameters = 1, meany = mean(x[[yColumnName]]), ..., na.rm = FALSE,
-  format, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+  format = NULL, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}

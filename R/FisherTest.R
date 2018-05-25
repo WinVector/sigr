@@ -1,5 +1,4 @@
 
-# TODO: S3 generizize wrapping
 
 #' Format fisher.test (test of categorial indendence).
 #'
@@ -28,13 +27,11 @@ render.sigr_fishertest <- function(statistic,
                           sigDigits=2,
                           pLargeCutoff=0.05,
                           pSmallCutoff=1.0e-5) {
-  if(length(list(...))) {
-    stop('render.sigr_fishertest extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_fishertest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     stop(paste("format",format,"not recognized"))
   }
   fsyms <- syms[format,]
@@ -60,7 +57,9 @@ render.sigr_fishertest <- function(statistic,
 #'
 #' @seealso \code{\link{wrapFisherTest.htest}}, and  \code{\link{wrapFisherTest.data.frame}}
 #' @export
-wrapFisherTest <- function(x,...) UseMethod('wrapFisherTest')
+wrapFisherTest <- function(x,...) {
+  UseMethod('wrapFisherTest')
+}
 
 
 #' Wrap fisher.test (test of categorial indendence).
@@ -80,9 +79,7 @@ wrapFisherTest <- function(x,...) UseMethod('wrapFisherTest')
 #' @export
 wrapFisherTest.htest <- function(x,
                            ...) {
-  if(length(list(...))) {
-    stop('wrapFisherTest.htest extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFisherTest.htest")
   r <- list(ft=x,
        test='fisher.test')
   class(r) <- c('sigr_fishertest', 'sigr_statistic')
@@ -127,6 +124,7 @@ wrapFisherTest.data.frame <- function(x,
                                       control = list(), or = 1, alternative = "two.sided",
                                       conf.int = TRUE, conf.level = 0.95,
                                       simulate.p.value = FALSE, B = 2000) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFisherTest.data.frame")
   c1 <- x[[Column1Name]]
   c2 <- x[[Column2Name]]
   nNA <- sum(is.na(c1) | is.na(c2))
@@ -185,6 +183,7 @@ wrapFisherTest.table <- function(x,
                                  control = list(), or = 1, alternative = "two.sided",
                                  conf.int = TRUE, conf.level = 0.95,
                                  simulate.p.value = FALSE, B = 2000) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFisherTest.table")
   n <- sum(x)
   dimnames <- attr(t, 'dimnames')
   Column1Name <- names(dimnames)[[1]]

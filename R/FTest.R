@@ -8,7 +8,9 @@
 #'
 #' @seealso \code{\link{wrapFTestImpl}},  \code{\link{wrapFTest.lm}},  and \code{\link{wrapFTest.data.frame}}
 #' @export
-wrapFTest <- function(x,...) UseMethod('wrapFTest')
+wrapFTest <- function(x,...) {
+  UseMethod('wrapFTest')
+}
 
 #' Format an F-test
 #'
@@ -30,13 +32,11 @@ render.sigr_ftest <- function(statistic,
                               sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_ftest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_ftest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -63,6 +63,8 @@ render.sigr_ftest <- function(statistic,
 #' @param numdf degrees of freedom 1.
 #' @param dendf degrees of freedom 2.
 #' @param FValue observed F test statistic
+#' @param ... not used, force later arguments to bind by name
+#' @param format optional, suggested format
 #' @return wrapped statistic
 #'
 #' @importFrom stats pf
@@ -72,7 +74,10 @@ render.sigr_ftest <- function(statistic,
 #' wrapFTestImpl(numdf=2,dendf=55,FValue=5.56)
 #'
 #' @export
-wrapFTestImpl <- function(numdf, dendf, FValue) {
+wrapFTestImpl <- function(numdf, dendf, FValue,
+                          ...,
+                          format = NULL) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTestImpl")
   Funscaled <- FValue*(numdf/dendf)
   R2 <- 1 - 1/(Funscaled+1)
   pValue <- stats::pf(FValue,
@@ -85,7 +90,8 @@ wrapFTestImpl <- function(numdf, dendf, FValue) {
     dendf=dendf,
     FValue=FValue,
     R2=R2,
-    pValue=pValue)
+    pValue=pValue,
+    format=format)
   class(r) <- c('sigr_ftest', 'sigr_statistic')
   r
 }
@@ -111,19 +117,11 @@ wrapFTestImpl <- function(numdf, dendf, FValue) {
 #' @export
 wrapFTest.lm <- function(x,
                            ...,
-                           format,
+                           format = NULL,
                            pLargeCutoff=0.05,
                            pSmallCutoff=1.0e-5) {
   linearRegressionModel <- x
-  if(length(list(...))) {
-    stop('wrapFTest.lm extra arguments')
-  }
-  if (missing(format) || is.null(format)) {
-    format <- getRenderingFormat()
-  }
-  if(!(format %in% formats)) {
-    format <- "ascii"
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.lm")
   if(!'lm' %in% class(linearRegressionModel)) {
     stop('wrapFTest.lm expected class lm')
   }
@@ -132,7 +130,8 @@ wrapFTest.lm <- function(x,
   FValue <- fstats[['value']]
   numdf <-  fstats[['numdf']]
   dendf <- fstats[['dendf']]
-  wrapFTestImpl(numdf,dendf,FValue)
+  wrapFTestImpl(numdf,dendf,FValue,
+                format = format)
 }
 
 
@@ -158,19 +157,11 @@ wrapFTest.lm <- function(x,
 #' @export
 wrapFTest.summary.lm <- function(x,
                          ...,
-                         format,
+                         format = NULL,
                          pLargeCutoff=0.05,
                          pSmallCutoff=1.0e-5) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.summary.lm")
   fitSummary <- x
-  if(length(list(...))) {
-    stop('wrapFTest.summary.lm extra arguments')
-  }
-  if (missing(format) || is.null(format)) {
-    format <- getRenderingFormat()
-  }
-  if(!(format %in% formats)) {
-    format <- "ascii"
-  }
   if(!'summary.lm' %in% class(fitSummary)) {
     stop('wrapFTest.summary.lm expected class summary.lm')
   }
@@ -178,7 +169,8 @@ wrapFTest.summary.lm <- function(x,
   FValue <- fstats[['value']]
   numdf <-  fstats[['numdf']]
   dendf <- fstats[['dendf']]
-  wrapFTestImpl(numdf,dendf,FValue)
+  wrapFTestImpl(numdf,dendf,FValue,
+                format = format)
 }
 
 
@@ -213,9 +205,10 @@ wrapFTest.data.frame <- function(x,
                                  meany= mean(x[[yColumnName]]),
                                  ...,
                                  na.rm= FALSE,
-                                 format,
+                                 format = NULL,
                                  pLargeCutoff= 0.05,
                                  pSmallCutoff= 1.0e-5) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.data.frame")
   d <- x
   y <- d[[yColumnName]]
   if(!is.numeric(y)) {
@@ -225,9 +218,6 @@ wrapFTest.data.frame <- function(x,
   if(!is.numeric(predictions)) {
     stop("wrapr::wrapFTest.data.frame prediction column must be numeric")
   }
-  if(length(list(...))) {
-    stop('wrapFTest.data.frame extra arguments')
-  }
   nNA <- sum(is.na(predictionColumnName) | is.na(yColumnName))
   if(na.rm) {
     goodPosns <- (!is.na(predictionColumnName)) & (!is.na(yColumnName))
@@ -235,12 +225,6 @@ wrapFTest.data.frame <- function(x,
     yColumnName <- yColumnName[goodPosns]
   }
   n <- length(predictionColumnName)
-  if (missing(format) || is.null(format)) {
-    format <- getRenderingFormat()
-  }
-  if(!(format %in% formats)) {
-    format <- "ascii"
-  }
   if(!is.numeric(predictions)) {
     stop('wrapFTestFromData expected numeric argument')
   }
@@ -250,7 +234,8 @@ wrapFTest.data.frame <- function(x,
   p1 <- 1
   p2 <- 1 + nParameters
   FValue = ((rss1-rss2)/(p2-p1))/(rss2/(n-p2))
-  res <- wrapFTestImpl(p2-p1,n-p2,FValue)
+  res <- wrapFTestImpl(p2-p1,n-p2,FValue,
+                       format = format)
   res$n <- n
   res$nNA <- nNA
   res
@@ -286,6 +271,7 @@ wrapFTest.data.frame <- function(x,
 #' @export
 wrapFTest.anova <- function(x,
                             ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.anova")
   n <- length(x$Df)
   res <- lapply(seq_len(n-1),
                 function(i) {
@@ -307,6 +293,7 @@ wrapFTest.anova <- function(x,
 #' @export
 wrapFTestezANOVA <- function(x,
                             ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTestezANOVA")
   fs <- lapply(seq_len(nrow(x$ANOVA)),
                function(rowIndex) {
                  row <- x$ANOVA[rowIndex, , drop=FALSE]

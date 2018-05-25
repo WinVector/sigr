@@ -23,13 +23,11 @@ render.sigr_aucpermtest <- function(statistic,
                               sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_auctest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_aucpermtest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -83,9 +81,7 @@ permTestAUC <- function(d,
                       returnScores= FALSE,
                       nrep= 100,
                       parallelCluster= NULL) {
-  if(length(list(...))) {
-    stop('permTestAUC extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::permTestAUC")
   if(!is.numeric(d[[modelName]])) {
     stop("wrapr::permTestAUC model column must be numeric")
   }
@@ -128,13 +124,11 @@ render.sigr_aucresamptest <- function(statistic,
                                     sigDigits=2,
                                     pLargeCutoff=0.05,
                                     pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_aucresamptest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_aucresamptest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -189,9 +183,7 @@ resampleTestAUC <- function(d,
                       returnScores= FALSE,
                       nrep= 100,
                       parallelCluster= NULL) {
-  if(length(list(...))) {
-    stop('formatAUCresample extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::resampleTestAUC")
   if(!is.numeric(d[[modelName]])) {
     stop("wrapr::resampleTestAUC model column must be numeric")
   }
@@ -238,13 +230,11 @@ render.sigr_aucpairtest <- function(statistic,
                                     sigDigits=2,
                                     pLargeCutoff=0.05,
                                     pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_aucpairtest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_aucpairtest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -304,9 +294,7 @@ testAUCpair <- function(d,
                         returnScores= FALSE,
                         nrep= 100,
                         parallelCluster= NULL) {
-  if(length(list(...))) {
-    stop('formatAUC extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::testAUCpair")
   if(!is.numeric(d[[model1Name]])) {
     stop("wrapr::testAUCpair model 1 must be numeric")
   }

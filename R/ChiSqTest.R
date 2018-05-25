@@ -20,13 +20,11 @@ render.sigr_chisqtest <- function(statistic,
                               sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_ttest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_chisqtest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -58,7 +56,9 @@ render.sigr_chisqtest <- function(statistic,
 #'
 #' @seealso \code{\link{wrapChiSqTestImpl}},  \code{\link{wrapChiSqTest.glm}},  and \code{\link{wrapChiSqTest.data.frame}}
 #' @export
-wrapChiSqTest <- function(x,...) UseMethod('wrapChiSqTest')
+wrapChiSqTest <- function(x,...) {
+  UseMethod('wrapChiSqTest')
+}
 
 
 #' Format quality of a logistic regression roughly in "APA Style"
@@ -116,10 +116,8 @@ wrapChiSqTestImpl <- function(df.null,df.residual,
 #' @export
 wrapChiSqTest.glm <- function(x,
                                 ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapChiSqTest.glm")
   logisticRegressionModel <- x
-  if(length(list(...))) {
-    stop('wrapChiSqTest.glm extra arguments')
-  }
   if(!'glm' %in% class(logisticRegressionModel)) {
     stop('wrapChiSqTest.glm expected class glm')
   }
@@ -157,10 +155,8 @@ wrapChiSqTest.glm <- function(x,
 #' @export
 wrapChiSqTest.summary.glm <- function(x,
                               ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapChiSqTest.summary.glm")
   logisticRegressionModelSummary <- x
-  if(length(list(...))) {
-    stop('wrapChiSqTest.summary.glm extra arguments')
-  }
   if(!'summary.glm' %in% class(logisticRegressionModelSummary)) {
     stop('wrapChiSqTest.summary.glm expected class summary.glm')
   }
@@ -207,6 +203,7 @@ wrapChiSqTest.data.frame <- function(x,
                                      meany= mean(x[[yColumnName]]),
                                      ...,
                                      na.rm= FALSE) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapChiSqTest.data.frame")
   d <- x
   y <- d[[yColumnName]]
   if(!is.logical(y)) {
@@ -215,9 +212,6 @@ wrapChiSqTest.data.frame <- function(x,
   predictions <- d[[predictionColumnName]]
   if(!is.numeric(predictions)) {
     stop("wrapr::wrapChiSqTest.data.frame prediction column must be numeric")
-  }
-  if(length(list(...))) {
-    stop('wrapChiSqTest.data.frame extra arguments')
   }
   nNA <- sum(is.na(predictions) | is.na(y))
   if(na.rm) {
@@ -268,6 +262,7 @@ wrapChiSqTest.data.frame <- function(x,
 #' @export
 wrapChiSqTest.anova <- function(x,
                             ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapChiSqTest.anova")
   n <- length(x$Df)
   dfNull <- x$`Resid. Df`[[1]]
   devNull <- x$`Resid. Dev`[[1]]

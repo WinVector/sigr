@@ -20,13 +20,11 @@ render.sigr_ttest <- function(statistic,
                               sigDigits=2,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
-  if(length(list(...))>0) {
-    stop("render.sigr_ttest unexpected arguments")
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_ttest")
   if (missing(format) || is.null(format)) {
     format <- getRenderingFormat()
   }
-  if(!(format %in% formats)) {
+  if(!isTRUE(format %in% formats)) {
     format <- "ascii"
   }
   fsyms <- syms[format,]
@@ -54,7 +52,9 @@ render.sigr_ttest <- function(statistic,
 #'
 #' @seealso \code{\link{wrapTTest.htest}}, and  \code{\link{wrapTTest.data.frame}}
 #' @export
-wrapTTest <- function(x,...) UseMethod('wrapTTest')
+wrapTTest <- function(x,...) {
+  UseMethod('wrapTTest')
+}
 
 
 #' Wrap t.test (difference in means by group).
@@ -75,9 +75,7 @@ wrapTTest <- function(x,...) UseMethod('wrapTTest')
 #' @export
 wrapTTest.htest <- function(x,
                           ...) {
-  if(length(list(...))) {
-    stop('wrapTTest extra arguments')
-  }
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapTTest.htest")
   if(!'htest' %in% class(x)) {
     stop('wrapTTest expected class htest')
   }
