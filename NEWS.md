@@ -1,5 +1,5 @@
 
-# sigr 0.2.6 2018-05-22
+# sigr 0.2.6 2018-05-25
 
  * Adjust dependencies.
  * Fix some documentation.
