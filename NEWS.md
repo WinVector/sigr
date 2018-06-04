@@ -1,4 +1,8 @@
 
+# sigr 0.2.6 2018-06-04
+
+ * Re-export less of wrapr.
+
 # sigr 0.2.6 2018-05-25
 
  * Adjust dependencies.

@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.6</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.7</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
       <h1>sigr</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-05-25</h4>
+            <h4 class="date">2018-06-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/sigr//blob/master/vignettes/sigrFormatting.Rmd"><code>vignettes/sigrFormatting.Rmd</code></a></small>
       <div class="hidden name"><code>sigrFormatting.Rmd</code></div>
@@ -94,9 +94,8 @@
 <p>Examples of <code>sigr</code> formatting. Inspired by APA format (American Psychological Association), but not fully compliant. Discussed <a href="http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/">here</a>.</p>
 <p>Please see <a href="https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.pdf">here</a> and <a href="http://my.ilstu.edu/~jhkahn/apastats.html">here</a> for some notes.</p>
 <p>Simple formatting.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"sigr"</span>)</code></pre></div>
-<pre><code>## Loading required package: wrapr</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/getRenderingFormat">getRenderingFormat</a></span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"sigr"</span>)
+sigr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sigr/topics/getRenderingFormat">getRenderingFormat</a></span>()</code></pre></div>
 <p>[1] “html”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapSignificance.html">wrapSignificance</a></span>(<span class="dv">1</span><span class="op">/</span><span class="dv">300</span>)))</code></pre></div>
 <p><i>p</i>=0.0033</p>
