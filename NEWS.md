@@ -1,5 +1,5 @@
 
-# sigr 0.2.6 2018-06-04
+# sigr 0.2.7 2018-06-04
 
  * Re-export less of wrapr.
 
