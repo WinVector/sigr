@@ -22,7 +22,7 @@ RoxygenNote: 6.0.1
 Depends:
   R (>= 3.2.1)
 Imports:
-    wrapr (>= 1.4.1)
+    wrapr (>= 1.5.0)
 Suggests: 
     pwr,
     parallel,
