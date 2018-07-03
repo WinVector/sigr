@@ -1,5 +1,5 @@
 
-# sigr 0.2.7 2018-06-17
+# sigr 0.2.7 2018-07-03
 
  * Re-ogranize wrapr export.
 

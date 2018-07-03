@@ -3,19 +3,17 @@
 ## Test environments
 
     * OSX
-    * using R version 3.4.4 (2018-03-15)
+    * using R version 3.5.0 (2018-04-23)
     * using platform: x86_64-apple-darwin15.6.0 (64-bit)
-   
+
     * Windows
-    * using R Under development (unstable) (2018-05-20 r74747)
-    * using platform: x86_64-w64-mingw32 (64-bit)
- 
-## R CMD check --as-cran sigr_0.2.6.tar.gz 
+
+## R CMD check --as-cran sigr_0.2.7.tar.gz 
 
     * using option ‘--as-cran’
     * checking for file ‘sigr/DESCRIPTION’ ... OK
     * checking extension type ... Package
-    * this is package ‘sigr’ version ‘0.2.6’
+    * this is package ‘sigr’ version ‘0.2.7’
     * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
     Status: OK
