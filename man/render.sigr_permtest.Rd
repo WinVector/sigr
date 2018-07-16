@@ -14,7 +14,7 @@
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii")}
 
-\item{statDigits}{integer number of digits to show in summarie.}
+\item{statDigits}{integer number of digits to show in summary.}
 
 \item{sigDigits}{integer number of digits to show in significances.}
 

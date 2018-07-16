@@ -2,7 +2,7 @@
 % Please edit documentation in R/EmpiricalFns.R
 \name{permutationScoreModel}
 \alias{permutationScoreModel}
-\title{Empirical permuation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).}
+\title{Empirical permutation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).}
 \usage{
 permutationScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
   returnScores = FALSE, nRep = 100, parallelCluster = NULL)
@@ -10,7 +10,7 @@ permutationScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
 \arguments{
 \item{modelValues}{numeric array of predictions.}
 
-\item{yValues}{numeric/logical array of outcomes, depedendent, or truth values}
+\item{yValues}{numeric/logical array of outcomes, dependent, or truth values}
 
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 
@@ -28,7 +28,7 @@ permutationScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
 summaries
 }
 \description{
-Treat permutaiton re-samples as similar to bootstrap replications.
+Treat permutation re-samples as similar to bootstrap replications.
 }
 \examples{
 

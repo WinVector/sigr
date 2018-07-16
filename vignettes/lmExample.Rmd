@@ -36,7 +36,7 @@ cat(render(wrapFTest(d, 'pred', 'y', nParameters=2),
     pSmallCutoff=0))
 ```
 
-Intententionally forget to inform `wrapFTest` of the true
+Intentionally forget to inform `wrapFTest` of the true
 number of parameters:
 
 ```{r cortestpwrong, results='asis'}

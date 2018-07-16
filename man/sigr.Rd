@@ -13,6 +13,6 @@ extracting model summary facts (such as with 'lm'/'glm').  This package also
 includes empirical tests, such as bootstrap estimates.
 }
 \details{
-To learn more about replyr, please start with the vignette:
+To learn more about sigr, please start with the vignette:
 \code{vignette('sigrFormatting','sigr')}
 }

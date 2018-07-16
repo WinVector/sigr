@@ -49,7 +49,7 @@ render.sigr_aucpermtest <- function(statistic,
 
 #' Perform AUC permutation test.
 #'
-#' Estimate signficance of AUC by permuation test.
+#' Estimate significance of AUC by permutation test.
 #'
 #' @param d data.frame
 #' @param modelName character model column name
@@ -58,7 +58,7 @@ render.sigr_aucpermtest <- function(statistic,
 #' @param ... extra arguments (not used)
 #' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed permutedScores
-#' @param nrep number of permutation repititions to estimate p values.
+#' @param nrep number of permutation repetitions to estimate p values.
 #' @param parallelCluster (optional) a cluster object created by package parallel or package snow
 #' @return AUC statistic
 #'
@@ -151,7 +151,7 @@ render.sigr_aucresamptest <- function(statistic,
 
 #' Wrap AUC resampling test results.
 #'
-#' Estimate signficance of AUC by resampling test.
+#' Estimate significance of AUC by resampling test.
 #'
 #' @param d data.frame
 #' @param modelName character model column name
@@ -160,7 +160,7 @@ render.sigr_aucresamptest <- function(statistic,
 #' @param ... extra arguments (not used)
 #' @param na.rm logical, if TRUE remove NA values
 #' @param returnScores logical if TRUE return detailed resampledScores.
-#' @param nrep number of permutation repititions to estimate p values.
+#' @param nrep number of permutation repetitions to estimate p values.
 #' @param parallelCluster (optional) a cluster object created by package parallel or package snow.
 #' @return AUC statistic
 #'
@@ -259,7 +259,7 @@ render.sigr_aucpairtest <- function(statistic,
 
 #' Test AUC pair results.
 #'
-#' Estimate signficance of difference in two AUCs by resampling.
+#' Estimate significance of difference in two AUCs by resampling.
 #'
 #' @param d data.frame
 #' @param model1Name character model 1 column name

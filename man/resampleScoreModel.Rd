@@ -10,7 +10,7 @@ resampleScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
 \arguments{
 \item{modelValues}{numeric array of predictions (model to test).}
 
-\item{yValues}{numeric/logical array of outcomes, depedendent, or truth values}
+\item{yValues}{numeric/logical array of outcomes, dependent, or truth values}
 
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 

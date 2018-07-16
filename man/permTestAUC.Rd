@@ -22,7 +22,7 @@ permTestAUC(d, modelName, yName, yTarget, ..., na.rm = FALSE,
 
 \item{returnScores}{logical if TRUE return detailed permutedScores}
 
-\item{nrep}{number of permutation repititions to estimate p values.}
+\item{nrep}{number of permutation repetitions to estimate p values.}
 
 \item{parallelCluster}{(optional) a cluster object created by package parallel or package snow}
 }
@@ -30,7 +30,7 @@ permTestAUC(d, modelName, yName, yTarget, ..., na.rm = FALSE,
 AUC statistic
 }
 \description{
-Estimate signficance of AUC by permuation test.
+Estimate significance of AUC by permutation test.
 }
 \examples{
 

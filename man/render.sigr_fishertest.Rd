@@ -2,7 +2,7 @@
 % Please edit documentation in R/FisherTest.R
 \name{render.sigr_fishertest}
 \alias{render.sigr_fishertest}
-\title{Format fisher.test (test of categorial indendence).}
+\title{Format fisher.test (test of categorical independence).}
 \usage{
 \method{render}{sigr_fishertest}(statistic, ..., format, statDigits = 2,
   sigDigits = 2, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
@@ -26,7 +26,7 @@
 formatted string and fields
 }
 \description{
-Format fisher.test (test of categorial indendence).
+Format fisher.test (test of categorical independence).
 }
 \examples{
 

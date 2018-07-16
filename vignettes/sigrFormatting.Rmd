@@ -42,7 +42,7 @@ cat(render(wrapFTest(d,'prediction','y'),
                               pSmallCutoff=1.0e-12))
 ```
 
-Chi-squared test examples (quality of a probabilty model 
+Chi-squared test examples (quality of a probability model 
 of a two category outcome).
 
 ```{r}

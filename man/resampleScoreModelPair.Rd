@@ -13,7 +13,7 @@ resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
 
 \item{model2Values}{numeric array of predictions (reference model).}
 
-\item{yValues}{numeric/logical array of outcomes, depedendent, or truth values}
+\item{yValues}{numeric/logical array of outcomes, dependent, or truth values}
 
 \item{scoreFn}{function with signature scoreFn(modelValues,yValues) returning scalar numeric score.}
 

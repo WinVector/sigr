@@ -12,7 +12,7 @@ estimateDifferenceZeroCrossing(resampledDiffs, na.rm = FALSE)
 \item{na.rm}{logical, if TRUE remove NA values}
 }
 \value{
-estimated probbility of seeing a re-sampled difference below zero.
+estimated probability of seeing a re-sampled difference below zero.
 }
 \description{
 Studentized estimate of how often a difference is below zero.

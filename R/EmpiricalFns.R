@@ -20,7 +20,7 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 #' @param statistic wrapped T-test
 #' @param ... not used, force use of named binding for later arguments
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii")
-#' @param statDigits integer number of digits to show in summarie.
+#' @param statDigits integer number of digits to show in summary.
 #' @param sigDigits integer number of digits to show in significances.
 #' @param pLargeCutoff value to declare non-significance at or above.
 #' @param pSmallCutoff smallest value to print
@@ -56,12 +56,12 @@ render.sigr_permtest <- function(statistic,
 }
 
 
-#' Empirical permuation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).
+#' Empirical permutation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).
 #'
-#' Treat permutaiton re-samples as similar to bootstrap replications.
+#' Treat permutation re-samples as similar to bootstrap replications.
 #'
 #' @param modelValues numeric array of predictions.
-#' @param yValues numeric/logical array of outcomes, depedendent, or truth values
+#' @param yValues numeric/logical array of outcomes, dependent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
 #' @param na.rm logical, if TRUE remove NA values
@@ -158,7 +158,7 @@ mkResampleWorker <- function(modelValues,
 #' Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).
 #'
 #' @param modelValues numeric array of predictions (model to test).
-#' @param yValues numeric/logical array of outcomes, depedendent, or truth values
+#' @param yValues numeric/logical array of outcomes, dependent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name
 #' @param na.rm logical, if TRUE remove NA values
@@ -329,7 +329,7 @@ render.sigr_emptest <- function(statistic,
 #'
 #' @param resampledDiffs numeric vector resampled observations
 #' @param na.rm logical, if TRUE remove NA values
-#' @return estimated probbility of seeing a re-sampled difference below zero.
+#' @return estimated probability of seeing a re-sampled difference below zero.
 #'
 #' @examples
 #'
@@ -375,7 +375,7 @@ estimateDifferenceZeroCrossing <- function(resampledDiffs,
 #'
 #' @param model1Values numeric array of predictions (model to test).
 #' @param model2Values numeric array of predictions (reference model).
-#' @param yValues numeric/logical array of outcomes, depedendent, or truth values
+#' @param yValues numeric/logical array of outcomes, dependent, or truth values
 #' @param scoreFn function with signature scoreFn(modelValues,yValues) returning scalar numeric score.
 #' @param ... not used, forces later arguments to be bound by name.
 #' @param na.rm logical, if TRUE remove NA values

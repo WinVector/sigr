@@ -1,6 +1,6 @@
 
 
-#' Format fisher.test (test of categorial indendence).
+#' Format fisher.test (test of categorical independence).
 #'
 #' @param statistic wrapped Fisher test
 #' @param ... extra arguments (not used)
@@ -50,7 +50,7 @@ render.sigr_fishertest <- function(statistic,
  formatStr
 }
 
-#' Wrap fisher.test (test of categorial indendence).
+#' Wrap fisher.test (test of categorical independence).
 #'
 #' @param x numeric, data.frame or test.
 #' @param ... extra arguments
@@ -62,7 +62,7 @@ wrapFisherTest <- function(x,...) {
 }
 
 
-#' Wrap fisher.test (test of categorial indendence).
+#' Wrap fisher.test (test of categorical independence).
 #'
 #' @param x fisher.test result
 #' @param ... extra arguments (not used)
@@ -87,7 +87,7 @@ wrapFisherTest.htest <- function(x,
 }
 
 
-#' Wrap fisher.test (test of categorial indendence).
+#' Wrap fisher.test (test of categorical independence).
 #'
 #' @param x data.frame
 #' @param Column1Name character column 1 name
@@ -151,7 +151,7 @@ wrapFisherTest.data.frame <- function(x,
 }
 
 
-#' Wrap fisher.test (test of categorial indendence).
+#' Wrap fisher.test (test of categorical independence).
 #'
 #' @param x data.frame
 #' @param ... extra arguments (not used)

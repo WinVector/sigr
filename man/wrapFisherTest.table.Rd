@@ -2,7 +2,7 @@
 % Please edit documentation in R/FisherTest.R
 \name{wrapFisherTest.table}
 \alias{wrapFisherTest.table}
-\title{Wrap fisher.test (test of categorial indendence).}
+\title{Wrap fisher.test (test of categorical independence).}
 \usage{
 \method{wrapFisherTest}{table}(x, ..., workspace = 2e+05, hybrid = FALSE,
   control = list(), or = 1, alternative = "two.sided", conf.int = TRUE,
@@ -35,7 +35,7 @@
 wrapped test.
 }
 \description{
-Wrap fisher.test (test of categorial indendence).
+Wrap fisher.test (test of categorical independence).
 }
 \examples{
 

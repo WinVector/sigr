@@ -1,7 +1,7 @@
 
 
 
-#' Wrap F-test (significane identity relation).
+#' Wrap F-test (significance identity relation).
 #'
 #' @param x numeric, data.frame or lm where to get model or data to score.
 #' @param ... extra arguments
@@ -58,7 +58,7 @@ render.sigr_ftest <- function(statistic,
   formatStr
 }
 
-#' Wrap F-test (significane of identity relation).
+#' Wrap F-test (significance of identity relation).
 #'
 #' @param numdf degrees of freedom 1.
 #' @param dendf degrees of freedom 2.

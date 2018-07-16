@@ -9,7 +9,7 @@ calcAUC(modelPredictions, yValues, na.rm = FALSE)
 \arguments{
 \item{modelPredictions}{numeric predictions (not empty)}
 
-\item{yValues}{logical truth (not empty, same lenght as model predictions)}
+\item{yValues}{logical truth (not empty, same length as model predictions)}
 
 \item{na.rm}{logical, if TRUE remove NA values}
 }
@@ -18,7 +18,7 @@ area under curve
 }
 \description{
 Based on:
- http://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html
+ \url{http://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
 }
 \examples{
 

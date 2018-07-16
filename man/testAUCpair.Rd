@@ -32,7 +32,7 @@ testAUCpair(d, model1Name, model2Name, yName, yTarget, ..., na.rm = FALSE,
 AUC pair test
 }
 \description{
-Estimate signficance of difference in two AUCs by resampling.
+Estimate significance of difference in two AUCs by resampling.
 }
 \examples{
 

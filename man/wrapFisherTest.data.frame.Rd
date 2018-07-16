@@ -2,7 +2,7 @@
 % Please edit documentation in R/FisherTest.R
 \name{wrapFisherTest.data.frame}
 \alias{wrapFisherTest.data.frame}
-\title{Wrap fisher.test (test of categorial indendence).}
+\title{Wrap fisher.test (test of categorical independence).}
 \usage{
 \method{wrapFisherTest}{data.frame}(x, Column1Name, Column2Name, ...,
   na.rm = FALSE, workspace = 2e+05, hybrid = FALSE, control = list(),
@@ -42,7 +42,7 @@
 wrapped test.
 }
 \description{
-Wrap fisher.test (test of categorial indendence).
+Wrap fisher.test (test of categorical independence).
 }
 \examples{
 

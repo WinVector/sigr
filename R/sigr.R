@@ -7,7 +7,7 @@
 #' includes empirical tests, such as bootstrap estimates.
 #'
 
-#' To learn more about replyr, please start with the vignette:
+#' To learn more about sigr, please start with the vignette:
 #' \code{vignette('sigrFormatting','sigr')}
 #'
 #' @docType package

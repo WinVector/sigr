@@ -112,7 +112,7 @@ wrapCohenD.data.frame <- function(x,
 
 #' Wrap Cohen's D (effect size between groups).
 #'
-#' @param x numeric reference or control measurments
+#' @param x numeric reference or control measurements
 #' @param treatment numeric treatment or group-2 measurements
 #' @param ... extra arguments (not used)
 #' @param na.rm if TRUE remove NAs

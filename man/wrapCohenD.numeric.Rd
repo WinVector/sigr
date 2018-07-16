@@ -7,7 +7,7 @@
 \method{wrapCohenD}{numeric}(x, treatment, ..., na.rm = FALSE)
 }
 \arguments{
-\item{x}{numeric reference or control measurments}
+\item{x}{numeric reference or control measurements}
 
 \item{treatment}{numeric treatment or group-2 measurements}
 
