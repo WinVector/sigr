@@ -1,5 +1,5 @@
 
-# sigr 0.2.8 2018-07-16
+# sigr 0.2.8 2018-07-19
 
  * Documentation fixes.
  
