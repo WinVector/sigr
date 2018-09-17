@@ -5,9 +5,9 @@
 \title{Wrap cor.test (test of liner correlation).}
 \usage{
 \method{wrapCorTest}{data.frame}(x, Column1Name, Column2Name, ...,
-  alternative = c("two.sided", "less", "greater"), method = c("pearson",
-  "kendall", "spearman"), exact = NULL, conf.level = 0.95,
-  continuity = FALSE, na.rm = FALSE)
+  alternative = c("two.sided", "less", "greater"),
+  method = c("pearson", "kendall", "spearman"), exact = NULL,
+  conf.level = 0.95, continuity = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}

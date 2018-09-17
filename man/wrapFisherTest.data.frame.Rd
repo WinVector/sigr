@@ -5,9 +5,10 @@
 \title{Wrap fisher.test (test of categorical independence).}
 \usage{
 \method{wrapFisherTest}{data.frame}(x, Column1Name, Column2Name, ...,
-  na.rm = FALSE, workspace = 2e+05, hybrid = FALSE, control = list(),
-  or = 1, alternative = "two.sided", conf.int = TRUE, conf.level = 0.95,
-  simulate.p.value = FALSE, B = 2000)
+  na.rm = FALSE, workspace = 2e+05, hybrid = FALSE,
+  control = list(), or = 1, alternative = "two.sided",
+  conf.int = TRUE, conf.level = 0.95, simulate.p.value = FALSE,
+  B = 2000)
 }
 \arguments{
 \item{x}{data.frame}

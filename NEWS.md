@@ -1,4 +1,8 @@
 
+# sigr 1.0.0 2018-09-17
+
+ * Bump versions.
+ 
 # sigr 0.2.8 2018-07-19
 
  * Documentation fixes.

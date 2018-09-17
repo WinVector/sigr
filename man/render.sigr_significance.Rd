@@ -4,8 +4,9 @@
 \alias{render.sigr_significance}
 \title{Format a significance}
 \usage{
-\method{render}{sigr_significance}(statistic, ..., format, statDigits = 2,
-  sigDigits = 2, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{render}{sigr_significance}(statistic, ..., format,
+  statDigits = 2, sigDigits = 2, pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{statistic}{wrapped significance}

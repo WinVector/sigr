@@ -5,7 +5,8 @@
 \title{Format ChiSqTest from data.}
 \usage{
 \method{wrapChiSqTest}{data.frame}(x, predictionColumnName, yColumnName,
-  nParameters = 1, meany = mean(x[[yColumnName]]), ..., na.rm = FALSE)
+  nParameters = 1, meany = mean(x[[yColumnName]]), ...,
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}

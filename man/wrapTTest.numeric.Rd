@@ -5,8 +5,9 @@
 \title{Wrap t.test (difference in means by group).}
 \usage{
 \method{wrapTTest}{numeric}(x, pop2, ..., y = NULL,
-  alternative = c("two.sided", "less", "greater"), mu = 0, paired = FALSE,
-  var.equal = FALSE, conf.level = 0.95, na.rm = FALSE)
+  alternative = c("two.sided", "less", "greater"), mu = 0,
+  paired = FALSE, var.equal = FALSE, conf.level = 0.95,
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{numeric population 1}

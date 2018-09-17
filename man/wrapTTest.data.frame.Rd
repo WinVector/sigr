@@ -4,9 +4,10 @@
 \alias{wrapTTest.data.frame}
 \title{Wrap t.test (difference in means by group).}
 \usage{
-\method{wrapTTest}{data.frame}(x, Column1Name, Column2Name, ..., y = NULL,
-  alternative = c("two.sided", "less", "greater"), mu = 0, paired = FALSE,
-  var.equal = FALSE, conf.level = 0.95, na.rm = FALSE)
+\method{wrapTTest}{data.frame}(x, Column1Name, Column2Name, ...,
+  y = NULL, alternative = c("two.sided", "less", "greater"), mu = 0,
+  paired = FALSE, var.equal = FALSE, conf.level = 0.95,
+  na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}
