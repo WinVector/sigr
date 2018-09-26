@@ -1,8 +1,8 @@
 Package: sigr
 Type: Package
 Title: Succinct and Correct Statistical Summaries for Reports
-Version: 1.0.0
-Date: 2018-09-17
+Version: 1.0.1
+Date: 2018-09-26
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
