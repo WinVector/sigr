@@ -33,6 +33,10 @@ resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
 summaries
 }
 \description{
+Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values)
+sampled with replacement.
+}
+\details{
 True confidence intervals are harder to get right (see
 "An Introduction to the Bootstrap", Bradely Efron,
 and Robert J. Tibshirani, Chapman & Hall/CRC, 1993.),
