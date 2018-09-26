@@ -1,4 +1,8 @@
 
+# sigr 1.0.1 2018-09-26
+
+ * Binomial test.
+
 # sigr 1.0.0 2018-09-17
 
  * Bump versions.
