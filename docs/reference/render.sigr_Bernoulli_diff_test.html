@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute the distribution of differences of replacement samples of two Bernoulli experiments. — Bernoulli_diff_dist • sigr</title>
+<title>Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes). — render.sigr_Bernoulli_diff_test • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,15 +30,9 @@
 
 
 
-<meta property="og:title" content="Compute the distribution of differences of replacement samples of two Bernoulli experiments. — Bernoulli_diff_dist" />
+<meta property="og:title" content="Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes). — render.sigr_Bernoulli_diff_test" />
 
-<meta property="og:description" content="Compute the distribution of max(1, nBeffective/nAeffective)*sum(a) - max(1, nAeffective/nBeffective)*sum(b)
-where a is a 0/1 vector of length nAeffective with each item 1 with independent probability (kA+kB)/(nA+nB),
-and b is a 0/1 vector of length nBeffective with each item 1 with independent probability (kA+kB)/(nA+nB).
-The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
-in counts returned by the scaled processes.
-The method be used to get the exact probability of a given difference under the null hypothesis that
-both the A and B processes have the same success rate." />
+<meta property="og:description" content="Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,68 +112,64 @@ both the A and B processes have the same success rate." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute the distribution of differences of replacement samples of two Bernoulli experiments.</h1>
+    <h1>Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes).</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/DifferenceDistribution.R'><code>R/DifferenceDistribution.R</code></a></small>
-    <div class="hidden name"><code>Bernoulli_diff_dist.Rd</code></div>
+    <div class="hidden name"><code>render.sigr_Bernoulli_diff_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compute the distribution of <code>max(1, nBeffective/nAeffective)*sum(a) - max(1, nAeffective/nBeffective)*sum(b)</code>
-where <code>a</code> is a 0/1 vector of length <code>nAeffective</code> with each item 1 with independent probability <code>(kA+kB)/(nA+nB)</code>,
-and <code>b</code> is a 0/1 vector of length <code>nBeffective</code> with each item 1 with independent probability <code>(kA+kB)/(nA+nB)</code>.
-The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
-in counts returned by the scaled processes.
-The method be used to get the exact probability of a given difference under the null hypothesis that
-both the A and B processes have the same success rate.</p>
+    <p>Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>Bernoulli_diff_dist</span>(<span class='no'>kA</span>, <span class='no'>nA</span>, <span class='no'>kB</span>, <span class='no'>nB</span>, <span class='no'>test_rate</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for sigr_Bernoulli_diff_test</span>
+<span class='fu'><a href='render.html'>render</a></span>(<span class='no'>statistic</span>, <span class='no'>...</span>, <span class='no'>format</span>,
+  <span class='kw'>statDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>sigDigits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>pLargeCutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>pSmallCutoff</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>kA</th>
-      <td><p>number of A successes observed.</p></td>
+      <th>statistic</th>
+      <td><p>wrapped cor.test.</p></td>
     </tr>
     <tr>
-      <th>nA</th>
-      <td><p>number of A experiments.</p></td>
+      <th>...</th>
+      <td><p>extra arguments (not used)</p></td>
     </tr>
     <tr>
-      <th>kB</th>
-      <td><p>number of B successes observed.</p></td>
+      <th>format</th>
+      <td><p>if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)</p></td>
     </tr>
     <tr>
-      <th>nB</th>
-      <td><p>number of B experiments.</p></td>
+      <th>statDigits</th>
+      <td><p>integer number of digits to show in summaries.</p></td>
     </tr>
     <tr>
-      <th>test_rate</th>
-      <td><p>numeric, difference in rate of A-B to test.  Note: it is best to specify this prior to looking at the data.</p></td>
+      <th>sigDigits</th>
+      <td><p>integer number of digits to show in significances.</p></td>
+    </tr>
+    <tr>
+      <th>pLargeCutoff</th>
+      <td><p>value to declare non-significance at or above.</p></td>
+    </tr>
+    <tr>
+      <th>pSmallCutoff</th>
+      <td><p>smallest value to print</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Bernoulli difference test statistic.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note the intent that we are measuring the results of an A/B test with <code>nA %% nB == 0</code>
-(no padding needed),  or  <code>nA &gt;&gt; nB</code>, or <code>nB &gt;&gt; nA</code>. The larger sample is padded so
-the smaller sample divides evenly into it (allowing faster calculation methods).  The sizes of the
-effective samples are given by <code>nAeffective</code> and <code>nBeffective</code>.  The padding will
-slighly over-estimate confidences due the increased sample size, but if <code>nA</code> and <code>nB</code> are
-not near each other- this will be a small effect.</p>
+    <p>formatted string</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>Bernoulli_diff_dist</span>(<span class='fl'>2000</span>, <span class='fl'>5000</span>, <span class='fl'>100</span>, <span class='fl'>200</span>, <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; [1] "Bernoulli_diff: (A=2000/5000=0.4, B=100/200=0.5, prior 0.1 two_sided: p=0.0047)."</div><div class='input'>
-<span class='fu'>Bernoulli_diff_dist</span>(<span class='fl'>100</span>, <span class='fl'>200</span>, <span class='fl'>2000</span>, <span class='fl'>5000</span>, <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; [1] "Bernoulli_diff: (A=100/200=0.5, B=2000/5000=0.4, prior 0.1 two_sided: p=0.0047)."</div><div class='input'>
+<span class='fu'><a href='Bernoulli_diff_dist.html'>Bernoulli_diff_dist</a></span>(<span class='fl'>2000</span>, <span class='fl'>5000</span>, <span class='fl'>100</span>, <span class='fl'>200</span>, <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; [1] "Bernoulli_diff: (A=2000/5000=0.4, B=100/200=0.5, prior 0.1 two_sided: p=0.0047)."</div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -188,8 +178,6 @@ not near each other- this will be a small effect.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

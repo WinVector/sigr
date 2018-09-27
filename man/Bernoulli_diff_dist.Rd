@@ -4,22 +4,24 @@
 \alias{Bernoulli_diff_dist}
 \title{Compute the distribution of differences of replacement samples of two Bernoulli experiments.}
 \usage{
-Bernoulli_diff_dist(nA, kA, nB, kB)
+Bernoulli_diff_dist(kA, nA, kB, nB, test_rate)
 }
 \arguments{
+\item{kA}{number of A successes observed.}
+
 \item{nA}{number of A experiments.}
 
-\item{kA}{number of A successes observed.}
+\item{kB}{number of B successes observed.}
 
 \item{nB}{number of B experiments.}
 
-\item{kB}{number of B successes observed.}
+\item{test_rate}{numeric, difference in rate of A-B to test.  Note: it is best to specify this prior to looking at the data.}
 }
 \value{
-experiment summaries
+Bernoulli difference test statistic.
 }
 \description{
-Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max*1, nAeffective/nBeffective)*sum(b)}
+Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max(1, nAeffective/nBeffective)*sum(b)}
 where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
 and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
 The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
@@ -37,15 +39,8 @@ not near each other- this will be a small effect.
 }
 \examples{
 
-res <- Bernoulli_diff_dist(5000, 2000, 200, 100)
-res$distribution[res$distribution$diff==ceiling(res$effective_diff), ]$prob_le
-# above is the chance of a-b being at least as small (b being at least that
-# much better) as observed if the two samples were drawn from a pooled process with
-# no actual rate difference.
-# That can work as a significance of a 1-sided test.
-# two sided:
-res$distribution[res$distribution$diff==ceiling(res$effective_diff), ]$prob_le +
-   res$distribution[res$distribution$diff==floor(-res$effective_diff), ]$prob_ge
-# Note: it is better to choose the test difference before observing the data.
+Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
+
+Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
 
 }
