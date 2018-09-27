@@ -181,7 +181,8 @@ not near each other- this will be a small effect.</p>
 <span class='co'># That can work as a significance of a 1-sided test.</span>
 <span class='co'># two sided:</span>
 <span class='no'>res</span>$<span class='no'>distribution</span>[<span class='no'>res</span>$<span class='no'>distribution</span>$<span class='no'>diff</span><span class='kw'>==</span><span class='fu'>ceiling</span>(<span class='no'>res</span>$<span class='no'>effective_diff</span>), ]$<span class='no'>prob_le</span> +
-   <span class='no'>res</span>$<span class='no'>distribution</span>[<span class='no'>res</span>$<span class='no'>distribution</span>$<span class='no'>diff</span><span class='kw'>==</span><span class='fu'>floor</span>(-<span class='no'>res</span>$<span class='no'>effective_diff</span>), ]$<span class='no'>prob_ge</span></div><div class='output co'>#&gt; [1] 0.004676564</div><div class='input'>
+   <span class='no'>res</span>$<span class='no'>distribution</span>[<span class='no'>res</span>$<span class='no'>distribution</span>$<span class='no'>diff</span><span class='kw'>==</span><span class='fu'>floor</span>(-<span class='no'>res</span>$<span class='no'>effective_diff</span>), ]$<span class='no'>prob_ge</span></div><div class='output co'>#&gt; [1] 0.004676564</div><div class='input'># Note: it is better to choose the test difference before observing the data.
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -46,5 +46,6 @@ res$distribution[res$distribution$diff==ceiling(res$effective_diff), ]$prob_le
 # two sided:
 res$distribution[res$distribution$diff==ceiling(res$effective_diff), ]$prob_le +
    res$distribution[res$distribution$diff==floor(-res$effective_diff), ]$prob_ge
+# Note: it is better to choose the test difference before observing the data.
 
 }
