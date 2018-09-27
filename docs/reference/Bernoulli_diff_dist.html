@@ -174,46 +174,14 @@ not near each other- this will be a small effect.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>Bernoulli_diff_dist</span>(<span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; $nA
-#&gt; [1] 5
-#&gt; 
-#&gt; $kA
-#&gt; [1] 2
-#&gt; 
-#&gt; $nB
-#&gt; [1] 2
-#&gt; 
-#&gt; $kB
-#&gt; [1] 1
-#&gt; 
-#&gt; $probi
-#&gt; [1] 0.4285714
-#&gt; 
-#&gt; $nAeffective
-#&gt; [1] 6
-#&gt; 
-#&gt; $nBeffective
-#&gt; [1] 2
-#&gt; 
-#&gt; $effective_diff
-#&gt; [1] -0.6
-#&gt; 
-#&gt; $distribution
-#&gt;    diff        prob    prob_le    prob_lt     prob_ge     prob_gt
-#&gt; 1    -6 0.006394670 0.00639467 0.00000000 1.000000000 0.993605330
-#&gt; 2    -5 0.028776015 0.03517068 0.00639467 0.993605330 0.964829315
-#&gt; 3    -4 0.053955028 0.08912571 0.03517068 0.964829315 0.910874287
-#&gt; 4    -3 0.071007481 0.16013319 0.08912571 0.910874287 0.839866805
-#&gt; 5    -2 0.107085743 0.26721894 0.16013319 0.839866805 0.732781062
-#&gt; 6    -1 0.152984986 0.42020392 0.26721894 0.732781062 0.579796076
-#&gt; 7     0 0.156386491 0.57659041 0.42020392 0.579796076 0.423409585
-#&gt; 8     1 0.132089902 0.70868032 0.57659041 0.423409585 0.291319683
-#&gt; 9     2 0.120199813 0.82888013 0.70868032 0.291319683 0.171119870
-#&gt; 10    3 0.098955020 0.92783515 0.82888013 0.171119870 0.072164850
-#&gt; 11    4 0.053955028 0.98179018 0.92783515 0.072164850 0.018209822
-#&gt; 12    5 0.016186508 0.99797669 0.98179018 0.018209822 0.002023314
-#&gt; 13    6 0.002023314 1.00000000 0.99797669 0.002023314 0.000000000
-#&gt; </div><div class='input'>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>Bernoulli_diff_dist</span>(<span class='fl'>5000</span>, <span class='fl'>2000</span>, <span class='fl'>200</span>, <span class='fl'>100</span>)
+<span class='no'>res</span>$<span class='no'>distribution</span>[<span class='no'>res</span>$<span class='no'>distribution</span>$<span class='no'>diff</span><span class='kw'>==</span><span class='fu'>ceiling</span>(<span class='no'>res</span>$<span class='no'>effective_diff</span>), ]$<span class='no'>prob_le</span></div><div class='output co'>#&gt; [1] 0.002562966</div><div class='input'><span class='co'># above is the chance of a-b being at least as small (b being at least that</span>
+<span class='co'># much better) as observed if the two samples were drawn from a pooled process with</span>
+<span class='co'># no actual rate difference.</span>
+<span class='co'># That can work as a significance of a 1-sided test.</span>
+<span class='co'># two sided:</span>
+<span class='no'>res</span>$<span class='no'>distribution</span>[<span class='no'>res</span>$<span class='no'>distribution</span>$<span class='no'>diff</span><span class='kw'>==</span><span class='fu'>ceiling</span>(<span class='no'>res</span>$<span class='no'>effective_diff</span>), ]$<span class='no'>prob_le</span> +
+   <span class='no'>res</span>$<span class='no'>distribution</span>[<span class='no'>res</span>$<span class='no'>distribution</span>$<span class='no'>diff</span><span class='kw'>==</span><span class='fu'>floor</span>(-<span class='no'>res</span>$<span class='no'>effective_diff</span>), ]$<span class='no'>prob_ge</span></div><div class='output co'>#&gt; [1] 0.004676564</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

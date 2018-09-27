@@ -37,6 +37,14 @@ not near each other- this will be a small effect.
 }
 \examples{
 
-Bernoulli_diff_dist(5, 2, 2, 1)
+res <- Bernoulli_diff_dist(5000, 2000, 200, 100)
+res$distribution[res$distribution$diff==ceiling(res$effective_diff), ]$prob_le
+# above is the chance of a-b being at least as small (b being at least that
+# much better) as observed if the two samples were drawn from a pooled process with
+# no actual rate difference.
+# That can work as a significance of a 1-sided test.
+# two sided:
+res$distribution[res$distribution$diff==ceiling(res$effective_diff), ]$prob_le +
+   res$distribution[res$distribution$diff==floor(-res$effective_diff), ]$prob_ge
 
 }
