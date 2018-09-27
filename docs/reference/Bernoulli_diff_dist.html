@@ -32,7 +32,13 @@
 
 <meta property="og:title" content="Compute the distribution of differences of replacement samples of two Bernoulli experiments. — Bernoulli_diff_dist" />
 
-<meta property="og:description" content="Compute the distribution of differences of replacement samples of two Bernoulli experiments." />
+<meta property="og:description" content="Compute the distribution of max(1, nBeffective/nAeffective)*sum(a) - max*1, nAeffective/nBeffective)*sum(b)
+where a is a 0/1 vector of length nAeffective with each item 1 with independent probability (kA+kB)/(nA+nB),
+and b is a 0/1 vector of length nBeffective with each item 1 with independent probability (kA+kB)/(nA+nB).
+The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
+in counts returned by the scaled processes.
+The method be used to get the exact probability of a given difference under the null hypothesis that
+both the A and B processes have the same success rate." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,7 +125,13 @@
 
     <div class="ref-description">
     
-    <p>Compute the distribution of differences of replacement samples of two Bernoulli experiments.</p>
+    <p>Compute the distribution of <code>max(1, nBeffective/nAeffective)*sum(a) - max*1, nAeffective/nBeffective)*sum(b)</code>
+where <code>a</code> is a 0/1 vector of length <code>nAeffective</code> with each item 1 with independent probability <code>(kA+kB)/(nA+nB)</code>,
+and <code>b</code> is a 0/1 vector of length <code>nBeffective</code> with each item 1 with independent probability <code>(kA+kB)/(nA+nB)</code>.
+The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
+in counts returned by the scaled processes.
+The method be used to get the exact probability of a given difference under the null hypothesis that
+both the A and B processes have the same success rate.</p>
     
     </div>
 
@@ -138,7 +150,7 @@
     </tr>
     <tr>
       <th>nB</th>
-      <td><p>number of B experiments (must be no larger than nA).</p></td>
+      <td><p>number of B experiments.</p></td>
     </tr>
     <tr>
       <th>kB</th>
@@ -149,6 +161,15 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>experiment summaries</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note the intent that we are measuring the results of an A/B test with <code>nA %% nB == 0</code>
+(no padding needed),  or  <code>nA &gt;&gt; nB</code>, or <code>nB &gt;&gt; nA</code>. The larger sample is padded so
+the smaller sample divides evenly into it (allowing faster calculation methods).  The sizes of the
+effective samples are given by <code>nAeffective</code> and <code>nBeffective</code>.  The padding will
+slighly over-estimate confidences due the increased sample size, but if <code>nA</code> and <code>nB</code> are
+not near each other- this will be a small effect.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -165,8 +186,14 @@
 #&gt; $kB
 #&gt; [1] 1
 #&gt; 
+#&gt; $probi
+#&gt; [1] 0.4285714
+#&gt; 
 #&gt; $nAeffective
 #&gt; [1] 6
+#&gt; 
+#&gt; $nBeffective
+#&gt; [1] 2
 #&gt; 
 #&gt; $effective_diff
 #&gt; [1] -0.6
@@ -195,6 +222,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

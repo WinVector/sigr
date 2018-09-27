@@ -11,7 +11,7 @@ Bernoulli_diff_dist(nA, kA, nB, kB)
 
 \item{kA}{number of A successes observed.}
 
-\item{nB}{number of B experiments (must be no larger than nA).}
+\item{nB}{number of B experiments.}
 
 \item{kB}{number of B successes observed.}
 }
@@ -19,7 +19,21 @@ Bernoulli_diff_dist(nA, kA, nB, kB)
 experiment summaries
 }
 \description{
-Compute the distribution of differences of replacement samples of two Bernoulli experiments.
+Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max*1, nAeffective/nBeffective)*sum(b)}
+where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
+and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
+The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
+in counts returned by the scaled processes.
+The method be used to get the exact probability of a given difference under the null hypothesis that
+both the A and B processes have the same success rate.
+}
+\details{
+Note the intent that we are measuring the results of an A/B test with \code{nA \%\% nB == 0}
+(no padding needed),  or  \code{nA >> nB}, or \code{nB >> nA}. The larger sample is padded so
+the smaller sample divides evenly into it (allowing faster calculation methods).  The sizes of the
+effective samples are given by \code{nAeffective} and \code{nBeffective}.  The padding will
+slighly over-estimate confidences due the increased sample size, but if \code{nA} and \code{nB} are
+not near each other- this will be a small effect.
 }
 \examples{
 

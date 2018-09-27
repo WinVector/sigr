@@ -4,21 +4,25 @@ NULL
 
 #' Compute the distribution of differences of replacement samples of two Bernoulli experiments.
 #'
-#' Compute the distribution of \code{sum(a) - (nA/nB)*sum(b)}
-#' where \code{a} is a 0/1 vector of length \code{nA + (nA %% nB)} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
-#' and \code{b} is a 0/1 vector of length \code{nB} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
-#' Can be used to get the exact probability of a given difference under the null hypothesis that
+#' Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max*1, nAeffective/nBeffective)*sum(b)}
+#' where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
+#' and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
+#' The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
+#' in counts returned by the scaled processes.
+#' The method be used to get the exact probability of a given difference under the null hypothesis that
 #' both the A and B processes have the same success rate.
 #'
-#' Note the intent that we are measuring the results of an A/B test with \code{nA %% nB == 0}
-#' (no padding needed) or
-#' \code{nA >> nB} (padding is small relative to experiment size).  The padding so that the length of the B-process divides into the length of the
-#' A-process is to allow all the differences of counts to be integers (allows a faster computation).
+#' Note the intent that we are measuring the results of an A/B test with \code{nA \%\% nB == 0}
+#' (no padding needed),  or  \code{nA >> nB}, or \code{nB >> nA}. The larger sample is padded so
+#' the smaller sample divides evenly into it (allowing faster calculation methods).  The sizes of the
+#' effective samples are given by \code{nAeffective} and \code{nBeffective}.  The padding will
+#' slighly over-estimate confidences due the increased sample size, but if \code{nA} and \code{nB} are
+#' not near each other- this will be a small effect.
 #'
 #'
 #' @param nA number of A experiments.
 #' @param kA number of A successes observed.
-#' @param nB number of B experiments (must be no larger than nA).
+#' @param nB number of B experiments.
 #' @param kB number of B successes observed.
 #' @return experiment summaries
 #'
@@ -44,7 +48,24 @@ Bernoulli_diff_dist <- function(nA, kA, nB, kB) {
     stop("kB must be an integer in the range [0, nB]")
   }
   if(nB>nA) {
-    stop("must have nB no larger than nA")
+    res <- Bernoulli_diff_dist(nB, kB, nA, kA)
+    res$nA <- nA
+    res$kA <- kA
+    res$nB <- nB
+    res$kB <- kB
+    res$nBeffective <- res$nAeffective
+    res$nAeffective <- nA
+    res$effective_diff <- -res$effective_diff
+    d <- res$distribution
+    d$diff <- -d$diff
+    d <- d[order(d$diff), , drop = FALSE]
+    rownames(d) <- NULL
+    d$prob_le <- cumsum(d$prob)
+    d$prob_lt <- d$prob_le - d$prob
+    d$prob_ge <- rev(cumsum(rev(d$prob)))
+    d$prob_gt <- d$prob_ge - d$prob
+    res$distribution <- d
+    return(res)
   }
   probi <- (kA+kB)/(nA+nB)
   # pad A-process so B process count divides into it.
@@ -73,7 +94,9 @@ Bernoulli_diff_dist <- function(nA, kA, nB, kB) {
   d$prob_ge <- rev(cumsum(rev(d$prob)))
   d$prob_gt <- d$prob_ge - d$prob
   list(nA = nA, kA = kA,  nB = nB, kB = kB,
+       probi = probi,
        nAeffective = nAeffective,
+       nBeffective = nB,
        effective_diff = (nAeffective/nA)*kA - (npad+1)*kB,
        distribution = d)
 }
