@@ -31,8 +31,8 @@ mkPermWorker <- function(modelValues,yValues,scoreFn) {
 render.sigr_permtest <- function(statistic,
                                  ...,
                                  format,
-                                 statDigits=2,
-                                 sigDigits=2,
+                                 statDigits=4,
+                                 sigDigits=4,
                                  pLargeCutoff=0.05,
                                  pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_permtest")
@@ -300,8 +300,8 @@ listToDataFrame <- function(rows) {
 render.sigr_emptest <- function(statistic,
                                 ...,
                                 format,
-                                statDigits=2,
-                                sigDigits=2,
+                                statDigits=4,
+                                sigDigits=4,
                                 pLargeCutoff=0.05,
                                 pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_emptest")

@@ -5,7 +5,7 @@
 \title{Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes).}
 \usage{
 \method{render}{sigr_Bernoulli_diff_test}(statistic, ..., format,
-  statDigits = 2, sigDigits = 2, pLargeCutoff = 0.05,
+  statDigits = 4, sigDigits = 4, pLargeCutoff = 0.05,
   pSmallCutoff = 1e-05)
 }
 \arguments{

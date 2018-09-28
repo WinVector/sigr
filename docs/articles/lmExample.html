@@ -124,14 +124,14 @@ s &lt;-<span class="st"> </span><span class="kw">summary</span>(model)
 ## 43473.84     2.00     7.00</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapFTest.html">wrapFTest</a></span>(model),
     <span class="dt">pSmallCutoff=</span><span class="dv">0</span>))</code></pre></div>
-<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=1, <i>F</i>(2,7)=4.35e+04, <i>p</i>=4.7e-15).</p>
+<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.9999, <i>F</i>(2,7)=4.347e+04, <i>p</i>=4.681e-15).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapFTest.html">wrapFTest</a></span>(d, <span class="st">'pred'</span>, <span class="st">'y'</span>, <span class="dt">nParameters=</span><span class="dv">2</span>),
     <span class="dt">pSmallCutoff=</span><span class="dv">0</span>))</code></pre></div>
-<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=1, <i>F</i>(2,7)=4.35e+04, <i>p</i>=4.7e-15).</p>
+<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.9999, <i>F</i>(2,7)=4.347e+04, <i>p</i>=4.681e-15).</p>
 <p>Intentionally forget to inform <code>wrapFTest</code> of the true number of parameters:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/render.html">render</a></span>(<span class="kw"><a href="../reference/wrapFTest.html">wrapFTest</a></span>(d, <span class="st">'pred'</span>, <span class="st">'y'</span>),
     <span class="dt">pSmallCutoff=</span><span class="dv">0</span>))</code></pre></div>
-<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=1, <i>F</i>(1,8)=9.94e+04, <i>p</i>=1.1e-17).</p>
+<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.9999, <i>F</i>(1,8)=9.937e+04, <i>p</i>=1.148e-17).</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

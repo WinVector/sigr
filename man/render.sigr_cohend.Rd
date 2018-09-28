@@ -4,8 +4,8 @@
 \alias{render.sigr_cohend}
 \title{Format Cohen-D (effect size between groups)}
 \usage{
-\method{render}{sigr_cohend}(statistic, ..., format, statDigits = 3,
-  sigDigits = 2, pLargeCutoff = 1, pSmallCutoff = 0)
+\method{render}{sigr_cohend}(statistic, ..., format, statDigits = 4,
+  sigDigits = 4, pLargeCutoff = 1, pSmallCutoff = 0)
 }
 \arguments{
 \item{statistic}{CohenD-approximation}

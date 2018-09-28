@@ -28,8 +28,8 @@ wrapFTest <- function(x,...) {
 render.sigr_ftest <- function(statistic,
                               ...,
                               format,
-                              statDigits=3,
-                              sigDigits=2,
+                              statDigits=4,
+                              sigDigits=4,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_ftest")
@@ -264,7 +264,7 @@ wrapFTest.data.frame <- function(x,
 #'                       pLargeCutoff= 1,
 #'                       pSmallCutoff= 0,
 #'                       statDigits=4,
-#'                       sigDigits=3,
+#'                       sigDigits=4,
 #'                       format='ascii')
 #'        })
 #'

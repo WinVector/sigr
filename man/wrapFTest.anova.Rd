@@ -33,7 +33,7 @@ lapply(sigr::wrapFTest(anov),
                       pLargeCutoff= 1,
                       pSmallCutoff= 0,
                       statDigits=4,
-                      sigDigits=3,
+                      sigDigits=4,
                       format='ascii')
        })
 

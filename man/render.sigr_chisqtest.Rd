@@ -4,8 +4,8 @@
 \alias{render.sigr_chisqtest}
 \title{Format a chi-square test (quality of categorical prediction)}
 \usage{
-\method{render}{sigr_chisqtest}(statistic, ..., format, statDigits = 2,
-  sigDigits = 2, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{render}{sigr_chisqtest}(statistic, ..., format, statDigits = 4,
+  sigDigits = 4, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{statistic}{wrapped T-test}

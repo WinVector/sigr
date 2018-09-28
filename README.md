@@ -68,4 +68,4 @@ cat(render(wrapChiSqTest(model),
            pLargeCutoff=1, format='markdown'))
 ```
 
-**Chi-Square Test** summary: *pseudo-<i>R<sup>2</sup></i>*=0.023 (<i>χ<sup>2</sup></i>(1,*N*=8)=0.25, *p*=0.61).
+**Chi-Square Test** summary: *pseudo-<i>R<sup>2</sup></i>*=0.02282 (<i>χ<sup>2</sup></i>(1,*N*=8)=0.2531, *p*=0.6149).

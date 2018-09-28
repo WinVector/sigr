@@ -23,8 +23,8 @@
 render.sigr_fishertest <- function(statistic,
                           ...,
                           format,
-                          statDigits=2,
-                          sigDigits=2,
+                          statDigits=4,
+                          sigDigits=4,
                           pLargeCutoff=0.05,
                           pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_fishertest")

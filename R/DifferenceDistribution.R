@@ -30,7 +30,7 @@ NULL
 #' @examples
 #'
 #' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
-#'
+#' Bernoulli_diff_dist(2000, 5000, 100, 200)
 #' Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
 #'
 #' @export
@@ -116,7 +116,8 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
   if(is.na(i2)) {
     i2 <- nrow(d)
   }
-  test_sig <- d$prob_le[[i1]] + d$prob_ge[[i2]]
+  test_sig <- ifelse(d$diff[[i1]]>-en, d$prob_lt[[i1]], d$prob_le[[i1]]) +
+    ifelse(d$diff[[i2]] < en, d$prob_gt[[i2]], d$prob_ge[[i2]])
   testres <- list(kA = kA, nA = nA, kB = kB, nB = nB,
                   probi = probi,
                   nAeffective = nAeffective,
@@ -155,8 +156,8 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
 render.sigr_Bernoulli_diff_test <- function(statistic,
                                             ...,
                                             format,
-                                            statDigits=2,
-                                            sigDigits=2,
+                                            statDigits=4,
+                                            sigDigits=4,
                                             pLargeCutoff=0.05,
                                             pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_cortest")

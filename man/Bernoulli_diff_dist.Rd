@@ -40,7 +40,7 @@ not near each other- this will be a small effect.
 \examples{
 
 Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
-
+Bernoulli_diff_dist(2000, 5000, 100, 200)
 Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
 
 }

@@ -19,8 +19,8 @@ NULL
 render.sigr_aucpermtest <- function(statistic,
                               ...,
                               format,
-                              statDigits=2,
-                              sigDigits=2,
+                              statDigits=4,
+                              sigDigits=4,
                               pLargeCutoff=0.05,
                               pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_aucpermtest")
@@ -120,8 +120,8 @@ permTestAUC <- function(d,
 render.sigr_aucresamptest <- function(statistic,
                                     ...,
                                     format,
-                                    statDigits=2,
-                                    sigDigits=2,
+                                    statDigits=4,
+                                    sigDigits=4,
                                     pLargeCutoff=0.05,
                                     pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_aucresamptest")
@@ -226,8 +226,8 @@ resampleTestAUC <- function(d,
 render.sigr_aucpairtest <- function(statistic,
                                     ...,
                                     format,
-                                    statDigits=2,
-                                    sigDigits=2,
+                                    statDigits=4,
+                                    sigDigits=4,
                                     pLargeCutoff=0.05,
                                     pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_aucpairtest")

@@ -15,8 +15,8 @@
 render <- function(statistic,
                    ...,
                    format,
-                   statDigits=2,
-                   sigDigits=2,
+                   statDigits=4,
+                   sigDigits=4,
                    pLargeCutoff=0.05,
                    pSmallCutoff=1.0e-5) {
   UseMethod('render')
@@ -26,8 +26,8 @@ render <- function(statistic,
 get_render_args <- function(args, strict, stat, fnname) {
   res <- list(
     # format = "ascii", # if commented out trigger format special case
-    statDigits=2,
-    sigDigits=2,
+    statDigits=4,
+    sigDigits=4,
     pLargeCutoff=0.05,
     pSmallCutoff=1.0e-5
   )
@@ -84,8 +84,8 @@ get_render_args <- function(args, strict, stat, fnname) {
 render.sigr_significance <- function(statistic,
                           ...,
                           format,
-                          statDigits=2,
-                          sigDigits=2,
+                          statDigits=4,
+                          sigDigits=4,
                           pLargeCutoff=0.05,
                           pSmallCutoff=1.0e-5) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::render.sigr_significance")
