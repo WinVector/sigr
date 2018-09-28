@@ -113,10 +113,10 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
     i2 <- nrow(d)
   }
   test_sig <- d$prob_le[[i1]] + d$prob_ge[[i2]]
-  testres <- list(nA = nA, kA = kA,  nB = nB, kB = kB,
+  testres <- list(kA = kA, nA = nA, kB = kB, nB = nB,
                   probi = probi,
                   nAeffective = nAeffective,
-                  nBeffective = nB,
+                  nBeffective = nBeffective,
                   used_observed_rate = used_observed_rate,
                   test_rate = test_rate,
                   distribution = d,
@@ -143,6 +143,7 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
 #' @examples
 #'
 #' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
+#' Bernoulli_diff_dist(2000, 5000, 100, 199)
 #'
 #'
 #' @export
@@ -169,8 +170,10 @@ render.sigr_Bernoulli_diff_test <- function(statistic,
                     pLargeCutoff=pLargeCutoff,
                     pSmallCutoff=pSmallCutoff)
   formatStr <- paste0(fsyms['startB'], "Bernoulli_diff",fsyms['endB'],
-                      ': (A=',testres$kA, "/", testres$nA, "=", sprintf(stat_format_str,testres$kA/testres$nA),
-                      ", B=",testres$kB, "/", testres$nB, "=", sprintf(stat_format_str,testres$kB/testres$nB),
+                      ': (A', ifelse(testres$nA==testres$nAeffective, "=", paste0("+",testres$nAeffective-testres$nA,"~")),
+                      testres$kA, "/", testres$nA, "=", sprintf(stat_format_str,testres$kA/testres$nA),
+                      ', B', ifelse(testres$nB==testres$nBeffective, "=", paste0("+",testres$nBeffective-testres$nB,"~")),
+                      testres$kB, "/", testres$nB, "=", sprintf(stat_format_str,testres$kB/testres$nB),
                       ", ", ifelse(testres$used_observed_rate, "post ", "prior "), sprintf(stat_format_str,testres$test_rate),
                       " ", testres$kind,
                       ': ',pString,').')

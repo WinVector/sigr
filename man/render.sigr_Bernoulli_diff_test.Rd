@@ -32,6 +32,7 @@ Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes).
 \examples{
 
 Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
+Bernoulli_diff_dist(2000, 5000, 100, 199)
 
 
 }
