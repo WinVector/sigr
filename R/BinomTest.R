@@ -140,6 +140,7 @@ wrapBinomTest.data.frame <- function(x,
                           conf.level = conf.level)
   r <- list(bt=bt,
             test='binom.test',
+            pValue = p,
             nNA=nNA)
   class(r) <- c('sigr_binomtest', 'sigr_statistic')
   r

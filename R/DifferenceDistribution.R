@@ -62,7 +62,11 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
     }
     probi <- (kA+kB)/(nA+nB)
     # pad A-process so B process count divides into it.
-    nAeffective <- nA + (nA %% nB)
+    nAeffective <- nA
+    residue <- nA %% nB
+    if(residue!=0) {
+      nAeffective <- nA + (nB - (nA %% nB))
+    }
     v1 <- dbinom(0:nAeffective, prob = probi, size = nAeffective)
     v2 <- dbinom(0:nB, prob = probi, size = nB)
     npad <- nAeffective/nB - 1
@@ -123,6 +127,7 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
                   kind = "two_sided",
                   test_sig = test_sig)
   r <- list(testres=testres,
+            pValue = test_sig,
             test='Bernoulli_diff_test')
   class(r) <- c('sigr_Bernoulli_diff_test', 'sigr_statistic')
   r

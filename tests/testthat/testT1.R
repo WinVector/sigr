@@ -12,7 +12,10 @@ test_that("testT1: Test Works As Expected", {
                   y=c(1,1,2,2,3,3,4,4))
   model <- lm(y~x,data=d)
   # summary(model)
+  expect <- 3.094301e-05
   d$pred <- predict(model,newdata=d)
   s4 <- sigr::wrapFTest(model)
+  testthat::expect(abs(s4$pValue - expect)<1e-6)
   s5 <- sigr::wrapFTest(d,'pred','y')
+  testthat::expect(abs(s5$pValue - expect)<1e-6)
 })
