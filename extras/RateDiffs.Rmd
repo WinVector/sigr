@@ -1,0 +1,65 @@
+---
+title: "TestingRateDifferences"
+output: github_document
+---
+
+```{r setup}
+library("sigr")
+```
+
+
+```{r example}
+
+set.seed(23523)
+A <- rep(0, 200)
+A[sample.int(length(A), 82)] <- 1
+B <- rep(0, 100)
+B[sample.int(length(B), 55)] <- 1
+
+kA <- sum(A)
+nA <- length(A)
+kB <- sum(B)
+nB <- length(B)
+
+diff <- abs(kA/nA - kB/nB)
+print(diff)
+```
+
+```{r empirical_estimate}
+mk_resample <- function(A, B, diff) {
+  force(A)
+  force(B)
+  force(diff)
+  univ <- c(A, B)
+  nA <- length(A)
+  nB <- length(B)
+  nU <- length(univ)
+  nrun <- 1000000
+  function(...) {
+    nge <- 0
+    for(i in seq_len(nrun)) {
+      sA <- univ[sample.int(nU, nA, replace = TRUE)]
+      sB <- univ[sample.int(nU, nB, replace = TRUE)]
+      nge <- nge + (abs(sum(sA)/nA - sum(sB)/nB)>=diff)
+    }
+    nge/nrun
+  }
+}
+f <- mk_resample(A, B, diff)
+
+cl <- parallel::makeCluster(parallel::detectCores())
+res <- as.numeric(parallel::parLapply(cl, seq_len(100), f))
+mean(res)
+```
+
+```{r Bernoulli_diff_dist}
+s <- Bernoulli_diff_dist(kA, nA, kB, nB)
+s
+s$pValue
+```
+
+```{r ttest}
+wrapTTest(A, B)
+```
+
+
