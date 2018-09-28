@@ -39,6 +39,7 @@ render.sigr_binomtest <- function(statistic,
   hyp_rate <- bt$null.value[["probability of success"]]
   r <- bt$estimate
   n <- bt$parameter[["number of trials"]]
+  k <- bt$statistic[["number of successes"]]
   pString <- render(wrapSignificance(bt$p.value,
                                      symbol='p'),
                     format=format,
@@ -50,11 +51,8 @@ render.sigr_binomtest <- function(statistic,
                       ' ',
                       sprintf(stat_format_str,hyp_rate),
                       '; ',
-                      fsyms['startI'],'r',fsyms['endI'],
+                      k, "/", n, "=",
                       '=',sprintf(stat_format_str,r),
-                      ', ',
-                      fsyms['startI'],'n',fsyms['endI'],
-                      '=',n,
                       '; ',pString,').')
   formatStr
 }
