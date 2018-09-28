@@ -1,7 +1,9 @@
 
-# sigr 1.0.1 2018-09-27
+# sigr 1.0.1 2018-09-28.
 
  * Binomial test.
+ * Difference of binomials test.
+ * Increase default sig-figs.
 
 # sigr 1.0.0 2018-09-17
 
