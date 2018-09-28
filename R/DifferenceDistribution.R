@@ -169,13 +169,13 @@ render.sigr_Bernoulli_diff_test <- function(statistic,
                     format=format,
                     pLargeCutoff=pLargeCutoff,
                     pSmallCutoff=pSmallCutoff)
-  formatStr <- paste0(fsyms['startB'], "Bernoulli_diff",fsyms['endB'],
+  formatStr <- paste0(fsyms['startB'], "Bernoulli difference test",fsyms['endB'],
                       ': (A', ifelse(testres$nA==testres$nAeffective, "=", paste0("+",testres$nAeffective-testres$nA,"~")),
                       testres$kA, "/", testres$nA, "=", sprintf(stat_format_str,testres$kA/testres$nA),
                       ', B', ifelse(testres$nB==testres$nBeffective, "=", paste0("+",testres$nBeffective-testres$nB,"~")),
                       testres$kB, "/", testres$nB, "=", sprintf(stat_format_str,testres$kB/testres$nB),
                       ", ", ifelse(testres$used_observed_rate, "post ", "prior "), sprintf(stat_format_str,testres$test_rate),
                       " ", testres$kind,
-                      ': ',pString,').')
+                      '; ',pString,').')
   formatStr
 }

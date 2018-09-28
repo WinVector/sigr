@@ -35,6 +35,8 @@ Wrap binom.test (test of Bernoulli rate).
 
 d <- data.frame(x = c(rep(0, 3), rep(1, 7)))
 wrapBinomTest(d, "x", 1)
+d <- data.frame(x = c(rep(0, 15), rep(1, 35)))
+wrapBinomTest(d, "x", 1)
 
 
 }
