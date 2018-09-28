@@ -24,7 +24,7 @@ Bernoulli difference test statistic.
 Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max(1, nAeffective/nBeffective)*sum(b)}
 where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
 and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
-The idea is: under this scaling differnces in success rates between the two processes are easilly observed as differences
+The idea is: under this scaling differences in success rates between the two processes are easily observed as differences
 in counts returned by the scaled processes.
 The method be used to get the exact probability of a given difference under the null hypothesis that
 both the A and B processes have the same success rate.
@@ -34,13 +34,27 @@ Note the intent that we are measuring the results of an A/B test with \code{nA \
 (no padding needed),  or  \code{nA >> nB}, or \code{nB >> nA}. The larger sample is padded so
 the smaller sample divides evenly into it (allowing faster calculation methods).  The sizes of the
 effective samples are given by \code{nAeffective} and \code{nBeffective}.  The padding will
-slighly over-estimate confidences due the increased sample size, but if \code{nA} and \code{nB} are
-not near each other- this will be a small effect.
+slightly over-estimate confidences due the increased sample size, but if \code{nA} and \code{nB} are
+not near each other- this will be a small effect.  However, padding does represent a downward
+bias on significance estimates.
 }
 \examples{
 
 Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
 Bernoulli_diff_dist(2000, 5000, 100, 200)
 Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
+
+# let sigr extend the A experiment to estimate
+# biased down
+Bernoulli_diff_dist(2000, 5000, 100, 199)
+# user truncating the A experiment
+# biased up (modulo rounding issues)
+kA <- 2000
+nA <- 5000
+nB <- 199
+kB <- 100
+nAEffective <- floor(nA/nB)*nB
+kAEffective <- floor((kA/nA)*nAEffective)
+Bernoulli_diff_dist(kAEffective, nAEffective, kB, nB)
 
 }
