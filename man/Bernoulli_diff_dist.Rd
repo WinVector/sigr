@@ -46,15 +46,17 @@ Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
 
 # let sigr extend the A experiment to estimate
 # biased down
-Bernoulli_diff_dist(2000, 5000, 100, 199)
-# user truncating the A experiment
-# biased up (modulo rounding issues)
 kA <- 2000
 nA <- 5000
-nB <- 199
 kB <- 100
+nB <- 199
+Bernoulli_diff_dist(kA, nA, kB, nB)
+# user truncating the A experiment
+# biased up (modulo rounding issues)
 nAEffective <- floor(nA/nB)*nB
-kAEffective <- floor((kA/nA)*nAEffective)
-Bernoulli_diff_dist(kAEffective, nAEffective, kB, nB)
+kAEffectiveF <- floor((kA/nA)*nAEffective)
+Bernoulli_diff_dist(kAEffectiveF, nAEffective, kB, nB)
+kAEffectiveC <- ceiling((kA/nA)*nAEffective)
+Bernoulli_diff_dist(kAEffectiveC, nAEffective, kB, nB)
 
 }
