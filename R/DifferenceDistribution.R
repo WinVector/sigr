@@ -2,140 +2,52 @@
 #' @importFrom stats dbinom convolve
 NULL
 
-#' Compute the distribution of differences of replacement samples of two Bernoulli experiments.
-#'
-#' Compute the distribution of difference of weighted sums between
-#' \code{max(1, nBeffective/nAeffective)*sum(a)}
-#' and  \code{max(1, nAeffective/nBeffective)*sum(b)}
-#' where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
-#' and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
-#' Then return the significance of a direct two-sided test that the absolute value of this difference is at least as large
-#' as observed.
-#' The idea is: under this scaling differences in success rates between the two processes are easily observed as differences
-#' in counts returned by the scaled processes.
-#' The method be used to get the exact probability of a given difference under the null hypothesis that
-#' both the A and B processes have the same success rate.
-#'
-#' Note the intent that we are measuring the results of an A/B test with \code{nA \%\% nB == 0}
-#' (no padding needed),  or  \code{nA >> nB}, or \code{nB >> nA}. The larger sample is padded so
-#' the smaller sample divides evenly into it (allowing faster calculation methods).  The sizes of the
-#' effective samples are given by \code{nAeffective} and \code{nBeffective}.  The padding will
-#' slightly over-estimate confidences due the increased sample size, but if \code{nA} and \code{nB} are
-#' not near each other- this will be a small effect.  However, padding does represent a downward
-#' bias on significance estimates.
-#'
-#' Also for very small p-values the calculation is sensitive to rounding in the observed ratio-difference,
-#' as a arbitrarily small change in test-rate can move an entire set of observed differences in or out of the sum.
-#'
-#'
-#' @param kA number of A successes observed.
-#' @param nA number of A experiments.
-#' @param kB number of B successes observed.
-#' @param nB number of B experiments.
-#' @param test_rate numeric, difference in rate of A-B to test.  Note: it is best to specify this prior to looking at the data.
-#' @return Bernoulli difference test statistic.
-#'
-#' @examples
-#'
-#' Bernoulli_diff_dist(2000, 5000, 100, 200)
-#' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
-#' Bernoulli_diff_dist(2000, 5000, 100, 199)
-#' Bernoulli_diff_dist(2000, 5000, 100, 199, 0.1)
-#' Bernoulli_diff_dist(100, 200, 2000, 5000)
-#'
-#' # let sigr extend the A experiment to estimate
-#' # biased down
-#' kA <- 2000
-#' nA <- 5000
-#' kB <- 100
-#' nB <- 199
-#' Bernoulli_diff_dist(kA, nA, kB, nB)
-#' # user truncating the A experiment
-#' # biased up (modulo rounding issues)
-#' nAEffective <- floor(nA/nB)*nB
-#' kAEffectiveF <- floor((kA/nA)*nAEffective)
-#' Bernoulli_diff_dist(kAEffectiveF, nAEffective, kB, nB)
-#' kAEffectiveC <- ceiling((kA/nA)*nAEffective)
-#' Bernoulli_diff_dist(kAEffectiveC, nAEffective, kB, nB)
-#'
-#' @export
-#'
-Bernoulli_diff_dist <- function(kA, nA, kB, nB,
-                                test_rate) {
-  is.wholenumber <-
-    function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
-  if((nA<=0)||(!is.wholenumber(nA))) {
-    stop("nA must be a positive integer")
-  }
-  if((kA<0)||(kA>nA)||(!is.wholenumber(kA))) {
-    stop("kA must be an integer in the range [0, nA]")
-  }
-  if((nB<=0)||(!is.wholenumber(nB))) {
-    stop("nB must be a positive integer")
-  }
-  if((kB<0)||(kB>nB)||(!is.wholenumber(kB))) {
-    stop("kB must be an integer in the range [0, nB]")
-  }
-  used_observed_rate <- FALSE
-  if(missing(test_rate) || is.null(test_rate)) {
-    # test_rate = abs(kA/nA - kB/nB)
-    test_rate <- abs(nB*kA - nA*kB)/(nA*nB)
-    used_observed_rate <- TRUE
-  }
-  calc_probs <- function(kA, nA, kB, nB) {
+
+Bernoulli_diff_dist_impl <- function(nA, nB,
+                                     probi, test_rate_difference) {
+  calc_probs <- function(nA, nB) {
     if(nB>nA) {
       stop("calc_probs needs nA>=nB")
     }
-    probi <- (kA+kB)/(nA+nB)
-    # pad A-process so B process count divides into it.
-    nAeffective <- nA
-    residue <- nA %% nB
-    if(residue!=0) {
-      nAeffective <- nA + (nB - residue)
+    if((nA %% nB)!=0) {
+      stop("calc_probs needs (nA%%nB)==0")
     }
-    v1 <- dbinom(0:nAeffective, prob = probi, size = nAeffective)
+    # pad A-process so B process count divides into it.
+    v1 <- dbinom(0:nA, prob = probi, size = nA)
     v2 <- dbinom(0:nB, prob = probi, size = nB)
-    npad <- nAeffective/nB - 1
+    npad <- nA/nB - 1
     if(npad>0) {
-      # work process B as observing nAeffective/nB success for each success
+      # work process B as observing nA/nB success for each success
       pad <- numeric(npad)
-      v2 <- unlist(lapply(v2, function(vi) c(vi, pad)))[1:(nAeffective+1)]
+      v2 <- unlist(lapply(v2, function(vi) c(vi, pad)))[1:(nA+1)]
     }
     probs <- convolve(v1, v2, type = "open")
-    # check <- numeric(nAeffective + nB + 1)
-    # for(i in 0:nAeffective) {
+    # check <- numeric(nA + nB + 1)
+    # for(i in 0:nA) {
     #   for(j in 0:nB) {
     #     check[[i - j + nB + 1]] <- check[[i - j + nB + 1]] + v1[[i+1]]*v2[[j+1]]
     #   }
     # }
     # diff <- max(abs(probs-check))
-    d <- data.frame(
-      diff = (-nAeffective):nAeffective,
+    data.frame(
+      diff = (-nA):nA,
       prob = probs)
-    list(d = d, nAeffective = nAeffective, probi = probi)
   }
   if(nB<=nA) {
-    pres <- calc_probs(kA, nA, kB, nB)
-    d <- pres$d
-    nAeffective <- pres$nAeffective
-    nBeffective <- nB
+    d <- calc_probs(nA, nB)
   } else {
-    pres <- calc_probs(kB, nB, kA, nA)
-    d <- pres$d
+    d <- calc_probs(nB, nA)
     d$diff <- -d$diff
     d <- d[order(d$diff), , drop = FALSE]
     rownames(d) <- NULL
-    nAeffective <- nA
-    nBeffective <- pres$nAeffective
   }
-  probi <- pres$probi
   d$prob_le <- cumsum(d$prob)
   d$prob_lt <- d$prob_le - d$prob
   d$prob_ge <- rev(cumsum(rev(d$prob)))
   d$prob_gt <- d$prob_ge - d$prob
   # avoid rounding issues as seen in extras/RateDiffs.Rmd
-  # Bernoulli_diff_dist(82, 200, 55, 100)
-  en <- round(max(nAeffective, nBeffective)*test_rate, digits = 7)
+  # Bernoulli_diff_stat(82, 200, 55, 100)
+  en <- round(max(nA, nB)*test_rate_difference, digits = 7)
   i1 <- match(ceiling(-en), d$diff)
   if(is.na(i1)) {
     i1 <- 1
@@ -153,30 +65,138 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
     }
   }
   test_sig <- d$prob_le[[i1]] + d$prob_ge[[i2]]
-  testres <- list(kA = kA,
-                  nA = nA,
-                  kB = kB,
+  testres <- list(nA = nA,
                   nB = nB,
                   probi = probi,
-                  nAeffective = nAeffective,
-                  nBeffective = nBeffective,
-                  test_rate = test_rate,
+                  test_rate_difference = test_rate_difference,
                   distribution = d,
-                  padded = (nA!=nAeffective) || (nB!=nBeffective),
                   kind = "two sided",
                   test_sig = test_sig)
-  r <- list(testres = testres,
-            pValue = test_sig,
-            test='Bernoulli_diff_test',
+  testres
+}
+
+#' Compute the distribution of differences of replacement samples of two Binomial or Bernoulli experiments.
+#'
+#' Assuming \code{max(nA, nB) \%\% min(nA, nB) == 0}:
+#' compute the distribution of difference of weighted sums between
+#' \code{max(1, nB/nA)*sum(a)}
+#' and  \code{max(1, nA/nB)*sum(b)}
+#' where \code{a} is a 0/1 vector of length \code{nA} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
+#' and \code{b} is a 0/1 vector of length \code{nB} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
+#' Then return the significance of a direct two-sided test that the absolute value of this difference is at least as large
+#' as the test_rate_difference (if supplied) or the empirically observed rate difference \code{abs(nB*kA - nA*kB)/(nA*nB)}.
+#' The idea is: under this scaling differences in success rates between the two processes are easily observed as differences
+#' in counts returned by the scaled processes.
+#' The method can be used to get the exact probability of a given difference under the null hypothesis that
+#' both the \code{A} and \code{B} processes have the same success rate.  When \code{nA} and \code{nB} don't divide evenly into to each
+#' other two calculations are run with the larger process is alternately padded and truncated to look like a larger or smaller
+#' experiment that meets the above conditions.  This gives us a good range of significances.
+#'
+#' Note the intent is that we are measuring the results of an A/B test with \code{max(nA, nB) \%\% min(nA, nB) == 0}
+#' (no padding needed),  or  \code{nA >> nB}, or \code{nB >> nA} (padding is small effect).
+#'
+#' The idea of converting a rate problem into a counting problem follows from reading Wald's \emph{Sequential Analysis}.
+#'
+#' For very small p-values the calculation is sensitive to rounding in the observed ratio-difference,
+#' as an arbitrarily small change in test-rate can move an entire set of observed differences in or out of the significance calculation.
+#'
+#'
+#' @param kA number of A successes observed.
+#' @param nA number of A experiments.
+#' @param kB number of B successes observed.
+#' @param nB number of B experiments.
+#' @param test_rate_difference numeric, difference in rate of A-B to test.  Note: it is best to specify this prior to looking at the data.
+#' @return Bernoulli difference test statistic.
+#'
+#' @examples
+#'
+#' Bernoulli_diff_stat(2000, 5000, 100, 200)
+#' Bernoulli_diff_stat(2000, 5000, 100, 200, 0.1)
+#' Bernoulli_diff_stat(2000, 5000, 100, 199)
+#' Bernoulli_diff_stat(2000, 5000, 100, 199, 0.1)
+#' Bernoulli_diff_stat(100, 200, 2000, 5000)
+#'
+#' # sigr adjusts experiment sizes when lengths
+#' # don't divide into each other.
+#' Bernoulli_diff_stat(100, 199, 2000, 5000)
+#' Bernoulli_diff_stat(100, 199, 2000, 5000)$pValue
+#'
+#' @export
+#'
+Bernoulli_diff_stat <- function(kA, nA, kB, nB,
+                                test_rate_difference) {
+  is.wholenumber <-
+    function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
+  if((nA<=0)||(!is.wholenumber(nA))) {
+    stop("nA must be a positive integer")
+  }
+  if((kA<0)||(kA>nA)||(!is.wholenumber(kA))) {
+    stop("kA must be an integer in the range [0, nA]")
+  }
+  if((nB<=0)||(!is.wholenumber(nB))) {
+    stop("nB must be a positive integer")
+  }
+  if((kB<0)||(kB>nB)||(!is.wholenumber(kB))) {
+    stop("kB must be an integer in the range [0, nB]")
+  }
+  probi <- (kA+kB)/(nA+nB)
+  used_observed_rate <- FALSE
+  if(missing(test_rate_difference) || is.null(test_rate_difference)) {
+    # test_rate_difference = abs(kA/nA - kB/nB)
+    test_rate_difference <- abs(nB*kA - nA*kB)/(nA*nB)
+    used_observed_rate <- TRUE
+  }
+  divides_even <- (nA==nB) ||
+    ((nA>nB)&&((nA %% nB)==0)) ||
+    ((nB>nA)&&((nB %% nA)==0))
+  Aadjusted <- FALSE
+  Badjusted <- FALSE
+  subres <- list()
+  pValue <- NA
+  pHigh <- NA
+  pLow <- NA
+  if(divides_even) {
+    subres <- list(
+      Bernoulli_diff_dist_impl(nA, nB, probi, test_rate_difference))
+    pValue <- subres[[1]]$test_sig
+    pHigh <- pValue
+    pLow <- pValue
+  } else {
+    if(nA>=nB) {
+      Aadjusted <- TRUE
+      residue = nA %% nB
+      subres <- list(
+        Bernoulli_diff_dist_impl(nA + (nB - residue), nB, probi, test_rate_difference),
+        Bernoulli_diff_dist_impl(nA - residue, nB, probi, test_rate_difference)
+      )
+    } else {
+      Badjusted <- TRUE
+      residue = nB %% nA
+      subres <- list(
+        Bernoulli_diff_dist_impl(nA, nB + (nA - residue), probi, test_rate_difference),
+        Bernoulli_diff_dist_impl(nA, nB - residue, probi, test_rate_difference)
+      )
+    }
+    pHigh <- max(subres[[1]]$test_sig, subres[[2]]$test_sig)
+    pLow <- min(subres[[1]]$test_sig, subres[[2]]$test_sig)
+    pValue <- (pHigh + pLow)/2
+  }
+  r <- list(test='Bernoulli_diff_test',
+            kind = "two sided",
             kA = kA,
             nA = nA,
             kB = kB,
             nB = nB,
             probi = probi,
-            nAeffective = nAeffective,
-            nBeffective = nBeffective,
-            test_rate = test_rate,
-            kind = "two sided")
+            test_rate_difference = test_rate_difference,
+            used_observed_rate = used_observed_rate,
+            divides_even = divides_even,
+            Aadjusted = Aadjusted,
+            Badjusted = Badjusted,
+            subres = subres,
+            pValue = pValue,
+            pHigh = pHigh,
+            pLow = pLow)
   class(r) <- c('sigr_Bernoulli_diff_test', 'sigr_statistic')
   r
 }
@@ -195,10 +215,10 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
 #'
 #' @examples
 #'
-#' Bernoulli_diff_dist(2000, 5000, 100, 200)
-#' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
-#' Bernoulli_diff_dist(2000, 5000, 100, 199)
-#' Bernoulli_diff_dist(2000, 5000, 100, 199, 0.1)
+#' Bernoulli_diff_stat(2000, 5000, 100, 200)
+#' Bernoulli_diff_stat(2000, 5000, 100, 200, 0.1)
+#' Bernoulli_diff_stat(2000, 5000, 100, 199)
+#' Bernoulli_diff_stat(2000, 5000, 100, 199, 0.1)
 #'
 #'
 #' @export
@@ -218,17 +238,31 @@ render.sigr_Bernoulli_diff_test <- function(statistic,
   }
   fsyms <- syms[format,]
   stat_format_str <- paste0('%.',statDigits,'g')
-  pString <- render(wrapSignificance(statistic$pValue,
-                                     symbol='p'),
-                    format=format,
-                    pLargeCutoff=pLargeCutoff,
-                    pSmallCutoff=pSmallCutoff)
+  if(statistic$divides_even) {
+    pString <- render(wrapSignificance(statistic$pValue,
+                                       symbol='p'),
+                      format=format,
+                      pLargeCutoff=pLargeCutoff,
+                      pSmallCutoff=pSmallCutoff)
+  } else {
+    pStringH <- render(wrapSignificance(statistic$pHigh,
+                                        symbol='pH'),
+                       format=format,
+                       pLargeCutoff=pLargeCutoff,
+                       pSmallCutoff=pSmallCutoff)
+    pStringL <- render(wrapSignificance(statistic$pLow,
+                                        symbol='pL'),
+                       format=format,
+                       pLargeCutoff=pLargeCutoff,
+                       pSmallCutoff=pSmallCutoff)
+    pString <- paste0(pStringL, ", ", pStringH)
+  }
   formatStr <- paste0(fsyms['startB'], "Bernoulli difference test",fsyms['endB'],
-                      ': (A', ifelse(statistic$nA==statistic$nAeffective, "=", paste0("+",statistic$nAeffective-statistic$nA,"~")),
+                      ': (A', ifelse(statistic$Aadjusted, "~", "="),
                       statistic$kA, "/", statistic$nA, "=", sprintf(stat_format_str,statistic$kA/statistic$nA),
-                      ', B', ifelse(statistic$nB==statistic$nBeffective, "=", paste0("+",statistic$nBeffective-statistic$nB,"~")),
+                      ', B', ifelse(statistic$Badjusted, "~", "="),
                       statistic$kB, "/", statistic$nB, "=", sprintf(stat_format_str,statistic$kB/statistic$nB),
-                      ", ", ifelse(statistic$used_observed_rate, "post ", "prior "), sprintf(stat_format_str,statistic$test_rate),
+                      ", ", ifelse(statistic$used_observed_rate, "post ", "prior "), sprintf(stat_format_str,statistic$test_rate_difference),
                       " ", statistic$kind,
                       '; ',pString,').')
   formatStr

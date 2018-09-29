@@ -14,7 +14,10 @@ A <- rep(0, 200)
 A[sample.int(length(A), 82)] <- 1
 B <- rep(0, 100)
 B[sample.int(length(B), 55)] <- 1
+```
 
+``` r
+# summarize data
 kA <- sum(A)
 nA <- length(A)
 kB <- sum(B)
@@ -42,16 +45,16 @@ print(abs_rate_difference)
 
 A natural question is: how likely is such a large difference of success rates (ratios of 1's in the records) assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate. This is a classic significance question.
 
-With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_dist.html) (requires `sigr` version `1.0.2`, or newer). Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
+With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html) (requires `sigr` version `1.0.2`, or newer). Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
 
 ``` r
 library("sigr")
 
-s <- Bernoulli_diff_dist(kA, nA, kB, nB)
+s <- Bernoulli_diff_stat(kA, nA, kB, nB)
 s
 ```
 
-    ## [1] "Bernoulli difference test: (A=82/200=0.41, B=55/100=0.55, 0.14 two sided; p=0.02404)."
+    ## [1] "Bernoulli difference test: (A=82/200=0.41, B=55/100=0.55, post 0.14 two sided; p=0.02404)."
 
 ``` r
 s$pValue
@@ -66,7 +69,9 @@ One can try to estimate this quantity directly through re-sampling techniques, b
 ``` r
 set.seed(2018)
 
-mk_resample <- function(A, B) {
+n_runs <- 100
+run_size <- 1000000
+mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)
   kA <- sum(A)
@@ -75,31 +80,47 @@ mk_resample <- function(A, B) {
   nB <- length(B)
   univ <- c(A, B)
   nU <- length(univ)
-  nrun <- 100000
+  force(run_size)
   # integer to avoid rounding issues
   abs_rate_difference_times_nab <- abs(nB*kA - nA*kB)
 
   function(...) {
     nge <- 0
-    for(i in seq_len(nrun)) {
+    for(i in seq_len(run_size)) {
       sA <- univ[sample.int(nU, nA, replace = TRUE)]
       sB <- univ[sample.int(nU, nB, replace = TRUE)]
       obs <- abs(nB*sum(sA) - nA*sum(sB))
       nge <- nge + (obs>=abs_rate_difference_times_nab)
     }
-    nge/nrun
+    nge
   }
 }
-f <- mk_resample(A, B)
+f <- mk_resample(A, B, run_size)
 
 cl <- parallel::makeCluster(parallel::detectCores())
-res <- as.numeric(parallel::parLapply(cl, seq_len(100), f))
+res <- as.numeric(parallel::parLapply(cl, seq_len(n_runs), f))
 parallel::stopCluster(cl)
 
-mean(res)
+k <- sum(res)
+n <- n_runs*run_size
+p <- k/n
+var <- p*(1-p)/n
+se_est <- sqrt(var)
+
+# typical values of p_est if current estimate were true value
+paste0(k, "/", n, " ~ ", p, " +- ", "Z*", se_est)
 ```
 
-    ## [1] 0.0240744
+    ## [1] "2405548/1e+08 ~ 0.02405548 +- Z*1.53221453726199e-05"
+
+``` r
+# probability of observing p_est far from p if p were true value
+eps <- 1.0e-4
+pbinom(k - floor(n*eps), n, p, lower.tail = TRUE) + 
+  pbinom(k + floor(n*eps), n, p, lower.tail = FALSE)
+```
+
+    ## [1] 6.734379e-11
 
 More commonly one just throws out some domain knowledge and uses a ready-made test. For instance if we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
