@@ -22,7 +22,7 @@ Bernoulli difference test statistic.
 }
 \description{
 Assuming \code{max(nA, nB) \%\% min(nA, nB) == 0}:
-compute the distribution of difference of weighted sums between
+compute the distribution of differences of weighted sums between
 \code{max(1, nB/nA)*sum(a)}
 and  \code{max(1, nA/nB)*sum(b)}
 where \code{a} is a 0/1 vector of length \code{nA} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
@@ -32,13 +32,14 @@ as the test_rate_difference (if supplied) or the empirically observed rate diffe
 The idea is: under this scaling differences in success rates between the two processes are easily observed as differences
 in counts returned by the scaled processes.
 The method can be used to get the exact probability of a given difference under the null hypothesis that
-both the \code{A} and \code{B} processes have the same success rate.  When \code{nA} and \code{nB} don't divide evenly into to each
+both the \code{A} and \code{B} processes have the same success rate \code{(kA+kB)/(nA+nB)}.
+When \code{nA} and \code{nB} don't divide evenly into to each
 other two calculations are run with the larger process is alternately padded and truncated to look like a larger or smaller
 experiment that meets the above conditions.  This gives us a good range of significances.
 }
 \details{
 Note the intent is that we are measuring the results of an A/B test with \code{max(nA, nB) \%\% min(nA, nB) == 0}
-(no padding needed),  or  \code{nA >> nB}, or \code{nB >> nA} (padding is small effect).
+(no padding needed), or \code{max(nA,nB) >> min(nA,nB)} (padding is small effect).
 
 The idea of converting a rate problem into a counting problem follows from reading Wald's \emph{Sequential Analysis}.
 
