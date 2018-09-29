@@ -153,7 +153,10 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
     }
   }
   test_sig <- d$prob_le[[i1]] + d$prob_ge[[i2]]
-  testres <- list(kA = kA, nA = nA, kB = kB, nB = nB,
+  testres <- list(kA = kA,
+                  nA = nA,
+                  kB = kB,
+                  nB = nB,
                   probi = probi,
                   nAeffective = nAeffective,
                   nBeffective = nBeffective,
@@ -162,9 +165,18 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
                   padded = (nA!=nAeffective) || (nB!=nBeffective),
                   kind = "two sided",
                   test_sig = test_sig)
-  r <- list(testres=testres,
+  r <- list(testres = testres,
             pValue = test_sig,
-            test='Bernoulli_diff_test')
+            test='Bernoulli_diff_test',
+            kA = kA,
+            nA = nA,
+            kB = kB,
+            nB = nB,
+            probi = probi,
+            nAeffective = nAeffective,
+            nBeffective = nBeffective,
+            test_rate = test_rate,
+            kind = "two sided")
   class(r) <- c('sigr_Bernoulli_diff_test', 'sigr_statistic')
   r
 }
@@ -206,19 +218,18 @@ render.sigr_Bernoulli_diff_test <- function(statistic,
   }
   fsyms <- syms[format,]
   stat_format_str <- paste0('%.',statDigits,'g')
-  testres <- statistic$testres
-  pString <- render(wrapSignificance(testres$test_sig,
+  pString <- render(wrapSignificance(statistic$pValue,
                                      symbol='p'),
                     format=format,
                     pLargeCutoff=pLargeCutoff,
                     pSmallCutoff=pSmallCutoff)
   formatStr <- paste0(fsyms['startB'], "Bernoulli difference test",fsyms['endB'],
-                      ': (A', ifelse(testres$nA==testres$nAeffective, "=", paste0("+",testres$nAeffective-testres$nA,"~")),
-                      testres$kA, "/", testres$nA, "=", sprintf(stat_format_str,testres$kA/testres$nA),
-                      ', B', ifelse(testres$nB==testres$nBeffective, "=", paste0("+",testres$nBeffective-testres$nB,"~")),
-                      testres$kB, "/", testres$nB, "=", sprintf(stat_format_str,testres$kB/testres$nB),
-                      ", ", ifelse(testres$used_observed_rate, "post ", "prior "), sprintf(stat_format_str,testres$test_rate),
-                      " ", testres$kind,
+                      ': (A', ifelse(statistic$nA==statistic$nAeffective, "=", paste0("+",statistic$nAeffective-statistic$nA,"~")),
+                      statistic$kA, "/", statistic$nA, "=", sprintf(stat_format_str,statistic$kA/statistic$nA),
+                      ', B', ifelse(statistic$nB==statistic$nBeffective, "=", paste0("+",statistic$nBeffective-statistic$nB,"~")),
+                      statistic$kB, "/", statistic$nB, "=", sprintf(stat_format_str,statistic$kB/statistic$nB),
+                      ", ", ifelse(statistic$used_observed_rate, "post ", "prior "), sprintf(stat_format_str,statistic$test_rate),
+                      " ", statistic$kind,
                       '; ',pString,').')
   formatStr
 }
