@@ -91,7 +91,7 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
     nAeffective <- nA
     residue <- nA %% nB
     if(residue!=0) {
-      nAeffective <- nA + (nB - (nA %% nB))
+      nAeffective <- nA + (nB - residue)
     }
     v1 <- dbinom(0:nAeffective, prob = probi, size = nAeffective)
     v2 <- dbinom(0:nB, prob = probi, size = nB)
