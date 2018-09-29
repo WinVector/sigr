@@ -1,5 +1,5 @@
 
-# sigr 1.0.1 2018-09-28
+# sigr 1.0.1 2018-09-29
 
  * Fix end conditons of differnce of binomials.
  

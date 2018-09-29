@@ -63,7 +63,8 @@ mk_resample <- function(A, B) {
   nB <- length(B)
   univ <- c(A, B)
   nU <- length(univ)
-  nrun <- 1000000
+  nrun <- 100000
+  # integer to avoid rounding issues
   abs_rate_difference_times_nab <- abs(nB*kA - nA*kB)
 
   function(...) {
@@ -92,7 +93,7 @@ More commonly one just throws out some domain knowledge and uses a ready-made te
 wrapTTest(A, B)
 ```
 
-One can work further on the above by adding "continuity corrections" and so on.
+One can work further on the above by adding "continuity corrections" and so on, but we feel running an exact test that matches the problem's actual generative model is preferred.
 
 Or, if we ignore distinction between treatment and outcome we can use a Fisher independence test.
 

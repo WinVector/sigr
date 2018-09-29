@@ -51,7 +51,7 @@ s <- Bernoulli_diff_dist(kA, nA, kB, nB)
 s
 ```
 
-    ## [1] "Bernoulli difference test: (A=82/200=0.41, B=55/100=0.55, post 0.14 two_sided; p=0.02404)."
+    ## [1] "Bernoulli difference test: (A=82/200=0.41, B=55/100=0.55, 0.14 two sided; p=0.02404)."
 
 ``` r
 s$pValue
@@ -75,7 +75,8 @@ mk_resample <- function(A, B) {
   nB <- length(B)
   univ <- c(A, B)
   nU <- length(univ)
-  nrun <- 1000000
+  nrun <- 100000
+  # integer to avoid rounding issues
   abs_rate_difference_times_nab <- abs(nB*kA - nA*kB)
 
   function(...) {
@@ -98,7 +99,7 @@ parallel::stopCluster(cl)
 mean(res)
 ```
 
-    ## [1] 0.02401745
+    ## [1] 0.0240744
 
 More commonly one just throws out some domain knowledge and uses a ready-made test. For instance if we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
@@ -108,7 +109,7 @@ wrapTTest(A, B)
 
     ## [1] "Welch Two Sample t-test, two.sided: (t=-2.297, df=195.7, p=0.02269)."
 
-One can work further on the above by adding "continuity corrections" and so on.
+One can work further on the above by adding "continuity corrections" and so on, but we feel running an exact test that matches the problem's actual generative model is preferred.
 
 Or, if we ignore distinction between treatment and outcome we can use a Fisher independence test.
 

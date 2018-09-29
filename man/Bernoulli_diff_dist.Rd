@@ -21,9 +21,13 @@ Bernoulli_diff_dist(kA, nA, kB, nB, test_rate)
 Bernoulli difference test statistic.
 }
 \description{
-Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max(1, nAeffective/nBeffective)*sum(b)}
+Compute the distribution of difference of weighted sums between
+\code{max(1, nBeffective/nAeffective)*sum(a)}
+and  \code{max(1, nAeffective/nBeffective)*sum(b)}
 where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
 and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
+Then return the significance of a direct two-sided test that the absolute value of this difference is at least as large
+as observed.
 The idea is: under this scaling differences in success rates between the two processes are easily observed as differences
 in counts returned by the scaled processes.
 The method be used to get the exact probability of a given difference under the null hypothesis that
@@ -37,12 +41,17 @@ effective samples are given by \code{nAeffective} and \code{nBeffective}.  The p
 slightly over-estimate confidences due the increased sample size, but if \code{nA} and \code{nB} are
 not near each other- this will be a small effect.  However, padding does represent a downward
 bias on significance estimates.
+
+Also for very small p-values the calculation is sensitive to rounding in the observed ratio-difference,
+as a arbitrarily small change in test-rate can move an entire set of observed differences in or out of the sum.
 }
 \examples{
 
-Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
 Bernoulli_diff_dist(2000, 5000, 100, 200)
-Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
+Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
+Bernoulli_diff_dist(2000, 5000, 100, 199)
+Bernoulli_diff_dist(2000, 5000, 100, 199, 0.1)
+Bernoulli_diff_dist(100, 200, 2000, 5000)
 
 # let sigr extend the A experiment to estimate
 # biased down

@@ -4,9 +4,13 @@ NULL
 
 #' Compute the distribution of differences of replacement samples of two Bernoulli experiments.
 #'
-#' Compute the distribution of \code{max(1, nBeffective/nAeffective)*sum(a) - max(1, nAeffective/nBeffective)*sum(b)}
+#' Compute the distribution of difference of weighted sums between
+#' \code{max(1, nBeffective/nAeffective)*sum(a)}
+#' and  \code{max(1, nAeffective/nBeffective)*sum(b)}
 #' where \code{a} is a 0/1 vector of length \code{nAeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)},
 #' and \code{b} is a 0/1 vector of length \code{nBeffective} with each item 1 with independent probability \code{(kA+kB)/(nA+nB)}.
+#' Then return the significance of a direct two-sided test that the absolute value of this difference is at least as large
+#' as observed.
 #' The idea is: under this scaling differences in success rates between the two processes are easily observed as differences
 #' in counts returned by the scaled processes.
 #' The method be used to get the exact probability of a given difference under the null hypothesis that
@@ -20,6 +24,9 @@ NULL
 #' not near each other- this will be a small effect.  However, padding does represent a downward
 #' bias on significance estimates.
 #'
+#' Also for very small p-values the calculation is sensitive to rounding in the observed ratio-difference,
+#' as a arbitrarily small change in test-rate can move an entire set of observed differences in or out of the sum.
+#'
 #'
 #' @param kA number of A successes observed.
 #' @param nA number of A experiments.
@@ -30,9 +37,11 @@ NULL
 #'
 #' @examples
 #'
-#' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
 #' Bernoulli_diff_dist(2000, 5000, 100, 200)
-#' Bernoulli_diff_dist(100, 200, 2000, 5000, 0.1)
+#' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
+#' Bernoulli_diff_dist(2000, 5000, 100, 199)
+#' Bernoulli_diff_dist(2000, 5000, 100, 199, 0.1)
+#' Bernoulli_diff_dist(100, 200, 2000, 5000)
 #'
 #' # let sigr extend the A experiment to estimate
 #' # biased down
@@ -69,7 +78,8 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
   }
   used_observed_rate <- FALSE
   if(missing(test_rate) || is.null(test_rate)) {
-    test_rate = abs(kA/nA - kB/nB)
+    # test_rate = abs(kA/nA - kB/nB)
+    test_rate <- abs(nB*kA - nA*kB)/(nA*nB)
     used_observed_rate <- TRUE
   }
   calc_probs <- function(kA, nA, kB, nB) {
@@ -123,25 +133,34 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
   d$prob_lt <- d$prob_le - d$prob
   d$prob_ge <- rev(cumsum(rev(d$prob)))
   d$prob_gt <- d$prob_ge - d$prob
-  en <- max(nAeffective, nBeffective)*test_rate
+  # avoid rounding issues as seen in extras/RateDiffs.Rmd
+  # Bernoulli_diff_dist(82, 200, 55, 100)
+  en <- round(max(nAeffective, nBeffective)*test_rate, digits = 7)
   i1 <- match(ceiling(-en), d$diff)
   if(is.na(i1)) {
     i1 <- 1
+  } else {
+    if((i1>1)&&(d$diff[[i1]] > (-en))) {
+      i1 <- i1 - 1
+    }
   }
   i2 <- match(floor(en), d$diff)
   if(is.na(i2)) {
     i2 <- nrow(d)
+  } else {
+    if((i2<nrow(d))&&(d$diff[[i2]]<en)) {
+      i2 <- i2 + 1
+    }
   }
   test_sig <- d$prob_le[[i1]] + d$prob_ge[[i2]]
   testres <- list(kA = kA, nA = nA, kB = kB, nB = nB,
                   probi = probi,
                   nAeffective = nAeffective,
                   nBeffective = nBeffective,
-                  used_observed_rate = used_observed_rate,
                   test_rate = test_rate,
                   distribution = d,
                   padded = (nA!=nAeffective) || (nB!=nBeffective),
-                  kind = "two_sided",
+                  kind = "two sided",
                   test_sig = test_sig)
   r <- list(testres=testres,
             pValue = test_sig,
@@ -164,8 +183,10 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
 #'
 #' @examples
 #'
+#' Bernoulli_diff_dist(2000, 5000, 100, 200)
 #' Bernoulli_diff_dist(2000, 5000, 100, 200, 0.1)
 #' Bernoulli_diff_dist(2000, 5000, 100, 199)
+#' Bernoulli_diff_dist(2000, 5000, 100, 199, 0.1)
 #'
 #'
 #' @export
