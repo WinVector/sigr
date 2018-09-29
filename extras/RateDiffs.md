@@ -45,7 +45,7 @@ print(abs_rate_difference)
 
 A natural question is: how likely is such a large difference of success rates (ratios of 1's in the records) assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate. This is a classic significance question.
 
-With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html) (requires `sigr` version `1.0.2`, or newer). Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
+With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html) (requires `sigr` version `1.0.2`, or newer). Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
 
 ``` r
 library("sigr")
