@@ -2,7 +2,7 @@
 % Please edit documentation in R/BinomTest.R
 \name{render.sigr_binomtest}
 \alias{render.sigr_binomtest}
-\title{Format binom.test (test of rate of a Bernoulli experiment).}
+\title{Format binom.test (test of rate of a Binomial/Bernoulli experiment).}
 \usage{
 \method{render}{sigr_binomtest}(statistic, ..., format, statDigits = 4,
   sigDigits = 4, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
@@ -26,7 +26,7 @@
 formatted string
 }
 \description{
-Format binom.test (test of rate of a Bernoulli experiment).
+Format binom.test (test of rate of a Binomial/Bernoulli experiment).
 }
 \examples{
 

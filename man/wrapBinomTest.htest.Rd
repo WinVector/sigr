@@ -2,25 +2,27 @@
 % Please edit documentation in R/BinomTest.R
 \name{wrapBinomTest.htest}
 \alias{wrapBinomTest.htest}
-\title{Wrap binom.test (test of Bernoulli rate).}
+\title{Wrap binom.test (test of Binomial/Bernoulli rate).}
 \usage{
 \method{wrapBinomTest}{htest}(x, ...)
 }
 \arguments{
 \item{x}{binom.test result}
 
-\item{...}{extra arguments (not used)}
+\item{...}{not used, just for argument compatibility}
 }
 \value{
 wrapped stat
 }
 \description{
-Wrap binom.test (test of Bernoulli rate).
+Wrap binom.test (test of Binomial/Bernoulli rate).
 }
 \examples{
 
 bt <- binom.test(7, 10, 0.5)
 wrapBinomTest(bt)
 
-
+}
+\seealso{
+\code{\link{wrapBinomTest}}, \code{\link{wrapBinomTest.htest}}, \code{\link{wrapBinomTestS}}, \code{\link{wrapBinomTest.logical}}, \code{\link{wrapBinomTest.numeric}}, \code{\link{wrapBinomTest.data.frame}}
 }

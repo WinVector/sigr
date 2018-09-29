@@ -268,3 +268,8 @@ render.sigr_Bernoulli_diff_test <- function(statistic,
                       '; ',pString,').')
   formatStr
 }
+
+
+
+
+

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap binom.test (test of Binomial/Bernoulli rate). — wrapBinomTest.data.frame • sigr</title>
+<title>Wrap binom.test (test of Binomial/Bernoulli rate). — wrapBinomTest.logical • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Wrap binom.test (test of Binomial/Bernoulli rate). — wrapBinomTest.data.frame" />
+<meta property="og:title" content="Wrap binom.test (test of Binomial/Bernoulli rate). — wrapBinomTest.logical" />
 
 <meta property="og:description" content="Wrap binom.test (test of Binomial/Bernoulli rate)." />
 <meta name="twitter:card" content="summary" />
@@ -114,7 +114,7 @@
     <div class="page-header">
     <h1>Wrap binom.test (test of Binomial/Bernoulli rate).</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/BinomTest.R'><code>R/BinomTest.R</code></a></small>
-    <div class="hidden name"><code>wrapBinomTest.data.frame.Rd</code></div>
+    <div class="hidden name"><code>wrapBinomTest.logical.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -123,25 +123,17 @@
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>, <span class='no'>ColumnName</span>, <span class='no'>SuccessValue</span>, <span class='no'>...</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for logical</span>
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>), <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>data.frame</p></td>
-    </tr>
-    <tr>
-      <th>ColumnName</th>
-      <td><p>character name of measurment column</p></td>
-    </tr>
-    <tr>
-      <th>SuccessValue</th>
-      <td><p>value considered a success (positive)</p></td>
+      <td><p>logical, vector of trials.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -171,14 +163,14 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='wrapBinomTest.html'>wrapBinomTest</a></code>, <code><a href='wrapBinomTest.htest.html'>wrapBinomTest.htest</a></code>, <code><a href='wrapBinomTestS.html'>wrapBinomTestS</a></code>, <code><a href='wrapBinomTest.logical.html'>wrapBinomTest.logical</a></code>, <code><a href='wrapBinomTest.numeric.html'>wrapBinomTest.numeric</a></code>, <code>wrapBinomTest.data.frame</code></p></div>
+    <div class='dont-index'><p><code><a href='wrapBinomTest.html'>wrapBinomTest</a></code>, <code><a href='wrapBinomTest.htest.html'>wrapBinomTest.htest</a></code>, <code><a href='wrapBinomTestS.html'>wrapBinomTestS</a></code>, <code>wrapBinomTest.logical</code>, <code><a href='wrapBinomTest.numeric.html'>wrapBinomTest.numeric</a></code>, <code><a href='wrapBinomTest.data.frame.html'>wrapBinomTest.data.frame</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>3</span>), <span class='fu'>rep</span>(<span class='fl'>1</span>, <span class='fl'>7</span>)))
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>d</span>, <span class='st'>"x"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333], two.sided 0.5; p=n.s.)."</div><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>15</span>), <span class='fu'>rep</span>(<span class='fl'>1</span>, <span class='fl'>35</span>)))
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>d</span>, <span class='st'>"x"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (35/50=0.7~c(0.95)[0.5539, 0.8214], two.sided 0.5; p=0.0066)."</div><div class='input'>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>FALSE</span>, <span class='fl'>3</span>), <span class='fu'>rep</span>(<span class='fl'>TRUE</span>, <span class='fl'>7</span>))
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333], two.sided 0.5; p=n.s.)."</div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>FALSE</span>, <span class='fl'>15</span>), <span class='fu'>rep</span>(<span class='fl'>TRUE</span>, <span class='fl'>35</span>))
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (35/50=0.7~c(0.95)[0.5539, 0.8214], two.sided 0.5; p=0.0066)."</div><div class='input'>
 
 </div></pre>
   </div>

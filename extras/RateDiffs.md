@@ -71,6 +71,7 @@ set.seed(2018)
 
 n_runs <- 100
 run_size <- 1000000
+run_size <- 10000  # TODO: remove
 mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)
@@ -103,24 +104,12 @@ parallel::stopCluster(cl)
 
 k <- sum(res)
 n <- n_runs*run_size
-p <- k/n
-var <- p*(1-p)/n
-se_est <- sqrt(var)
-
-# typical values of p_est if current estimate were true value
-paste0(k, "/", n, " ~ ", p, " +- ", "Z*", se_est)
+wrapBinomTestS(k, n, p = s$pValue)
 ```
 
-    ## [1] "2405548/1e+08 ~ 0.02405548 +- Z*1.53221453726199e-05"
+    ## [1] "Exact binomial test: (23965/1e+06=0.02397~c(0.95)[0.02367, 0.02427], two.sided 0.02404; p=n.s.)."
 
-``` r
-# probability of observing p_est far from p if p were true value
-eps <- 1.0e-4
-pbinom(k - floor(n*eps), n, p, lower.tail = TRUE) + 
-  pbinom(k + floor(n*eps), n, p, lower.tail = FALSE)
-```
-
-    ## [1] 6.734379e-11
+The "`p=n.s.`" means the theoretical value is close the the emprical value (as we want).
 
 More commonly one just throws out some domain knowledge and uses a ready-made test. For instance if we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 

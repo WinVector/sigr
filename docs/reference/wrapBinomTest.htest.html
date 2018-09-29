@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap binom.test (test of Bernoulli rate). — wrapBinomTest.htest • sigr</title>
+<title>Wrap binom.test (test of Binomial/Bernoulli rate). — wrapBinomTest.htest • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Wrap binom.test (test of Bernoulli rate). — wrapBinomTest.htest" />
+<meta property="og:title" content="Wrap binom.test (test of Binomial/Bernoulli rate). — wrapBinomTest.htest" />
 
-<meta property="og:description" content="Wrap binom.test (test of Bernoulli rate)." />
+<meta property="og:description" content="Wrap binom.test (test of Binomial/Bernoulli rate)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,14 +112,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap binom.test (test of Bernoulli rate).</h1>
+    <h1>Wrap binom.test (test of Binomial/Bernoulli rate).</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/BinomTest.R'><code>R/BinomTest.R</code></a></small>
     <div class="hidden name"><code>wrapBinomTest.htest.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wrap binom.test (test of Bernoulli rate).</p>
+    <p>Wrap binom.test (test of Binomial/Bernoulli rate).</p>
     
     </div>
 
@@ -135,7 +135,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>extra arguments (not used)</p></td>
+      <td><p>not used, just for argument compatibility</p></td>
     </tr>
     </table>
     
@@ -143,12 +143,15 @@
 
     <p>wrapped stat</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='wrapBinomTest.html'>wrapBinomTest</a></code>, <code>wrapBinomTest.htest</code>, <code><a href='wrapBinomTestS.html'>wrapBinomTestS</a></code>, <code><a href='wrapBinomTest.logical.html'>wrapBinomTest.logical</a></code>, <code><a href='wrapBinomTest.numeric.html'>wrapBinomTest.numeric</a></code>, <code><a href='wrapBinomTest.data.frame.html'>wrapBinomTest.data.frame</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>bt</span> <span class='kw'>&lt;-</span> <span class='fu'>binom.test</span>(<span class='fl'>7</span>, <span class='fl'>10</span>, <span class='fl'>0.5</span>)
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>bt</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (two.sided 0.5; 7/10==0.7; p=n.s.)."</div><div class='input'>
-
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>bt</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333], two.sided 0.5; p=n.s.)."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -157,6 +160,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Format binom.test (test of rate of a Bernoulli experiment). — render.sigr_binomtest • sigr</title>
+<title>Format binom.test (test of rate of a Binomial/Bernoulli experiment). — render.sigr_binomtest • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Format binom.test (test of rate of a Bernoulli experiment). — render.sigr_binomtest" />
+<meta property="og:title" content="Format binom.test (test of rate of a Binomial/Bernoulli experiment). — render.sigr_binomtest" />
 
-<meta property="og:description" content="Format binom.test (test of rate of a Bernoulli experiment)." />
+<meta property="og:description" content="Format binom.test (test of rate of a Binomial/Bernoulli experiment)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,14 +112,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Format binom.test (test of rate of a Bernoulli experiment).</h1>
+    <h1>Format binom.test (test of rate of a Binomial/Bernoulli experiment).</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/BinomTest.R'><code>R/BinomTest.R</code></a></small>
     <div class="hidden name"><code>render.sigr_binomtest.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Format binom.test (test of rate of a Bernoulli experiment).</p>
+    <p>Format binom.test (test of rate of a Binomial/Bernoulli experiment).</p>
     
     </div>
 
@@ -168,7 +168,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>bt</span> <span class='kw'>&lt;-</span> <span class='fu'>binom.test</span>(<span class='fl'>7</span>, <span class='fl'>10</span>, <span class='fl'>0.5</span>)
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>bt</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (two.sided 0.5; 7/10==0.7; p=n.s.)."</div><div class='input'>
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>bt</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333], two.sided 0.5; p=n.s.)."</div><div class='input'>
 
 </div></pre>
   </div>
