@@ -42,7 +42,7 @@ print(abs_rate_difference)
 
 A natural question is: how likely is such a large difference of success rates (ratios of 1's in the records) assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate. This is a classic significance question.
 
-With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_dist.html) (requires `sigr` version `1.0.1`, or newer). Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
+With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_dist.html) (requires `sigr` version `1.0.2`, or newer). Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
 
 ``` r
 library("sigr")
@@ -51,13 +51,13 @@ s <- Bernoulli_diff_dist(kA, nA, kB, nB)
 s
 ```
 
-    ## [1] "Bernoulli difference test: (A=82/200=0.41, B=55/100=0.55, post 0.14 two_sided; p=0.01934)."
+    ## [1] "Bernoulli difference test: (A=82/200=0.41, B=55/100=0.55, post 0.14 two_sided; p=0.02404)."
 
 ``` r
 s$pValue
 ```
 
-    ## [1] 0.01934292
+    ## [1] 0.02404322
 
 As always, we want the p-value to be small as it represents the odds of our experiment being invalid under one very specific source of error (there are many more ways and experiment can go wrong, and failing to fail in this particular way does not give odds the result is correct).
 
@@ -65,26 +65,31 @@ One can try to estimate this quantity directly through re-sampling techniques, b
 
 ``` r
 set.seed(2018)
-mk_resample <- function(A, B, abs_rate_difference) {
+
+mk_resample <- function(A, B) {
   force(A)
   force(B)
-  force(abs_rate_difference)
-  univ <- c(A, B)
+  kA <- sum(A)
   nA <- length(A)
+  kB <- sum(B)
   nB <- length(B)
+  univ <- c(A, B)
   nU <- length(univ)
-  nrun <- 100000
+  nrun <- 1000000
+  abs_rate_difference_times_nab <- abs(nB*kA - nA*kB)
+
   function(...) {
     nge <- 0
     for(i in seq_len(nrun)) {
       sA <- univ[sample.int(nU, nA, replace = TRUE)]
       sB <- univ[sample.int(nU, nB, replace = TRUE)]
-      nge <- nge + (abs(sum(sA)/nA - sum(sB)/nB)>=abs_rate_difference)
+      obs <- abs(nB*sum(sA) - nA*sum(sB))
+      nge <- nge + (obs>=abs_rate_difference_times_nab)
     }
     nge/nrun
   }
 }
-f <- mk_resample(A, B, abs_rate_difference)
+f <- mk_resample(A, B)
 
 cl <- parallel::makeCluster(parallel::detectCores())
 res <- as.numeric(parallel::parLapply(cl, seq_len(100), f))
@@ -93,7 +98,7 @@ parallel::stopCluster(cl)
 mean(res)
 ```
 
-    ## [1] 0.0202244
+    ## [1] 0.02401745
 
 More commonly one just throws out some domain knowledge and uses a ready-made test. For instance if we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
@@ -113,4 +118,4 @@ wrapFisherTest(df, "treatment", "outcome")
 
     ## [1] "Fisher's Exact Test for Count Data: (odds.ratio=1.755, p=0.0268)."
 
-All of the above methods are standard and serviceable. However, there is some value in a quick direct calculation of the probabilities arising from the actual problem at hand. Approximations and assumptions we have not needed do not need to be later explained.
+All of the above methods are standard and serviceable. Notice the difference in Bernoulli processes calculation was closest to the empirical estimate. And, there is some value in a quick direct calculation of the probabilities arising from the actual problem at hand. Approximations and assumptions we have not needed do not need to be later explained.

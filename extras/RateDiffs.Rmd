@@ -36,7 +36,7 @@ print(abs_rate_difference)
 
 A natural question is: how likely is such a large difference of success rates (ratios of 1's in the records) assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate.  This is a classic significance question.
 
-With the [`sigr`]( https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_dist.html) (requires `sigr` version `1.0.1`, or newer).  Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
+With the [`sigr`]( https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernilli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_dist.html) (requires `sigr` version `1.0.2`, or newer).  Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
 
 
 ```{r Bernoulli_diff_dist}
@@ -53,26 +53,31 @@ One can try to estimate this quantity directly through re-sampling techniques, b
 
 ```{r empirical_estimate}
 set.seed(2018)
-mk_resample <- function(A, B, abs_rate_difference) {
+
+mk_resample <- function(A, B) {
   force(A)
   force(B)
-  force(abs_rate_difference)
-  univ <- c(A, B)
+  kA <- sum(A)
   nA <- length(A)
+  kB <- sum(B)
   nB <- length(B)
+  univ <- c(A, B)
   nU <- length(univ)
-  nrun <- 100000
+  nrun <- 1000000
+  abs_rate_difference_times_nab <- abs(nB*kA - nA*kB)
+
   function(...) {
     nge <- 0
     for(i in seq_len(nrun)) {
       sA <- univ[sample.int(nU, nA, replace = TRUE)]
       sB <- univ[sample.int(nU, nB, replace = TRUE)]
-      nge <- nge + (abs(sum(sA)/nA - sum(sB)/nB)>=abs_rate_difference)
+      obs <- abs(nB*sum(sA) - nA*sum(sB))
+      nge <- nge + (obs>=abs_rate_difference_times_nab)
     }
     nge/nrun
   }
 }
-f <- mk_resample(A, B, abs_rate_difference)
+f <- mk_resample(A, B)
 
 cl <- parallel::makeCluster(parallel::detectCores())
 res <- as.numeric(parallel::parLapply(cl, seq_len(100), f))
@@ -95,7 +100,7 @@ Or, if we ignore distinction between treatment and outcome we can use a Fisher i
 wrapFisherTest(df, "treatment", "outcome")
 ```
 
-All of the above methods are standard and serviceable.  However, there is some value in a quick direct calculation of the probabilities arising from the actual problem at hand.  Approximations and assumptions we have not needed do not need to be later explained.
+All of the above methods are standard and serviceable.  Notice the difference in Bernoulli processes calculation was closest to the empirical estimate. And, there is some value in a quick direct calculation of the probabilities arising from the actual problem at hand.  Approximations and assumptions we have not needed do not need to be later explained.
 
 
 

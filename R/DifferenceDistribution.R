@@ -132,8 +132,7 @@ Bernoulli_diff_dist <- function(kA, nA, kB, nB,
   if(is.na(i2)) {
     i2 <- nrow(d)
   }
-  test_sig <- ifelse(d$diff[[i1]]>-en, d$prob_lt[[i1]], d$prob_le[[i1]]) +
-    ifelse(d$diff[[i2]] < en, d$prob_gt[[i2]], d$prob_ge[[i2]])
+  test_sig <- d$prob_le[[i1]] + d$prob_ge[[i2]]
   testres <- list(kA = kA, nA = nA, kB = kB, nB = nB,
                   probi = probi,
                   nAeffective = nAeffective,
