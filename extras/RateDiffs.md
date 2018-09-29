@@ -37,7 +37,7 @@ table(df)
     ##       1  82  55
 
 ``` r
-abs_rate_difference <- abs(kA/nA - kB/nB)
+abs_rate_difference <- abs(nB*kA - nA*kB)/(nA*nB)
 print(abs_rate_difference)
 ```
 
@@ -71,7 +71,6 @@ set.seed(2018)
 
 n_runs <- 100
 run_size <- 1000000
-run_size <- 10000  # TODO: remove
 mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)
@@ -107,7 +106,7 @@ n <- n_runs*run_size
 wrapBinomTestS(k, n, p = s$pValue)
 ```
 
-    ## [1] "Exact binomial test: (23965/1e+06=0.02397~c(0.95)[0.02367, 0.02427], two.sided 0.02404; p=n.s.)."
+    ## [1] "Exact binomial test: (2403390/1e+08=0.02403~c(0.95)[0.024, 0.02406], two.sided 0.02404; p=n.s.)."
 
 The "`p=n.s.`" means the theoretical value is close the the emprical value (as we want).
 

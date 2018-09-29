@@ -34,7 +34,7 @@ df <- data.frame(
   stringsAsFactors = FALSE)
 table(df)
 
-abs_rate_difference <- abs(kA/nA - kB/nB)
+abs_rate_difference <- abs(nB*kA - nA*kB)/(nA*nB)
 print(abs_rate_difference)
 ```
 
@@ -60,7 +60,6 @@ set.seed(2018)
 
 n_runs <- 100
 run_size <- 1000000
-run_size <- 10000  # TODO: remove
 mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)

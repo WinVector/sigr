@@ -5,7 +5,7 @@ context("Benoulli diff")
 test_that("testBD: Test Works As Expected", {
   # near an empirical value
   v <- Bernoulli_diff_stat(82, 200, 55, 100)$pValue
-  empirical <- 0.02405548 # from a large empirical run of extras/RateDiffs.Rmd
+  empirical <- 0.02403 # from a large empirical run of extras/RateDiffs.Rmd
   testthat::expect(abs(v - empirical)<1e-4)
 
   # symmetry
