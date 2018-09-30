@@ -3,6 +3,7 @@
 
  * Fix end conditons of differnce of binomials.
  * More interfaces to Binomial test.
+ * Student-T summary.
  
 # sigr 1.0.1 2018-09-28
 

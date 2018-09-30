@@ -118,7 +118,6 @@ wrapBinomTest.htest <- function(x, ...) {
 #' @param p number, hypothesized probability of success.
 #' @param alternative passed to \code{\link[stats]{binom.test}}
 #' @param conf.level passed to \code{\link[stats]{binom.test}}
-#' @param na.rm logical, if TRUE remove NA values
 #' @return wrapped stat
 #'
 #' @seealso \code{\link{wrapBinomTest}}, \code{\link{wrapBinomTest.htest}}, \code{\link{wrapBinomTestS}}, \code{\link{wrapBinomTest.logical}}, \code{\link{wrapBinomTest.numeric}}, \code{\link{wrapBinomTest.data.frame}}
@@ -136,8 +135,7 @@ wrapBinomTestS <- function(x, n,
                            ...,
                            p = NA,
                            alternative = c("two.sided", "less", "greater"),
-                           conf.level = 0.95,
-                           na.rm= FALSE) {
+                           conf.level = 0.95) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapBinomTestS")
   if((!is.numeric(x))||(length(x)!=1)) {
     stop("sigr::wrapBinomTestS x must be a numeric scalar")
@@ -202,8 +200,7 @@ wrapBinomTest.logical <- function(x,
   wrapBinomTestS(x, n,
                  p = p,
                  alternative = alternative,
-                 conf.level = conf.level,
-                 na.rm= na.rm)
+                 conf.level = conf.level)
 }
 
 

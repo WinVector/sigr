@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap binom.test (test of Binomial/Bernoulli rate) from summary. — wrapBinomTestS • sigr</title>
+<title>Wrap TInterval (test of Binomial/Bernoulli rate). — TInterval • sigr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Wrap binom.test (test of Binomial/Bernoulli rate) from summary. — wrapBinomTestS" />
+<meta property="og:title" content="Wrap TInterval (test of Binomial/Bernoulli rate). — TInterval" />
 
-<meta property="og:description" content="Wrap binom.test (test of Binomial/Bernoulli rate) from summary." />
+<meta property="og:description" content="Wrap TInterval (test of Binomial/Bernoulli rate)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,75 +112,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap binom.test (test of Binomial/Bernoulli rate) from summary.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/BinomTest.R'><code>R/BinomTest.R</code></a></small>
-    <div class="hidden name"><code>wrapBinomTestS.Rd</code></div>
+    <h1>Wrap TInterval (test of Binomial/Bernoulli rate).</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr//blob/master/R/TInterval.R'><code>R/TInterval.R</code></a></small>
+    <div class="hidden name"><code>TInterval.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wrap binom.test (test of Binomial/Bernoulli rate) from summary.</p>
+    <p>Wrap TInterval (test of Binomial/Bernoulli rate).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>wrapBinomTestS</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>...</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>,
-  <span class='st'>"greater"</span>), <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)</pre>
+    <pre class="usage"><span class='fu'>TInterval</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>numeric scalar, number of successes.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>numeric scalar, number of trials.</p></td>
+      <td><p>numeric, data.frame or test.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>extra arguments passed to binom.test</p></td>
-    </tr>
-    <tr>
-      <th>p</th>
-      <td><p>number, hypothesized probability of success.</p></td>
-    </tr>
-    <tr>
-      <th>alternative</th>
-      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/binom.test'>binom.test</a></code></p></td>
-    </tr>
-    <tr>
-      <th>conf.level</th>
-      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/stats/topics/binom.test'>binom.test</a></code></p></td>
+      <td><p>extra arguments</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>wrapped stat</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='wrapBinomTest.html'>wrapBinomTest</a></code>, <code><a href='wrapBinomTest.htest.html'>wrapBinomTest.htest</a></code>, <code>wrapBinomTestS</code>, <code><a href='wrapBinomTest.logical.html'>wrapBinomTest.logical</a></code>, <code><a href='wrapBinomTest.numeric.html'>wrapBinomTest.numeric</a></code>, <code><a href='wrapBinomTest.data.frame.html'>wrapBinomTest.data.frame</a></code></p></div>
+    <div class='dont-index'><p><code><a href='TIntervalS.html'>TIntervalS</a></code>, <code><a href='TInterval.numeric.html'>TInterval.numeric</a></code>, <code><a href='TInterval.data.frame.html'>TInterval.data.frame</a></code></p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>wrapBinomTestS</span>(<span class='fl'>3</span>, <span class='fl'>7</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (3/7=0.4286~c(0.95)[0.09899, 0.8159], two.sided 0.5; p=n.s.)."</div><div class='input'><span class='fu'>wrapBinomTestS</span>(<span class='fl'>300</span>, <span class='fl'>700</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (300/700=0.4286~c(0.95)[0.3916, 0.4662], two.sided 0.5; p=0.0001785)."</div><div class='input'>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
