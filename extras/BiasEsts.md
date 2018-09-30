@@ -49,6 +49,7 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 # http://www.win-vector.com/blog/2014/07/frequenstist-inference-only-seems-easy/
 # https://mathoverflow.net/questions/177574/existence-of-solutions-of-a-polynomial-system 
 # think this is under-determined, so could ask for symmetry or all coefs near 1.
+# also a lot like a Chebyshev polynomial.
 solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   if(n<2) {
     return(rep(1, n+1))
@@ -57,24 +58,26 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   ps <- obs/n
   d <- data.frame(target = sqrt(ps*(1-ps)))
   vars <- paste0("s_", obs)
-  for(vi in vars) {
-    d[[vi]] <- 0
-  }
   for(ki in seq_len(length(obs))) {
     k <- obs[[ki]]
     var <- vars[[ki]]
+    d[[var]] <- 0
     for(ii in seq_len(length(ps))) {
       pi <- ps[[ii]]
       prob <- dbinom(k, size = n, prob = pi)
       est <- sd_fun(c(rep(1, k), rep(0, n-k)))
-      d[[var]][[ii]] <- d[[var]][[ii]] + prob*est
+      cij <- prob*est
+      d[[var]][[ii]] <- cij
+      d$target[[ii]] <- d$target[[ii]] - cij # regularize towards zero
     }
   }
   #m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
-  #soln <- as.numeric(m$coefficients)
+  #soln <- as.numeric(m$coefficients) + 1
   m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
-              alpha=0, lambda=1e-3, family = "gaussian", intercept = FALSE)
-  soln <- as.numeric(m$beta)
+              alpha=0, lambda=1e-8, family = "gaussian", intercept = FALSE,
+              lower.limits = -10,
+              standardize = FALSE)
+  soln <- as.numeric(m$beta) + 1
   mx <- max(soln)
   c(mx, soln, mx)
 }
@@ -84,12 +87,12 @@ tab <- solve_for_scaling_table(10)
 print(tab)
 ```
 
-    ##  [1] 1.6019795 1.6019795 1.0078889 0.9538643 1.0676530 1.1225602 1.0928068
-    ##  [8] 0.9283104 1.0191363 1.5999986 1.6019795
+    ##  [1] 1.8522661 1.8522661 0.5491785 1.3471479 1.0597513 0.8383810 1.2555957
+    ##  [8] 1.0988166 0.7175880 1.7868709 1.8522661
 
 ``` r
 adjs <- data.frame(p = seq(0, 1, by = 0.01))
-adjs$join_scaled <- vapply(
+adjs$joint_scaled <- vapply(
   adjs$p,
   function(pi) {
     eval_scale_adjustment_table(tab, pi)
@@ -109,7 +112,7 @@ adjs$unscaled <- vapply(
 adjsp <- unpivot_to_blocks(
   adjs, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("join_scaled", "unscaled", "Bessel_scaled"))
+  nameForNewValueColumn = "scale", columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
 adjsp <- adjsp[!is.na(adjsp$scale), , drop = FALSE]
 adjsp$method <- reorder(factor(adjsp$method), -adjsp$scale)
 
@@ -127,25 +130,25 @@ ggplot(data = adjsp, mapping = aes(x = p, y = scale, color = method)) +
 adjs[adjs$p==0.5, , drop = FALSE]
 ```
 
-    ##      p join_scaled Bessel_scaled  unscaled
-    ## 51 0.5    1.002544     0.9959094 0.9448026
+    ##      p joint_scaled Bessel_scaled  unscaled
+    ## 51 0.5     1.000118     0.9959094 0.9448026
 
 ``` r
 adjs2 <- adjs
-for(col in c("join_scaled", "unscaled", "Bessel_scaled")) {
+for(col in c("joint_scaled", "unscaled", "Bessel_scaled")) {
   adjs2[[col]] <- adjs2[[col]]/adjs2[[col]][adjs2$p==0.5]
 }
 adjs2[adjs2$p==0.5, , drop = FALSE]
 ```
 
-    ##      p join_scaled Bessel_scaled unscaled
-    ## 51 0.5           1             1        1
+    ##      p joint_scaled Bessel_scaled unscaled
+    ## 51 0.5            1             1        1
 
 ``` r
 adjsp2 <- unpivot_to_blocks(
   adjs2, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("join_scaled", "unscaled", "Bessel_scaled"))
+  nameForNewValueColumn = "scale", columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
 adjsp2 <- adjsp2[!is.na(adjsp2$scale), , drop = FALSE]
 adjsp2$method <- reorder(factor(adjsp2$method), -adjsp2$scale)
 
@@ -204,14 +207,24 @@ summary1 <- function(x, scale_adjustment_table) {
              adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]])
 }
 
+tabu <- solve_for_scaling_table(length(universe), naive_sd_fun)
+print(tabu)
+```
+
+    ##  [1] 1.7109424 1.7109424 0.8684519 0.9354189 1.1777021 1.0692204 0.9567474
+    ##  [8] 0.9880857 1.0536182 1.0657459 1.0273041 0.9867268 0.9890066 1.0357890
+    ## [15] 1.0737013 1.0436437 0.9685827 0.9683659 1.0980121 1.1523923 0.9198409
+    ## [22] 0.9007414 1.6931604 1.7109424
+
+``` r
 su <- summary1(
   universe, 
-  solve_for_scaling_table(length(universe), naive_sd_fun))
+  tabu)
 print(su)
 ```
 
     ##        mean       var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3069167
+    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3097851
 
 ``` r
 n <- length(universe)
@@ -229,6 +242,8 @@ print(Bessel_corrected_sd)
     ## [1] 0.3443502
 
 ``` r
+samp_size <- 5
+
 mk_f <- function(universe, samp_size, summary1) {
   force(universe)
   force(samp_size)
@@ -243,7 +258,14 @@ mk_f <- function(universe, samp_size, summary1) {
   }
 }
 
-f <- mk_f(universe, 5, summary1)
+tabs <- solve_for_scaling_table(samp_size, naive_sd_fun)
+print(tabs)
+```
+
+    ## [1] 1.7104400 1.7104400 0.9188868 0.9257427 1.7068531 1.7104400
+
+``` r
+f <- mk_f(universe, samp_size, summary1)
 
 
 cl <- parallel::makeCluster(parallel::detectCores())
@@ -253,5 +275,5 @@ res <- do.call(rbind, res)
 as.data.frame(lapply(res, mean))
 ```
 
-    ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869402 0.113468 0.2377761 0.0907744 0.2126734 0.3079948
+    ##       mean      var        sd naive_var naive_sd    adj_sd
+    ## 1 0.870324 0.112814 0.2365771 0.0902512 0.211601 0.3123676

@@ -38,6 +38,7 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 # http://www.win-vector.com/blog/2014/07/frequenstist-inference-only-seems-easy/
 # https://mathoverflow.net/questions/177574/existence-of-solutions-of-a-polynomial-system 
 # think this is under-determined, so could ask for symmetry or all coefs near 1.
+# also a lot like a Chebyshev polynomial.
 solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   if(n<2) {
     return(rep(1, n+1))
@@ -46,24 +47,26 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   ps <- obs/n
   d <- data.frame(target = sqrt(ps*(1-ps)))
   vars <- paste0("s_", obs)
-  for(vi in vars) {
-    d[[vi]] <- 0
-  }
   for(ki in seq_len(length(obs))) {
     k <- obs[[ki]]
     var <- vars[[ki]]
+    d[[var]] <- 0
     for(ii in seq_len(length(ps))) {
       pi <- ps[[ii]]
       prob <- dbinom(k, size = n, prob = pi)
       est <- sd_fun(c(rep(1, k), rep(0, n-k)))
-      d[[var]][[ii]] <- d[[var]][[ii]] + prob*est
+      cij <- prob*est
+      d[[var]][[ii]] <- cij
+      d$target[[ii]] <- d$target[[ii]] - cij # regularize towards zero
     }
   }
   #m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
-  #soln <- as.numeric(m$coefficients)
+  #soln <- as.numeric(m$coefficients) + 1
   m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
-              alpha=0, lambda=1e-3, family = "gaussian", intercept = FALSE)
-  soln <- as.numeric(m$beta)
+              alpha=0, lambda=1e-8, family = "gaussian", intercept = FALSE,
+              lower.limits = -10,
+              standardize = FALSE)
+  soln <- as.numeric(m$beta) + 1
   mx <- max(soln)
   c(mx, soln, mx)
 }
@@ -72,7 +75,7 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
 tab <- solve_for_scaling_table(10)
 print(tab)
 adjs <- data.frame(p = seq(0, 1, by = 0.01))
-adjs$join_scaled <- vapply(
+adjs$joint_scaled <- vapply(
   adjs$p,
   function(pi) {
     eval_scale_adjustment_table(tab, pi)
@@ -92,7 +95,7 @@ adjs$unscaled <- vapply(
 adjsp <- unpivot_to_blocks(
   adjs, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("join_scaled", "unscaled", "Bessel_scaled"))
+  nameForNewValueColumn = "scale", columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
 adjsp <- adjsp[!is.na(adjsp$scale), , drop = FALSE]
 adjsp$method <- reorder(factor(adjsp$method), -adjsp$scale)
 
@@ -105,7 +108,7 @@ ggplot(data = adjsp, mapping = aes(x = p, y = scale, color = method)) +
 
 adjs[adjs$p==0.5, , drop = FALSE]
 adjs2 <- adjs
-for(col in c("join_scaled", "unscaled", "Bessel_scaled")) {
+for(col in c("joint_scaled", "unscaled", "Bessel_scaled")) {
   adjs2[[col]] <- adjs2[[col]]/adjs2[[col]][adjs2$p==0.5]
 }
 adjs2[adjs2$p==0.5, , drop = FALSE]
@@ -113,7 +116,7 @@ adjs2[adjs2$p==0.5, , drop = FALSE]
 adjsp2 <- unpivot_to_blocks(
   adjs2, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("join_scaled", "unscaled", "Bessel_scaled"))
+  nameForNewValueColumn = "scale", columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
 adjsp2 <- adjsp2[!is.na(adjsp2$scale), , drop = FALSE]
 adjsp2$method <- reorder(factor(adjsp2$method), -adjsp2$scale)
 
@@ -162,9 +165,11 @@ summary1 <- function(x, scale_adjustment_table) {
              adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]])
 }
 
+tabu <- solve_for_scaling_table(length(universe), naive_sd_fun)
+print(tabu)
 su <- summary1(
   universe, 
-  solve_for_scaling_table(length(universe), naive_sd_fun))
+  tabu)
 print(su)
 
 n <- length(universe)
@@ -174,6 +179,7 @@ print(Bessel_corrected_var)
 Bessel_corrected_sd <- sqrt(Bessel_corrected_var)
 print(Bessel_corrected_sd)
 
+samp_size <- 5
 
 mk_f <- function(universe, samp_size, summary1) {
   force(universe)
@@ -189,7 +195,10 @@ mk_f <- function(universe, samp_size, summary1) {
   }
 }
 
-f <- mk_f(universe, 5, summary1)
+tabs <- solve_for_scaling_table(samp_size, naive_sd_fun)
+print(tabs)
+
+f <- mk_f(universe, samp_size, summary1)
 
 
 cl <- parallel::makeCluster(parallel::detectCores())
