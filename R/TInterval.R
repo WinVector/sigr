@@ -4,6 +4,11 @@ NULL
 
 #' Format a Student-T tolerance-style interval around an estimate of a mean.
 #'
+#' Report sample size (n), sample mean, bias-corrected standard deviation estimate
+#' (assuming normality, using a chi-square distribution correction
+#' from \url{https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation#Bias_correction}),
+#' and a Student t-test tolerance-style confidence interval.
+#'
 #' @param statistic wrapped TInterval.
 #' @param ... extra arguments (not used)
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
@@ -42,7 +47,7 @@ render.sigr_tinterval <- function(statistic,
                       " ~ ",
                       sprintf(stat_format_str, statistic$sample_mean),
                       "+-",
-                      sprintf(stat_format_str, sqrt(statistic$sample_var)),
+                      sprintf(stat_format_str, statistic$corrected_dev),
                       "*Z: c(",
                       sprintf(stat_format_str, sqrt(statistic$conf.level)),
                       ")",
@@ -106,10 +111,14 @@ TIntervalS <- function(sample_size,
                        ncp = 0, lower.tail = FALSE)
   # see https://en.wikipedia.org/wiki/Student%27s_t-distribution
   width <- width_t*sqrt(sample_var/sample_size)
+  # https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
+  c4n <- sqrt(2/(sample_size-1))*gamma(sample_size/2)/gamma((sample_size-1)/2)
+  corrected_dev <- sqrt(sample_var)/c4n
   r <- list(test='TInterval',
             sample_size = sample_size,
             sample_mean = sample_mean,
             sample_var = sample_var,
+            corrected_dev = corrected_dev,
             nNA = nNA,
             conf.level = conf.level,
             interval_low = sample_mean - width,

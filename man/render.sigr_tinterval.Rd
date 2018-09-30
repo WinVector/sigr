@@ -26,7 +26,10 @@
 formatted string
 }
 \description{
-Format a Student-T tolerance-style interval around an estimate of a mean.
+Report sample size (n), sample mean, bias-corrected standard deviation estimate
+(assuming normality, using a chi-square distribution correction
+from \url{https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation#Bias_correction}),
+and a Student t-test tolerance-style confidence interval.
 }
 \examples{
 

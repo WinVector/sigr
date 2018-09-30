@@ -32,7 +32,10 @@
 
 <meta property="og:title" content="Format a Student-T tolerance-style interval around an estimate of a mean. — render.sigr_tinterval" />
 
-<meta property="og:description" content="Format a Student-T tolerance-style interval around an estimate of a mean." />
+<meta property="og:description" content="Report sample size (n), sample mean, bias-corrected standard deviation estimate
+(assuming normality, using a chi-square distribution correction
+from https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation#Bias_correction),
+and a Student t-test tolerance-style confidence interval." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,7 +122,10 @@
 
     <div class="ref-description">
     
-    <p>Format a Student-T tolerance-style interval around an estimate of a mean.</p>
+    <p>Report sample size (n), sample mean, bias-corrected standard deviation estimate
+(assuming normality, using a chi-square distribution correction
+from <a href='https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation#Bias_correction'>https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation#Bias_correction</a>),
+and a Student t-test tolerance-style confidence interval.</p>
     
     </div>
 
@@ -169,7 +175,7 @@
     <pre class="examples"><div class='input'>
 <span class='fu'>set.seed</span>(<span class='fl'>2018</span>)
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>100</span>) + <span class='fl'>3.2</span>
-<span class='fu'><a href='TInterval.html'>TInterval</a></span>(<span class='no'>d</span>)</div><div class='output co'>#&gt; [1] "TInterval: (n=100 ~ 3.221+-1.014*Z: c(0.9747)[3.02, 3.422])."</div><div class='input'>
+<span class='fu'><a href='TInterval.html'>TInterval</a></span>(<span class='no'>d</span>)</div><div class='output co'>#&gt; [1] "TInterval: (n=100 ~ 3.221+-1.016*Z: c(0.9747)[3.02, 3.422])."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
