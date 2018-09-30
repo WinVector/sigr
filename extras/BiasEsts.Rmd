@@ -40,13 +40,14 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 # think this is under-determined, so could ask for symmetry or all coefs near 1.
 # also a lot like a Chebyshev polynomial (or integral of one), or upside down beta.
 # can also try priors like beta(0.5,0.5)
-solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
+# could also solve for affine version- where we allow addition in addition to scaling.
+solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution = 128) {
   if(n<2) {
     return(rep(1, n+1))
   }
   obs <- 1:(n-1)
   vars <- paste0("s_", 1:(n-1))
-  excess_resolution <- 2
+  
   #ps <- seq(1/n, (n-1)/n, by = 1/(excess_resolution*n))
   ps <- seq(1/(excess_resolution*n), (excess_resolution*n-1)/(excess_resolution*n), by = 1/(excess_resolution*n))
   d <- data.frame(target = sqrt(ps*(1-ps)))
@@ -66,16 +67,15 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   #m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
   #soln <- as.numeric(m$coefficients) + 1
   m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
-              alpha=0, lambda=1e-8, family = "gaussian", intercept = FALSE,
+              alpha=0, lambda=1e-6, family = "gaussian", intercept = FALSE,
               weights = dbeta(ps, 0.5, 0.5),
-              lower.limits = -10,
+              # lower.limits = -10,
               standardize = FALSE)
   soln <- as.numeric(m$beta) + 1
   mx <- max(soln)
   c(mx, soln, mx)
 }
 
-solve_for_scaling_table(100)
 solve_for_scaling_table(10)
 solve_for_scaling_table(5)
 

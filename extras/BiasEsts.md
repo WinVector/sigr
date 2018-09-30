@@ -51,13 +51,14 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 # think this is under-determined, so could ask for symmetry or all coefs near 1.
 # also a lot like a Chebyshev polynomial (or integral of one), or upside down beta.
 # can also try priors like beta(0.5,0.5)
-solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
+# could also solve for affine version- where we allow addition in addition to scaling.
+solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution = 128) {
   if(n<2) {
     return(rep(1, n+1))
   }
   obs <- 1:(n-1)
   vars <- paste0("s_", 1:(n-1))
-  excess_resolution <- 2
+  
   #ps <- seq(1/n, (n-1)/n, by = 1/(excess_resolution*n))
   ps <- seq(1/(excess_resolution*n), (excess_resolution*n-1)/(excess_resolution*n), by = 1/(excess_resolution*n))
   d <- data.frame(target = sqrt(ps*(1-ps)))
@@ -77,47 +78,26 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   #m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
   #soln <- as.numeric(m$coefficients) + 1
   m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
-              alpha=0, lambda=1e-8, family = "gaussian", intercept = FALSE,
+              alpha=0, lambda=1e-6, family = "gaussian", intercept = FALSE,
               weights = dbeta(ps, 0.5, 0.5),
-              lower.limits = -10,
+              # lower.limits = -10,
               standardize = FALSE)
   soln <- as.numeric(m$beta) + 1
   mx <- max(soln)
   c(mx, soln, mx)
 }
 
-solve_for_scaling_table(100)
-```
-
-    ##   [1] 1.8213318 1.8181678 0.8109601 0.9197317 1.1129045 1.1003459 1.0233049
-    ##   [8] 0.9844096 0.9908930 1.0128501 1.0262441 1.0252522 1.0163959 1.0082936
-    ##  [15] 1.0053160 1.0068424 1.0097841 1.0113923 1.0106880 1.0083724 1.0059089
-    ##  [22] 1.0045523 1.0047903 1.0062947 1.0082301 1.0096880 1.0100479 1.0091581
-    ##  [29] 1.0073210 1.0051331 1.0032614 1.0022317 1.0022886 1.0033514 1.0050642
-    ##  [36] 1.0069129 1.0083726 1.0090445 1.0087513 1.0075711 1.0058071 1.0039033
-    ##  [43] 1.0023314 1.0014740 1.0015333 1.0024842 1.0040833 1.0059294 1.0075610
-    ##  [50] 1.0085688 1.0086961 1.0079028 1.0063791 1.0045022 1.0027465 1.0015669
-    ##  [57] 1.0012830 1.0019924 1.0035369 1.0055334 1.0074646 1.0088114 1.0091953
-    ##  [64] 1.0084916 1.0068818 1.0048230 1.0029348 1.0018262 1.0019073 1.0032406
-    ##  [71] 1.0054850 1.0079645 1.0098617 1.0104901 1.0095672 1.0073858 1.0047953
-    ##  [78] 1.0029524 1.0028816 1.0049788 1.0086670 1.0124218 1.0142985 1.0128924
-    ##  [85] 1.0083929 1.0031416 1.0010522 1.0055737 1.0166958 1.0286843 1.0312171
-    ##  [92] 1.0162191 0.9893809 0.9780701 1.0183165 1.1039017 1.1204432 0.9175578
-    ##  [99] 0.8058372 1.8213318 1.8213318
-
-``` r
 solve_for_scaling_table(10)
 ```
 
-    ##  [1]  2.19586703  2.19317182 -0.06256223  1.89976626  0.86643521
-    ##  [6]  0.88921078  0.85202395  1.91632855 -0.07192223  2.19586703
-    ## [11]  2.19586703
+    ##  [1] 2.0310041 2.0310041 0.4903253 1.1946009 1.1509679 0.9374478 1.1532905
+    ##  [8] 1.1913828 0.4926127 2.0301965 2.0310041
 
 ``` r
 solve_for_scaling_table(5)
 ```
 
-    ## [1] 1.9093087 1.9093087 0.8005699 0.8037763 1.9078200 1.9093087
+    ## [1] 2.0171146 2.0171146 0.7335087 0.7361976 2.0158886 2.0171146
 
 ``` r
 tab <- solve_for_scaling_table(5)
@@ -205,10 +185,10 @@ tabu <- solve_for_scaling_table(length(universe), naive_sd_fun)
 print(tabu)
 ```
 
-    ##  [1] 2.13590753 2.13590753 0.09422216 1.59689344 1.09879480 0.76217929
-    ##  [7] 1.06407856 1.16815855 0.99387764 0.92022543 1.03808551 1.12478461
-    ## [13] 1.03591093 0.90708466 0.95574848 1.14704538 1.17113062 0.89472372
-    ## [19] 0.77706477 1.27998049 1.42456483 0.16594193 2.12171330 2.13590753
+    ##  [1] 1.7446284 1.7446284 0.9121849 0.9460220 1.0601573 1.0767995 1.0429760
+    ##  [8] 1.0150451 1.0091154 1.0163886 1.0250212 1.0294205 1.0289172 1.0239361
+    ## [15] 1.0156549 1.0094069 1.0161304 1.0437471 1.0763276 1.0590666 0.9459633
+    ## [22] 0.9131938 1.7441983 1.7446284
 
 ``` r
 su <- summary1(
@@ -218,7 +198,7 @@ print(su)
 ```
 
     ##        mean       var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.4797666
+    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3185826
 
 ``` r
 n <- length(universe)
@@ -256,7 +236,7 @@ tabs <- solve_for_scaling_table(samp_size, naive_sd_fun)
 print(tabs)
 ```
 
-    ## [1] 1.9093087 1.9093087 0.8005699 0.8037763 1.9078200 1.9093087
+    ## [1] 2.0171146 2.0171146 0.7335087 0.7361976 2.0158886 2.0171146
 
 ``` r
 f <- mk_f(universe, samp_size, summary1)
@@ -270,4 +250,4 @@ as.data.frame(lapply(res, mean))
 ```
 
     ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869462 0.113391 0.2375928 0.0907128 0.2125095 0.3352917
+    ## 1 0.869492 0.113462 0.2378759 0.0907696 0.2127627 0.3482502
