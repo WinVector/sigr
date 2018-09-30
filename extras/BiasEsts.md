@@ -8,6 +8,7 @@ library("rqdatatable")
     ## Loading required package: rquery
 
 ``` r
+library("wrapr")
 library("cdata")
 library("ggplot2")
 
@@ -20,19 +21,6 @@ naive_sd_fun <- function(x) {
 
 Bessel_sd_fun <- function(x) {
   sd(x)
-}
-  
-sd_attinuation_binomial <- function(k, n, sd_fun = naive_sd_fun) {
-  obs <- 0:n
-  probs <- dbinom(obs, size = n, prob = k/n)
-  sds <- vapply(obs,
-                function(ki) {
-                  sd_fun(c(rep(1, ki), rep(0, n-ki)))
-                }, numeric(1))
-  observed <- sum(probs*sds)
-  sd_target <- sd_fun(c(rep(1, k), rep(0, n-k)))
-  attenuation <- observed/sd_target
-  attenuation
 }
 
 eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naive_sd_fun) {
@@ -47,21 +35,36 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
   sum(probs*evals)/sd_target
 }
 
-mk_scale_adjustment_table <- function(n, sd_fun = naive_sd_fun) {
-  v <- vapply(0:n,
-         function(k) {
-           1/sd_attinuation_binomial(k, n, sd_fun)
-         }, numeric(1))
-  # can't correct 0 or all cases- just put a nice value there.
-  v[is.na(v) | is.nan(v) | is.infinite(v) | (v<=0)] <- 0
-  v
+
+  
+solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
+  if(n<2) {
+    return(rep(1, n+1))
+  }
+  obs <- 1:(n-1)
+  ps <- obs/n
+  d <- data.frame(target = sqrt(ps*(1-ps)))
+  for(k in obs) {
+    var <- paste0("s_", k)
+    d[[var]] <- 0
+    for(ii in seq_len(length(ps))) {
+      pi <- ps[[ii]]
+      prob <- dbinom(k, size = n, prob = pi)
+      est <- sd_fun(c(rep(1, k), rep(0, n-k)))
+      d[[var]][[ii]] <- prob*est
+    }
+  }
+  vars <- paste0("s_", obs)
+  m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
+  soln <- as.numeric(m$coefficients)
+  mx <- max(soln)
+  c(mx, soln, mx)
 }
 
 
-
-tab <- mk_scale_adjustment_table(10)
+tab <- solve_for_scaling_table(10)
 adjs <- data.frame(p = seq(0, 1, by = 0.01))
-adjs$self_scaled <- vapply(
+adjs$join_scaled <- vapply(
   adjs$p,
   function(pi) {
     eval_scale_adjustment_table(tab, pi)
@@ -81,7 +84,7 @@ adjs$unscaled <- vapply(
 adjsp <- unpivot_to_blocks(
   adjs, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("self_scaled", "unscaled", "Bessel_scaled"))
+  nameForNewValueColumn = "scale", columnsToTakeFrom = c("join_scaled", "unscaled", "Bessel_scaled"))
 adjsp <- adjsp[!is.na(adjsp$scale), , drop = FALSE]
 adjsp$method <- reorder(factor(adjsp$method), -adjsp$scale)
 
@@ -99,25 +102,25 @@ ggplot(data = adjsp, mapping = aes(x = p, y = scale, color = method)) +
 adjs[adjs$p==0.5, , drop = FALSE]
 ```
 
-    ##      p self_scaled Bessel_scaled  unscaled
-    ## 51 0.5    1.014782     0.9959094 0.9448026
+    ##      p join_scaled Bessel_scaled  unscaled
+    ## 51 0.5           1     0.9959094 0.9448026
 
 ``` r
 adjs2 <- adjs
-for(col in c("self_scaled", "unscaled", "Bessel_scaled")) {
+for(col in c("join_scaled", "unscaled", "Bessel_scaled")) {
   adjs2[[col]] <- adjs2[[col]]/adjs2[[col]][adjs2$p==0.5]
 }
 adjs2[adjs2$p==0.5, , drop = FALSE]
 ```
 
-    ##      p self_scaled Bessel_scaled unscaled
+    ##      p join_scaled Bessel_scaled unscaled
     ## 51 0.5           1             1        1
 
 ``` r
 adjsp2 <- unpivot_to_blocks(
   adjs2, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("self_scaled", "unscaled", "Bessel_scaled"))
+  nameForNewValueColumn = "scale", columnsToTakeFrom = c("join_scaled", "unscaled", "Bessel_scaled"))
 adjsp2 <- adjsp2[!is.na(adjsp2$scale), , drop = FALSE]
 adjsp2$method <- reorder(factor(adjsp2$method), -adjsp2$scale)
 
@@ -178,12 +181,12 @@ summary1 <- function(x, scale_adjustment_table) {
 
 su <- summary1(
   universe, 
-  mk_scale_adjustment_table(length(universe), naive_sd_fun))
+  solve_for_scaling_table(length(universe), naive_sd_fun))
 print(su)
 ```
 
-    ##        mean       var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3596276
+    ##        mean       var        sd naive_var  naive_sd   adj_sd
+    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 1.195131
 
 ``` r
 n <- length(universe)
@@ -206,7 +209,7 @@ mk_f <- function(universe, samp_size, summary1) {
   force(samp_size)
   force(summary1)
   scale_adjustment_table <- 
-    mk_scale_adjustment_table(samp_size, naive_sd_fun)
+    solve_for_scaling_table(samp_size, naive_sd_fun)
   f <- function(i) {
     sample <- universe[sample.int(length(universe), 
                                   samp_size, 
@@ -226,4 +229,4 @@ as.data.frame(lapply(res, mean))
 ```
 
     ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869606 0.113248 0.2373506 0.0905984 0.2122928 0.2786906
+    ## 1 0.870312 0.112862 0.2368051 0.0902896 0.2118049 0.3132125
