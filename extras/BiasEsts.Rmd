@@ -71,9 +71,11 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   c(mx, soln, mx)
 }
 
+solve_for_scaling_table(100)
 
 tab <- solve_for_scaling_table(10)
 print(tab)
+
 adjs <- data.frame(p = seq(0, 1, by = 0.01))
 adjs$joint_scaled <- vapply(
   adjs$p,
