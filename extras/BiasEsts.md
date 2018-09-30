@@ -11,7 +11,16 @@ library("rqdatatable")
 library("wrapr")
 library("cdata")
 library("ggplot2")
+library("glmnet")
+```
 
+    ## Loading required package: Matrix
+
+    ## Loading required package: foreach
+
+    ## Loaded glmnet 2.0-16
+
+``` r
 set.seed(32535)
 
 naive_sd_fun <- function(x) {
@@ -36,7 +45,10 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 }
 
 
-  
+# related to Wald mini/max type ideas and:
+# http://www.win-vector.com/blog/2014/07/frequenstist-inference-only-seems-easy/
+# https://mathoverflow.net/questions/177574/existence-of-solutions-of-a-polynomial-system 
+# think this is under-determined, so could ask for symmetry or all coefs near 1.
 solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   if(n<2) {
     return(rep(1, n+1))
@@ -44,25 +56,38 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   obs <- 1:(n-1)
   ps <- obs/n
   d <- data.frame(target = sqrt(ps*(1-ps)))
-  for(k in obs) {
-    var <- paste0("s_", k)
-    d[[var]] <- 0
+  vars <- paste0("s_", obs)
+  for(vi in vars) {
+    d[[vi]] <- 0
+  }
+  for(ki in seq_len(length(obs))) {
+    k <- obs[[ki]]
+    var <- vars[[ki]]
     for(ii in seq_len(length(ps))) {
       pi <- ps[[ii]]
       prob <- dbinom(k, size = n, prob = pi)
       est <- sd_fun(c(rep(1, k), rep(0, n-k)))
-      d[[var]][[ii]] <- prob*est
+      d[[var]][[ii]] <- d[[var]][[ii]] + prob*est
     }
   }
-  vars <- paste0("s_", obs)
-  m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
-  soln <- as.numeric(m$coefficients)
+  #m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
+  #soln <- as.numeric(m$coefficients)
+  m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
+              alpha=0, lambda=1e-3, family = "gaussian", intercept = FALSE)
+  soln <- as.numeric(m$beta)
   mx <- max(soln)
   c(mx, soln, mx)
 }
 
 
 tab <- solve_for_scaling_table(10)
+print(tab)
+```
+
+    ##  [1] 1.6019795 1.6019795 1.0078889 0.9538643 1.0676530 1.1225602 1.0928068
+    ##  [8] 0.9283104 1.0191363 1.5999986 1.6019795
+
+``` r
 adjs <- data.frame(p = seq(0, 1, by = 0.01))
 adjs$join_scaled <- vapply(
   adjs$p,
@@ -103,7 +128,7 @@ adjs[adjs$p==0.5, , drop = FALSE]
 ```
 
     ##      p join_scaled Bessel_scaled  unscaled
-    ## 51 0.5           1     0.9959094 0.9448026
+    ## 51 0.5    1.002544     0.9959094 0.9448026
 
 ``` r
 adjs2 <- adjs
@@ -185,8 +210,8 @@ su <- summary1(
 print(su)
 ```
 
-    ##        mean       var        sd naive_var  naive_sd   adj_sd
-    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 1.195131
+    ##        mean       var        sd naive_var  naive_sd    adj_sd
+    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3069167
 
 ``` r
 n <- length(universe)
@@ -229,4 +254,4 @@ as.data.frame(lapply(res, mean))
 ```
 
     ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.870312 0.112862 0.2368051 0.0902896 0.2118049 0.3132125
+    ## 1 0.869402 0.113468 0.2377761 0.0907744 0.2126734 0.3079948
