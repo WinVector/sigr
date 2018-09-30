@@ -38,16 +38,19 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 # http://www.win-vector.com/blog/2014/07/frequenstist-inference-only-seems-easy/
 # https://mathoverflow.net/questions/177574/existence-of-solutions-of-a-polynomial-system 
 # think this is under-determined, so could ask for symmetry or all coefs near 1.
-# also a lot like a Chebyshev polynomial.
+# also a lot like a Chebyshev polynomial (or integral of one), or upside down beta.
+# can also try priors like beta(0.5,0.5)
 solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   if(n<2) {
     return(rep(1, n+1))
   }
   obs <- 1:(n-1)
-  ps <- obs/n
+  vars <- paste0("s_", 1:(n-1))
+  excess_resolution <- 2
+  #ps <- seq(1/n, (n-1)/n, by = 1/(excess_resolution*n))
+  ps <- seq(1/(excess_resolution*n), (excess_resolution*n-1)/(excess_resolution*n), by = 1/(excess_resolution*n))
   d <- data.frame(target = sqrt(ps*(1-ps)))
-  vars <- paste0("s_", obs)
-  for(ki in seq_len(length(obs))) {
+  for(ki in seq_len(length(vars))) {
     k <- obs[[ki]]
     var <- vars[[ki]]
     d[[var]] <- 0
@@ -64,6 +67,7 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
   #soln <- as.numeric(m$coefficients) + 1
   m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
               alpha=0, lambda=1e-8, family = "gaussian", intercept = FALSE,
+              weights = dbeta(ps, 0.5, 0.5),
               lower.limits = -10,
               standardize = FALSE)
   soln <- as.numeric(m$beta) + 1
@@ -72,9 +76,10 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun) {
 }
 
 solve_for_scaling_table(100)
+solve_for_scaling_table(10)
+solve_for_scaling_table(5)
 
-tab <- solve_for_scaling_table(10)
-print(tab)
+tab <- solve_for_scaling_table(5)
 
 adjs <- data.frame(p = seq(0, 1, by = 0.01))
 adjs$joint_scaled <- vapply(
@@ -97,40 +102,17 @@ adjs$unscaled <- vapply(
 adjsp <- unpivot_to_blocks(
   adjs, 
   nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
-adjsp <- adjsp[!is.na(adjsp$scale), , drop = FALSE]
-adjsp$method <- reorder(factor(adjsp$method), -adjsp$scale)
+  nameForNewValueColumn = "ratio", 
+  columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
+adjsp <- adjsp[!is.na(adjsp$ratio), , drop = FALSE]
+adjsp$method <- reorder(factor(adjsp$method), -adjsp$ratio)
 
 
-ggplot(data = adjsp, mapping = aes(x = p, y = scale, color = method)) +
+ggplot(data = adjsp, mapping = aes(x = p, y = ratio, color = method)) +
   geom_line() +
   geom_hline(yintercept = 1, color = "red", linetype=2) + 
   scale_color_brewer(palette = "Dark2") + 
-  ggtitle("scaled estimates as a function of unknown true probability")
-
-adjs[adjs$p==0.5, , drop = FALSE]
-adjs2 <- adjs
-for(col in c("joint_scaled", "unscaled", "Bessel_scaled")) {
-  adjs2[[col]] <- adjs2[[col]]/adjs2[[col]][adjs2$p==0.5]
-}
-adjs2[adjs2$p==0.5, , drop = FALSE]
-
-adjsp2 <- unpivot_to_blocks(
-  adjs2, 
-  nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "scale", columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
-adjsp2 <- adjsp2[!is.na(adjsp2$scale), , drop = FALSE]
-adjsp2$method <- reorder(factor(adjsp2$method), -adjsp2$scale)
-
-ggplot(data = adjsp2, mapping = aes(x = p, y = scale, 
-                                    color = method,
-                                    linetype = method)) +
-  geom_line(size=2, alpha=0.8) +
-  geom_hline(yintercept = 1, color = "red", linetype=2) + 
-  scale_color_brewer(palette = "Dark2") + 
-  ggtitle("scaled estimates as a function of unknown true probability",
-          subtitle = "rescaled at p=0.5")
-
+  ggtitle("ratio betweeen estimated and theoretical standard deviations")
 
 
 data <- as.data.frame(Titanic)
