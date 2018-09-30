@@ -1,7 +1,8 @@
 
-# sigr 1.0.1 2018-09-29
+# sigr 1.0.1 2018-09-30
 
  * Fix end conditons of differnce of binomials.
+ * More interfaces to Binomial test.
  
 # sigr 1.0.1 2018-09-28
 

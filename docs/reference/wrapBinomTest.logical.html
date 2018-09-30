@@ -124,7 +124,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for logical</span>
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>), <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
@@ -169,8 +169,8 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>FALSE</span>, <span class='fl'>3</span>), <span class='fu'>rep</span>(<span class='fl'>TRUE</span>, <span class='fl'>7</span>))
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333], two.sided 0.5; p=n.s.)."</div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>FALSE</span>, <span class='fl'>15</span>), <span class='fu'>rep</span>(<span class='fl'>TRUE</span>, <span class='fl'>35</span>))
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (35/50=0.7~c(0.95)[0.5539, 0.8214], two.sided 0.5; p=0.0066)."</div><div class='input'>
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333])."</div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>FALSE</span>, <span class='fl'>15</span>), <span class='fu'>rep</span>(<span class='fl'>TRUE</span>, <span class='fl'>35</span>))
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (35/50=0.7~c(0.95)[0.5539, 0.8214])."</div><div class='input'>
 
 </div></pre>
   </div>

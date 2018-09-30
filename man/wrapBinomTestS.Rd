@@ -4,7 +4,7 @@
 \alias{wrapBinomTestS}
 \title{Wrap binom.test (test of Binomial/Bernoulli rate) from summary.}
 \usage{
-wrapBinomTestS(x, n, ..., p = 0.5, alternative = c("two.sided", "less",
+wrapBinomTestS(x, n, ..., p = NA, alternative = c("two.sided", "less",
   "greater"), conf.level = 0.95, na.rm = FALSE)
 }
 \arguments{
@@ -30,8 +30,8 @@ Wrap binom.test (test of Binomial/Bernoulli rate) from summary.
 }
 \examples{
 
-wrapBinomTestS(3, 7)
-wrapBinomTestS(15, 35)
+wrapBinomTestS(3, 7, p = 0.5)
+wrapBinomTestS(300, 700, p = 0.5)
 
 
 }

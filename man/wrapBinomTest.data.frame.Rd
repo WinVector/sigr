@@ -5,7 +5,7 @@
 \title{Wrap binom.test (test of Binomial/Bernoulli rate).}
 \usage{
 \method{wrapBinomTest}{data.frame}(x, ColumnName, SuccessValue, ...,
-  p = 0.5, alternative = c("two.sided", "less", "greater"),
+  p = NA, alternative = c("two.sided", "less", "greater"),
   conf.level = 0.95, na.rm = FALSE)
 }
 \arguments{
@@ -34,9 +34,9 @@ Wrap binom.test (test of Binomial/Bernoulli rate).
 \examples{
 
 d <- data.frame(x = c(rep(0, 3), rep(1, 7)))
-wrapBinomTest(d, "x", 1)
+wrapBinomTest(d, "x", 1, p = 0.5)
 d <- data.frame(x = c(rep(0, 15), rep(1, 35)))
-wrapBinomTest(d, "x", 1)
+wrapBinomTest(d, "x", 1, p = 0.5)
 
 
 }

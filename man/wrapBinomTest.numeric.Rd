@@ -4,7 +4,7 @@
 \alias{wrapBinomTest.numeric}
 \title{Wrap binom.test (test of Binomial/Bernoulli rate).}
 \usage{
-\method{wrapBinomTest}{numeric}(x, SuccessValue, ..., p = 0.5,
+\method{wrapBinomTest}{numeric}(x, SuccessValue, ..., p = NA,
   alternative = c("two.sided", "less", "greater"), conf.level = 0.95,
   na.rm = FALSE)
 }

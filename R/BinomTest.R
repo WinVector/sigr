@@ -35,29 +35,39 @@ render.sigr_binomtest <- function(statistic,
   fsyms <- syms[format,]
   stat_format_str <- paste0('%.',statDigits,'g')
   bt <- statistic$bt
-  alt <- bt$alternative
-  hyp_rate <- bt$null.value[["probability of success"]]
   r <- bt$estimate
   n <- bt$parameter[["number of trials"]]
   k <- bt$statistic[["number of successes"]]
   ci <- bt$conf.int
   cl <- attr(ci, "conf.level", exact = TRUE)
-  pString <- render(wrapSignificance(bt$p.value,
-                                     symbol='p'),
-                    format=format,
-                    pLargeCutoff=pLargeCutoff,
-                    pSmallCutoff=pSmallCutoff)
-  formatStr <- paste0(fsyms['startB'],bt$method,fsyms['endB'],
-                      ': (',
-                      k, "/", n, "=",
-                      sprintf(stat_format_str,r),
-                      "~c(", sprintf(stat_format_str,cl), ")",
-                      "[", sprintf(stat_format_str,ci[[1]]), ", ", sprintf(stat_format_str,ci[[2]]), "]",
-                      ", ",
-                      alt,
-                      ' ',
-                      sprintf(stat_format_str,hyp_rate),
-                      '; ',pString,').')
+  if(statistic$show_p) {
+    alt <- bt$alternative
+    hyp_rate <- bt$null.value[["probability of success"]]
+    pString <- render(wrapSignificance(bt$p.value,
+                                       symbol='p'),
+                      format=format,
+                      pLargeCutoff=pLargeCutoff,
+                      pSmallCutoff=pSmallCutoff)
+    formatStr <- paste0(fsyms['startB'],bt$method,fsyms['endB'],
+                        ': (',
+                        k, "/", n, "=",
+                        sprintf(stat_format_str,r),
+                        "~c(", sprintf(stat_format_str,cl), ")",
+                        "[", sprintf(stat_format_str,ci[[1]]), ", ", sprintf(stat_format_str,ci[[2]]), "]",
+                        ", ",
+                        alt,
+                        ' ',
+                        sprintf(stat_format_str,hyp_rate),
+                        '; ',pString,').')
+  } else {
+    formatStr <- paste0(fsyms['startB'],bt$method,fsyms['endB'],
+                        ': (',
+                        k, "/", n, "=",
+                        sprintf(stat_format_str,r),
+                        "~c(", sprintf(stat_format_str,cl), ")",
+                        "[", sprintf(stat_format_str,ci[[1]]), ", ", sprintf(stat_format_str,ci[[2]]), "]",
+                        ').')
+  }
   formatStr
 }
 
@@ -93,7 +103,8 @@ wrapBinomTest.htest <- function(x, ...) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapBinomTest.htest")
   r <- list(bt=x,
             test='binom.test',
-            nNA = 0)
+            nNA = 0,
+            show_p = TRUE)
   class(r) <- c('sigr_binomtest', 'sigr_statistic')
   r
 }
@@ -114,8 +125,8 @@ wrapBinomTest.htest <- function(x, ...) {
 #'
 #' @examples
 #'
-#' wrapBinomTestS(3, 7)
-#' wrapBinomTestS(15, 35)
+#' wrapBinomTestS(3, 7, p = 0.5)
+#' wrapBinomTestS(300, 700, p = 0.5)
 #'
 #'
 #' @importFrom stats binom.test
@@ -123,7 +134,7 @@ wrapBinomTest.htest <- function(x, ...) {
 #' @export
 wrapBinomTestS <- function(x, n,
                            ...,
-                           p = 0.5,
+                           p = NA,
                            alternative = c("two.sided", "less", "greater"),
                            conf.level = 0.95,
                            na.rm= FALSE) {
@@ -136,13 +147,13 @@ wrapBinomTestS <- function(x, n,
   }
   nNA <- 0
   bt <- stats::binom.test(x, n,
-                          p = p,
+                          p = ifelse(is.na(p), 0.5, p),
                           alternative = alternative,
                           conf.level = conf.level)
   r <- list(bt=bt,
             test='binom.test',
-            pValue = p,
-            nNA=nNA)
+            nNA=nNA,
+            show_p = !is.na(p))
   class(r) <- c('sigr_binomtest', 'sigr_statistic')
   r
 }
@@ -174,7 +185,7 @@ wrapBinomTestS <- function(x, n,
 #' @export
 wrapBinomTest.logical <- function(x,
                                   ...,
-                                  p = 0.5,
+                                  p = NA,
                                   alternative = c("two.sided", "less", "greater"),
                                   conf.level = 0.95,
                                   na.rm= FALSE) {
@@ -191,7 +202,7 @@ wrapBinomTest.logical <- function(x,
   wrapBinomTestS(x, n,
                  p = p,
                  alternative = alternative,
-                 conf.level =conf.level,
+                 conf.level = conf.level,
                  na.rm= na.rm)
 }
 
@@ -223,11 +234,11 @@ wrapBinomTest.logical <- function(x,
 wrapBinomTest.numeric <- function(x,
                                   SuccessValue,
                                   ...,
-                                  p = 0.5,
+                                  p = NA,
                                   alternative = c("two.sided", "less", "greater"),
                                   conf.level = 0.95,
                                   na.rm= FALSE) {
-  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapBinomTest.logical")
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapBinomTest.numeric")
   wrapBinomTest.logical(x==SuccessValue,
                         p = p,
                         alternative = alternative,
@@ -254,9 +265,9 @@ wrapBinomTest.numeric <- function(x,
 #' @examples
 #'
 #' d <- data.frame(x = c(rep(0, 3), rep(1, 7)))
-#' wrapBinomTest(d, "x", 1)
+#' wrapBinomTest(d, "x", 1, p = 0.5)
 #' d <- data.frame(x = c(rep(0, 15), rep(1, 35)))
-#' wrapBinomTest(d, "x", 1)
+#' wrapBinomTest(d, "x", 1, p = 0.5)
 #'
 #'
 #' @importFrom stats binom.test
@@ -266,7 +277,7 @@ wrapBinomTest.data.frame <- function(x,
                                      ColumnName,
                                      SuccessValue,
                                      ...,
-                                     p = 0.5,
+                                     p = NA,
                                      alternative = c("two.sided", "less", "greater"),
                                      conf.level = 0.95,
                                      na.rm= FALSE) {
