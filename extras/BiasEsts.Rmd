@@ -187,8 +187,11 @@ f <- mk_f(universe, samp_size, summary1)
 
 cl <- parallel::makeCluster(parallel::detectCores())
 res <- parallel::parLapply(cl, 1:100000, f)
+parallel::stopCluster(cl)
 res <- do.call(rbind, res)
 
-as.data.frame(lapply(res, mean))
+sums <- as.data.frame(lapply(res, mean))
+print(sums)
+sqrt(su$mean*(1-su$mean))
 ```
 

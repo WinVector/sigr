@@ -244,10 +244,18 @@ f <- mk_f(universe, samp_size, summary1)
 
 cl <- parallel::makeCluster(parallel::detectCores())
 res <- parallel::parLapply(cl, 1:100000, f)
+parallel::stopCluster(cl)
 res <- do.call(rbind, res)
 
-as.data.frame(lapply(res, mean))
+sums <- as.data.frame(lapply(res, mean))
+print(sums)
 ```
 
     ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869492 0.113462 0.2378759 0.0907696 0.2127627 0.3482502
+    ## 1 0.869094 0.113833 0.2387239 0.0910664 0.2135212 0.3498729
+
+``` r
+sqrt(su$mean*(1-su$mean))
+```
+
+    ## [1] 0.3367812
