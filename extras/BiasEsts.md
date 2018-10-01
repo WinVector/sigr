@@ -87,14 +87,19 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution 
                 standardize = FALSE)
     soln <- as.numeric(m$beta) + 1
   }
-  mx <- max(soln)
-  c(mx, soln, mx)
+  c(0, soln, 0)
 }
 
 plot_multipliers <- function(tab) {
   n <- length(tab)-1
   dtab <- data.frame(multiplier = tab)
   dtab$observed_count <- 0:(nrow(dtab)-1)
+  breaks <- 0:n
+  mod <- 10
+  while(length(breaks)>20) {
+    breaks <- sort(unique(breaks - breaks%%mod))
+    mod <- mod*10
+  }
   ggplot(data = dtab, 
          mapping = aes(x = observed_count,
                        y = multiplier,
@@ -103,7 +108,8 @@ plot_multipliers <- function(tab) {
     geom_point(size=3) +
     geom_linerange() + 
     geom_hline(yintercept = 1, color = "darkgray", linetype=2) + 
-    ggtitle(paste0("std-deviation multiplier window, n=", n)) 
+    ggtitle(paste0("std-deviation multiplier window, n=", n)) +
+    scale_x_continuous(breaks = breaks)
 }
 
 plot_estimate_ratios <- function(tab) {
@@ -155,46 +161,46 @@ for(n in c(2, 3, 4, 5, 10, 20, 100)) {
 
     ## [1] "******"
     ## [1] 2
-    ## [1] 2.208666 2.208666 2.208666
+    ## [1] 0.000000 2.208666 0.000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-1.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-2.png" width="768" />
 
     ## [1] "******"
     ## [1] 3
-    ## [1] 1.598742 1.598742 1.598715 1.598742
+    ## [1] 0.000000 1.598742 1.598715 0.000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-3.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-4.png" width="768" />
 
     ## [1] "******"
     ## [1] 4
-    ## [1]  2.28791183  2.28787190 -0.08011322  2.28791183  2.28791183
+    ## [1]  0.00000000  2.28787190 -0.08011322  2.28791183  0.00000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-5.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-6.png" width="768" />
 
     ## [1] "******"
     ## [1] 5
-    ## [1] 2.0122346 2.0122346 0.7368832 0.7390467 2.0112480 2.0122346
+    ## [1] 0.0000000 2.0122346 0.7368832 0.7390467 2.0112480 0.0000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-7.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-8.png" width="768" />
 
     ## [1] "******"
     ## [1] 10
-    ##  [1] 2.0346467 2.0346467 0.4802704 1.2042416 1.1523668 0.9286623 1.1547608
-    ##  [8] 1.2009477 0.4825954 2.0338301 2.0346467
+    ##  [1] 0.0000000 2.0346467 0.4802704 1.2042416 1.1523668 0.9286623 1.1547608
+    ##  [8] 1.2009477 0.4825954 2.0338301 0.0000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-9.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-10.png" width="768" />
 
     ## [1] "******"
     ## [1] 20
-    ##  [1] 1.8041832 1.8036584 0.8468381 0.9534401 1.0883555 1.0833304 1.0326424
+    ##  [1] 0.0000000 1.8036584 0.8468381 0.9534401 1.0883555 1.0833304 1.0326424
     ##  [8] 1.0061200 1.0117913 1.0296074 1.0391542 1.0312949 1.0125694 1.0047259
-    ## [15] 1.0313315 1.0843746 1.0897463 0.9523454 0.8464031 1.8041832 1.8041832
+    ## [15] 1.0313315 1.0843746 1.0897463 0.9523454 0.8464031 1.8041832 0.0000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-11.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-12.png" width="768" />
 
     ## [1] "******"
     ## [1] 100
-    ##   [1] 1.211422 1.211359 1.106920 1.048873 1.024846 1.017004 1.015263
+    ##   [1] 0.000000 1.211359 1.106920 1.048873 1.024846 1.017004 1.015263
     ##   [8] 1.015079 1.014813 1.014122 1.013120 1.012014 1.010964 1.010056
     ##  [15] 1.009318 1.008737 1.008284 1.007926 1.007632 1.007378 1.007150
     ##  [22] 1.006935 1.006730 1.006534 1.006345 1.006165 1.005995 1.005838
@@ -208,7 +214,7 @@ for(n in c(2, 3, 4, 5, 10, 20, 100)) {
     ##  [78] 1.006479 1.006675 1.006883 1.007106 1.007348 1.007618 1.007930
     ##  [85] 1.008308 1.008779 1.009375 1.010124 1.011034 1.012078 1.013168
     ##  [92] 1.014144 1.014804 1.015037 1.015194 1.016920 1.024769 1.048830
-    ##  [99] 1.106932 1.211422 1.211422
+    ##  [99] 1.106932 1.211422 0.000000
 
 <img src="BiasEsts_files/figure-markdown_github/run-13.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-14.png" width="768" />
 
@@ -259,10 +265,10 @@ tabu <- solve_for_scaling_table(length(universe), naive_sd_fun)
 print(tabu)
 ```
 
-    ##  [1] 1.7507295 1.7507295 0.9059314 0.9453566 1.0628968 1.0781336 1.0423358
+    ##  [1] 0.0000000 1.7507295 0.9059314 0.9453566 1.0628968 1.0781336 1.0423358
     ##  [8] 1.0139508 1.0086728 1.0166048 1.0253736 1.0295972 1.0290340 1.0241831
     ## [15] 1.0158508 1.0090520 1.0151156 1.0430754 1.0775732 1.0617949 0.9453608
-    ## [22] 0.9069580 1.7502615 1.7507295
+    ## [22] 0.9069580 1.7502615 0.0000000
 
 ``` r
 su <- summary1(
@@ -319,8 +325,8 @@ sums <- as.data.frame(lapply(res, mean))
 print(sums)
 ```
 
-    ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.868204 0.114394 0.2395069 0.0915152 0.2142215 0.3483794
+    ##    mean      var        sd naive_var  naive_sd    adj_sd
+    ## 1 0.869 0.113872 0.2387213 0.0910976 0.2135188 0.3488982
 
 ``` r
 sqrt(su$mean*(1-su$mean))

@@ -77,14 +77,19 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution 
                 standardize = FALSE)
     soln <- as.numeric(m$beta) + 1
   }
-  mx <- max(soln)
-  c(mx, soln, mx)
+  c(0, soln, 0)
 }
 
 plot_multipliers <- function(tab) {
   n <- length(tab)-1
   dtab <- data.frame(multiplier = tab)
   dtab$observed_count <- 0:(nrow(dtab)-1)
+  breaks <- 0:n
+  mod <- 10
+  while(length(breaks)>20) {
+    breaks <- sort(unique(breaks - breaks%%mod))
+    mod <- mod*10
+  }
   ggplot(data = dtab, 
          mapping = aes(x = observed_count,
                        y = multiplier,
@@ -93,7 +98,8 @@ plot_multipliers <- function(tab) {
     geom_point(size=3) +
     geom_linerange() + 
     geom_hline(yintercept = 1, color = "darkgray", linetype=2) + 
-    ggtitle(paste0("std-deviation multiplier window, n=", n)) 
+    ggtitle(paste0("std-deviation multiplier window, n=", n)) +
+    scale_x_continuous(breaks = breaks)
 }
 
 plot_estimate_ratios <- function(tab) {
