@@ -3,12 +3,13 @@ title: "Bias Ests"
 output: github_document
 ---
 
-```{r}
+```{r run, fig.retina=2, fig.width=8, fig.height=6}
 library("rqdatatable")
 library("wrapr")
 library("cdata")
 library("ggplot2")
 library("glmnet")
+
 
 set.seed(32535)
 
@@ -41,15 +42,16 @@ eval_scale_adjustment_table <- function(scale_adjustment_table, p, sd_fun = naiv
 # also a lot like a Chebyshev polynomial (or integral of one), or upside down beta.
 # can also try priors like beta(0.5,0.5)
 # could also solve for affine version- where we allow addition in addition to scaling.
-solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution = 128) {
+# must have a really nice form if we integrate the ps-term (likely a calculus of variations solution).
+solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution = 16) {
   if(n<2) {
     return(rep(1, n+1))
   }
   obs <- 1:(n-1)
   vars <- paste0("s_", 1:(n-1))
-  
-  #ps <- seq(1/n, (n-1)/n, by = 1/(excess_resolution*n))
-  ps <- seq(1/(excess_resolution*n), (excess_resolution*n-1)/(excess_resolution*n), by = 1/(excess_resolution*n))
+  ps <- seq(1/(excess_resolution*n), 
+            (excess_resolution*n-1)/(excess_resolution*n), 
+            by = 1/(excess_resolution*n))
   d <- data.frame(target = sqrt(ps*(1-ps)))
   for(ki in seq_len(length(vars))) {
     k <- obs[[ki]]
@@ -64,55 +66,83 @@ solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, excess_resolution 
       d$target[[ii]] <- d$target[[ii]] - cij # regularize towards zero
     }
   }
-  #m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
-  #soln <- as.numeric(m$coefficients) + 1
-  m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
-              alpha=0, lambda=1e-6, family = "gaussian", intercept = FALSE,
-              weights = dbeta(ps, 0.5, 0.5),
-              # lower.limits = -10,
-              standardize = FALSE)
-  soln <- as.numeric(m$beta) + 1
+  if(length(vars)<=1) {
+    m <- lm(mk_formula("target", vars, intercept = FALSE), data= d)
+    soln <- as.numeric(m$coefficients) + 1
+  } else {
+    m <- glmnet(as.matrix(d[, vars, drop = FALSE]), d$target, 
+                alpha=0, lambda=1e-6, family = "gaussian", intercept = FALSE,
+                weights = dbeta(ps, 0.5, 0.5),
+                # lower.limits = -10,
+                standardize = FALSE)
+    soln <- as.numeric(m$beta) + 1
+  }
   mx <- max(soln)
   c(mx, soln, mx)
 }
 
-solve_for_scaling_table(10)
-solve_for_scaling_table(5)
+plot_multipliers <- function(tab) {
+  n <- length(tab)-1
+  dtab <- data.frame(multiplier = tab)
+  dtab$observed_count <- 0:(nrow(dtab)-1)
+  ggplot(data = dtab, 
+         mapping = aes(x = observed_count,
+                       y = multiplier,
+                       ymin = 0,
+                       ymax = multiplier)) + 
+    geom_point(size=3) +
+    geom_linerange() + 
+    geom_hline(yintercept = 1, color = "darkgray", linetype=2) + 
+    ggtitle(paste0("std-deviation multiplier window, n=", n)) 
+}
 
-tab <- solve_for_scaling_table(5)
+plot_estimate_ratios <- function(tab) {
+  n <- length(tab)-1
+  adjs <- data.frame(p = seq(0, 1, by = 0.01))
+  adjs$joint_scaled <- vapply(
+    adjs$p,
+    function(pi) {
+      eval_scale_adjustment_table(tab, pi)
+    }, numeric(1))
+  adjs$Bessel_scaled <- vapply(
+    adjs$p,
+    function(pi) {
+      eval_scale_adjustment_table(rep(1, length(tab)), pi, sd_fun = Bessel_sd_fun)
+    }, numeric(1))
+  adjs$unscaled <- vapply(
+    adjs$p,
+    function(pi) {
+      eval_scale_adjustment_table(rep(1, length(tab)), pi)
+    }, numeric(1))
+  
+  
+  adjsp <- unpivot_to_blocks(
+    adjs, 
+    nameForNewKeyColumn = "method", 
+    nameForNewValueColumn = "ratio", 
+    columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
+  adjsp <- adjsp[!is.na(adjsp$ratio), , drop = FALSE]
+  adjsp$method <- reorder(factor(adjsp$method), -adjsp$ratio)
+  
+  
+  ggplot(data = adjsp, mapping = aes(x = p, y = ratio, color = method)) +
+    geom_line() +
+    geom_hline(yintercept = 1, color = "red", linetype=2) + 
+    scale_color_brewer(palette = "Dark2") + 
+    ggtitle(paste0("ratio betweeen estimated and theoretical standard deviations, n=",
+                   n))
+}
 
-adjs <- data.frame(p = seq(0, 1, by = 0.01))
-adjs$joint_scaled <- vapply(
-  adjs$p,
-  function(pi) {
-    eval_scale_adjustment_table(tab, pi)
-  }, numeric(1))
-adjs$Bessel_scaled <- vapply(
-  adjs$p,
-  function(pi) {
-    eval_scale_adjustment_table(rep(1, length(tab)), pi, sd_fun = Bessel_sd_fun)
-  }, numeric(1))
-adjs$unscaled <- vapply(
-  adjs$p,
-  function(pi) {
-    eval_scale_adjustment_table(rep(1, length(tab)), pi)
-  }, numeric(1))
+for(n in c(2, 3, 4, 5, 10, 20, 100)) {
+  print("******")
+  print(n)
+  tab <- solve_for_scaling_table(n)
+  print(tab)
+  plot_multipliers(tab) %.>% print(.)
+  plot_estimate_ratios(tab) %.>% print(.)
+}
 
 
-adjsp <- unpivot_to_blocks(
-  adjs, 
-  nameForNewKeyColumn = "method", 
-  nameForNewValueColumn = "ratio", 
-  columnsToTakeFrom = c("joint_scaled", "unscaled", "Bessel_scaled"))
-adjsp <- adjsp[!is.na(adjsp$ratio), , drop = FALSE]
-adjsp$method <- reorder(factor(adjsp$method), -adjsp$ratio)
-
-
-ggplot(data = adjsp, mapping = aes(x = p, y = ratio, color = method)) +
-  geom_line() +
-  geom_hline(yintercept = 1, color = "red", linetype=2) + 
-  scale_color_brewer(palette = "Dark2") + 
-  ggtitle("ratio betweeen estimated and theoretical standard deviations")
 
 
 data <- as.data.frame(Titanic)
@@ -179,8 +209,6 @@ mk_f <- function(universe, samp_size, summary1) {
   }
 }
 
-tabs <- solve_for_scaling_table(samp_size, naive_sd_fun)
-print(tabs)
 
 f <- mk_f(universe, samp_size, summary1)
 
