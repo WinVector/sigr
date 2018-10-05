@@ -2,28 +2,19 @@
 
 ## Test environments
 
-### OSX
-
-    R CMD check --as-cran sigr_1.0.2.tar.gz 
-
-    * using log directory ‘/Users/johnmount/Documents/work/sigr.Rcheck’
-    * using R version 3.5.0 (2018-04-23)
-    * using platform: x86_64-apple-darwin15.6.0 (64-bit)
-    * using session charset: UTF-8
-    * using option ‘--as-cran’
-    * checking for file ‘sigr/DESCRIPTION’ ... OK
-    * checking extension type ... Package
-    * this is package ‘sigr’ version ‘1.0.2’
-    * checking CRAN incoming feasibility ... NOTE
-    Maintainer: ‘John Mount <jmount@win-vector.com>’
-
-    Days since last update: 6
-    Status: 1 NOTE
-
 ### Windows
 
     devtools::build_win()
-    
+    * using R Under development (unstable) (2018-10-04 r75399)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    * using session charset: ISO8859-1
+    * checking for file 'sigr/DESCRIPTION' ... OK
+    * checking extension type ... Package
+    * this is package 'sigr' version '1.0.2'
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+    Maintainer: 'John Mount <jmount@win-vector.com>'
+    Status: OK
+
     
 ### Linux
 
