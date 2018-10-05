@@ -265,6 +265,7 @@ for(intercept in c(FALSE, TRUE)) {
                adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]] + const)
   }
   
+  print("universe")
   tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
   print(tabu)
   su <- summary1(
@@ -303,8 +304,10 @@ for(intercept in c(FALSE, TRUE)) {
   res <- parallel::parLapply(cl, 1:100000, f)
   res <- do.call(rbind, res)
   
+  print("aggregates")
   sums <- as.data.frame(lapply(res, mean))
   print(sums)
+  print("stddev est from aggregate mean")
   print(sqrt(su$mean*(1-su$mean)))
 }
 

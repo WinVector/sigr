@@ -275,6 +275,7 @@ for(intercept in c(FALSE, TRUE)) {
                adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]] + const)
   }
   
+  print("universe")
   tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
   print(tabu)
   su <- summary1(
@@ -313,8 +314,10 @@ for(intercept in c(FALSE, TRUE)) {
   res <- parallel::parLapply(cl, 1:100000, f)
   res <- do.call(rbind, res)
   
+  print("aggregates")
   sums <- as.data.frame(lapply(res, mean))
   print(sums)
+  print("stddev est from aggregate mean")
   print(sqrt(su$mean*(1-su$mean)))
 }
 ```
@@ -432,6 +435,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## 1:  Crew Female Adult       No    3
     ## 2:  Crew Female Adult      Yes   20
     ##  [1] 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    ## [1] "universe"
     ## $multipliers
     ##  [1] 0.0000000 1.7507295 0.9059314 0.9453566 1.0628968 1.0781336 1.0423358
     ##  [8] 1.0139508 1.0086728 1.0166048 1.0253736 1.0295972 1.0290340 1.0241831
@@ -448,8 +452,10 @@ for(intercept in c(FALSE, TRUE)) {
     ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3183797
     ## [1] 0.1185771
     ## [1] 0.3443502
-    ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869378 0.113608 0.2381137 0.0908864 0.2129754 0.3477183
+    ## [1] "aggregates"
+    ##       mean   var        sd naive_var  naive_sd    adj_sd
+    ## 1 0.869956 0.113 0.2369635    0.0904 0.2119466 0.3467079
+    ## [1] "stddev est from aggregate mean"
     ## [1] 0.3367812
     ## [1] "******* TRUE"
     ## [1] "******"
@@ -570,6 +576,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## 1:  Crew Female Adult       No    3
     ## 2:  Crew Female Adult      Yes   20
     ##  [1] 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    ## [1] "universe"
     ## $multipliers
     ##  [1] 0.0000000 1.1353235 0.8985872 0.8699394 0.9114213 0.9341853 0.9341982
     ##  [8] 0.9277480 0.9244943 0.9258603 0.9295613 0.9327943 0.9334894 0.9309085
@@ -587,8 +594,10 @@ for(intercept in c(FALSE, TRUE)) {
     ## s0 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3384957
     ## [1] 0.1185771
     ## [1] 0.3443502
-    ##       mean      var       sd naive_var  naive_sd    adj_sd
-    ## 1 0.869184 0.113727 0.238221 0.0909816 0.2130714 0.3350045
+    ## [1] "aggregates"
+    ##       mean      var        sd naive_var naive_sd    adj_sd
+    ## 1 0.869814 0.113095 0.2370836  0.090476 0.212054 0.3342417
+    ## [1] "stddev est from aggregate mean"
     ## [1] 0.3367812
 
 ``` r
