@@ -3,9 +3,11 @@ title: "TestingRateDifferences"
 output: github_document
 ---
 
+## Introduction
+
 Let's take a quick look at a very important and common experimental problem: checking if the difference in success rates of two [Bernoulli processes](https://en.wikipedia.org/wiki/Bernoulli_process) is statistically significant.  This can arise in A/B testing situations such as online advertising, sales, and manufacturing.
 
-We already have a [free video course on a Bayesian treatment of planning and evaluating A/B tests](http://www.win-vector.com/blog/2016/02/free-video-course-applied-bayesian-ab-testing-in-r/) (including a [free Shiny application](https://github.com/WinVector/CampaignPlanner_v3)).  Let's now take a look at the should be simple task of just building a summary statistic that includes a classic frequentist significance.
+We already share a [free video course on a Bayesian treatment of planning and evaluating A/B tests](http://www.win-vector.com/blog/2016/02/free-video-course-applied-bayesian-ab-testing-in-r/) (including a [free Shiny application](https://github.com/WinVector/CampaignPlanner_v3)).  Let's now take a look at the should be simple task of simply building a summary statistic that includes a classic frequentist significance.
 
 Suppose our data comes from collecting outcomes from two processes: A and B, and is as follows.
 
@@ -13,8 +15,8 @@ Suppose our data comes from collecting outcomes from two processes: A and B, and
 ```{r example}
 # build example data
 set.seed(2018)
-A <- rep(0, 200)
-A[sample.int(length(A), 82)] <- 1
+A <- rep(0, 2000)
+A[sample.int(length(A), 823)] <- 1
 B <- rep(0, 100)
 B[sample.int(length(B), 55)] <- 1
 ```
@@ -22,10 +24,12 @@ B[sample.int(length(B), 55)] <- 1
 
 ```{r summarize}
 # summarize data
-kA <- sum(A)
-nA <- length(A)
-kB <- sum(B)
-nB <- length(B)
+(kA <- sum(A))
+(nA <- length(A))
+(kB <- sum(B))
+(nB <- length(B))
+
+(abs_rate_difference <- abs(nB*kA - nA*kB)/(nA*nB))
 
 df <- data.frame(
   outcome = c(A, B), 
@@ -33,33 +37,59 @@ df <- data.frame(
                 rep("B", length(B))),
   stringsAsFactors = FALSE)
 table(df)
-
-abs_rate_difference <- abs(nB*kA - nA*kB)/(nA*nB)
-print(abs_rate_difference)
 ```
 
-A natural question is: how likely is such a large difference of success rates (ratios of 1's in the records) assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate.  This is a classic significance question.
+A natural question is: how likely is such a large difference of success rates assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate?  This is a classic frequentist significance question.
 
-With the [`sigr`]( https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer this directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html) (requires `sigr` version `1.0.2`, or newer).  Right or wrong frequentist summaries are supposed to be easy and quick to derive, here is the difference in rates of Bernoulli processes as a one-liner.
+## The `sigr` philosophy
+
+The philosophy of the the [`sigr`]( https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package is that each common statistical test should be a "one liner" that properly performs and formats a test.  That is not to say statistical tests are easy to understand, they can in fact be difficult.  It is the intent that performing and reporting the test should not *add* to the difficulty of finding, applying, and reporting the correct test.  
+
+So with correct documentation, training, and thought one can (with a reasonable effort) find, understand, and apply a correct test in a manner that *appears* effortless a-posteriori.
+
+In the case of comparing rates of two Bernoulli or Binomial processes (the correct formulation of comparing rates in an A/B test) we say our mental handbook now includes `sigr::Bernoulli_diff_stat()` as the correct test.
+
+## The `sigr::Bernoulli_diff_stat()` solution
+
+With the [`sigr`]( https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer the question directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html).  Frequentest summaries are supposed to be easy and quick to derive, and here is the difference in rates of Bernoulli processes as a one-liner.
 
 
 ```{r Bernoulli_diff_stat}
 library("sigr")
 
 s <- Bernoulli_diff_stat(kA, nA, kB, nB)
-s
-s$pValue
+print(s)
 ```
 
-As always, we want the p-value to be small as it represents the odds of our experiment being invalid under one very specific source of error (there are many more ways and experiment can go wrong, and failing to fail in this particular way does not give odds the result is correct).
+The above is deliberately concise.  It assumes we (and our partners) know exactly the test we want and quickly applies and formats (without explanation).  We emphasize critical thought and explanation are critical in statistical testing- they are just not part of the test.  We also say a longer test procedure (say 5, 10, or 20 lines of code) steals attention from thinking *about* the experiment.  What we suggest is having concise and correct testing code ready, and leaving more time for considering (and confirming) we have in fact applied an appropriate test.
 
-One can try to estimate this quantity directly through re-sampling techniques, but estimating small significances is computationally expensive.
+In addition to a formatted presentation the `Bernoulli_diff_stat()` returns a number of useful values.
+
+```{r Bernoulli_diff_stat_fields}
+s$probi                # assumed common rate
+s$test_rate_difference # difference in rates we are testing for
+s$pValue               # estimated p-value/significance
+```
+
+The small p-value indicates that a difference of this magnitude (`r sprintf("%g", s$test_rate_difference)`) is unlikely under the null-assumption that both processes were in fact identical with a common success-rate (rate of `1`'s in each output) of `r sprintf("%g", s$probi)`.
+
+`Bernoulli_diff_stat()` is a deterministic and exact statistical test when ` max(nA, nB) %% min(nA, nB) == 0`.  It has minimal assumptions/approximations as it is directly testing a difference in scaled Binomial/Bernoulli processes.  When ` max(nA, nB) %% min(nA, nB) != 0` the test gives a range of answers:
+
+```{r b_non_div}
+Bernoulli_diff_stat(824, 2001, 55, 100)
+```
+
+The range is formed by alternately truncating and extending the longer process to get the required divisibility property. The reported range is tight when ` max(nA, nB) / min(nA, nB)` is large.  Being a statistic of discrete summaries `Bernoulli_diff_stat()` is sensitive to end-effects (the p-value moves up and down as exact counts move in and out of rate-defined intervals).
+
+## Simulation estimate
+
+One could try to estimate the significance in difference in rates directly through re-sampling or simulation techniques.  Obviously estimating small significances is going to be computationally expensive.
 
 ```{r empirical_estimate}
 set.seed(2018)
 
 n_runs <- 100
-run_size <- 1000000
+run_size <- 10000 
 mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)
@@ -92,26 +122,67 @@ parallel::stopCluster(cl)
 
 k <- sum(res)
 n <- n_runs*run_size
+print(k/n) # empiricl estimate of p-value/
+```
+
+We can, with a quick appeal to another canned test (` wrapBinomTestS()`), check if our original theoretical p-value (` s$pValue = ` `r sprintf("%g", s$pValue)`) is compatible with the empirical estimate of the same.
+
+```{r emptest_b}
 wrapBinomTestS(k, n, p = s$pValue)
 ```
 
-The "`p=n.s.`" means the theoretical value is close the the emprical value (as we want).
+The "`p=n.s.`" means the `Bernoulli_diff_stat()` value is close the the empirical value (as we want).
 
-More commonly one just throws out some domain knowledge and uses a ready-made test.  For instance if we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
+## Other estimates
+
+A common (and useful) way to estimate the difference in Bernoulli/Binomial rates is to leave out some domain knowledge to convert to a nearly equivalent problem that itself has a ready-made test.  Two common such relaxations are forgetting that the process is Bernoulli/Binomial 0/1 and using general t-test to compare means, or switching from a test of differences of rates and appealing to a Fischer Test of independence between process label and outcome marks (a related but different question).
+
+
+### t-test estimate
+
+If we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
 ```{r ttest_proxy}
-wrapTTest(A, B)
+ttest <- wrapTTest(A, B)
+print(ttest)
 ```
 
-One can work further on the above by adding "continuity corrections" and so on, but we feel running an exact test that matches the problem's actual generative model is preferred.
+Notice the t-test is not in the confidence interval of empirical estimates of the differences in rates significance.
+
+```{r test_ttest}
+wrapBinomTestS(k, n, p = ttest$tt$p.value)
+```
+
+One could work further on the above by adding "continuity corrections" (which is really just a vainglorious way of say "shifting boundaries by 0.5") and so on, but we feel running an exact test that matches the problem's actual generative model (and actual distribution) is preferred.
+
+
+### Fisher test estimate
 
 Or, if we ignore distinction between treatment and outcome we can use a Fisher independence test.
 
 ```{r Fisher_test_proxy}
-wrapFisherTest(df, "treatment", "outcome")
+tab_test <- wrapFisherTest(df, "treatment", "outcome")
+print(tab_test)
 ```
 
-All of the above methods are standard and serviceable.  Notice the difference in Bernoulli processes calculation was closest to the empirical estimate. And, there is some value in a quick direct calculation of the probabilities arising from the actual problem at hand.  Approximations and assumptions we have not needed do not need to be later explained.
+```{r Fisher_test_proxy2}
+wrapBinomTestS(k, n, p = tab_test$ft$p.value)
+```
+
+Again, the Fisher test is not in the confidence interval of empirical estimates of the differences in rates significance.
+
+## Conclusion
+
+All of the above estimation methods are standard and serviceable (give the same qualitative answer that the difference in rates is in fact significant).  
+
+However notice, neither of the t-test estimate or the Fisher test estimate were in the empirically estimated confidence interval of the exact quantitative value for the unknown significance.
+
+Because `Bernoulli_diff_stat()` has a low degree of approximations and assumptions we feel it is easy to use and explain (where it applies, in particular when ` max(nA, nB) %% min(nA, nB) == 0` or when ` max(nA, nB) / min(nA, nB)` is large).
+
+`Bernoulli_diff_stat()` is new code (so we are still exploring corner cases), but is based on sound concepts (converting differences in rates into differences in counts, an idea inspired by Wald's *Sequential Analysis*).
+
+The above are all examples of the `sigr` package philosophy: correct and concise wrappers for important statistical tests.  Link to the correct statistics found in `R` but try to stay out of the user's way both in performing the test and reporting the test.
+
 
 
 
