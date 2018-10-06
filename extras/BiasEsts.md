@@ -317,8 +317,29 @@ for(intercept in c(FALSE, TRUE)) {
   print("aggregates")
   sums <- as.data.frame(lapply(res, mean))
   print(sums)
+  print("sds of aggregates")
+  sdss <- as.data.frame(lapply(res, sd))
+  print(sdss)
   print("stddev est from aggregate mean")
   print(sqrt(su$mean*(1-su$mean)))
+  
+  p1 <- ggplot(data= res, aes(x = naive_sd)) +
+    geom_density() + 
+    geom_vline(xintercept = sums$naive_sd) +
+    geom_vline(xintercept = su$naive_sd, color = "red") + 
+    xlim(0, 1) +
+    ggtitle(paste0("distribution of naive sd"),
+            subtitle = "average shown in black, universe value in red")
+  print(p1)
+
+  p2 <- ggplot(data= res, aes(x = adj_sd)) +
+    geom_density() + 
+    geom_vline(xintercept = sums$adj_sd) +
+    geom_vline(xintercept = su$naive_sd, color = "red") + 
+    xlim(0, 1) +
+    ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
+            subtitle = "average shown in black, universe value in red")
+  print(p2)
 }
 ```
 
@@ -334,7 +355,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-1.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-2.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-3.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-1.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-2.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-3.png" width="768" />
 
     ## [1] "******"
     ## [1] 3
@@ -347,7 +368,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-4.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-5.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-6.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-4.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-5.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-6.png" width="768" />
 
     ## [1] "******"
     ## [1] 4
@@ -360,7 +381,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-7.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-8.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-9.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-7.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-8.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-9.png" width="768" />
 
     ## [1] "******"
     ## [1] 5
@@ -373,7 +394,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-10.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-11.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-12.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-10.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-11.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-12.png" width="768" />
 
     ## [1] "******"
     ## [1] 10
@@ -387,7 +408,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-13.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-14.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-15.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-13.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-14.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-15.png" width="768" />
 
     ## [1] "******"
     ## [1] 20
@@ -402,7 +423,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-16.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-17.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-18.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-16.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-17.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-18.png" width="768" />
 
     ## [1] "******"
     ## [1] 100
@@ -429,7 +450,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0
 
-<img src="BiasEsts_files/figure-markdown_github/run-19.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-20.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-21.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-19.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-20.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-21.png" width="768" />
 
     ##    Class    Sex   Age Survived Freq
     ## 1:  Crew Female Adult       No    3
@@ -453,10 +474,16 @@ for(intercept in c(FALSE, TRUE)) {
     ## [1] 0.1185771
     ## [1] 0.3443502
     ## [1] "aggregates"
-    ##       mean   var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869956 0.113 0.2369635    0.0904 0.2119466 0.3467079
+    ##       mean      var        sd naive_var  naive_sd    adj_sd
+    ## 1 0.870412 0.112782 0.2364982 0.0902256 0.2115304 0.3459839
+    ## [1] "sds of aggregates"
+    ##        mean       var        sd  naive_var  naive_sd    adj_sd
+    ## 1 0.1502317 0.1168784 0.2384349 0.09350271 0.2132626 0.3717854
     ## [1] "stddev est from aggregate mean"
     ## [1] 0.3367812
+
+<img src="BiasEsts_files/figure-gfm/run-22.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-23.png" width="768" />
+
     ## [1] "******* TRUE"
     ## [1] "******"
     ## [1] 2
@@ -469,7 +496,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0.1653139
 
-<img src="BiasEsts_files/figure-markdown_github/run-22.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-23.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-24.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-24.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-25.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-26.png" width="768" />
 
     ## [1] "******"
     ## [1] 3
@@ -483,7 +510,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##        s0 
     ## 0.1465111
 
-<img src="BiasEsts_files/figure-markdown_github/run-25.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-26.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-27.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-27.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-28.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-29.png" width="768" />
 
     ## [1] "******"
     ## [1] 4
@@ -497,7 +524,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##        s0 
     ## 0.1031395
 
-<img src="BiasEsts_files/figure-markdown_github/run-28.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-29.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-30.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-30.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-31.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-32.png" width="768" />
 
     ## [1] "******"
     ## [1] 5
@@ -511,7 +538,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.09633953
 
-<img src="BiasEsts_files/figure-markdown_github/run-31.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-32.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-33.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-33.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-34.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-35.png" width="768" />
 
     ## [1] "******"
     ## [1] 10
@@ -526,7 +553,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.06806992
 
-<img src="BiasEsts_files/figure-markdown_github/run-34.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-35.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-36.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-36.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-37.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-38.png" width="768" />
 
     ## [1] "******"
     ## [1] 20
@@ -542,7 +569,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.04929705
 
-<img src="BiasEsts_files/figure-markdown_github/run-37.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-38.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-39.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-39.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-40.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-41.png" width="768" />
 
     ## [1] "******"
     ## [1] 100
@@ -570,7 +597,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.01430012
 
-<img src="BiasEsts_files/figure-markdown_github/run-40.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-41.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-42.png" width="768" />
+<img src="BiasEsts_files/figure-gfm/run-42.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-43.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-44.png" width="768" />
 
     ##    Class    Sex   Age Survived Freq
     ## 1:  Crew Female Adult       No    3
@@ -595,10 +622,15 @@ for(intercept in c(FALSE, TRUE)) {
     ## [1] 0.1185771
     ## [1] 0.3443502
     ## [1] "aggregates"
-    ##       mean      var        sd naive_var naive_sd    adj_sd
-    ## 1 0.869814 0.113095 0.2370836  0.090476 0.212054 0.3342417
+    ##      mean     var        sd naive_var  naive_sd    adj_sd
+    ## 1 0.87031 0.11267 0.2361936  0.090136 0.2112579 0.3333504
+    ## [1] "sds of aggregates"
+    ##        mean      var        sd  naive_var  naive_sd    adj_sd
+    ## 1 0.1507804 0.116947 0.2385019 0.09355762 0.2133226 0.2401599
     ## [1] "stddev est from aggregate mean"
     ## [1] 0.3367812
+
+<img src="BiasEsts_files/figure-gfm/run-45.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-46.png" width="768" />
 
 ``` r
 parallel::stopCluster(cl)

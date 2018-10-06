@@ -307,8 +307,29 @@ for(intercept in c(FALSE, TRUE)) {
   print("aggregates")
   sums <- as.data.frame(lapply(res, mean))
   print(sums)
+  print("sds of aggregates")
+  sdss <- as.data.frame(lapply(res, sd))
+  print(sdss)
   print("stddev est from aggregate mean")
   print(sqrt(su$mean*(1-su$mean)))
+  
+  p1 <- ggplot(data= res, aes(x = naive_sd)) +
+    geom_density() + 
+    geom_vline(xintercept = sums$naive_sd) +
+    geom_vline(xintercept = su$naive_sd, color = "red") + 
+    xlim(0, 1) +
+    ggtitle(paste0("distribution of naive sd"),
+            subtitle = "average shown in black, universe value in red")
+  print(p1)
+
+  p2 <- ggplot(data= res, aes(x = adj_sd)) +
+    geom_density() + 
+    geom_vline(xintercept = sums$adj_sd) +
+    geom_vline(xintercept = su$naive_sd, color = "red") + 
+    xlim(0, 1) +
+    ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
+            subtitle = "average shown in black, universe value in red")
+  print(p2)
 }
 
 parallel::stopCluster(cl)
