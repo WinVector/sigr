@@ -4,7 +4,7 @@ TestingRateDifferences
 Introduction
 ------------
 
-Let's take a quick look at a very important and common experimental problem: checking if the difference in success rates of two [Bernoulli processes](https://en.wikipedia.org/wiki/Bernoulli_process) is statistically significant. This can arise in A/B testing situations such as online advertising, sales, and manufacturing.
+Let's take a quick look at a very important and common experimental problem: checking if the difference in success rates of two [Binomial experiments](https://en.wikipedia.org/wiki/Binomial_distribution) is statistically significant. This can arise in A/B testing situations such as online advertising, sales, and manufacturing.
 
 We already share a [free video course on a Bayesian treatment of planning and evaluating A/B tests](http://www.win-vector.com/blog/2016/02/free-video-course-applied-bayesian-ab-testing-in-r/) (including a [free Shiny application](https://github.com/WinVector/CampaignPlanner_v3)). Let's now take a look at the should be simple task of simply building a summary statistic that includes a classic frequentist significance.
 
@@ -73,12 +73,12 @@ The philosophy of the the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`
 
 So with correct documentation, training, and thought one can (with a reasonable effort) find, understand, and apply a correct test in a manner that *appears* effortless a-posteriori.
 
-In the case of comparing rates of two Bernoulli or Binomial processes (the correct formulation of comparing rates in an A/B test) we say our mental handbook now includes `sigr::Bernoulli_diff_stat()` as the correct test.
+In the case of comparing rates of two Binomial experiments (the correct formulation of comparing rates in an A/B test) we say our mental handbook now includes `sigr::Bernoulli_diff_stat()` as the correct test.
 
 The `sigr::Bernoulli_diff_stat()` solution
 ------------------------------------------
 
-With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer the question directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html). Frequentest summaries are supposed to be easy and quick to derive, and here is the difference in rates of Bernoulli processes as a one-liner.
+With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer the question directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html). Frequentest summaries are supposed to be easy and quick to derive, and here is the difference in rates of Binomial processes as a one-liner.
 
 ``` r
 library("sigr")
@@ -168,7 +168,7 @@ n <- n_runs*run_size
 print(k/n) # empiricl estimate of p-value/
 ```
 
-    ## [1] 0.00614
+    ## [1] 0.006011
 
 We can, with a quick appeal to another canned test (`wrapBinomTestS()`), check if our original theoretical p-value (`s$pValue =` 0.00606216) is compatible with the empirical estimate of the same.
 
@@ -176,7 +176,7 @@ We can, with a quick appeal to another canned test (`wrapBinomTestS()`), check i
 wrapBinomTestS(k, n, p = s$pValue)
 ```
 
-    ## [1] "Exact binomial test: (6140/1e+06=0.00614~c(0.95)[0.005988, 0.006295], two.sided 0.006062; p=n.s.)."
+    ## [1] "Exact binomial test: (6011/1e+06=0.006011~c(0.95)[0.00586, 0.006164], two.sided 0.006062; p=n.s.)."
 
 The "`p=n.s.`" means the `Bernoulli_diff_stat()` value is close the the empirical value (as we want).
 
@@ -187,7 +187,7 @@ A common (and useful) way to estimate the difference in Bernoulli/Binomial rates
 
 ### t-test estimate
 
-If we ignore the fact that the Bernoulli process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
+If we ignore the fact that the Binomial process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
 ``` r
 ttest <- wrapTTest(A, B)
@@ -202,7 +202,7 @@ Notice the t-test is not in the confidence interval of empirical estimates of th
 wrapBinomTestS(k, n, p = ttest$tt$p.value)
 ```
 
-    ## [1] "Exact binomial test: (6140/1e+06=0.00614~c(0.95)[0.005988, 0.006295], two.sided 0.007925; p<1e-05)."
+    ## [1] "Exact binomial test: (6011/1e+06=0.006011~c(0.95)[0.00586, 0.006164], two.sided 0.007925; p<1e-05)."
 
 One could work further on the above by adding "continuity corrections" (which is really just a vainglorious way of say "shifting boundaries by 0.5") and so on, but we feel running an exact test that matches the problem's actual generative model (and actual distribution) is preferred.
 
@@ -221,7 +221,7 @@ print(tab_test)
 wrapBinomTestS(k, n, p = tab_test$ft$p.value)
 ```
 
-    ## [1] "Exact binomial test: (6140/1e+06=0.00614~c(0.95)[0.005988, 0.006295], two.sided 0.00685; p<1e-05)."
+    ## [1] "Exact binomial test: (6011/1e+06=0.006011~c(0.95)[0.00586, 0.006164], two.sided 0.00685; p<1e-05)."
 
 Again, the Fisher test is not in the confidence interval of empirical estimates of the differences in rates significance.
 
