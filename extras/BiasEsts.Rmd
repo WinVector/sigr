@@ -23,29 +23,29 @@ Bessel_sd_fun <- function(x) {
 }
 
 eval_scale_adjustment_table_ratio <- function(scale_adjustment_table, 
-                                        const,
-                                        p, sd_fun = naive_sd_fun) {
+                                              const,
+                                              p, sd_fun = naive_sd_fun) {
   n <- length(scale_adjustment_table)-1
   obs <- 0:n
   probs <- dbinom(obs, size = n, prob = p)
   evals <- vapply(obs,
-                function(ki) {
-                  sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
-                }, numeric(1))
+                  function(ki) {
+                    sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
+                  }, numeric(1))
   sd_target <- sqrt(p*(1-p))
   sum(probs*evals)/sd_target
 }
 
 eval_scale_adjustment_table_diff <- function(scale_adjustment_table, 
-                                        const,
-                                        p, sd_fun = naive_sd_fun) {
+                                             const,
+                                             p, sd_fun = naive_sd_fun) {
   n <- length(scale_adjustment_table)-1
   obs <- 0:n
   probs <- dbinom(obs, size = n, prob = p)
   evals <- vapply(obs,
-                function(ki) {
-                  sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
-                }, numeric(1))
+                  function(ki) {
+                    sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
+                  }, numeric(1))
   sd_target <- sqrt(p*(1-p))
   sum(probs*evals)-sd_target
 }
@@ -60,7 +60,7 @@ eval_scale_adjustment_table_diff <- function(scale_adjustment_table,
 # could also solve for affine version- where we allow addition in addition to scaling.
 # must have a really nice form if we integrate the ps-term (likely a calculus of variations solution).
 solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, 
-                                    intercept = FALSE,
+                                    intercept = TRUE,
                                     excess_resolution = 16) {
   if(n<2) {
     return(rep(1, n+1))
@@ -216,121 +216,141 @@ plot_estimate_diffs <- function(ssoln) {
 
 cl <- parallel::makeCluster(parallel::detectCores())
 
+intercept <- TRUE
 
-for(intercept in c(FALSE, TRUE)) {
-  print(paste("*******", intercept))
-  for(n in c(2, 3, 4, 5, 10, 20, 100)) {
-    print("******")
-    print(n)
-    tab <- solve_for_scaling_table(n, intercept = intercept)
-    print(tab)
-    plot_multipliers(tab) %.>% print(.)
-    plot_estimate_ratios(tab) %.>% print(.)
-    plot_estimate_diffs(tab) %.>% print(.)
-  }
-  
-  data <- as.data.frame(Titanic)
-  
-  data <- data %.>% 
-    select_rows_nse(., 
-                    (Class == "Crew") & 
-                      (Sex == "Female") & 
-                      (Age == "Adult")) %.>%
-    orderby(., "Survived")
-  
-  print(data)
-  
-  universe <- c(rep(0, data$Freq[data$Survived=="No"]),
-                rep(1, data$Freq[data$Survived=="Yes"]))
-  
-  print(universe)
-  
-  
-  
-  summary1 <- function(x, tabu) {
-    scale_adjustment_table <- tabu$multipliers
-    const <- tabu$const
-    naive_var <- mean((mean(x)-x)^2)
-    sd_est <- sd(x)
-    # https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
-    # correctly correct for normal, not binomomial as we have here!
-    if(length(scale_adjustment_table) != (1+length(x))) {
-      stop("wrong sized scale_adjustment table")
-    }
-    data.frame(mean = mean(x),
-               var = var(x),
-               sd = sd_est,
-               naive_var = naive_var,
-               naive_sd = sqrt(naive_var),
-               adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]] + const)
-  }
-  
-  print("universe")
-  tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
-  print(tabu)
-  su <- summary1(
-    universe, 
-    tabu)
-  print(su)
-  
-  n <- length(universe)
-  Bessel_corrected_var <- (n/(n-1))*su$naive_var
-  print(Bessel_corrected_var)
-  
-  Bessel_corrected_sd <- sqrt(Bessel_corrected_var)
-  print(Bessel_corrected_sd)
-  
-  samp_size <- 5
-  
-  mk_f <- function(universe, samp_size, summary1, intercept) {
-    force(universe)
-    force(samp_size)
-    force(summary1)
-    force(intercept)
-    scale_adjustment_table <- 
-      solve_for_scaling_table(samp_size, naive_sd_fun, intercept = intercept)
-    f <- function(i) {
-      sample <- universe[sample.int(length(universe), 
-                                    samp_size, 
-                                    replace = TRUE)]
-      summary1(sample, scale_adjustment_table)
-    }
-  }
-  
-  
-  f <- mk_f(universe, samp_size, summary1, intercept)
-  
-  
-  res <- parallel::parLapply(cl, 1:100000, f)
-  res <- do.call(rbind, res)
-  
-  print("aggregates")
-  sums <- as.data.frame(lapply(res, mean))
-  print(sums)
-  print("sds of aggregates")
-  sdss <- as.data.frame(lapply(res, sd))
-  print(sdss)
-  print("stddev est from aggregate mean")
-  print(sqrt(su$mean*(1-su$mean)))
-  
-  p1 <- ggplot(data= res, aes(x = naive_sd)) +
-    geom_density() + 
-    geom_vline(xintercept = sums$naive_sd) +
-    geom_vline(xintercept = su$naive_sd, color = "red") + 
-    xlim(0, 1) +
-    ggtitle(paste0("distribution of naive sd"),
-            subtitle = "average shown in black, universe value in red")
-  print(p1)
-
-  p2 <- ggplot(data= res, aes(x = adj_sd)) +
-    geom_density() + 
-    geom_vline(xintercept = sums$adj_sd) +
-    geom_vline(xintercept = su$naive_sd, color = "red") + 
-    xlim(0, 1) +
-    ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
-            subtitle = "average shown in black, universe value in red")
-  print(p2)
+print(paste("*******", intercept))
+for(n in c(2, 3, 4, 5, 10, 20, 100)) {
+  print("******")
+  print(n)
+  tab <- solve_for_scaling_table(n, intercept = intercept)
+  print(tab)
+  plot_multipliers(tab) %.>% print(.)
+  plot_estimate_ratios(tab) %.>% print(.)
+  plot_estimate_diffs(tab) %.>% print(.)
 }
+
+data <- as.data.frame(Titanic)
+
+data <- data %.>% 
+  select_rows_nse(., 
+                  (Class == "Crew") & 
+                    (Sex == "Female") & 
+                    (Age == "Adult")) %.>%
+  orderby(., "Survived")
+
+print(data)
+
+universe <- c(rep(0, data$Freq[data$Survived=="No"]),
+              rep(1, data$Freq[data$Survived=="Yes"]))
+
+print(universe)
+
+
+
+summary1 <- function(x, tabu) {
+  scale_adjustment_table <- tabu$multipliers
+  const <- tabu$const
+  naive_var <- mean((mean(x)-x)^2)
+  sd_est <- sd(x)
+  # https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
+  # correctly correct for normal, not binomomial as we have here!
+  if(length(scale_adjustment_table) != (1+length(x))) {
+    stop("wrong sized scale_adjustment table")
+  }
+  data.frame(mean = mean(x),
+             var = var(x),
+             sd = sd_est,
+             naive_var = naive_var,
+             naive_sd = sqrt(naive_var),
+             adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]] + const)
+}
+
+print("universe")
+tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
+print(tabu)
+su <- summary1(
+  universe, 
+  tabu)
+print(su)
+
+n <- length(universe)
+Bessel_corrected_var <- (n/(n-1))*su$naive_var
+print(Bessel_corrected_var)
+
+Bessel_corrected_sd <- sqrt(Bessel_corrected_var)
+print(Bessel_corrected_sd)
+
+samp_size <- 5
+
+mk_f <- function(universe, samp_size, summary1, intercept) {
+  force(universe)
+  force(samp_size)
+  force(summary1)
+  force(intercept)
+  scale_adjustment_table <- 
+    solve_for_scaling_table(samp_size, naive_sd_fun, intercept = intercept)
+  f <- function(i) {
+    sample <- universe[sample.int(length(universe), 
+                                  samp_size, 
+                                  replace = TRUE)]
+    summary1(sample, scale_adjustment_table)
+  }
+}
+
+
+f <- mk_f(universe, samp_size, summary1, intercept)
+
+
+res <- parallel::parLapply(cl, 1:100000, f)
+res <- do.call(rbind, res)
+
+print("aggregates")
+sums <- as.data.frame(lapply(res, mean))
+print(sums)
+print("sds of aggregates")
+sdss <- as.data.frame(lapply(res, sd))
+print(sdss)
+print("stddev est from aggregate mean")
+print(sqrt(su$mean*(1-su$mean)))
+
+p1 <- ggplot(data = res, aes(x = naive_sd)) +
+  geom_density() + 
+  geom_vline(xintercept = sums$naive_sd) +
+  geom_vline(xintercept = su$naive_sd, color = "red") + 
+  xlim(0, 1) +
+  ggtitle(paste0("distribution of naive sd"),
+          subtitle = "average shown in black, universe value in red")
+print(p1)
+
+p2 <- ggplot(data = res, aes(x = adj_sd)) +
+  geom_density() + 
+  geom_vline(xintercept = sums$adj_sd) +
+  geom_vline(xintercept = su$naive_sd, color = "red") + 
+  xlim(0, 1) +
+  ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
+          subtitle = "average shown in black, universe value in red")
+print(p2)
+
+cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
+                        nameForNewValueColumn = "sd_estimate",
+                        columnsToTakeFrom = c("adj_sd", "naive_sd"))
+rp <- rowrecs_to_blocks(res, 
+                        controlTable = cT,
+                        checkKeys = FALSE,
+                        use_data_table = FALSE)
+
+ef <- project_nse(rp, sd_estimate = mean(sd_estimate), 
+                  groupby = "estimation_method")
+
+p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_density() + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
+  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
+  xlim(0, 1) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3)
 
 parallel::stopCluster(cl)
 

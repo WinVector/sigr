@@ -33,29 +33,29 @@ Bessel_sd_fun <- function(x) {
 }
 
 eval_scale_adjustment_table_ratio <- function(scale_adjustment_table, 
-                                        const,
-                                        p, sd_fun = naive_sd_fun) {
+                                              const,
+                                              p, sd_fun = naive_sd_fun) {
   n <- length(scale_adjustment_table)-1
   obs <- 0:n
   probs <- dbinom(obs, size = n, prob = p)
   evals <- vapply(obs,
-                function(ki) {
-                  sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
-                }, numeric(1))
+                  function(ki) {
+                    sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
+                  }, numeric(1))
   sd_target <- sqrt(p*(1-p))
   sum(probs*evals)/sd_target
 }
 
 eval_scale_adjustment_table_diff <- function(scale_adjustment_table, 
-                                        const,
-                                        p, sd_fun = naive_sd_fun) {
+                                             const,
+                                             p, sd_fun = naive_sd_fun) {
   n <- length(scale_adjustment_table)-1
   obs <- 0:n
   probs <- dbinom(obs, size = n, prob = p)
   evals <- vapply(obs,
-                function(ki) {
-                  sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
-                }, numeric(1))
+                  function(ki) {
+                    sd_fun(c(rep(1, ki), rep(0, n-ki)))*scale_adjustment_table[[ki+1]] + const
+                  }, numeric(1))
   sd_target <- sqrt(p*(1-p))
   sum(probs*evals)-sd_target
 }
@@ -70,7 +70,7 @@ eval_scale_adjustment_table_diff <- function(scale_adjustment_table,
 # could also solve for affine version- where we allow addition in addition to scaling.
 # must have a really nice form if we integrate the ps-term (likely a calculus of variations solution).
 solve_for_scaling_table <- function(n, sd_fun = naive_sd_fun, 
-                                    intercept = FALSE,
+                                    intercept = TRUE,
                                     excess_resolution = 16) {
   if(n<2) {
     return(rep(1, n+1))
@@ -226,265 +226,25 @@ plot_estimate_diffs <- function(ssoln) {
 
 cl <- parallel::makeCluster(parallel::detectCores())
 
+intercept <- TRUE
 
-for(intercept in c(FALSE, TRUE)) {
-  print(paste("*******", intercept))
-  for(n in c(2, 3, 4, 5, 10, 20, 100)) {
-    print("******")
-    print(n)
-    tab <- solve_for_scaling_table(n, intercept = intercept)
-    print(tab)
-    plot_multipliers(tab) %.>% print(.)
-    plot_estimate_ratios(tab) %.>% print(.)
-    plot_estimate_diffs(tab) %.>% print(.)
-  }
-  
-  data <- as.data.frame(Titanic)
-  
-  data <- data %.>% 
-    select_rows_nse(., 
-                    (Class == "Crew") & 
-                      (Sex == "Female") & 
-                      (Age == "Adult")) %.>%
-    orderby(., "Survived")
-  
-  print(data)
-  
-  universe <- c(rep(0, data$Freq[data$Survived=="No"]),
-                rep(1, data$Freq[data$Survived=="Yes"]))
-  
-  print(universe)
-  
-  
-  
-  summary1 <- function(x, tabu) {
-    scale_adjustment_table <- tabu$multipliers
-    const <- tabu$const
-    naive_var <- mean((mean(x)-x)^2)
-    sd_est <- sd(x)
-    # https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
-    # correctly correct for normal, not binomomial as we have here!
-    if(length(scale_adjustment_table) != (1+length(x))) {
-      stop("wrong sized scale_adjustment table")
-    }
-    data.frame(mean = mean(x),
-               var = var(x),
-               sd = sd_est,
-               naive_var = naive_var,
-               naive_sd = sqrt(naive_var),
-               adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]] + const)
-  }
-  
-  print("universe")
-  tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
-  print(tabu)
-  su <- summary1(
-    universe, 
-    tabu)
-  print(su)
-  
-  n <- length(universe)
-  Bessel_corrected_var <- (n/(n-1))*su$naive_var
-  print(Bessel_corrected_var)
-  
-  Bessel_corrected_sd <- sqrt(Bessel_corrected_var)
-  print(Bessel_corrected_sd)
-  
-  samp_size <- 5
-  
-  mk_f <- function(universe, samp_size, summary1, intercept) {
-    force(universe)
-    force(samp_size)
-    force(summary1)
-    force(intercept)
-    scale_adjustment_table <- 
-      solve_for_scaling_table(samp_size, naive_sd_fun, intercept = intercept)
-    f <- function(i) {
-      sample <- universe[sample.int(length(universe), 
-                                    samp_size, 
-                                    replace = TRUE)]
-      summary1(sample, scale_adjustment_table)
-    }
-  }
-  
-  
-  f <- mk_f(universe, samp_size, summary1, intercept)
-  
-  
-  res <- parallel::parLapply(cl, 1:100000, f)
-  res <- do.call(rbind, res)
-  
-  print("aggregates")
-  sums <- as.data.frame(lapply(res, mean))
-  print(sums)
-  print("sds of aggregates")
-  sdss <- as.data.frame(lapply(res, sd))
-  print(sdss)
-  print("stddev est from aggregate mean")
-  print(sqrt(su$mean*(1-su$mean)))
-  
-  p1 <- ggplot(data= res, aes(x = naive_sd)) +
-    geom_density() + 
-    geom_vline(xintercept = sums$naive_sd) +
-    geom_vline(xintercept = su$naive_sd, color = "red") + 
-    xlim(0, 1) +
-    ggtitle(paste0("distribution of naive sd"),
-            subtitle = "average shown in black, universe value in red")
-  print(p1)
+print(paste("*******", intercept))
+```
 
-  p2 <- ggplot(data= res, aes(x = adj_sd)) +
-    geom_density() + 
-    geom_vline(xintercept = sums$adj_sd) +
-    geom_vline(xintercept = su$naive_sd, color = "red") + 
-    xlim(0, 1) +
-    ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
-            subtitle = "average shown in black, universe value in red")
-  print(p2)
+    ## [1] "******* TRUE"
+
+``` r
+for(n in c(2, 3, 4, 5, 10, 20, 100)) {
+  print("******")
+  print(n)
+  tab <- solve_for_scaling_table(n, intercept = intercept)
+  print(tab)
+  plot_multipliers(tab) %.>% print(.)
+  plot_estimate_ratios(tab) %.>% print(.)
+  plot_estimate_diffs(tab) %.>% print(.)
 }
 ```
 
-    ## [1] "******* FALSE"
-    ## [1] "******"
-    ## [1] 2
-    ## $multipliers
-    ## [1] 0.000000 2.208666 0.000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-1.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-2.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-3.png" width="768" />
-
-    ## [1] "******"
-    ## [1] 3
-    ## $multipliers
-    ## [1] 0.000000 1.598742 1.598715 0.000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-4.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-5.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-6.png" width="768" />
-
-    ## [1] "******"
-    ## [1] 4
-    ## $multipliers
-    ## [1]  0.00000000  2.28787190 -0.08011322  2.28791183  0.00000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-7.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-8.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-9.png" width="768" />
-
-    ## [1] "******"
-    ## [1] 5
-    ## $multipliers
-    ## [1] 0.0000000 2.0122346 0.7368832 0.7390467 2.0112480 0.0000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-10.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-11.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-12.png" width="768" />
-
-    ## [1] "******"
-    ## [1] 10
-    ## $multipliers
-    ##  [1] 0.0000000 2.0346467 0.4802704 1.2042416 1.1523668 0.9286623 1.1547608
-    ##  [8] 1.2009477 0.4825954 2.0338301 0.0000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-13.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-14.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-15.png" width="768" />
-
-    ## [1] "******"
-    ## [1] 20
-    ## $multipliers
-    ##  [1] 0.0000000 1.8036584 0.8468381 0.9534401 1.0883555 1.0833304 1.0326424
-    ##  [8] 1.0061200 1.0117913 1.0296074 1.0391542 1.0312949 1.0125694 1.0047259
-    ## [15] 1.0313315 1.0843746 1.0897463 0.9523454 0.8464031 1.8041832 0.0000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-16.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-17.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-18.png" width="768" />
-
-    ## [1] "******"
-    ## [1] 100
-    ## $multipliers
-    ##   [1] 0.000000 1.211359 1.106920 1.048873 1.024846 1.017004 1.015263
-    ##   [8] 1.015079 1.014813 1.014122 1.013120 1.012014 1.010964 1.010056
-    ##  [15] 1.009318 1.008737 1.008284 1.007926 1.007632 1.007378 1.007150
-    ##  [22] 1.006935 1.006730 1.006534 1.006345 1.006165 1.005995 1.005838
-    ##  [29] 1.005693 1.005562 1.005444 1.005340 1.005248 1.005167 1.005098
-    ##  [36] 1.005037 1.004985 1.004939 1.004899 1.004864 1.004832 1.004802
-    ##  [43] 1.004775 1.004749 1.004724 1.004701 1.004680 1.004661 1.004645
-    ##  [50] 1.004632 1.004623 1.004619 1.004620 1.004626 1.004637 1.004654
-    ##  [57] 1.004677 1.004705 1.004738 1.004776 1.004818 1.004863 1.004913
-    ##  [64] 1.004965 1.005021 1.005082 1.005147 1.005217 1.005294 1.005379
-    ##  [71] 1.005473 1.005578 1.005695 1.005824 1.005968 1.006125 1.006295
-    ##  [78] 1.006479 1.006675 1.006883 1.007106 1.007348 1.007618 1.007930
-    ##  [85] 1.008308 1.008779 1.009375 1.010124 1.011034 1.012078 1.013168
-    ##  [92] 1.014144 1.014804 1.015037 1.015194 1.016920 1.024769 1.048830
-    ##  [99] 1.106932 1.211422 0.000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-
-<img src="BiasEsts_files/figure-gfm/run-19.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-20.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-21.png" width="768" />
-
-    ##    Class    Sex   Age Survived Freq
-    ## 1:  Crew Female Adult       No    3
-    ## 2:  Crew Female Adult      Yes   20
-    ##  [1] 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    ## [1] "universe"
-    ## $multipliers
-    ##  [1] 0.0000000 1.7507295 0.9059314 0.9453566 1.0628968 1.0781336 1.0423358
-    ##  [8] 1.0139508 1.0086728 1.0166048 1.0253736 1.0295972 1.0290340 1.0241831
-    ## [15] 1.0158508 1.0090520 1.0151156 1.0430754 1.0775732 1.0617949 0.9453608
-    ## [22] 0.9069580 1.7502615 0.0000000
-    ## 
-    ## $intercept
-    ## [1] FALSE
-    ## 
-    ## $const
-    ## [1] 0
-    ## 
-    ##        mean       var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3183797
-    ## [1] 0.1185771
-    ## [1] 0.3443502
-    ## [1] "aggregates"
-    ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.870412 0.112782 0.2364982 0.0902256 0.2115304 0.3459839
-    ## [1] "sds of aggregates"
-    ##        mean       var        sd  naive_var  naive_sd    adj_sd
-    ## 1 0.1502317 0.1168784 0.2384349 0.09350271 0.2132626 0.3717854
-    ## [1] "stddev est from aggregate mean"
-    ## [1] 0.3367812
-
-<img src="BiasEsts_files/figure-gfm/run-22.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-23.png" width="768" />
-
-    ## [1] "******* TRUE"
     ## [1] "******"
     ## [1] 2
     ## $multipliers
@@ -496,7 +256,7 @@ for(intercept in c(FALSE, TRUE)) {
     ## $const
     ## [1] 0.1653139
 
-<img src="BiasEsts_files/figure-gfm/run-24.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-25.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-26.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-1.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-2.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-3.png" width="768" />
 
     ## [1] "******"
     ## [1] 3
@@ -510,7 +270,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##        s0 
     ## 0.1465111
 
-<img src="BiasEsts_files/figure-gfm/run-27.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-28.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-29.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-4.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-5.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-6.png" width="768" />
 
     ## [1] "******"
     ## [1] 4
@@ -524,7 +284,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##        s0 
     ## 0.1031395
 
-<img src="BiasEsts_files/figure-gfm/run-30.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-31.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-32.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-7.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-8.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-9.png" width="768" />
 
     ## [1] "******"
     ## [1] 5
@@ -538,7 +298,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.09633953
 
-<img src="BiasEsts_files/figure-gfm/run-33.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-34.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-35.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-10.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-11.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-12.png" width="768" />
 
     ## [1] "******"
     ## [1] 10
@@ -553,7 +313,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.06806992
 
-<img src="BiasEsts_files/figure-gfm/run-36.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-37.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-38.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-13.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-14.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-15.png" width="768" />
 
     ## [1] "******"
     ## [1] 20
@@ -569,7 +329,7 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.04929705
 
-<img src="BiasEsts_files/figure-gfm/run-39.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-40.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-41.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-16.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-17.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-18.png" width="768" />
 
     ## [1] "******"
     ## [1] 100
@@ -597,13 +357,63 @@ for(intercept in c(FALSE, TRUE)) {
     ##         s0 
     ## 0.01430012
 
-<img src="BiasEsts_files/figure-gfm/run-42.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-43.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-44.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-19.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-20.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-21.png" width="768" />
+
+``` r
+data <- as.data.frame(Titanic)
+
+data <- data %.>% 
+  select_rows_nse(., 
+                  (Class == "Crew") & 
+                    (Sex == "Female") & 
+                    (Age == "Adult")) %.>%
+  orderby(., "Survived")
+
+print(data)
+```
 
     ##    Class    Sex   Age Survived Freq
     ## 1:  Crew Female Adult       No    3
     ## 2:  Crew Female Adult      Yes   20
+
+``` r
+universe <- c(rep(0, data$Freq[data$Survived=="No"]),
+              rep(1, data$Freq[data$Survived=="Yes"]))
+
+print(universe)
+```
+
     ##  [1] 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+``` r
+summary1 <- function(x, tabu) {
+  scale_adjustment_table <- tabu$multipliers
+  const <- tabu$const
+  naive_var <- mean((mean(x)-x)^2)
+  sd_est <- sd(x)
+  # https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
+  # correctly correct for normal, not binomomial as we have here!
+  if(length(scale_adjustment_table) != (1+length(x))) {
+    stop("wrong sized scale_adjustment table")
+  }
+  data.frame(mean = mean(x),
+             var = var(x),
+             sd = sd_est,
+             naive_var = naive_var,
+             naive_sd = sqrt(naive_var),
+             adj_sd = sqrt(naive_var)*scale_adjustment_table[[sum(x)+1]] + const)
+}
+
+print("universe")
+```
+
     ## [1] "universe"
+
+``` r
+tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
+print(tabu)
+```
+
     ## $multipliers
     ##  [1] 0.0000000 1.1353235 0.8985872 0.8699394 0.9114213 0.9341853 0.9341982
     ##  [8] 0.9277480 0.9244943 0.9258603 0.9295613 0.9327943 0.9334894 0.9309085
@@ -615,22 +425,147 @@ for(intercept in c(FALSE, TRUE)) {
     ## 
     ## $const
     ##         s0 
-    ## 0.04589171 
-    ## 
+    ## 0.04589171
+
+``` r
+su <- summary1(
+  universe, 
+  tabu)
+print(su)
+```
+
     ##         mean       var        sd naive_var  naive_sd    adj_sd
     ## s0 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3384957
+
+``` r
+n <- length(universe)
+Bessel_corrected_var <- (n/(n-1))*su$naive_var
+print(Bessel_corrected_var)
+```
+
     ## [1] 0.1185771
+
+``` r
+Bessel_corrected_sd <- sqrt(Bessel_corrected_var)
+print(Bessel_corrected_sd)
+```
+
     ## [1] 0.3443502
+
+``` r
+samp_size <- 5
+
+mk_f <- function(universe, samp_size, summary1, intercept) {
+  force(universe)
+  force(samp_size)
+  force(summary1)
+  force(intercept)
+  scale_adjustment_table <- 
+    solve_for_scaling_table(samp_size, naive_sd_fun, intercept = intercept)
+  f <- function(i) {
+    sample <- universe[sample.int(length(universe), 
+                                  samp_size, 
+                                  replace = TRUE)]
+    summary1(sample, scale_adjustment_table)
+  }
+}
+
+
+f <- mk_f(universe, samp_size, summary1, intercept)
+
+
+res <- parallel::parLapply(cl, 1:100000, f)
+res <- do.call(rbind, res)
+
+print("aggregates")
+```
+
     ## [1] "aggregates"
-    ##      mean     var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.87031 0.11267 0.2361936  0.090136 0.2112579 0.3333504
+
+``` r
+sums <- as.data.frame(lapply(res, mean))
+print(sums)
+```
+
+    ##      mean      var        sd naive_var naive_sd    adj_sd
+    ## 1 0.86956 0.113288 0.2373933 0.0906304 0.212331 0.3343608
+
+``` r
+print("sds of aggregates")
+```
+
     ## [1] "sds of aggregates"
-    ##        mean      var        sd  naive_var  naive_sd    adj_sd
-    ## 1 0.1507804 0.116947 0.2385019 0.09355762 0.2133226 0.2401599
+
+``` r
+sdss <- as.data.frame(lapply(res, sd))
+print(sdss)
+```
+
+    ##        mean       var        sd  naive_var naive_sd    adj_sd
+    ## 1 0.1509809 0.1170682 0.2386064 0.09365457 0.213416 0.2400813
+
+``` r
+print("stddev est from aggregate mean")
+```
+
     ## [1] "stddev est from aggregate mean"
+
+``` r
+print(sqrt(su$mean*(1-su$mean)))
+```
+
     ## [1] 0.3367812
 
-<img src="BiasEsts_files/figure-gfm/run-45.png" width="768" /><img src="BiasEsts_files/figure-gfm/run-46.png" width="768" />
+``` r
+p1 <- ggplot(data = res, aes(x = naive_sd)) +
+  geom_density() + 
+  geom_vline(xintercept = sums$naive_sd) +
+  geom_vline(xintercept = su$naive_sd, color = "red") + 
+  xlim(0, 1) +
+  ggtitle(paste0("distribution of naive sd"),
+          subtitle = "average shown in black, universe value in red")
+print(p1)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-22.png" width="768" />
+
+``` r
+p2 <- ggplot(data = res, aes(x = adj_sd)) +
+  geom_density() + 
+  geom_vline(xintercept = sums$adj_sd) +
+  geom_vline(xintercept = su$naive_sd, color = "red") + 
+  xlim(0, 1) +
+  ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
+          subtitle = "average shown in black, universe value in red")
+print(p2)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-23.png" width="768" />
+
+``` r
+cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
+                        nameForNewValueColumn = "sd_estimate",
+                        columnsToTakeFrom = c("adj_sd", "naive_sd"))
+rp <- rowrecs_to_blocks(res, 
+                        controlTable = cT,
+                        checkKeys = FALSE,
+                        use_data_table = FALSE)
+
+ef <- project_nse(rp, sd_estimate = mean(sd_estimate), 
+                  groupby = "estimation_method")
+
+p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_density() + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
+  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
+  xlim(0, 1) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-24.png" width="768" />
 
 ``` r
 parallel::stopCluster(cl)
