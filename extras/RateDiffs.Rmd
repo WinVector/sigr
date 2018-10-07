@@ -155,6 +155,30 @@ wrapBinomTestS(k, n, p = ttest$tt$p.value)
 
 One could work further on the above by adding "continuity corrections" (which is really just a vainglorious way of say "shifting boundaries by 0.5") and so on, but we feel running an exact test that matches the problem's actual generative model (and actual distribution) is preferred.
 
+### Difference in proportions z-test.
+
+From [https://www.kean.edu/~fosborne/bstat/05d2pops.html](https://www.kean.edu/~fosborne/bstat/05d2pops.html) (description confuses estimates and test probs a bit, following calculation example not earlier note).
+
+```{r dz}
+n1 <- length(A)
+n2 <- length(B)
+p1hat <- sum(A)/n1
+p2hat <- sum(B)/n2
+
+z <- (abs(p1hat - p2hat) - 0)/sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+print(z)
+zest <- pnorm(-z, lower.tail = TRUE) + pnorm(z, lower.tail = FALSE)
+print(zest)
+
+wrapBinomTestS(k, n, p = zest)
+
+test <- pt(-z, lower.tail = TRUE, df = n1 + n2 - 1) + pt(z, lower.tail = FALSE, df = n1 + n2 - 1)
+print(test)
+
+wrapBinomTestS(k, n, p = zest)
+```
+
+
 
 ### Fisher test estimate
 
@@ -170,6 +194,8 @@ wrapBinomTestS(k, n, p = tab_test$ft$p.value)
 ```
 
 Again, the Fisher test is not in the confidence interval of empirical estimates of the differences in rates significance.
+
+
 
 ## Conclusion
 

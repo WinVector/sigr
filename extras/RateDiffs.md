@@ -168,7 +168,7 @@ n <- n_runs*run_size
 print(k/n) # empiricl estimate of p-value/
 ```
 
-    ## [1] 0.006011
+    ## [1] 0.00597
 
 We can, with a quick appeal to another canned test (`wrapBinomTestS()`), check if our original theoretical p-value (`s$pValue =` 0.00606216) is compatible with the empirical estimate of the same.
 
@@ -176,7 +176,7 @@ We can, with a quick appeal to another canned test (`wrapBinomTestS()`), check i
 wrapBinomTestS(k, n, p = s$pValue)
 ```
 
-    ## [1] "Exact binomial test: (6011/1e+06=0.006011~c(0.95)[0.00586, 0.006164], two.sided 0.006062; p=n.s.)."
+    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.006062; p=n.s.)."
 
 The "`p=n.s.`" means the `Bernoulli_diff_stat()` value is close the the empirical value (as we want).
 
@@ -202,9 +202,51 @@ Notice the t-test is not in the confidence interval of empirical estimates of th
 wrapBinomTestS(k, n, p = ttest$tt$p.value)
 ```
 
-    ## [1] "Exact binomial test: (6011/1e+06=0.006011~c(0.95)[0.00586, 0.006164], two.sided 0.007925; p<1e-05)."
+    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.007925; p<1e-05)."
 
 One could work further on the above by adding "continuity corrections" (which is really just a vainglorious way of say "shifting boundaries by 0.5") and so on, but we feel running an exact test that matches the problem's actual generative model (and actual distribution) is preferred.
+
+### Difference in proportions z-test.
+
+From <https://www.kean.edu/~fosborne/bstat/05d2pops.html> (description confuses estimates and test probs a bit, following calculation example not earlier note).
+
+``` r
+n1 <- length(A)
+n2 <- length(B)
+p1hat <- sum(A)/n1
+p2hat <- sum(B)/n2
+
+z <- (abs(p1hat - p2hat) - 0)/sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+print(z)
+```
+
+    ## [1] 2.718256
+
+``` r
+zest <- pnorm(-z, lower.tail = TRUE) + pnorm(z, lower.tail = FALSE)
+print(zest)
+```
+
+    ## [1] 0.006562697
+
+``` r
+wrapBinomTestS(k, n, p = zest)
+```
+
+    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.006563; p<1e-05)."
+
+``` r
+test <- pt(-z, lower.tail = TRUE, df = n1 + n2 - 1) + pt(z, lower.tail = FALSE, df = n1 + n2 - 1)
+print(test)
+```
+
+    ## [1] 0.006616671
+
+``` r
+wrapBinomTestS(k, n, p = zest)
+```
+
+    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.006563; p<1e-05)."
 
 ### Fisher test estimate
 
@@ -221,7 +263,7 @@ print(tab_test)
 wrapBinomTestS(k, n, p = tab_test$ft$p.value)
 ```
 
-    ## [1] "Exact binomial test: (6011/1e+06=0.006011~c(0.95)[0.00586, 0.006164], two.sided 0.00685; p<1e-05)."
+    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.00685; p<1e-05)."
 
 Again, the Fisher test is not in the confidence interval of empirical estimates of the differences in rates significance.
 
