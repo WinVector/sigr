@@ -25,7 +25,7 @@ NULL
 # Instead we should run more variations.
 #
 # 1) Write A/B as a short continued fraction. Take the first or second
-#    partial of this (the last one where at least one of the numerator or
+#    convergent of this (the last one where at least one of the numerator or
 #    denominator or small).  A/B ~ x/y so y A ~ x B.
 # 2) Solve (by rounding) for a, b such that y (A + a) = x (B + b)
 #    (easy look at floor(y A / ( x B)) and ceiling(y A / (x B))
