@@ -84,7 +84,8 @@ scaled_binomial_difference_table <- function(nA, multA,
 }
 
 
-calc_probs <- function(nA, multA,
+calc_probs <- function(d,
+                       nA, multA,
                        nB, multB,
                        test_rate_difference) {
   if(!is.pos_wholenumber(nA)) {

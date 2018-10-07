@@ -4,7 +4,7 @@
 \alias{Bernoulli_diff_stat}
 \title{Compute the distribution of differences of replacement samples of two Binomial or Bernoulli experiments.}
 \usage{
-Bernoulli_diff_stat(kA, nA, kB, nB, test_rate_difference)
+Bernoulli_diff_stat(kA, nA, kB, nB, test_rate_difference, common_rate)
 }
 \arguments{
 \item{kA}{number of A successes observed.}
@@ -16,6 +16,8 @@ Bernoulli_diff_stat(kA, nA, kB, nB, test_rate_difference)
 \item{nB}{number of B experiments.}
 
 \item{test_rate_difference}{numeric, difference in rate of A-B to test.  Note: it is best to specify this prior to looking at the data.}
+
+\item{common_rate}{rate numeric, assumed null-rate.}
 }
 \value{
 Bernoulli difference test statistic.

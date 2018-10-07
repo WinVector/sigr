@@ -1,4 +1,8 @@
 
+# sigr 1.0.3 2018-10-07
+
+ * Polish Binomial work a bit.
+
 # sigr 1.0.2 2018-10-04
 
  * Fix end conditons of differnce of binomials.

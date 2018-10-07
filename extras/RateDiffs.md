@@ -13,8 +13,8 @@ Suppose our data comes from collecting outcomes from two processes: A and B, and
 ``` r
 # build example data
 set.seed(2018)
-A <- rep(0, 2000)
-A[sample.int(length(A), 823)] <- 1
+A <- rep(0, 500)
+A[sample.int(length(A), 217)] <- 1
 B <- rep(0, 100)
 B[sample.int(length(B), 55)] <- 1
 ```
@@ -24,13 +24,13 @@ B[sample.int(length(B), 55)] <- 1
 (kA <- sum(A))
 ```
 
-    ## [1] 823
+    ## [1] 217
 
 ``` r
 (nA <- length(A))
 ```
 
-    ## [1] 2000
+    ## [1] 500
 
 ``` r
 (kB <- sum(B))
@@ -48,7 +48,7 @@ B[sample.int(length(B), 55)] <- 1
 (abs_rate_difference <- abs(nB*kA - nA*kB)/(nA*nB))
 ```
 
-    ## [1] 0.1385
+    ## [1] 0.116
 
 ``` r
 df <- data.frame(
@@ -60,9 +60,9 @@ table(df)
 ```
 
     ##        treatment
-    ## outcome    A    B
-    ##       0 1177   45
-    ##       1  823   55
+    ## outcome   A   B
+    ##       0 283  45
+    ##       1 217  55
 
 A natural question is: how likely is such a large difference of success rates assuming a null-hypothesis that both processes are in fact the same and generating 1's at the common observed rate? This is a classic frequentist significance question.
 
@@ -87,7 +87,7 @@ s <- Bernoulli_diff_stat(kA, nA, kB, nB)
 print(s)
 ```
 
-    ## [1] "Bernoulli difference test: (A=823/2000=0.4115, B=55/100=0.55, post 0.1385 two sided; p=0.006062)."
+    ## [1] "Bernoulli difference test: (A=217/500=0.434, B=55/100=0.55, =0.4533, post 0.116 two sided; p=0.03479)."
 
 The above is deliberately concise. It assumes we (and our partners) know exactly the test we want and quickly applies and formats (without explanation). We emphasize critical thought and explanation are critical in statistical testing- they are just not part of the test. We also say a longer test procedure (say 5, 10, or 20 lines of code) steals attention from thinking *about* the experiment. What we suggest is having concise and correct testing code ready, and leaving more time for considering (and confirming) we have in fact applied an appropriate test.
 
@@ -97,31 +97,33 @@ In addition to a formatted presentation the `Bernoulli_diff_stat()` returns a nu
 s$probi                # assumed common rate
 ```
 
-    ## [1] 0.4180952
+    ## [1] 0.4533333
 
 ``` r
 s$test_rate_difference # difference in rates we are testing for
 ```
 
-    ## [1] 0.1385
+    ## [1] 0.116
 
 ``` r
 s$pValue               # estimated p-value/significance
 ```
 
-    ## [1] 0.006062159
+    ## [1] 0.034794
 
-The small p-value indicates that a difference of this magnitude (0.1385) is unlikely under the null-assumption that both processes were in fact identical with a common success-rate (rate of `1`'s in each output) of 0.418095.
+The small p-value indicates that a difference of this magnitude (0.116) is unlikely under the null-assumption that both processes were in fact identical with a common success-rate (rate of `1`'s in each output) of 0.453333.
 
 `Bernoulli_diff_stat()` is a deterministic and exact statistical test when `max(nA, nB) %% min(nA, nB) == 0`. It has minimal assumptions/approximations as it is directly testing a difference in scaled Binomial/Bernoulli processes. When `max(nA, nB) %% min(nA, nB) != 0` the test gives a range of answers:
 
 ``` r
-Bernoulli_diff_stat(824, 2001, 55, 100)
+Bernoulli_diff_stat(kA, nA + 1, kB, nB, 
+                    test_rate_difference = abs_rate_difference,
+                    common_rate = (kA+kB)/(nA+nB))
 ```
 
-    ## [1] "Bernoulli difference test: (A~824/2001=0.4118, B=55/100=0.55, post 0.1382 two sided; pL=0.005978, pH=0.006067)."
+    ## [1] "Bernoulli difference test: (A=217/501=0.4331, B=55/100=0.55, ~0.4533, prior 0.116 two sided; pL=0.03104, pH=0.03479)."
 
-The range is formed by alternately truncating and extending the longer process to get the required divisibility property. The reported range is tight when `max(nA, nB) / min(nA, nB)` is large. Being a statistic of discrete summaries `Bernoulli_diff_stat()` is sensitive to end-effects (the p-value moves up and down as exact counts move in and out of rate-defined intervals).
+The range is formed by alternately truncating and extending the longer process to get the required divisibility property. The reported range is tight when `max(nA, nB) / min(nA, nB)` is large. Being a statistic of discrete summaries `Bernoulli_diff_stat()` is sensitive to end-effects (the p-value moves up and down as exact counts move in and out of rate-defined intervals). We have some more sophisticated padding algorithms (based on continued fractions) in the works.
 
 Simulation estimate
 -------------------
@@ -132,7 +134,7 @@ One could try to estimate the significance in difference in rates directly throu
 set.seed(2018)
 
 n_runs <- 100
-run_size <- 10000 
+run_size <- 100000
 mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)
@@ -168,15 +170,15 @@ n <- n_runs*run_size
 print(k/n) # empiricl estimate of p-value/
 ```
 
-    ## [1] 0.00597
+    ## [1] 0.0347565
 
-We can, with a quick appeal to another canned test (`wrapBinomTestS()`), check if our original theoretical p-value (`s$pValue =` 0.00606216) is compatible with the empirical estimate of the same.
+We can, with a quick appeal to another canned test (`wrapBinomTestS()`), check if our original theoretical p-value (`s$pValue =` 0.034794) is compatible with the empirical estimate of the same.
 
 ``` r
 wrapBinomTestS(k, n, p = s$pValue)
 ```
 
-    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.006062; p=n.s.)."
+    ## [1] "Exact binomial test: (347565/1e+07=0.03476~c(0.95)[0.03464, 0.03487], two.sided 0.03479; p=n.s.)."
 
 The "`p=n.s.`" means the `Bernoulli_diff_stat()` value is close the the empirical value (as we want).
 
@@ -185,7 +187,7 @@ Other estimates
 
 A common (and useful) way to estimate the difference in Bernoulli/Binomial rates is to leave out some domain knowledge to convert to a nearly equivalent problem that itself has a ready-made test. Two common such relaxations are forgetting that the process is Bernoulli/Binomial 0/1 and using general t-test to compare means, or switching from a test of differences of rates and appealing to a Fischer Test of independence between process label and outcome marks (a related but different question).
 
-### t-test estimate
+### Differenc in means estimate
 
 If we ignore the fact that the Binomial process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
@@ -194,7 +196,7 @@ ttest <- wrapTTest(A, B)
 print(ttest)
 ```
 
-    ## [1] "Welch Two Sample t-test, two.sided: (t=-2.705, df=108.8, p=0.007925)."
+    ## [1] "Welch Two Sample t-test, two.sided: (t=-2.121, df=140.7, p=0.03571)."
 
 Notice the t-test is not in the confidence interval of empirical estimates of the differences in rates significance.
 
@@ -202,51 +204,52 @@ Notice the t-test is not in the confidence interval of empirical estimates of th
 wrapBinomTestS(k, n, p = ttest$tt$p.value)
 ```
 
-    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.007925; p<1e-05)."
+    ## [1] "Exact binomial test: (347565/1e+07=0.03476~c(0.95)[0.03464, 0.03487], two.sided 0.03571; p<1e-05)."
 
 One could work further on the above by adding "continuity corrections" (which is really just a vainglorious way of say "shifting boundaries by 0.5") and so on, but we feel running an exact test that matches the problem's actual generative model (and actual distribution) is preferred.
 
-### Difference in proportions z-test.
+### Difference in proportions direct z-test/t-test estimate
 
-From <https://www.kean.edu/~fosborne/bstat/05d2pops.html> (description confuses estimates and test probs a bit, following calculation example not earlier note).
+From <https://www.kean.edu/~fosborne/bstat/05d2pops.html>. This estimate uses the theoretical variance of the null-hypothesis, and is very good.
 
 ``` r
 n1 <- length(A)
 n2 <- length(B)
 p1hat <- sum(A)/n1
 p2hat <- sum(B)/n2
+p1 <- p2 <- (sum(A)+sum(B))/(n1+n2)
 
-z <- (abs(p1hat - p2hat) - 0)/sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+z <- (abs((p1hat - p2hat) - (p1-p2)))/sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)
 print(z)
 ```
 
-    ## [1] 2.718256
+    ## [1] 2.127146
 
 ``` r
 zest <- pnorm(-z, lower.tail = TRUE) + pnorm(z, lower.tail = FALSE)
 print(zest)
 ```
 
-    ## [1] 0.006562697
+    ## [1] 0.03340798
 
 ``` r
 wrapBinomTestS(k, n, p = zest)
 ```
 
-    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.006563; p<1e-05)."
+    ## [1] "Exact binomial test: (347565/1e+07=0.03476~c(0.95)[0.03464, 0.03487], two.sided 0.03341; p<1e-05)."
 
 ``` r
 test <- pt(-z, lower.tail = TRUE, df = n1 + n2 - 1) + pt(z, lower.tail = FALSE, df = n1 + n2 - 1)
 print(test)
 ```
 
-    ## [1] 0.006616671
+    ## [1] 0.03381594
 
 ``` r
-wrapBinomTestS(k, n, p = zest)
+wrapBinomTestS(k, n, p = test)
 ```
 
-    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.006563; p<1e-05)."
+    ## [1] "Exact binomial test: (347565/1e+07=0.03476~c(0.95)[0.03464, 0.03487], two.sided 0.03382; p<1e-05)."
 
 ### Fisher test estimate
 
@@ -257,13 +260,13 @@ tab_test <- wrapFisherTest(df, "treatment", "outcome")
 print(tab_test)
 ```
 
-    ## [1] "Fisher's Exact Test for Count Data: (odds.ratio=1.747, p=0.00685)."
+    ## [1] "Fisher's Exact Test for Count Data: (odds.ratio=1.593, p=0.03675)."
 
 ``` r
 wrapBinomTestS(k, n, p = tab_test$ft$p.value)
 ```
 
-    ## [1] "Exact binomial test: (5970/1e+06=0.00597~c(0.95)[0.00582, 0.006123], two.sided 0.00685; p<1e-05)."
+    ## [1] "Exact binomial test: (347565/1e+07=0.03476~c(0.95)[0.03464, 0.03487], two.sided 0.03675; p<1e-05)."
 
 Again, the Fisher test is not in the confidence interval of empirical estimates of the differences in rates significance.
 

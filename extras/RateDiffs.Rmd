@@ -15,8 +15,8 @@ Suppose our data comes from collecting outcomes from two processes: A and B, and
 ```{r example}
 # build example data
 set.seed(2018)
-A <- rep(0, 2000)
-A[sample.int(length(A), 823)] <- 1
+A <- rep(0, 500)
+A[sample.int(length(A), 217)] <- 1
 B <- rep(0, 100)
 B[sample.int(length(B), 55)] <- 1
 ```
@@ -76,10 +76,12 @@ The small p-value indicates that a difference of this magnitude (`r sprintf("%g"
 `Bernoulli_diff_stat()` is a deterministic and exact statistical test when ` max(nA, nB) %% min(nA, nB) == 0`.  It has minimal assumptions/approximations as it is directly testing a difference in scaled Binomial/Bernoulli processes.  When ` max(nA, nB) %% min(nA, nB) != 0` the test gives a range of answers:
 
 ```{r b_non_div}
-Bernoulli_diff_stat(824, 2001, 55, 100)
+Bernoulli_diff_stat(kA, nA + 1, kB, nB, 
+                    test_rate_difference = abs_rate_difference,
+                    common_rate = (kA+kB)/(nA+nB))
 ```
 
-The range is formed by alternately truncating and extending the longer process to get the required divisibility property. The reported range is tight when ` max(nA, nB) / min(nA, nB)` is large.  Being a statistic of discrete summaries `Bernoulli_diff_stat()` is sensitive to end-effects (the p-value moves up and down as exact counts move in and out of rate-defined intervals).
+The range is formed by alternately truncating and extending the longer process to get the required divisibility property. The reported range is tight when ` max(nA, nB) / min(nA, nB)` is large.  Being a statistic of discrete summaries `Bernoulli_diff_stat()` is sensitive to end-effects (the p-value moves up and down as exact counts move in and out of rate-defined intervals).  We have some more sophisticated padding algorithms (based on continued fractions) in the works.
 
 ## Simulation estimate
 
@@ -89,7 +91,7 @@ One could try to estimate the significance in difference in rates directly throu
 set.seed(2018)
 
 n_runs <- 100
-run_size <- 10000 
+run_size <- 100000
 mk_resample <- function(A, B, run_size) {
   force(A)
   force(B)
@@ -138,7 +140,7 @@ The "`p=n.s.`" means the `Bernoulli_diff_stat()` value is close the the empirica
 A common (and useful) way to estimate the difference in Bernoulli/Binomial rates is to leave out some domain knowledge to convert to a nearly equivalent problem that itself has a ready-made test.  Two common such relaxations are forgetting that the process is Bernoulli/Binomial 0/1 and using general t-test to compare means, or switching from a test of differences of rates and appealing to a Fischer Test of independence between process label and outcome marks (a related but different question).
 
 
-### t-test estimate
+### Differenc in means estimate
 
 If we ignore the fact that the Binomial process generates only 0/1 we can use a classic t-test to estimate the significance of the observed difference.
 
@@ -155,17 +157,18 @@ wrapBinomTestS(k, n, p = ttest$tt$p.value)
 
 One could work further on the above by adding "continuity corrections" (which is really just a vainglorious way of say "shifting boundaries by 0.5") and so on, but we feel running an exact test that matches the problem's actual generative model (and actual distribution) is preferred.
 
-### Difference in proportions z-test.
+### Difference in proportions direct z-test/t-test estimate
 
-From [https://www.kean.edu/~fosborne/bstat/05d2pops.html](https://www.kean.edu/~fosborne/bstat/05d2pops.html) (description confuses estimates and test probs a bit, following calculation example not earlier note).
+From [https://www.kean.edu/~fosborne/bstat/05d2pops.html](https://www.kean.edu/~fosborne/bstat/05d2pops.html).  This estimate uses the theoretical variance of the null-hypothesis, and is very good.
 
 ```{r dz}
 n1 <- length(A)
 n2 <- length(B)
 p1hat <- sum(A)/n1
 p2hat <- sum(B)/n2
+p1 <- p2 <- (sum(A)+sum(B))/(n1+n2)
 
-z <- (abs(p1hat - p2hat) - 0)/sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+z <- (abs((p1hat - p2hat) - (p1-p2)))/sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)
 print(z)
 zest <- pnorm(-z, lower.tail = TRUE) + pnorm(z, lower.tail = FALSE)
 print(zest)
@@ -175,7 +178,7 @@ wrapBinomTestS(k, n, p = zest)
 test <- pt(-z, lower.tail = TRUE, df = n1 + n2 - 1) + pt(z, lower.tail = FALSE, df = n1 + n2 - 1)
 print(test)
 
-wrapBinomTestS(k, n, p = zest)
+wrapBinomTestS(k, n, p = test)
 ```
 
 
