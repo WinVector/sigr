@@ -3,6 +3,38 @@
 NULL
 
 
+# TODO: new padding/shrinking algo for Bernoulli_diff_stat().
+#
+# For experiment sizes, A, B p we are roughly mixing
+# an experiment of size A, rate p scaled by max(1, B/A)
+# with an experiment of size B, rate p scaled by max(1, B/A).
+#
+# So the variance of the rate estimate is going to be
+#
+# max(1, B/A)^2 * p*(1-p) * A / A^2 + max(1, A/B)^2 * p*(1-p) * B / B^2
+# = p*(1-p) * ( max(1, B/A)^2 / A + max(1, A/B)^2 / B )
+#
+# the p*(1-p) term is not varying, with A, B so define
+#
+# f(A, B) := max(1, B/A)^2 / A + max(1, A/B)^2 / B
+#
+# Our current padding scheme when A>B is to run experiments of size
+# ( A + (B - (A %% B)), B ) and
+# ( A - (A %% B), B ).
+#
+# Instead we should run more variations.
+#
+# 1) Write A/B as a short continued fraction. Take the first or second
+#    partial of this (the last one where at least one of the numerator or
+#    denominator or small).  A/B ~ x/y so y A ~ x B.
+# 2) Solve (by rounding) for a, b such that y (A + a) = x (B + b)
+#    (easy look at floor(y A / ( x B)) and ceiling(y A / (x B))
+#     and pick b integral and sign satifying and then a for equality).
+# 3) push best over and best under (according to f()) as the bounding estimates.
+#
+#
+
+
 Bernoulli_diff_dist_impl <- function(nA, nB,
                                      probi, test_rate_difference) {
   calc_probs <- function(nA, nB) {
