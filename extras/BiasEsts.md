@@ -487,8 +487,8 @@ sums <- as.data.frame(lapply(res, mean))
 print(sums)
 ```
 
-    ##      mean      var        sd naive_var naive_sd    adj_sd
-    ## 1 0.86956 0.113288 0.2373933 0.0906304 0.212331 0.3343608
+    ##       mean     var        sd naive_var  naive_sd    adj_sd
+    ## 1 0.869408 0.11357 0.2381174  0.090856 0.2129787 0.3353563
 
 ``` r
 print("sds of aggregates")
@@ -501,8 +501,8 @@ sdss <- as.data.frame(lapply(res, sd))
 print(sdss)
 ```
 
-    ##        mean       var        sd  naive_var naive_sd    adj_sd
-    ## 1 0.1509809 0.1170682 0.2386064 0.09365457 0.213416 0.2400813
+    ##        mean       var        sd  naive_var  naive_sd   adj_sd
+    ## 1 0.1506053 0.1169384 0.2384757 0.09355073 0.2132992 0.240213
 
 ``` r
 print("stddev est from aggregate mean")
@@ -543,22 +543,25 @@ print(p2)
 <img src="BiasEsts_files/figure-markdown_github/run-23.png" width="768" />
 
 ``` r
-cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
+# cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
+#                             nameForNewValueColumn = "sd_estimate",
+#                             columnsToTakeFrom = c("adj_sd", "naive_sd"))
+# rp <- rowrecs_to_blocks(res,
+#                         controlTable = cT)
+rp <- unpivot_to_blocks(res,
+                        nameForNewKeyColumn = "estimation_method",
                         nameForNewValueColumn = "sd_estimate",
                         columnsToTakeFrom = c("adj_sd", "naive_sd"))
-rp <- rowrecs_to_blocks(res, 
-                        controlTable = cT,
-                        checkKeys = FALSE,
-                        use_data_table = FALSE)
 
-ef <- project_nse(rp, sd_estimate = mean(sd_estimate), 
+ef <- project_nse(rp, 
+                  sd_estimate = mean(sd_estimate), 
                   groupby = "estimation_method")
 
 p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_density() + 
+  geom_density(adjust = 0.5) + 
   geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
   geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  xlim(0, 1) +
+  xlim(0, 1) +  
   facet_wrap(~estimation_method, ncol=1) +
   ggtitle("distribution of sd estimates by method",
           subtitle = "average shown in black, original universe sd value in red")
@@ -566,6 +569,22 @@ print(p3)
 ```
 
 <img src="BiasEsts_files/figure-markdown_github/run-24.png" width="768" />
+
+``` r
+p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_histogram(bins = 30) +
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
+  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
+  xlim(-0.1, 1) +  # work around histogram bug
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p4)
+```
+
+    ## Warning: Removed 2 rows containing missing values (geom_bar).
+
+<img src="BiasEsts_files/figure-markdown_github/run-25.png" width="768" />
 
 ``` r
 parallel::stopCluster(cl)

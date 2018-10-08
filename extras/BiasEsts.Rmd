@@ -331,26 +331,39 @@ p2 <- ggplot(data = res, aes(x = adj_sd)) +
           subtitle = "average shown in black, universe value in red")
 print(p2)
 
-cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
+# cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
+#                             nameForNewValueColumn = "sd_estimate",
+#                             columnsToTakeFrom = c("adj_sd", "naive_sd"))
+# rp <- rowrecs_to_blocks(res,
+#                         controlTable = cT)
+rp <- unpivot_to_blocks(res,
+                        nameForNewKeyColumn = "estimation_method",
                         nameForNewValueColumn = "sd_estimate",
                         columnsToTakeFrom = c("adj_sd", "naive_sd"))
-rp <- rowrecs_to_blocks(res, 
-                        controlTable = cT,
-                        checkKeys = FALSE,
-                        use_data_table = FALSE)
 
-ef <- project_nse(rp, sd_estimate = mean(sd_estimate), 
+ef <- project_nse(rp, 
+                  sd_estimate = mean(sd_estimate), 
                   groupby = "estimation_method")
 
 p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_density() + 
+  geom_density(adjust = 0.5) + 
   geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
   geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  xlim(0, 1) +
+  xlim(0, 1) +  
   facet_wrap(~estimation_method, ncol=1) +
   ggtitle("distribution of sd estimates by method",
           subtitle = "average shown in black, original universe sd value in red")
 print(p3)
+
+p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_histogram(bins = 30) +
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
+  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
+  xlim(-0.1, 1) +  # work around histogram bug
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p4)
 
 parallel::stopCluster(cl)
 
