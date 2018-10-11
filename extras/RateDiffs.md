@@ -78,7 +78,7 @@ In the case of comparing rates of two Binomial experiments (the correct formulat
 The `sigr::Bernoulli_diff_stat()` solution
 ------------------------------------------
 
-With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer the question directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html). Frequentest summaries are supposed to be easy and quick to derive, and here is the difference in rates of Binomial processes as a one-liner.
+With the [`sigr`](https://CRAN.R-project.org/package=sigr) [`R`](https://www.r-project.org) package we can answer the question directly with the difference in [Bernoulli processes difference statistic](https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html). Frequentist summaries are supposed to be easy and quick to derive, and here is the difference in rates of Binomial processes as a one-liner.
 
 ``` r
 library("sigr")
