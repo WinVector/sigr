@@ -1,5 +1,5 @@
 
-# sigr 1.0.3 2018-10-24
+# sigr 1.0.3 2018-11-03
 
  * Polish Binomial work a bit.
 
