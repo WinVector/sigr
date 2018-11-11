@@ -2,7 +2,7 @@ Bias Ests
 ================
 
 ``` r
-library("rqdatatable")
+library("rqdatatable")  # requires version rqdatatable 1.1.2 or newer and rquery 1.2.1 or newer
 ```
 
     ## Loading required package: rquery
@@ -203,13 +203,13 @@ plot_estimates <- function(n, ssoln) {
                                 ssoln(c(rep(1, k), rep(0, n-k)))
                               }, numeric(1))
   adjs$Bessel_scaled <- vapply(0:n,
-                              function(k) {
-                                sd(c(rep(1, k), rep(0, n-k)))
-                              }, numeric(1))
+                               function(k) {
+                                 sd(c(rep(1, k), rep(0, n-k)))
+                               }, numeric(1))
   adjs$naive_sd <- vapply(0:n,
-                              function(k) {
-                                naive_sd_fun(c(rep(1, k), rep(0, n-k)))
-                              }, numeric(1))
+                          function(k) {
+                            naive_sd_fun(c(rep(1, k), rep(0, n-k)))
+                          }, numeric(1))
   adjp <- cdata::unpivot_to_blocks(adjs, 
                                    nameForNewKeyColumn = "estimation_method",
                                    nameForNewValueColumn = "estimate",
@@ -282,10 +282,10 @@ for(n in c(2, 3, 4, 5, 10, 20, 100)) {
 data <- as.data.frame(Titanic)
 
 data <- data %.>% 
-  select_rows_nse(., 
-                  (Class == "Crew") & 
-                    (Sex == "Female") & 
-                    (Age == "Adult")) %.>%
+  select_rows(., 
+              (Class == "Crew") & 
+                (Sex == "Female") & 
+                (Age == "Adult")) %.>%
   orderby(., "Survived")
 
 print(data)
@@ -391,7 +391,7 @@ print(sums)
 ```
 
     ##       mean      var        sd naive_var  naive_sd scale_corrected_sd
-    ## 1 0.869538 0.113579 0.2380452 0.0908632 0.2129141          0.3350997
+    ## 1 0.869324 0.113642 0.2383006 0.0909136 0.2131425          0.3356049
 
 ``` r
 print("sds of aggregates")
@@ -405,7 +405,7 @@ print(sdss)
 ```
 
     ##        mean       var        sd  naive_var  naive_sd scale_corrected_sd
-    ## 1 0.1502621 0.1170335 0.2385667 0.09362683 0.2133805          0.2401262
+    ## 1 0.1506201 0.1169069 0.2384437 0.09352555 0.2132706          0.2402441
 
 ``` r
 print("stddev est from aggregate mean")
@@ -470,9 +470,9 @@ rp <- unpivot_to_blocks(res,
                         nameForNewValueColumn = "sd_estimate",
                         columnsToTakeFrom = c("scale_corrected_sd", "naive_sd", "Bessel_sd"))
 
-ef <- project_nse(rp, 
-                  sd_estimate = mean(sd_estimate), 
-                  groupby = "estimation_method")
+ef <- project(rp, 
+              sd_estimate = mean(sd_estimate), 
+              groupby = "estimation_method")
 
 p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
   geom_density(adjust = 0.5) + 
@@ -533,14 +533,14 @@ print(p4)
 
 ``` r
 rpv <- res %.>% 
-  extend_nse(., Bessel_var := Bessel_sd*Bessel_sd) %.>% 
+  extend(., Bessel_var := Bessel_sd^2) %.>% 
   unpivot_to_blocks(.,
-                        nameForNewKeyColumn = "estimation_method",
-                        nameForNewValueColumn = "var_estimate",
-                        columnsToTakeFrom = c("naive_var", "Bessel_var"))
-efv <- project_nse(rpv, 
-                  var_estimate = mean(var_estimate), 
-                  groupby = "estimation_method")  
+                    nameForNewKeyColumn = "estimation_method",
+                    nameForNewValueColumn = "var_estimate",
+                    columnsToTakeFrom = c("naive_var", "Bessel_var"))
+efv <- project(rpv, 
+               var_estimate = mean(var_estimate), 
+               groupby = "estimation_method")  
 p3v <- ggplot(data = rpv, aes(x = var_estimate)) +
   geom_density(adjust = 0.5) + 
   geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5, size=3) + 

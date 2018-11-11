@@ -4,7 +4,7 @@ output: github_document
 ---
 
 ```{r run, fig.retina=2, fig.width=8, fig.height=6}
-library("rqdatatable")
+library("rqdatatable")  # requires version rqdatatable 1.1.2 or newer and rquery 1.2.1 or newer
 library("wrapr")
 library("cdata")
 library("ggplot2")
@@ -193,13 +193,13 @@ plot_estimates <- function(n, ssoln) {
                                 ssoln(c(rep(1, k), rep(0, n-k)))
                               }, numeric(1))
   adjs$Bessel_scaled <- vapply(0:n,
-                              function(k) {
-                                sd(c(rep(1, k), rep(0, n-k)))
-                              }, numeric(1))
+                               function(k) {
+                                 sd(c(rep(1, k), rep(0, n-k)))
+                               }, numeric(1))
   adjs$naive_sd <- vapply(0:n,
-                              function(k) {
-                                naive_sd_fun(c(rep(1, k), rep(0, n-k)))
-                              }, numeric(1))
+                          function(k) {
+                            naive_sd_fun(c(rep(1, k), rep(0, n-k)))
+                          }, numeric(1))
   adjp <- cdata::unpivot_to_blocks(adjs, 
                                    nameForNewKeyColumn = "estimation_method",
                                    nameForNewValueColumn = "estimate",
@@ -230,10 +230,10 @@ for(n in c(2, 3, 4, 5, 10, 20, 100)) {
 data <- as.data.frame(Titanic)
 
 data <- data %.>% 
-  select_rows_nse(., 
-                  (Class == "Crew") & 
-                    (Sex == "Female") & 
-                    (Age == "Adult")) %.>%
+  select_rows(., 
+              (Class == "Crew") & 
+                (Sex == "Female") & 
+                (Age == "Adult")) %.>%
   orderby(., "Survived")
 
 print(data)
@@ -290,7 +290,7 @@ print(su)
 n <- length(universe)
 Bessel_corrected_var <- (n/(n-1))*su$naive_var
 print(Bessel_corrected_var)
- 
+
 Bessel_corrected_sd <- sqrt(Bessel_corrected_var)
 print(Bessel_corrected_sd)
 
@@ -345,9 +345,9 @@ rp <- unpivot_to_blocks(res,
                         nameForNewValueColumn = "sd_estimate",
                         columnsToTakeFrom = c("scale_corrected_sd", "naive_sd", "Bessel_sd"))
 
-ef <- project_nse(rp, 
-                  sd_estimate = mean(sd_estimate), 
-                  groupby = "estimation_method")
+ef <- project(rp, 
+              sd_estimate = mean(sd_estimate), 
+              groupby = "estimation_method")
 
 p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
   geom_density(adjust = 0.5) + 
@@ -393,14 +393,14 @@ print(p4)
 
 
 rpv <- res %.>% 
-  extend_nse(., Bessel_var := Bessel_sd*Bessel_sd) %.>% 
+  extend(., Bessel_var := Bessel_sd^2) %.>% 
   unpivot_to_blocks(.,
-                        nameForNewKeyColumn = "estimation_method",
-                        nameForNewValueColumn = "var_estimate",
-                        columnsToTakeFrom = c("naive_var", "Bessel_var"))
-efv <- project_nse(rpv, 
-                  var_estimate = mean(var_estimate), 
-                  groupby = "estimation_method")  
+                    nameForNewKeyColumn = "estimation_method",
+                    nameForNewValueColumn = "var_estimate",
+                    columnsToTakeFrom = c("naive_var", "Bessel_var"))
+efv <- project(rpv, 
+               var_estimate = mean(var_estimate), 
+               groupby = "estimation_method")  
 p3v <- ggplot(data = rpv, aes(x = var_estimate)) +
   geom_density(adjust = 0.5) + 
   geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5, size=3) + 
