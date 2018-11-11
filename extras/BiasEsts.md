@@ -306,7 +306,7 @@ print(universe)
 
 ``` r
 summary1 <- function(x, tabu) {
-  adj_sd <- tabu(x)
+  scale_corrected_sd <- tabu(x)
   naive_var <- mean((mean(x)-x)^2)
   sd_est <- sd(x)
   # https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
@@ -316,7 +316,7 @@ summary1 <- function(x, tabu) {
              sd = sd_est,
              naive_var = naive_var,
              naive_sd = sqrt(naive_var),
-             adj_sd = adj_sd)
+             scale_corrected_sd = scale_corrected_sd)
 }
 
 
@@ -358,8 +358,8 @@ print("actual sd (non-sample)")
 print(su)
 ```
 
-    ##        mean       var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812 0.3384957
+    ##        mean       var        sd naive_var  naive_sd scale_corrected_sd
+    ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812          0.3384957
 
 ``` r
 n <- length(universe)
@@ -390,8 +390,8 @@ sums <- as.data.frame(lapply(res, mean))
 print(sums)
 ```
 
-    ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.869692 0.113128 0.2371217 0.0905024 0.2120881 0.3342172
+    ##       mean      var        sd naive_var  naive_sd scale_corrected_sd
+    ## 1 0.869538 0.113579 0.2380452 0.0908632 0.2129141          0.3350997
 
 ``` r
 print("sds of aggregates")
@@ -404,8 +404,8 @@ sdss <- as.data.frame(lapply(res, sd))
 print(sdss)
 ```
 
-    ##        mean       var        sd  naive_var  naive_sd    adj_sd
-    ## 1 0.1510816 0.1169965 0.2385412 0.09359724 0.2133577 0.2401399
+    ##        mean       var        sd  naive_var  naive_sd scale_corrected_sd
+    ## 1 0.1502621 0.1170335 0.2385667 0.09362683 0.2133805          0.2401262
 
 ``` r
 print("stddev est from aggregate mean")
@@ -433,9 +433,9 @@ print(p1)
 <img src="BiasEsts_files/figure-markdown_github/run-22.png" width="768" />
 
 ``` r
-p2 <- ggplot(data = res, aes(x = adj_sd)) +
+p2 <- ggplot(data = res, aes(x = scale_corrected_sd)) +
   geom_density() + 
-  geom_vline(xintercept = sums$adj_sd) +
+  geom_vline(xintercept = sums$scale_corrected_sd) +
   geom_vline(xintercept = su$naive_sd, color = "red") + 
   xlim(0, 1) +
   ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
@@ -462,13 +462,13 @@ print(p2b)
 res$Bessel_sd = res$sd
 # cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
 #                             nameForNewValueColumn = "sd_estimate",
-#                             columnsToTakeFrom = c("adj_sd", "naive_sd"))
+#                             columnsToTakeFrom = c("scale_corrected_sd", "naive_sd"))
 # rp <- rowrecs_to_blocks(res,
 #                         controlTable = cT)
 rp <- unpivot_to_blocks(res,
                         nameForNewKeyColumn = "estimation_method",
                         nameForNewValueColumn = "sd_estimate",
-                        columnsToTakeFrom = c("adj_sd", "naive_sd", "Bessel_sd"))
+                        columnsToTakeFrom = c("scale_corrected_sd", "naive_sd", "Bessel_sd"))
 
 ef <- project_nse(rp, 
                   sd_estimate = mean(sd_estimate), 
@@ -501,6 +501,21 @@ print(p3)
 <img src="BiasEsts_files/figure-markdown_github/run-26.png" width="768" />
 
 ``` r
+rpb <- rp[rp$estimation_method %in% qc(Bessel_sd, naive_sd), , drop = FALSE]
+efb <- ef[ef$estimation_method %in% qc(Bessel_sd, naive_sd), , drop = FALSE]
+p3b <- ggplot(data = rpb, aes(x = sd_estimate)) +
+  geom_density(adjust = 0.5) + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
+  geom_vline(data = efb, aes(xintercept = sd_estimate)) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3b)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-27.png" width="768" />
+
+``` r
 p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
   geom_histogram(bins = 30) +
   geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=3) + 
@@ -514,7 +529,7 @@ print(p4)
 
     ## Warning: Removed 3 rows containing missing values (geom_bar).
 
-<img src="BiasEsts_files/figure-markdown_github/run-27.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-28.png" width="768" />
 
 ``` r
 rpv <- res %.>% 
@@ -536,7 +551,7 @@ p3v <- ggplot(data = rpv, aes(x = var_estimate)) +
 print(p3v)
 ```
 
-<img src="BiasEsts_files/figure-markdown_github/run-28.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-29.png" width="768" />
 
 ``` r
 parallel::stopCluster(cl)
