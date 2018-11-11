@@ -21,7 +21,7 @@ library("glmnet")
     ## Loaded glmnet 2.0-16
 
 ``` r
-set.seed(32535)
+set.seed(2018)
 
 naive_sd_fun <- function(x) {
   sqrt(mean((mean(x)-x)^2))
@@ -216,7 +216,7 @@ plot_estimates <- function(n, ssoln) {
                                    columnsToTakeFrom = qc(joint_scaled, Bessel_scaled,  naive_sd))
   ggplot(data = adjp, mapping = aes(x = k, y = estimate, color = estimation_method, group = estimation_method)) +
     geom_point() +
-    geom_linerange(aes(xmin = k, xmax = k, ymin = 0, ymax = estimate)) +
+    geom_linerange(aes(ymin = 0, ymax = estimate)) +
     scale_color_brewer(palette = "Dark2") + 
     facet_wrap(~estimation_method, ncol=1) +
     ggtitle("standard deviation estimates",
@@ -246,51 +246,37 @@ for(n in c(2, 3, 4, 5, 10, 20, 100)) {
     ## [1] "******"
     ## [1] 2
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-1.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-2.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-1.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-2.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-3.png" width="768" />
 
     ## [1] "******"
     ## [1] 3
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-3.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-4.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-5.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-4.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-5.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-6.png" width="768" />
 
     ## [1] "******"
     ## [1] 4
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-6.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-7.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-8.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-7.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-8.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-9.png" width="768" />
 
     ## [1] "******"
     ## [1] 5
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-9.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-10.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-11.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-10.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-11.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-12.png" width="768" />
 
     ## [1] "******"
     ## [1] 10
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-12.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-13.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-14.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-13.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-14.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-15.png" width="768" />
 
     ## [1] "******"
     ## [1] 20
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-15.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-16.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-17.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-16.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-17.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-18.png" width="768" />
 
     ## [1] "******"
     ## [1] 100
 
-    ## Warning: Ignoring unknown aesthetics: xmin, xmax
-
-<img src="BiasEsts_files/figure-markdown_github/run-18.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-19.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-20.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-21.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-19.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-20.png" width="768" /><img src="BiasEsts_files/figure-markdown_github/run-21.png" width="768" />
 
 ``` r
 data <- as.data.frame(Titanic)
@@ -405,7 +391,7 @@ print(sums)
 ```
 
     ##       mean      var        sd naive_var  naive_sd    adj_sd
-    ## 1 0.868874 0.113879 0.2388145 0.0911032 0.2136022 0.3361551
+    ## 1 0.869692 0.113128 0.2371217 0.0905024 0.2120881 0.3342172
 
 ``` r
 print("sds of aggregates")
@@ -419,7 +405,7 @@ print(sdss)
 ```
 
     ##        mean       var        sd  naive_var  naive_sd    adj_sd
-    ## 1 0.1510927 0.1168957 0.2384265 0.09351658 0.2132552 0.2402615
+    ## 1 0.1510816 0.1169965 0.2385412 0.09359724 0.2133577 0.2401399
 
 ``` r
 print("stddev est from aggregate mean")
@@ -502,11 +488,24 @@ print(p3)
 <img src="BiasEsts_files/figure-markdown_github/run-25.png" width="768" />
 
 ``` r
-p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_histogram(bins = 30) +
+p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_density(adjust = 0.5) + 
   geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
   geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  xlim(-0.1, 1) +  # work around histogram bug
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-26.png" width="768" />
+
+``` r
+p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_histogram(bins = 30) +
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=3) + 
+  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
+  xlim(-0.05, 0.7) +  # work around histogram bug
   facet_wrap(~estimation_method, ncol=1) +
   ggtitle("distribution of sd estimates by method",
           subtitle = "average shown in black, original universe sd value in red")
@@ -515,7 +514,29 @@ print(p4)
 
     ## Warning: Removed 3 rows containing missing values (geom_bar).
 
-<img src="BiasEsts_files/figure-markdown_github/run-26.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-27.png" width="768" />
+
+``` r
+rpv <- res %.>% 
+  extend_nse(., Bessel_var := Bessel_sd*Bessel_sd) %.>% 
+  unpivot_to_blocks(.,
+                        nameForNewKeyColumn = "estimation_method",
+                        nameForNewValueColumn = "var_estimate",
+                        columnsToTakeFrom = c("naive_var", "Bessel_var"))
+efv <- project_nse(rpv, 
+                  var_estimate = mean(var_estimate), 
+                  groupby = "estimation_method")  
+p3v <- ggplot(data = rpv, aes(x = var_estimate)) +
+  geom_density(adjust = 0.5) + 
+  geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5, size=3) + 
+  geom_vline(data = efv, aes(xintercept = var_estimate)) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of variance estimates by method",
+          subtitle = "average shown in black, original universe variance value in red")
+print(p3v)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-28.png" width="768" />
 
 ``` r
 parallel::stopCluster(cl)

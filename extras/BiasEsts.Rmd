@@ -11,7 +11,7 @@ library("ggplot2")
 library("glmnet")
 
 
-set.seed(32535)
+set.seed(2018)
 
 naive_sd_fun <- function(x) {
   sqrt(mean((mean(x)-x)^2))
@@ -206,7 +206,7 @@ plot_estimates <- function(n, ssoln) {
                                    columnsToTakeFrom = qc(joint_scaled, Bessel_scaled,  naive_sd))
   ggplot(data = adjp, mapping = aes(x = k, y = estimate, color = estimation_method, group = estimation_method)) +
     geom_point() +
-    geom_linerange(aes(xmin = k, xmax = k, ymin = 0, ymax = estimate)) +
+    geom_linerange(aes(ymin = 0, ymax = estimate)) +
     scale_color_brewer(palette = "Dark2") + 
     facet_wrap(~estimation_method, ncol=1) +
     ggtitle("standard deviation estimates",
@@ -359,16 +359,42 @@ p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
           subtitle = "average shown in black, original universe sd value in red")
 print(p3)
 
-p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_histogram(bins = 30) +
+p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_density(adjust = 0.5) + 
   geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
   geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  xlim(-0.1, 1) +  # work around histogram bug
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3)
+
+p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
+  geom_histogram(bins = 30) +
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=3) + 
+  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
+  xlim(-0.05, 0.7) +  # work around histogram bug
   facet_wrap(~estimation_method, ncol=1) +
   ggtitle("distribution of sd estimates by method",
           subtitle = "average shown in black, original universe sd value in red")
 print(p4)
 
+rpv <- res %.>% 
+  extend_nse(., Bessel_var := Bessel_sd*Bessel_sd) %.>% 
+  unpivot_to_blocks(.,
+                        nameForNewKeyColumn = "estimation_method",
+                        nameForNewValueColumn = "var_estimate",
+                        columnsToTakeFrom = c("naive_var", "Bessel_var"))
+efv <- project_nse(rpv, 
+                  var_estimate = mean(var_estimate), 
+                  groupby = "estimation_method")  
+p3v <- ggplot(data = rpv, aes(x = var_estimate)) +
+  geom_density(adjust = 0.5) + 
+  geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5, size=3) + 
+  geom_vline(data = efv, aes(xintercept = var_estimate)) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of variance estimates by method",
+          subtitle = "average shown in black, original universe variance value in red")
+print(p3v)
 
 
 parallel::stopCluster(cl)
