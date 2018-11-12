@@ -349,6 +349,8 @@ print("universe")
 ``` r
 tabu <- solve_for_scaling_table(length(universe), naive_sd_fun, intercept = intercept)
 su <- summary1(universe, tabu)
+n <- length(universe)
+
 print("actual sd (non-sample)")
 ```
 
@@ -362,8 +364,7 @@ print(su)
     ## 1 0.8695652 0.1185771 0.3443502 0.1134216 0.3367812          0.3384957
 
 ``` r
-n <- length(universe)
-Bessel_corrected_var <- (n/(n-1))*su$naive_var
+Bessel_corrected_var <- (n/(n-1))*su$naive_var 
 print(Bessel_corrected_var)
 ```
 
@@ -379,159 +380,13 @@ print(Bessel_corrected_sd)
 ``` r
 res <- parallel::parLapply(cl, 1:100000, f)
 res <- do.call(rbind, res)
-
-print("aggregates")
-```
-
-    ## [1] "aggregates"
-
-``` r
 sums <- as.data.frame(lapply(res, mean))
-print(sums)
-```
 
-    ##       mean      var        sd naive_var  naive_sd scale_corrected_sd
-    ## 1 0.869324 0.113642 0.2383006 0.0909136 0.2131425          0.3356049
 
-``` r
-print("sds of aggregates")
-```
 
-    ## [1] "sds of aggregates"
+res$Bessel_sd <- res$sd
+res$Bessel_var <- res$var
 
-``` r
-sdss <- as.data.frame(lapply(res, sd))
-print(sdss)
-```
-
-    ##        mean       var        sd  naive_var  naive_sd scale_corrected_sd
-    ## 1 0.1506201 0.1169069 0.2384437 0.09352555 0.2132706          0.2402441
-
-``` r
-print("stddev est from aggregate mean")
-```
-
-    ## [1] "stddev est from aggregate mean"
-
-``` r
-print(sqrt(su$mean*(1-su$mean)))
-```
-
-    ## [1] 0.3367812
-
-``` r
-p1 <- ggplot(data = res, aes(x = naive_sd)) +
-  geom_density() + 
-  geom_vline(xintercept = sums$naive_sd) +
-  geom_vline(xintercept = su$naive_sd, color = "red") + 
-  xlim(0, 1) +
-  ggtitle(paste0("distribution of naive sd"),
-          subtitle = "average shown in black, universe value in red")
-print(p1)
-```
-
-<img src="BiasEsts_files/figure-markdown_github/run-22.png" width="768" />
-
-``` r
-p2 <- ggplot(data = res, aes(x = scale_corrected_sd)) +
-  geom_density() + 
-  geom_vline(xintercept = sums$scale_corrected_sd) +
-  geom_vline(xintercept = su$naive_sd, color = "red") + 
-  xlim(0, 1) +
-  ggtitle(paste0("distribution of ", ifelse(intercept, "affine", "scale")," adjusted sd"),
-          subtitle = "average shown in black, universe value in red")
-print(p2)
-```
-
-<img src="BiasEsts_files/figure-markdown_github/run-23.png" width="768" />
-
-``` r
-p2b <- ggplot(data = res, aes(x = sd)) +
-  geom_density() + 
-  geom_vline(xintercept = sums$sd) +
-  geom_vline(xintercept = su$naive_sd, color = "red") + 
-  xlim(0, 1) +
-  ggtitle(paste0("distribution of Bessel corrected sd"),
-          subtitle = "average shown in black, universe value in red")
-print(p2b)
-```
-
-<img src="BiasEsts_files/figure-markdown_github/run-24.png" width="768" />
-
-``` r
-res$Bessel_sd = res$sd
-# cT <- build_unpivot_control(nameForNewKeyColumn = "estimation_method",
-#                             nameForNewValueColumn = "sd_estimate",
-#                             columnsToTakeFrom = c("scale_corrected_sd", "naive_sd"))
-# rp <- rowrecs_to_blocks(res,
-#                         controlTable = cT)
-rp <- unpivot_to_blocks(res,
-                        nameForNewKeyColumn = "estimation_method",
-                        nameForNewValueColumn = "sd_estimate",
-                        columnsToTakeFrom = c("scale_corrected_sd", "naive_sd", "Bessel_sd"))
-
-ef <- project(rp, 
-              sd_estimate = mean(sd_estimate), 
-              groupby = "estimation_method")
-
-p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_density(adjust = 0.5) + 
-  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
-  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  xlim(0, 1) +  
-  facet_wrap(~estimation_method, ncol=1) +
-  ggtitle("distribution of sd estimates by method",
-          subtitle = "average shown in black, original universe sd value in red")
-print(p3)
-```
-
-<img src="BiasEsts_files/figure-markdown_github/run-25.png" width="768" />
-
-``` r
-p3 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_density(adjust = 0.5) + 
-  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
-  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  facet_wrap(~estimation_method, ncol=1) +
-  ggtitle("distribution of sd estimates by method",
-          subtitle = "average shown in black, original universe sd value in red")
-print(p3)
-```
-
-<img src="BiasEsts_files/figure-markdown_github/run-26.png" width="768" />
-
-``` r
-rpb <- rp[rp$estimation_method %in% qc(Bessel_sd, naive_sd), , drop = FALSE]
-efb <- ef[ef$estimation_method %in% qc(Bessel_sd, naive_sd), , drop = FALSE]
-p3b <- ggplot(data = rpb, aes(x = sd_estimate)) +
-  geom_density(adjust = 0.5) + 
-  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2) + 
-  geom_vline(data = efb, aes(xintercept = sd_estimate)) +
-  facet_wrap(~estimation_method, ncol=1) +
-  ggtitle("distribution of sd estimates by method",
-          subtitle = "average shown in black, original universe sd value in red")
-print(p3b)
-```
-
-<img src="BiasEsts_files/figure-markdown_github/run-27.png" width="768" />
-
-``` r
-p4 <- ggplot(data = rp, aes(x = sd_estimate)) +
-  geom_histogram(bins = 30) +
-  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=3) + 
-  geom_vline(data = ef, aes(xintercept = sd_estimate)) +
-  xlim(-0.05, 0.7) +  # work around histogram bug
-  facet_wrap(~estimation_method, ncol=1) +
-  ggtitle("distribution of sd estimates by method",
-          subtitle = "average shown in black, original universe sd value in red")
-print(p4)
-```
-
-    ## Warning: Removed 3 rows containing missing values (geom_bar).
-
-<img src="BiasEsts_files/figure-markdown_github/run-28.png" width="768" />
-
-``` r
 rpv <- res %.>% 
   extend(., Bessel_var := Bessel_sd^2) %.>% 
   unpivot_to_blocks(.,
@@ -541,17 +396,93 @@ rpv <- res %.>%
 efv <- project(rpv, 
                var_estimate = mean(var_estimate), 
                groupby = "estimation_method")  
+
+rpv %.>%
+  project(., variance_of_estimate = var(var_estimate),
+          groupby = "estimation_method")
+```
+
+    ##    estimation_method variance_of_estimate
+    ## 1:         naive_var          0.008772391
+    ## 2:        Bessel_var          0.013706861
+
+``` r
 p3v <- ggplot(data = rpv, aes(x = var_estimate)) +
-  geom_density(adjust = 0.5) + 
-  geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5, size=3) + 
-  geom_vline(data = efv, aes(xintercept = var_estimate)) +
+  geom_histogram(bins = 30)  + 
+  geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5, size=3, linetype =3) + 
+  geom_vline(xintercept = su$naive_var, color = "red", alpha = 0.5) + 
+  geom_vline(data = efv, aes(xintercept = var_estimate), linetype=2) +
   facet_wrap(~estimation_method, ncol=1) +
   ggtitle("distribution of variance estimates by method",
           subtitle = "average shown in black, original universe variance value in red")
 print(p3v)
 ```
 
-<img src="BiasEsts_files/figure-markdown_github/run-29.png" width="768" />
+<img src="BiasEsts_files/figure-markdown_github/run-22.png" width="768" />
+
+``` r
+rp <- unpivot_to_blocks(res,
+                        nameForNewKeyColumn = "estimation_method",
+                        nameForNewValueColumn = "sd_estimate",
+                        columnsToTakeFrom = c(
+                          "scale_corrected_sd", "naive_sd", "Bessel_sd"))
+
+ef <- project(rp, 
+              sd_estimate = mean(sd_estimate), 
+              groupby = "estimation_method")
+
+rp %.>%
+  project(., variance_of_estimate = var(sd_estimate),
+          groupby = "estimation_method")
+```
+
+    ##     estimation_method variance_of_estimate
+    ## 1: scale_corrected_sd           0.05763954
+    ## 2:           naive_sd           0.04554781
+    ## 3:          Bessel_sd           0.05693477
+
+``` r
+rpb <- rp[rp$estimation_method %in% qc(Bessel_sd, naive_sd), , drop = FALSE]
+efb <- ef[ef$estimation_method %in% qc(Bessel_sd, naive_sd), , drop = FALSE]
+p3b <- ggplot(data = rpb, aes(x = sd_estimate)) +
+  geom_histogram(bins = 30)  + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2, linetype =3) + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5) + 
+  geom_vline(data = efb, aes(xintercept = sd_estimate), linetype=2) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3b)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-23.png" width="768" />
+
+``` r
+rpa <- rp[rp$estimation_method %in% qc(Bessel_sd, naive_sd, scale_corrected_sd), , drop = FALSE]
+efa <- ef[ef$estimation_method %in% qc(Bessel_sd, naive_sd, scale_corrected_sd), , drop = FALSE]
+p3 <- ggplot(data = rpa, aes(x = sd_estimate)) +
+  geom_histogram(bins = 30)  + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5, size=2, linetype =3) + 
+  geom_vline(xintercept = su$naive_sd, color = "red", alpha = 0.5) + 
+  geom_vline(data = efa, aes(xintercept = sd_estimate), linetype=2) +
+  facet_wrap(~estimation_method, ncol=1) +
+  ggtitle("distribution of sd estimates by method",
+          subtitle = "average shown in black, original universe sd value in red")
+print(p3)
+```
+
+<img src="BiasEsts_files/figure-markdown_github/run-24.png" width="768" />
+
+``` r
+rp %.>%
+  project(., variance_of_estimate = var(sd_estimate),
+          groupby = "estimation_method")
+```
+
+    ##     estimation_method variance_of_estimate
+    ## 1: scale_corrected_sd           0.05763954
+    ## 2:           naive_sd           0.04554781
+    ## 3:          Bessel_sd           0.05693477
 
 ``` r
 parallel::stopCluster(cl)
