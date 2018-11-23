@@ -18,7 +18,7 @@ Description: Succinctly and correctly format statistical summaries of
     includes empirical tests, such as bootstrap estimates.
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Depends:
   R (>= 3.2.1)
 Imports:
