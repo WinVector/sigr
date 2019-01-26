@@ -229,7 +229,7 @@ wrapBinomTest.logical <- function(x,
 #'
 #' @export
 wrapBinomTest.numeric <- function(x,
-                                  SuccessValue,
+                                  SuccessValue = TRUE,
                                   ...,
                                   p = NA,
                                   alternative = c("two.sided", "less", "greater"),
@@ -272,7 +272,7 @@ wrapBinomTest.numeric <- function(x,
 #' @export
 wrapBinomTest.data.frame <- function(x,
                                      ColumnName,
-                                     SuccessValue,
+                                     SuccessValue = TRUE,
                                      ...,
                                      p = NA,
                                      alternative = c("two.sided", "less", "greater"),

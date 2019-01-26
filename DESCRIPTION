@@ -1,8 +1,8 @@
 Package: sigr
 Type: Package
 Title: Succinct and Correct Statistical Summaries for Reports
-Version: 1.0.3
-Date: 2018-11-03
+Version: 1.0.4
+Date: 2019-01-26
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -18,11 +18,11 @@ Description: Succinctly and correctly format statistical summaries of
     includes empirical tests, such as bootstrap estimates.
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Depends:
   R (>= 3.2.1)
 Imports:
-    wrapr (>= 1.6.3),
+    wrapr (>= 1.8.2),
     stats
 Suggests: 
     pwr,

@@ -5,8 +5,8 @@
 \title{Format ChiSqTest from data.}
 \usage{
 \method{wrapChiSqTest}{data.frame}(x, predictionColumnName, yColumnName,
-  nParameters = 1, meany = mean(x[[yColumnName]]), ...,
-  na.rm = FALSE)
+  ..., yTarget = TRUE, nParameters = 1, meany = mean(x[[yColumnName]]
+  == yTarget), na.rm = FALSE)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}
@@ -15,11 +15,13 @@
 
 \item{yColumnName}{character name of column containing dependent variable}
 
+\item{...}{extra arguments (not used)}
+
+\item{yTarget}{y value to consider positive}
+
 \item{nParameters}{number of variables in model}
 
 \item{meany}{(optional) mean of y}
-
-\item{...}{extra arguments (not used)}
 
 \item{na.rm}{logical, if TRUE remove NA values}
 }

@@ -4,7 +4,7 @@
 \alias{permTestAUC}
 \title{Perform AUC permutation test.}
 \usage{
-permTestAUC(d, modelName, yName, yTarget, ..., na.rm = FALSE,
+permTestAUC(d, modelName, yName, yTarget = TRUE, ..., na.rm = FALSE,
   returnScores = FALSE, nrep = 100, parallelCluster = NULL)
 }
 \arguments{

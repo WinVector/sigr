@@ -156,8 +156,10 @@ calcSSE <- function(pred, y,
 #'  \url{http://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
 #'
 #' @param modelPredictions numeric predictions (not empty)
-#' @param yValues logical truth (not empty, same length as model predictions)
-#' @param na.rm logical, if TRUE remove NA values
+#' @param yValues truth values (not empty, same length as model predictions)
+#' @param ... force later arguments to bind by name.
+#' @param na.rm logical, if TRUE remove NA values.
+#' @param yTarget value considered to be positive.
 #' @return area under curve
 #'
 #' @examples
@@ -166,10 +168,14 @@ calcSSE <- function(pred, y,
 #'
 #' @export
 calcAUC <- function(modelPredictions, yValues,
-                    na.rm= FALSE) {
+                    ...,
+                    na.rm = FALSE,
+                    yTarget = TRUE) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::calcAUC")
   if(!is.numeric(modelPredictions)) {
     stop("sigr::calcAUC modelPredictions must be numeric")
   }
+  yValues <- yValues==yTarget
   if(!is.logical(yValues)) {
     stop("sigr::calcAUC yValues must be logical")
   }

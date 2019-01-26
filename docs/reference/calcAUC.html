@@ -62,7 +62,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.4</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>calcAUC</span>(<span class='no'>modelPredictions</span>, <span class='no'>yValues</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>calcAUC</span>(<span class='no'>modelPredictions</span>, <span class='no'>yValues</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>yTarget</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,11 +136,19 @@
     </tr>
     <tr>
       <th>yValues</th>
-      <td><p>logical truth (not empty, same length as model predictions)</p></td>
+      <td><p>truth values (not empty, same length as model predictions)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>force later arguments to bind by name.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>logical, if TRUE remove NA values</p></td>
+      <td><p>logical, if TRUE remove NA values.</p></td>
+    </tr>
+    <tr>
+      <th>yTarget</th>
+      <td><p>value considered to be positive.</p></td>
     </tr>
     </table>
     

@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.4</span>
       </span>
     </div>
 
@@ -125,8 +125,8 @@
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
 <span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='no'>x</span>, <span class='no'>predictionColumnName</span>, <span class='no'>yColumnName</span>,
-  <span class='kw'>nParameters</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>meany</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>x</span><span class='kw'>[[</span><span class='no'>yColumnName</span>]]), <span class='no'>...</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='no'>...</span>, <span class='kw'>yTarget</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nParameters</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>meany</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>x</span><span class='kw'>[[</span><span class='no'>yColumnName</span>]]
+  <span class='kw'>==</span> <span class='no'>yTarget</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,16 +144,20 @@
       <td><p>character name of column containing dependent variable</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>extra arguments (not used)</p></td>
+    </tr>
+    <tr>
+      <th>yTarget</th>
+      <td><p>y value to consider positive</p></td>
+    </tr>
+    <tr>
       <th>nParameters</th>
       <td><p>number of variables in model</p></td>
     </tr>
     <tr>
       <th>meany</th>
       <td><p>(optional) mean of y</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>extra arguments (not used)</p></td>
     </tr>
     <tr>
       <th>na.rm</th>

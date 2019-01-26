@@ -180,10 +180,11 @@ wrapChiSqTest.summary.glm <- function(x,
 #'
 #' @param x data frame containing columns to compare
 #' @param predictionColumnName character name of prediction column
-#' @param yColumnName character name of column containing dependent variable
-#' @param nParameters number of variables in model
 #' @param meany (optional) mean of y
 #' @param ... extra arguments (not used)
+#' @param yTarget y value to consider positive
+#' @param yColumnName character name of column containing dependent variable
+#' @param nParameters number of variables in model
 #' @param na.rm logical, if TRUE remove NA values
 #' @return wrapped test
 #'
@@ -199,13 +200,14 @@ wrapChiSqTest.summary.glm <- function(x,
 #' @export
 wrapChiSqTest.data.frame <- function(x,
                                      predictionColumnName, yColumnName,
-                                     nParameters= 1,
-                                     meany= mean(x[[yColumnName]]),
                                      ...,
+                                     yTarget = TRUE,
+                                     nParameters= 1,
+                                     meany= mean(x[[yColumnName]]==yTarget),
                                      na.rm= FALSE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapChiSqTest.data.frame")
   d <- x
-  y <- d[[yColumnName]]
+  y <- d[[yColumnName]]==yTarget
   if(!is.logical(y)) {
     stop("wrapr::wrapChiSqTest.data.frame y column must be logical")
   }

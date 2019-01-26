@@ -1,4 +1,8 @@
 
+# sigr 1.0.4 2019-01-26
+
+ * Unify signatures a bit.
+
 # sigr 1.0.3 2018-11-03
 
  * Polish Binomial work a bit.

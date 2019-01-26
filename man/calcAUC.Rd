@@ -4,14 +4,18 @@
 \alias{calcAUC}
 \title{calculate AUC.}
 \usage{
-calcAUC(modelPredictions, yValues, na.rm = FALSE)
+calcAUC(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 }
 \arguments{
 \item{modelPredictions}{numeric predictions (not empty)}
 
-\item{yValues}{logical truth (not empty, same length as model predictions)}
+\item{yValues}{truth values (not empty, same length as model predictions)}
 
-\item{na.rm}{logical, if TRUE remove NA values}
+\item{...}{force later arguments to bind by name.}
+
+\item{na.rm}{logical, if TRUE remove NA values.}
+
+\item{yTarget}{value considered to be positive.}
 }
 \value{
 area under curve
