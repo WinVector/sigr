@@ -55,3 +55,11 @@ library("sigr")
 cat(render(wrapChiSqTest(model),
            pLargeCutoff=1, format='markdown'))
 ```
+
+-----------
+
+To install, from inside `R` please run:
+
+```{r, eval=FALSE}
+install.packages("sigr")
+```

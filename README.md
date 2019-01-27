@@ -71,3 +71,11 @@ cat(render(wrapChiSqTest(model),
 ```
 
 **Chi-Square Test** summary: *pseudo-<i>R<sup>2</sup></i>*=0.02282 (<i>χ<sup>2</sup></i>(1,*N*=8)=0.2531, *p*=0.6149).
+
+------------------------------------------------------------------------
+
+To install, from inside `R` please run:
+
+``` r
+install.packages("sigr")
+```
