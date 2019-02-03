@@ -15,4 +15,6 @@ test_T1 <- function() {
   RUnit::checkTrue(abs(s4$pValue - expect)<1e-6)
   s5 <- sigr::wrapFTest(d,'pred','y')
   RUnit::checkTrue(abs(s5$pValue - expect)<1e-6)
+
+  invisible(NULL)
 }

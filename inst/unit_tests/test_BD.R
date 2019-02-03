@@ -16,4 +16,6 @@ test_BD <- function() {
   RUnit::checkTrue(abs(v1 - v2)<2e-3)
   v2 <- Bernoulli_diff_stat(2000, 4999, 100, 200)$pValue
   RUnit::checkTrue(abs(v1 - v2)<1e-4)
+
+  invisible(NULL)
 }
