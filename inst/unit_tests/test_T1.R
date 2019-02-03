@@ -1,8 +1,5 @@
-library('sigr')
 
-context("Excercise Operations")
-
-test_that("testT1: Test Works As Expected", {
+test_T1 <- function() {
   set.seed(25325)
   s1 <- sigr::getRenderingFormat()
   s2 <- sigr::wrapSignificance(1/300)
@@ -15,7 +12,7 @@ test_that("testT1: Test Works As Expected", {
   expect <- 3.094301e-05
   d$pred <- predict(model,newdata=d)
   s4 <- sigr::wrapFTest(model)
-  testthat::expect(abs(s4$pValue - expect)<1e-6)
+  RUnit::checkTrue(abs(s4$pValue - expect)<1e-6)
   s5 <- sigr::wrapFTest(d,'pred','y')
-  testthat::expect(abs(s5$pValue - expect)<1e-6)
-})
+  RUnit::checkTrue(abs(s5$pValue - expect)<1e-6)
+}
