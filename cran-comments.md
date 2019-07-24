@@ -20,8 +20,9 @@
 ### Windows
 
     devtools::check_win_devel()
-
-
+    * using R Under development (unstable) (2019-07-05 r76784)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    Status: OK
 
 ## Downstream dependencies
 
