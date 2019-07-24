@@ -5,7 +5,12 @@ check\_reverse\_dependencies
 library("prrd")
 td <- tempdir()
 package = "sigr"
+date()
+```
 
+    ## [1] "Wed Jul 24 10:05:10 2019"
+
+``` r
 parallelCluster <- NULL
 # # parallel doesn't work due to https://github.com/r-lib/liteq/issues/22
 #ncores <- parallel::detectCores()
@@ -22,7 +27,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpUsIkdx"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpmW5c9w"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -47,7 +52,7 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## WVPlots_1.0.8 started at 2019-02-19 09:15:06 success at 2019-02-19 09:16:09 (1/0/0)
+    ## WVPlots_1.1.0 started at 2019-07-24 10:05:12 success at 2019-07-24 10:06:27 (1/0/0)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -57,8 +62,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of sigr had 1 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2019-02-19 09:15:06 to 2019-02-19 09:16:09 for 1.05 mins 
-    ## Average of 63 secs relative to 62.925 secs using 1 runners
+    ## Ran from 2019-07-24 10:05:12 to 2019-07-24 10:06:27 for 1.25 mins 
+    ## Average of 75 secs relative to 75.076 secs using 1 runners
     ## 
     ## Failed packages:   
     ## 
