@@ -6,7 +6,7 @@
 
 # sigr
 
-Concise formatting of significances in R (GPL3 license).
+Concise formatting of significances in R.
 
 ![](https://github.com/WinVector/sigr/raw/master/tools/sigr.png)
 
