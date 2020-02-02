@@ -4,8 +4,15 @@
 \alias{render.sigr_pwr_htest}
 \title{Format a pwr-test}
 \usage{
-\method{render}{sigr_pwr_htest}(statistic, ..., format, statDigits = 4,
-  sigDigits = 4, pLargeCutoff = 1, pSmallCutoff = 1e-05)
+\method{render}{sigr_pwr_htest}(
+  statistic,
+  ...,
+  format,
+  statDigits = 4,
+  sigDigits = 4,
+  pLargeCutoff = 1,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{statistic}{wrapped test from pwr package}

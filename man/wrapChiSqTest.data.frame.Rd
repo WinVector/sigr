@@ -4,9 +4,16 @@
 \alias{wrapChiSqTest.data.frame}
 \title{Format ChiSqTest from data.}
 \usage{
-\method{wrapChiSqTest}{data.frame}(x, predictionColumnName, yColumnName,
-  ..., yTarget = TRUE, nParameters = 1, meany = mean(x[[yColumnName]]
-  == yTarget), na.rm = FALSE)
+\method{wrapChiSqTest}{data.frame}(
+  x,
+  predictionColumnName,
+  yColumnName,
+  ...,
+  yTarget = TRUE,
+  nParameters = 1,
+  meany = mean(x[[yColumnName]] == yTarget),
+  na.rm = FALSE
+)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}

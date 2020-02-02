@@ -4,9 +4,15 @@
 \alias{wrapBinomTest.numeric}
 \title{Wrap binom.test (test of Binomial/Bernoulli rate).}
 \usage{
-\method{wrapBinomTest}{numeric}(x, SuccessValue = TRUE, ..., p = NA,
-  alternative = c("two.sided", "less", "greater"), conf.level = 0.95,
-  na.rm = FALSE)
+\method{wrapBinomTest}{numeric}(
+  x,
+  SuccessValue = TRUE,
+  ...,
+  p = NA,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95,
+  na.rm = FALSE
+)
 }
 \arguments{
 \item{x}{numeric, vector of trials.}

@@ -4,8 +4,14 @@
 \alias{TIntervalS}
 \title{Student-T tolerance-style interval around an estimate of a mean from summary.}
 \usage{
-TIntervalS(sample_size, sample_mean, sample_var, ..., nNA = 0,
-  conf.level = 0.95)
+TIntervalS(
+  sample_size,
+  sample_mean,
+  sample_var,
+  ...,
+  nNA = 0,
+  conf.level = 0.95
+)
 }
 \arguments{
 \item{sample_size}{numeric scalar integer, size of sample.}

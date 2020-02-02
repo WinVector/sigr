@@ -4,8 +4,7 @@
 \alias{TInterval.data.frame}
 \title{Student-T tolerance-style interval around an estimate of a mean from a data.frame.}
 \usage{
-\method{TInterval}{data.frame}(x, ColumnName, ..., conf.level = 0.95,
-  na.rm = FALSE)
+\method{TInterval}{data.frame}(x, ColumnName, ..., conf.level = 0.95, na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}

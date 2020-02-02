@@ -1,4 +1,8 @@
 
+# sigr 1.0.7 2019-02-02
+
+ * Badges
+
 # sigr 1.0.6 2019-07-24
 
  * Adjust license.

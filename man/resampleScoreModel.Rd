@@ -4,8 +4,16 @@
 \alias{resampleScoreModel}
 \title{Studentized bootstrap variance estimate for scoreFn(yValues,modelValues).}
 \usage{
-resampleScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
-  returnScores = FALSE, nRep = 100, parallelCluster = NULL)
+resampleScoreModel(
+  modelValues,
+  yValues,
+  scoreFn,
+  ...,
+  na.rm = FALSE,
+  returnScores = FALSE,
+  nRep = 100,
+  parallelCluster = NULL
+)
 }
 \arguments{
 \item{modelValues}{numeric array of predictions (model to test).}

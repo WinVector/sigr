@@ -4,8 +4,7 @@
 \alias{wrapFTest.summary.lm}
 \title{Wrap quality statistic of linear regression summary.}
 \usage{
-\method{wrapFTest}{summary.lm}(x, ..., format = NULL,
-  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{wrapFTest}{summary.lm}(x, ..., format = NULL, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{x}{summary.lm summary(lm()) object}

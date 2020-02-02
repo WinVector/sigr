@@ -4,8 +4,15 @@
 \alias{render}
 \title{Format summary roughly in "APA Style" ( American Psychological Association ).}
 \usage{
-render(statistic, ..., format, statDigits = 4, sigDigits = 4,
-  pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+render(
+  statistic,
+  ...,
+  format,
+  statDigits = 4,
+  sigDigits = 4,
+  pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{statistic}{sigr summary statistic}

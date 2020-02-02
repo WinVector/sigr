@@ -4,8 +4,14 @@
 \alias{wrapBinomTestS}
 \title{Wrap binom.test (test of Binomial/Bernoulli rate) from summary.}
 \usage{
-wrapBinomTestS(x, n, ..., p = NA, alternative = c("two.sided", "less",
-  "greater"), conf.level = 0.95)
+wrapBinomTestS(
+  x,
+  n,
+  ...,
+  p = NA,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95
+)
 }
 \arguments{
 \item{x}{numeric scalar, number of successes.}

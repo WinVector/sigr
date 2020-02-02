@@ -4,9 +4,15 @@
 \alias{render.sigr_Bernoulli_diff_test}
 \title{Format sigr_Bernoulli_diff_test (test of difference of Bernoulli processes).}
 \usage{
-\method{render}{sigr_Bernoulli_diff_test}(statistic, ..., format,
-  statDigits = 4, sigDigits = 4, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+\method{render}{sigr_Bernoulli_diff_test}(
+  statistic,
+  ...,
+  format,
+  statDigits = 4,
+  sigDigits = 4,
+  pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{statistic}{wrapped cor.test.}

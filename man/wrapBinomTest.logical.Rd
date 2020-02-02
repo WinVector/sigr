@@ -4,9 +4,14 @@
 \alias{wrapBinomTest.logical}
 \title{Wrap binom.test (test of Binomial/Bernoulli rate).}
 \usage{
-\method{wrapBinomTest}{logical}(x, ..., p = NA,
-  alternative = c("two.sided", "less", "greater"), conf.level = 0.95,
-  na.rm = FALSE)
+\method{wrapBinomTest}{logical}(
+  x,
+  ...,
+  p = NA,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95,
+  na.rm = FALSE
+)
 }
 \arguments{
 \item{x}{logical, vector of trials.}

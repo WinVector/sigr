@@ -4,8 +4,15 @@
 \alias{render.sigr_binomtest}
 \title{Format binom.test (test of rate of a Binomial/Bernoulli experiment).}
 \usage{
-\method{render}{sigr_binomtest}(statistic, ..., format, statDigits = 4,
-  sigDigits = 4, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{render}{sigr_binomtest}(
+  statistic,
+  ...,
+  format,
+  statDigits = 4,
+  sigDigits = 4,
+  pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{statistic}{wrapped binom.test.}

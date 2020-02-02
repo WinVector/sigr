@@ -4,8 +4,15 @@
 \alias{render.sigr_cortest}
 \title{Format cor.test (test of liner correlation).}
 \usage{
-\method{render}{sigr_cortest}(statistic, ..., format, statDigits = 4,
-  sigDigits = 4, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{render}{sigr_cortest}(
+  statistic,
+  ...,
+  format,
+  statDigits = 4,
+  sigDigits = 4,
+  pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{statistic}{wrapped cor.test.}

@@ -4,8 +4,17 @@
 \alias{permTestAUC}
 \title{Perform AUC permutation test.}
 \usage{
-permTestAUC(d, modelName, yName, yTarget = TRUE, ..., na.rm = FALSE,
-  returnScores = FALSE, nrep = 100, parallelCluster = NULL)
+permTestAUC(
+  d,
+  modelName,
+  yName,
+  yTarget = TRUE,
+  ...,
+  na.rm = FALSE,
+  returnScores = FALSE,
+  nrep = 100,
+  parallelCluster = NULL
+)
 }
 \arguments{
 \item{d}{data.frame}

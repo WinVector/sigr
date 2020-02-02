@@ -4,9 +4,18 @@
 \alias{resampleScoreModelPair}
 \title{Studentized bootstrap test of strength of scoreFn(yValues,model1Values) > scoreFn(yValues,model1Values).}
 \usage{
-resampleScoreModelPair(model1Values, model2Values, yValues, scoreFn, ...,
-  na.rm = FALSE, returnScores = FALSE, nRep = 100,
-  parallelCluster = NULL, sameSample = FALSE)
+resampleScoreModelPair(
+  model1Values,
+  model2Values,
+  yValues,
+  scoreFn,
+  ...,
+  na.rm = FALSE,
+  returnScores = FALSE,
+  nRep = 100,
+  parallelCluster = NULL,
+  sameSample = FALSE
+)
 }
 \arguments{
 \item{model1Values}{numeric array of predictions (model to test).}

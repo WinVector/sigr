@@ -4,9 +4,17 @@
 \alias{resampleTestAUC}
 \title{Wrap AUC resampling test results.}
 \usage{
-resampleTestAUC(d, modelName, yName, yTarget = TRUE, ...,
-  na.rm = FALSE, returnScores = FALSE, nrep = 100,
-  parallelCluster = NULL)
+resampleTestAUC(
+  d,
+  modelName,
+  yName,
+  yTarget = TRUE,
+  ...,
+  na.rm = FALSE,
+  returnScores = FALSE,
+  nrep = 100,
+  parallelCluster = NULL
+)
 }
 \arguments{
 \item{d}{data.frame}

@@ -4,9 +4,15 @@
 \alias{render.sigr_aucresamptest}
 \title{Format an AUC-test (quality of a probability score)}
 \usage{
-\method{render}{sigr_aucresamptest}(statistic, ..., format,
-  statDigits = 4, sigDigits = 4, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+\method{render}{sigr_aucresamptest}(
+  statistic,
+  ...,
+  format,
+  statDigits = 4,
+  sigDigits = 4,
+  pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{statistic}{wrapped AUC test}

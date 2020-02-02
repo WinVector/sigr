@@ -4,9 +4,18 @@
 \alias{testAUCpair}
 \title{Test AUC pair results.}
 \usage{
-testAUCpair(d, model1Name, model2Name, yName, yTarget = TRUE, ...,
-  na.rm = FALSE, returnScores = FALSE, nrep = 100,
-  parallelCluster = NULL)
+testAUCpair(
+  d,
+  model1Name,
+  model2Name,
+  yName,
+  yTarget = TRUE,
+  ...,
+  na.rm = FALSE,
+  returnScores = FALSE,
+  nrep = 100,
+  parallelCluster = NULL
+)
 }
 \arguments{
 \item{d}{data.frame}

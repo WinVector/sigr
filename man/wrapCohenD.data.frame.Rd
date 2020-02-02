@@ -4,8 +4,7 @@
 \alias{wrapCohenD.data.frame}
 \title{Wrap Cohen's D (effect size between groups).}
 \usage{
-\method{wrapCohenD}{data.frame}(x, Column1Name, Column2Name, ...,
-  na.rm = FALSE)
+\method{wrapCohenD}{data.frame}(x, Column1Name, Column2Name, ..., na.rm = FALSE)
 }
 \arguments{
 \item{x}{data.frame}

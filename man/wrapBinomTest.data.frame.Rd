@@ -4,9 +4,16 @@
 \alias{wrapBinomTest.data.frame}
 \title{Wrap binom.test (test of Binomial/Bernoulli rate).}
 \usage{
-\method{wrapBinomTest}{data.frame}(x, ColumnName, SuccessValue = TRUE,
-  ..., p = NA, alternative = c("two.sided", "less", "greater"),
-  conf.level = 0.95, na.rm = FALSE)
+\method{wrapBinomTest}{data.frame}(
+  x,
+  ColumnName,
+  SuccessValue = TRUE,
+  ...,
+  p = NA,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95,
+  na.rm = FALSE
+)
 }
 \arguments{
 \item{x}{data.frame}

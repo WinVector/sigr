@@ -1,4 +1,7 @@
 
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/sigr)](https://cran.r-project.org/package=sigr)
+[![status](https://tinyverse.netlify.com/badge/sigr)](https://CRAN.R-project.org/package=sigr)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # sigr

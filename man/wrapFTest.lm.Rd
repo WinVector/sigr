@@ -4,8 +4,7 @@
 \alias{wrapFTest.lm}
 \title{Wrap quality statistic of identity r regression.}
 \usage{
-\method{wrapFTest}{lm}(x, ..., format = NULL, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+\method{wrapFTest}{lm}(x, ..., format = NULL, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
 }
 \arguments{
 \item{x}{lm model}

@@ -3,7 +3,6 @@
 \docType{package}
 \name{sigr}
 \alias{sigr}
-\alias{sigr-package}
 \title{sigr: Format Significance Summaries for Reports}
 \description{
 Succinctly format significance summaries of

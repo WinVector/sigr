@@ -4,8 +4,16 @@
 \alias{permutationScoreModel}
 \title{Empirical permutation test of significance of scoreFn(modelValues,yValues) >= scoreFn(modelValues,perm(yValues)).}
 \usage{
-permutationScoreModel(modelValues, yValues, scoreFn, ..., na.rm = FALSE,
-  returnScores = FALSE, nRep = 100, parallelCluster = NULL)
+permutationScoreModel(
+  modelValues,
+  yValues,
+  scoreFn,
+  ...,
+  na.rm = FALSE,
+  returnScores = FALSE,
+  nRep = 100,
+  parallelCluster = NULL
+)
 }
 \arguments{
 \item{modelValues}{numeric array of predictions.}

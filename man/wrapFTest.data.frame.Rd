@@ -4,10 +4,18 @@
 \alias{wrapFTest.data.frame}
 \title{Wrap quality statistic of identity relation from data.}
 \usage{
-\method{wrapFTest}{data.frame}(x, predictionColumnName, yColumnName,
-  nParameters = 1, meany = mean(x[[yColumnName]]), ...,
-  na.rm = FALSE, format = NULL, pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05)
+\method{wrapFTest}{data.frame}(
+  x,
+  predictionColumnName,
+  yColumnName,
+  nParameters = 1,
+  meany = mean(x[[yColumnName]]),
+  ...,
+  na.rm = FALSE,
+  format = NULL,
+  pLargeCutoff = 0.05,
+  pSmallCutoff = 1e-05
+)
 }
 \arguments{
 \item{x}{data frame containing columns to compare}
