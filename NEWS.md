@@ -1,5 +1,5 @@
 
-# sigr 1.0.8 2020-08-11
+# sigr 1.0.9 2020-08-11
 
  * Change http to https where practical
  * Badges

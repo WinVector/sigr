@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sigr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
       </span>
     </div>
 
@@ -61,7 +61,7 @@
       <a href="articles/lmExample.html">lm example</a>
     </li>
     <li>
-      <a href="articles/sigrFormatting.html">sigr</a>
+      <a href="articles/sigrFormatting.html">sigr formatting</a>
     </li>
   </ul>
 </li>
@@ -98,7 +98,6 @@
 <ul>
 <li><a href="https://link.springer.com/article/10.3758/s13428-015-0664-2">“The prevalence of statistical reporting errors in psychology (1985–2013)”, Nuijten, M.B., Hartgerink, C.H.J., van Assen, M.A.L.M. et al., Behav Res (2015), doi:10.3758/s13428-015-0664-2</a></li>
 <li><a href="https://my.ilstu.edu/~jhkahn/apastats.html">Reporting Statistics in APA Style</a></li>
-<li><a href="https://depts.washington.edu/psych/files/writing_center/stats.pdf">Reporting Results of Common Statistical Tests in APA Format</a></li>
 <li><a href="https://apastyle.apa.org/products/publication-manual-7th-edition">Publication Manual of the American Psychological Association, Seventh Edition</a></li>
 <li><a href="https://win-vector.com/2016/10/02/proofing-statistics-in-papers/">Proofing statistics in papers</a></li>
 <li><a href="https://CRAN.R-project.org/package=apa">apa</a></li>
@@ -117,26 +116,26 @@
       <span class="kw">y</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>,<span class="fl">FALSE</span>,<span class="fl">FALSE</span>,<span class="fl">FALSE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">FALSE</span>))
 <span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">y</span>~<span class="no">x</span>,<span class="kw">data</span><span class="kw">=</span><span class="no">d</span>,<span class="kw">family</span><span class="kw">=</span><span class="no">binomial</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">model</span>)</pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">## Call:</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## glm(formula = y ~ x, family = binomial, data = d)</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">## Deviance Residuals: </span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">##      Min        1Q    Median        3Q       Max  </span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">## -1.37180  -1.09714  -0.00811   1.08024   1.42939  </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">## Coefficients:</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">##             Estimate Std. Error z value Pr(&gt;|z|)</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">## (Intercept)  -0.7455     1.6672  -0.447    0.655</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">## x             0.1702     0.3429   0.496    0.620</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">## (Dispersion parameter for binomial family taken to be 1)</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">##     Null deviance: 11.090  on 7  degrees of freedom</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">## Residual deviance: 10.837  on 6  degrees of freedom</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">## AIC: 14.837</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">## Number of Fisher Scoring iterations: 4</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## </span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">## Call:</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">## glm(formula = y ~ x, family = binomial, data = d)</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">## </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">## Deviance Residuals: </span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">##      Min        1Q    Median        3Q       Max  </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">## -1.37180  -1.09714  -0.00811   1.08024   1.42939  </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">## </span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## Coefficients:</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">##             Estimate Std. Error z value Pr(&gt;|z|)</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">## (Intercept)  -0.7455     1.6672  -0.447    0.655</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">## x             0.1702     0.3429   0.496    0.620</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">## </span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">## (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">## </span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co">##     Null deviance: 11.090  on 7  degrees of freedom</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">## Residual deviance: 10.837  on 6  degrees of freedom</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">## AIC: 14.837</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">## </span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">## Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sigr"</span>)</pre></div>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="reference/render.html">render</a></span>(<span class="fu"><a href="reference/wrapChiSqTest.html">wrapChiSqTest</a></span>(<span class="no">model</span>),
            <span class="kw">pLargeCutoff</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">format</span><span class="kw">=</span><span class="st">'markdown'</span>))</pre></div>

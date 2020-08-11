@@ -1,5 +1,5 @@
 ---
-title: "sigr"
+title: "sigr formatting"
 author: "John Mount"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

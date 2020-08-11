@@ -22,8 +22,6 @@ See also:
     doi:10.3758/s13428-015-0664-2](https://link.springer.com/article/10.3758/s13428-015-0664-2)
   - [Reporting Statistics in APA
     Style](https://my.ilstu.edu/~jhkahn/apastats.html)
-  - [Reporting Results of Common Statistical Tests in APA
-    Format](https://depts.washington.edu/psych/files/writing_center/stats.pdf)
   - [Publication Manual of the American Psychological Association,
     Seventh
     Edition](https://apastyle.apa.org/products/publication-manual-7th-edition)
@@ -38,8 +36,8 @@ See also:
   - [“Why Most Published Research Findings Are False”, John P. A.
     Ioannidis PLOS Medicine, August 30,
     2005](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
-  - [“The garden of forking paths”, Andrew Gelman and Eric Loken, 14
-    Nov 2013](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)
+  - [“The garden of forking paths”, Andrew Gelman and Eric Loken, 14 Nov
+    2013](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)
 
 -----
 
