@@ -32,8 +32,9 @@ See also:
   - [apa](https://CRAN.R-project.org/package=apa)
   - [bootstrap](https://CRAN.R-project.org/package=bootstrap)
   - [broom](https://cran.r-project.org/package=broom)
-  - [ralfer/apa\_format\_and\_misc](https://github.com/ralfer/apa_format_and_misc)
+  - [achetverikov/APAstats](https://github.com/achetverikov/APAstats)
   - [pwr](https://CRAN.R-project.org/package=pwr)
+  - [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/)
   - [“Why Most Published Research Findings Are False”, John P. A.
     Ioannidis PLOS Medicine, August 30,
     2005](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
