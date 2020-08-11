@@ -22,7 +22,7 @@ area under curve
 }
 \description{
 Based on:
- \url{http://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
+ \url{https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
 }
 \examples{
 

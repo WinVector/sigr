@@ -153,7 +153,7 @@ calcSSE <- function(pred, y,
 #' calculate AUC.
 #'
 #' Based on:
-#'  \url{http://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
+#'  \url{https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
 #'
 #' @param modelPredictions numeric predictions (not empty)
 #' @param yValues truth values (not empty, same length as model predictions)

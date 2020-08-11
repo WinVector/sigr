@@ -10,9 +10,9 @@ vignette: >
 ---
 
 Examples of `sigr` formatting.  Inspired by APA format
-(American Psychological Association), but not fully compliant.  Discussed [here](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/).
+(American Psychological Association), but not fully compliant.  Discussed [here](https://win-vector.com/2016/10/02/proofing-statistics-in-papers/).
 
-Please see [here](https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.pdf) and [here](http://my.ilstu.edu/~jhkahn/apastats.html) for some notes.
+Please see [here](https://web2.uconn.edu/writingcenter/pdf/Reporting_Statistics.pdf) and [here](https://my.ilstu.edu/~jhkahn/apastats.htmll) for some notes.
 
 Simple formatting.
 

@@ -11,7 +11,7 @@ Concise formatting of significances in R.
 ![](https://github.com/WinVector/sigr/raw/master/tools/sigr.png)
 
 Please see [Adding polished significance summaries to papers using
-R](http://www.win-vector.com/blog/2016/10/adding-polished-significance-summaries-to-papers-using-r/)
+R](https://win-vector.com/2016/10/04/adding-polished-significance-summaries-to-papers-using-r/)
 for some discussion.
 
 See also:
@@ -19,17 +19,16 @@ See also:
   - [“The prevalence of statistical reporting errors in psychology
     (1985–2013)”, Nuijten, M.B., Hartgerink, C.H.J., van Assen,
     M.A.L.M. et al., Behav Res (2015),
-    doi:10.3758/s13428-015-0664-2](http://link.springer.com/article/10.3758%2Fs13428-015-0664-2)
+    doi:10.3758/s13428-015-0664-2](https://link.springer.com/article/10.3758/s13428-015-0664-2)
   - [Reporting Statistics in APA
-    Style](http://my.ilstu.edu/~jhkahn/apastats.html)
+    Style](https://my.ilstu.edu/~jhkahn/apastats.html)
   - [Reporting Results of Common Statistical Tests in APA
     Format](https://depts.washington.edu/psych/files/writing_center/stats.pdf)
-  - [Adding polished significance summaries to papers using
-    R](http://www.win-vector.com/blog/2016/10/adding-polished-significance-summaries-to-papers-using-r/)
-  - [Publication Manual of the American Psychological Association, Sixth
-    Edition](http://www.apastyle.org/manual/)
+  - [Publication Manual of the American Psychological Association,
+    Seventh
+    Edition](https://apastyle.apa.org/products/publication-manual-7th-edition)
   - [Proofing statistics in
-    papers](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/)
+    papers](https://win-vector.com/2016/10/02/proofing-statistics-in-papers/)
   - [apa](https://CRAN.R-project.org/package=apa)
   - [bootstrap](https://CRAN.R-project.org/package=bootstrap)
   - [broom](https://cran.r-project.org/package=broom)
@@ -40,11 +39,6 @@ See also:
     2005](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
   - [“The garden of forking paths”, Andrew Gelman and Eric Loken, 14
     Nov 2013](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)
-
-Used to render the [support
-material](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/)
-for [Proofing statistics in
-papers](http://www.win-vector.com/blog/2016/10/proofing-statistics-in-papers/).
 
 -----
 
