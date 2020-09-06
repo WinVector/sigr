@@ -134,17 +134,17 @@
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
 <span class='fu'><a href='wrapTTest.html'>wrapTTest</a></span>(
-  <span class='no'>x</span>,
-  <span class='no'>Column1Name</span>,
-  <span class='no'>Column2Name</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
-  <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>x</span>,
+  <span class='kw'>Column1Name</span>,
+  <span class='kw'>Column2Name</span>,
+  <span class='kw'>...</span>,
+  y = <span class='kw'>NULL</span>,
+  alternative = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
+  mu = <span class='fl'>0</span>,
+  paired = <span class='fl'>FALSE</span>,
+  var.equal = <span class='fl'>FALSE</span>,
+  conf.level = <span class='fl'>0.95</span>,
+  na.rm = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -168,27 +168,27 @@
     </tr>
     <tr>
       <th>y</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/t.test.html'>t.test</a></code></p></td>
     </tr>
     <tr>
       <th>alternative</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/t.test.html'>t.test</a></code></p></td>
     </tr>
     <tr>
       <th>mu</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/t.test.html'>t.test</a></code></p></td>
     </tr>
     <tr>
       <th>paired</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/t.test.html'>t.test</a></code></p></td>
     </tr>
     <tr>
       <th>var.equal</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/t.test.html'>t.test</a></code></p></td>
     </tr>
     <tr>
       <th>conf.level</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/t.test.html'>t.test</a></code></p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -202,10 +202,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
-                <span class='kw'>y</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>))
-<span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapTTest.html'>wrapTTest</a></span>(<span class='no'>d</span>,<span class='st'>'x'</span>,<span class='st'>'y'</span>),<span class='kw'>pLargeCutoff</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "Welch Two Sample t-test, two.sided: (t=2.072, df=10.62, p=0.06349)."</div><div class='input'><span class='co'># confirm p not order depedent</span>
-<span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapTTest.html'>wrapTTest</a></span>(<span class='no'>d</span>,<span class='st'>'y'</span>,<span class='st'>'x'</span>),<span class='kw'>pLargeCutoff</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "Welch Two Sample t-test, two.sided: (t=-2.072, df=10.62, p=0.06349)."</div><div class='input'>
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(x=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
+                y=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>))
+<span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapTTest.html'>wrapTTest</a></span>(<span class='kw'>d</span>,<span class='st'>'x'</span>,<span class='st'>'y'</span>),pLargeCutoff=<span class='fl'>1</span>)
+</div><div class='output co'>#&gt; [1] "Welch Two Sample t-test, two.sided: (t=2.072, df=10.62, p=0.06349)."</div><div class='input'><span class='co'># confirm p not order depedent</span>
+<span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapTTest.html'>wrapTTest</a></span>(<span class='kw'>d</span>,<span class='st'>'y'</span>,<span class='st'>'x'</span>),pLargeCutoff=<span class='fl'>1</span>)
+</div><div class='output co'>#&gt; [1] "Welch Two Sample t-test, two.sided: (t=-2.072, df=10.62, p=0.06349)."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -222,7 +224,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

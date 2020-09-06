@@ -132,7 +132,7 @@
     <p>Wrap F-test (significance of identity relation).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrapFTestImpl</span>(<span class='no'>numdf</span>, <span class='no'>dendf</span>, <span class='no'>FValue</span>, <span class='no'>...</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>wrapFTestImpl</span>(<span class='kw'>numdf</span>, <span class='kw'>dendf</span>, <span class='kw'>FValue</span>, <span class='kw'>...</span>, format = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,7 +165,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>wrapFTestImpl</span>(<span class='kw'>numdf</span><span class='kw'>=</span><span class='fl'>2</span>,<span class='kw'>dendf</span><span class='kw'>=</span><span class='fl'>55</span>,<span class='kw'>FValue</span><span class='kw'>=</span><span class='fl'>5.56</span>)</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.1682, F(2,55)=5.56, p=0.006322)."</div><div class='input'>
+<span class='fu'>wrapFTestImpl</span>(numdf=<span class='fl'>2</span>,dendf=<span class='fl'>55</span>,FValue=<span class='fl'>5.56</span>)
+</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.1682, F(2,55)=5.56, p=0.006322)."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -182,7 +183,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

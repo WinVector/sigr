@@ -133,7 +133,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for anova</span>
-<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,11 +154,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
-                <span class='kw'>x2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>3</span>,<span class='fl'>0</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>0</span>,<span class='fl'>7</span>),
-                <span class='kw'>y</span> <span class='kw'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>))
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>y</span>~<span class='no'>x1</span>+<span class='no'>x2</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(x1 = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
+                x2 = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>3</span>,<span class='fl'>0</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>0</span>,<span class='fl'>7</span>),
+                y =  <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>))
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#stats/lm.html'>lm</a></span>(<span class='kw'>y</span><span class='op'>~</span><span class='kw'>x1</span><span class='op'>+</span><span class='kw'>x2</span>, data=<span class='kw'>d</span>)
+<span class='fu'><a href='#base/summary.html'>summary</a></span>(<span class='kw'>model</span>)
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = y ~ x1 + x2, data = d)
 #&gt; 
@@ -177,8 +178,10 @@
 #&gt; Residual standard error: 0.299 on 5 degrees of freedom
 #&gt; Multiple R-squared:  0.9553,	Adjusted R-squared:  0.9374 
 #&gt; F-statistic: 53.43 on 2 and 5 DF,  p-value: 0.0004224
-#&gt; </div><div class='input'><span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.9553, F(2,5)=53.43, p=0.0004224)."</div><div class='input'><span class='no'>anov</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span>(<span class='no'>model</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>anov</span>)</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; </div><div class='input'><span class='kw'>sigr</span>::<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='kw'>model</span>)
+</div><div class='output co'>#&gt; [1] "F Test summary: (R2=0.9553, F(2,5)=53.43, p=0.0004224)."</div><div class='input'><span class='kw'>anov</span> <span class='op'>&lt;-</span> <span class='kw'>stats</span>::<span class='fu'><a href='#stats/anova.html'>anova</a></span>(<span class='kw'>model</span>)
+<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>anov</span>)
+</div><div class='output co'>#&gt; Analysis of Variance Table
 #&gt; 
 #&gt; Response: y
 #&gt;           Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
@@ -186,15 +189,16 @@
 #&gt; x2         1 0.0129  0.0129   0.1447 0.7192462    
 #&gt; Residuals  5 0.4470  0.0894                       
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='no'>anov</span>),
-       <span class='kw'>function</span>(<span class='no'>ti</span>) {
-         <span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'><a href='render.html'>render</a></span>(<span class='no'>ti</span>,
-                      <span class='kw'>pLargeCutoff</span><span class='kw'>=</span> <span class='fl'>1</span>,
-                      <span class='kw'>pSmallCutoff</span><span class='kw'>=</span> <span class='fl'>0</span>,
-                      <span class='kw'>statDigits</span><span class='kw'>=</span><span class='fl'>4</span>,
-                      <span class='kw'>sigDigits</span><span class='kw'>=</span><span class='fl'>4</span>,
-                      <span class='kw'>format</span><span class='kw'>=</span><span class='st'>'ascii'</span>)
-       })</div><div class='output co'>#&gt; $x1
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='#base/lapply.html'>lapply</a></span>(<span class='kw'>sigr</span>::<span class='fu'><a href='wrapFTest.html'>wrapFTest</a></span>(<span class='kw'>anov</span>),
+       <span class='fu'>function</span>(<span class='kw'>ti</span>) {
+         <span class='kw'>sigr</span>::<span class='fu'><a href='render.html'>render</a></span>(<span class='kw'>ti</span>,
+                      pLargeCutoff= <span class='fl'>1</span>,
+                      pSmallCutoff= <span class='fl'>0</span>,
+                      statDigits=<span class='fl'>4</span>,
+                      sigDigits=<span class='fl'>4</span>,
+                      format=<span class='st'>'ascii'</span>)
+       })
+</div><div class='output co'>#&gt; $x1
 #&gt; [1] "F Test summary: (R2=0.9552, F(1,5)=106.7, p=0.0001463)."
 #&gt; 
 #&gt; $x2
@@ -216,7 +220,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -134,7 +134,7 @@
  <a href='https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html'>https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>calcAUC</span>(<span class='no'>modelPredictions</span>, <span class='no'>yValues</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>yTarget</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>calcAUC</span>(<span class='kw'>modelPredictions</span>, <span class='kw'>yValues</span>, <span class='kw'>...</span>, na.rm = <span class='fl'>FALSE</span>, yTarget = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +167,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw pkg'>sigr</span><span class='kw ns'>::</span><span class='fu'>calcAUC</span>(<span class='fl'>1</span>:<span class='fl'>4</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>)) <span class='co'># should be 2/3</span></div><div class='output co'>#&gt; [1] 0.6666667</div><div class='input'>
+<span class='kw'>sigr</span>::<span class='fu'>calcAUC</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>,<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>)) <span class='co'># should be 2/3</span>
+</div><div class='output co'>#&gt; [1] 0.6666667</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -184,7 +185,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

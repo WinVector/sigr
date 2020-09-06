@@ -133,7 +133,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for numeric</span>
-<span class='fu'><a href='TInterval.html'>TInterval</a></span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'><a href='TInterval.html'>TInterval</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>, conf.level = <span class='fl'>0.95</span>, na.rm = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,9 +165,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2018</span>)
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>) + <span class='fl'>3.2</span>
-<span class='fu'><a href='TInterval.html'>TInterval</a></span>(<span class='no'>d</span>)</div><div class='output co'>#&gt; [1] "TInterval: (n=100 ~ 3.221+-1.016*Z: c(0.9747)[3.02, 3.422])."</div><div class='input'>
+<span class='fu'><a href='#base/Random.html'>set.seed</a></span>(<span class='fl'>2018</span>)
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>) <span class='op'>+</span> <span class='fl'>3.2</span>
+<span class='fu'><a href='TInterval.html'>TInterval</a></span>(<span class='kw'>d</span>)
+</div><div class='output co'>#&gt; [1] "TInterval: (n=100 ~ 3.221+-1.016*Z: c(0.9747)[3.02, 3.422])."</div><div class='input'>
 
 </div></pre>
   </div>
@@ -185,7 +186,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

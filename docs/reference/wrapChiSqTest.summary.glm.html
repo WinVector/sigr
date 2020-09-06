@@ -133,7 +133,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for summary.glm</span>
-<span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,11 +154,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
-      <span class='kw'>y</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>FALSE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>))
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>y</span>~<span class='no'>x</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span>,<span class='kw'>family</span><span class='kw'>=</span><span class='no'>binomial</span>)
-<span class='no'>sum</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>model</span>)
-<span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='no'>sum</span>),<span class='kw'>pLargeCutoff</span><span class='kw'>=</span><span class='fl'>1</span>,<span class='kw'>format</span><span class='kw'>=</span><span class='st'>'ascii'</span>)</div><div class='output co'>#&gt; [1] "Chi-Square Test summary: pseudo-R2=0.02282 (X2(1,N=8)=0.2531, p=0.6149)."</div><div class='input'>
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(x=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>7</span>),
+      y=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>FALSE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>))
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#stats/glm.html'>glm</a></span>(<span class='kw'>y</span><span class='op'>~</span><span class='kw'>x</span>,data=<span class='kw'>d</span>,family=<span class='kw'>binomial</span>)
+<span class='kw'>sum</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/summary.html'>summary</a></span>(<span class='kw'>model</span>)
+<span class='fu'><a href='render.html'>render</a></span>(<span class='fu'><a href='wrapChiSqTest.html'>wrapChiSqTest</a></span>(<span class='kw'>sum</span>),pLargeCutoff=<span class='fl'>1</span>,format=<span class='st'>'ascii'</span>)
+</div><div class='output co'>#&gt; [1] "Chi-Square Test summary: pseudo-R2=0.02282 (X2(1,N=8)=0.2531, p=0.6149)."</div><div class='input'>
 
 </div></pre>
   </div>
@@ -176,7 +177,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

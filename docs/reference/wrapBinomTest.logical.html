@@ -134,12 +134,12 @@
 
     <pre class="usage"><span class='co'># S3 method for logical</span>
 <span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>x</span>,
+  <span class='kw'>...</span>,
+  p = <span class='fl'>NA</span>,
+  alternative = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
+  conf.level = <span class='fl'>0.95</span>,
+  na.rm = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -159,11 +159,11 @@
     </tr>
     <tr>
       <th>alternative</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/binom.test.html'>binom.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/binom.test.html'>binom.test</a></code></p></td>
     </tr>
     <tr>
       <th>conf.level</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/stats/binom.test.html'>binom.test</a></code></p></td>
+      <td><p>passed to <code><a href='#stats/binom.test.html'>binom.test</a></code></p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -180,9 +180,11 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>7</span>))
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333])."</div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>15</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>35</span>))
-<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "Exact binomial test: (35/50=0.7~c(0.95)[0.5539, 0.8214])."</div><div class='input'>
+<span class='kw'>x</span> <span class='op'>=</span> <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>3</span>), <span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>7</span>))
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; [1] "Exact binomial test: (7/10=0.7~c(0.95)[0.3475, 0.9333])."</div><div class='input'><span class='kw'>x</span> <span class='op'>=</span> <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>15</span>), <span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>35</span>))
+<span class='fu'><a href='wrapBinomTest.html'>wrapBinomTest</a></span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; [1] "Exact binomial test: (35/50=0.7~c(0.95)[0.5539, 0.8214])."</div><div class='input'>
 
 </div></pre>
   </div>
@@ -200,7 +202,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -132,7 +132,7 @@
     <p>Studentized estimate of how often a difference is below zero.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimateDifferenceZeroCrossing</span>(<span class='no'>resampledDiffs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>estimateDifferenceZeroCrossing</span>(<span class='kw'>resampledDiffs</span>, na.rm = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,9 +153,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2352</span>)
-<span class='no'>resampledDiffs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>)+<span class='fl'>1</span>
-<span class='fu'>estimateDifferenceZeroCrossing</span>(<span class='no'>resampledDiffs</span>)</div><div class='output co'>#&gt; [1] "Studentized empirical test: is difference greater than zero on re-samples,  summary: e=n.s."</div><div class='input'>
+<span class='fu'><a href='#base/Random.html'>set.seed</a></span>(<span class='fl'>2352</span>)
+<span class='kw'>resampledDiffs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>)<span class='op'>+</span><span class='fl'>1</span>
+<span class='fu'>estimateDifferenceZeroCrossing</span>(<span class='kw'>resampledDiffs</span>)
+</div><div class='output co'>#&gt; [1] "Studentized empirical test: is difference greater than zero on re-samples,  summary: e=n.s."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -172,7 +173,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

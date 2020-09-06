@@ -112,10 +112,11 @@
 <hr>
 <p><em>sigr</em> is a small package that concentrates on computing summary statistics and reporting in an appropriate format.</p>
 <p>For example here is formatting the quality of a logistic regression.</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span>),
-      <span class="kw">y</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>,<span class="fl">FALSE</span>,<span class="fl">FALSE</span>,<span class="fl">FALSE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">FALSE</span>))
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">y</span>~<span class="no">x</span>,<span class="kw">data</span><span class="kw">=</span><span class="no">d</span>,<span class="kw">family</span><span class="kw">=</span><span class="no">binomial</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">model</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(x=<span class="fu"><a href="#base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span>),
+      y=<span class="fu"><a href="#base/c.html">c</a></span>(<span class="fl">TRUE</span>,<span class="fl">FALSE</span>,<span class="fl">FALSE</span>,<span class="fl">FALSE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">FALSE</span>))
+<span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="#stats/glm.html">glm</a></span>(<span class="kw">y</span><span class="op">~</span><span class="kw">x</span>,data=<span class="kw">d</span>,family=<span class="kw">binomial</span>)
+<span class="fu"><a href="#base/summary.html">summary</a></span>(<span class="kw">model</span>)</pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## </span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="co">## Call:</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">## glm(formula = y ~ x, family = binomial, data = d)</span></span>
@@ -136,13 +137,16 @@
 <span id="cb2-18"><a href="#cb2-18"></a><span class="co">## AIC: 14.837</span></span>
 <span id="cb2-19"><a href="#cb2-19"></a><span class="co">## </span></span>
 <span id="cb2-20"><a href="#cb2-20"></a><span class="co">## Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sigr"</span>)</pre></div>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="reference/render.html">render</a></span>(<span class="fu"><a href="reference/wrapChiSqTest.html">wrapChiSqTest</a></span>(<span class="no">model</span>),
-           <span class="kw">pLargeCutoff</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">format</span><span class="kw">=</span><span class="st">'markdown'</span>))</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/sigr/">"sigr"</a></span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="#base/cat.html">cat</a></span>(<span class="fu"><a href="reference/render.html">render</a></span>(<span class="fu"><a href="reference/wrapChiSqTest.html">wrapChiSqTest</a></span>(<span class="kw">model</span>),
+           pLargeCutoff=<span class="fl">1</span>, format=<span class="st">'markdown'</span>))</pre></div>
 <p><strong>Chi-Square Test</strong> summary: <em>pseudo-<i>R<sup>2</sup></i></em>=0.02282 (<i>χ<sup>2</sup></i>(1,<em>N</em>=8)=0.2531, <em>p</em>=0.6149).</p>
 <hr>
 <p>To install, from inside <code>R</code> please run:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"sigr"</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="#utils/install.packages.html">install.packages</a></span>(<span class="st">"sigr"</span>)</pre></div>
 </div>
 
   </div>
@@ -192,7 +196,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
