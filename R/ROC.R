@@ -11,7 +11,7 @@
 #' @param ... force later arguments to bind by name.
 #' @param na.rm logical, if TRUE remove NA values.
 #' @param yTarget value considered to be positive.
-#' @return the ROC graph as an x,y data frame (with additional derived columns)
+#' @return the ROC graph of Score (model score), Sensitivity, and Specificity. Guaranteed to have the (0, 0) and (1, 1) (1-Specificity,Sensitivity) endpoints.
 #'
 #' @examples
 #'
@@ -42,6 +42,7 @@ build_ROC_curve <- function(modelPredictions, yValues,
   y <- NULL
   positive_prevalence <- 0
   if(length(yValues) <= 0) {
+      modelPredictions <- c(NA_real_, NA_real_)
       x = c(0, 1)
       y = c(0, 1)
   } else {
@@ -58,16 +59,21 @@ build_ROC_curve <- function(modelPredictions, yValues,
              FALSE)
     x <- x[!dup]
     y <- y[!dup]
-    # also remove the 0 and 1 x-points if present, so when we add in there
-    # are no dups
-    extreme <- ((x <= 0) & (y <=0)) | ((x >= 1) & (y>=1))
-    x <- x[!extreme]
-    y <- y[!extreme]
-    # And add in ideal endpoints just in case (redundancy here is not a problem).
-    x <- c(0, x, 1)
-    y <- c(0, y, 1)
+    modelPredictions <- modelPredictions[!dup]
+    # And add in ideal endpoints just in case
+    if((x[[1]] > 0) || (y[[1]] > 0)) {
+      x <- c(0, x)
+      y <- c(0, y)
+      modelPredictions <- c(NA_real_, modelPredictions)
+    }
+    if((x[[length(x)]] < 1) || (y[[length(x)]] < 1)) {
+      x <- c(x, 1)
+      y <- c(y, 1)
+      modelPredictions <- c(modelPredictions, NA_real_)
+    }
   }
   data.frame(
+    Score = modelPredictions,
     Sensitivity = y,
     Specificity = 1 - x)
 }

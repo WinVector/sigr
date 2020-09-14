@@ -18,7 +18,7 @@ build_ROC_curve(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 \item{yTarget}{value considered to be positive.}
 }
 \value{
-the ROC graph as an x,y data frame (with additional derived columns)
+the ROC graph of Score (model score), Sensitivity, and Specificity. Guaranteed to have the (0, 0) and (1, 1) (1-Specificity,Sensitivity) endpoints.
 }
 \description{
 Based on:
