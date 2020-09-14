@@ -1,4 +1,6 @@
 
+
+
 #' calculate AUC.
 #'
 #' Based on:
@@ -36,12 +38,12 @@ build_ROC_curve <- function(modelPredictions, yValues,
     modelPredictions <- modelPredictions[goodPosns]
     yValues <- yValues[goodPosns]
   }
-  d <- NULL
+  x <- NULL
+  y <- NULL
   positive_prevalence <- 0
   if(length(yValues) <= 0) {
-    d <- data.frame(
-      x = c(0, 1),
-      y = c(0, 1))
+      x = c(0, 1)
+      y = c(0, 1)
   } else {
     positive_prevalence <- mean(yValues)
     ord <- order(modelPredictions, decreasing=TRUE)
@@ -64,17 +66,35 @@ build_ROC_curve <- function(modelPredictions, yValues,
     # And add in ideal endpoints just in case (redundancy here is not a problem).
     x <- c(0, x, 1)
     y <- c(0, y, 1)
-    d <- data.frame(
-      x = x,
-      y = y)
   }
-  # add derived columns
-  d$FalsePositiveRate <- d$x
-  d$TruePositiveRate <- d$y
-  d$Sensitivity <- d$TruePositiveRate
-  d$Specificity <- 1 - d$FalsePositiveRate
+  data.frame(
+    Sensitivity = y,
+    Specificity = 1 - x)
+}
+
+
+#' Add derived columns
+#'
+#' Add columns derived from sensitivity and specificity
+#'
+#' @param d input data frame, must at lest of columns Sensitivity and Specificity
+#' @param positive_prevalence scalar, the prevalence of the positive class or prior odds
+#' @return extended data frame with more columns
+#'
+#' @examples
+#'
+#' d <- data.frame(pred = 1:4, truth = c(TRUE,FALSE,TRUE,TRUE))
+#' roc <- build_ROC_curve(d$pred, d$truth)
+#' add_ROC_derived_columns(roc, mean(d$truth))
+#'
+#' @export
+add_ROC_derived_columns <- function(d, positive_prevalence) {
+  # standard definitions
+  d$FalsePositiveRate <- 1 - d$Specificity
+  d$TruePositiveRate <- d$Sensitivity
   d$TrueNegativeRate <- 1 - d$FalsePositiveRate
   d$FalseNegativeRate <- 1 - d$TruePositiveRate
+  # to prevalences (rates normalized by total population, not by class)
   d$false_positive_prevalence = d$FalsePositiveRate * (1 - positive_prevalence)
   d$true_positive_prevalence = d$TruePositiveRate * positive_prevalence
   d$true_negative_prevalence = d$TrueNegativeRate * (1 - positive_prevalence)
@@ -84,12 +104,13 @@ build_ROC_curve <- function(modelPredictions, yValues,
 }
 
 
+
 #' calculate AUC.
 #'
 #' Based on:
 #'  \url{https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
 #'
-#' @param modelPredictions numeric predictions (not empty)
+#' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)
 #' @param yValues truth values (not empty, same length as model predictions)
 #' @param ... force later arguments to bind by name.
 #' @param na.rm logical, if TRUE remove NA values.
@@ -113,7 +134,7 @@ calcAUC <- function(modelPredictions, yValues,
     yTarget = yTarget)
   # sum areas of segments (triangle topped vertical rectangles)
   n <- nrow(d)
-  area <- sum( ((d$y[-1]+d$y[-n])/2) * (d$x[-1]-d$x[-n]) )
+  area <- sum( ((d$Sensitivity[-1]+d$Sensitivity[-n])/2) * abs(d$Specificity[-1]-d$Specificity[-n]) )
   area
 }
 

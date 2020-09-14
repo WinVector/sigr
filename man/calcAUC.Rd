@@ -7,7 +7,7 @@
 calcAUC(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 }
 \arguments{
-\item{modelPredictions}{numeric predictions (not empty)}
+\item{modelPredictions}{numeric predictions (not empty), ordered (either increasing or decreasing)}
 
 \item{yValues}{truth values (not empty, same length as model predictions)}
 
