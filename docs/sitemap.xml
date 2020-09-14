@@ -19,7 +19,13 @@
     <loc>https://winvector.github.io/sigr//reference/TIntervalS.html</loc>
   </url>
   <url>
+    <loc>https://winvector.github.io/sigr//reference/add_ROC_derived_columns.html</loc>
+  </url>
+  <url>
     <loc>https://winvector.github.io/sigr//reference/as.character.sigr_statistic.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/build_ROC_curve.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/calcAUC.html</loc>
@@ -32,6 +38,9 @@
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/estimateDifferenceZeroCrossing.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/find_AUC_q.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/format.sigr_statistic.html</loc>
