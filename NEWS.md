@@ -1,4 +1,8 @@
 
+# sigr 1.1.0 2020-09-14
+ 
+ * More on ROC
+
 # sigr 1.0.9 2020-08-11
 
  * Change http to https where practical
