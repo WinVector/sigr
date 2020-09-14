@@ -2,7 +2,7 @@
 % Please edit documentation in R/ROC.R
 \name{build_ROC_curve}
 \alias{build_ROC_curve}
-\title{calculate AUC.}
+\title{calculate ROC curve.}
 \usage{
 build_ROC_curve(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 }

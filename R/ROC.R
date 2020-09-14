@@ -1,7 +1,7 @@
 
 
 
-#' calculate AUC.
+#' calculate ROC curve.
 #'
 #' Based on:
 #'  \url{https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
@@ -79,9 +79,9 @@ build_ROC_curve <- function(modelPredictions, yValues,
 }
 
 
-#' Add derived columns
+#' Add ROC derived columns.
 #'
-#' Add columns derived from sensitivity and specificity
+#' Add ROC columns derived from sensitivity and specificity.
 #'
 #' @param d input data frame, must at lest of columns Sensitivity and Specificity
 #' @param positive_prevalence scalar, the prevalence of the positive class or prior odds

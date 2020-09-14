@@ -2,7 +2,7 @@
 % Please edit documentation in R/ROC.R
 \name{add_ROC_derived_columns}
 \alias{add_ROC_derived_columns}
-\title{Add derived columns}
+\title{Add ROC derived columns.}
 \usage{
 add_ROC_derived_columns(d, positive_prevalence)
 }
@@ -15,7 +15,7 @@ add_ROC_derived_columns(d, positive_prevalence)
 extended data frame with more columns
 }
 \description{
-Add columns derived from sensitivity and specificity
+Add ROC columns derived from sensitivity and specificity.
 }
 \examples{
 
