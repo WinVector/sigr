@@ -168,7 +168,7 @@ calcAUC <- function(modelPredictions, yValues,
 #' q <- find_AUC_q(d$pred, d$truth)
 #' roc <- build_ROC_curve(d$pred, d$truth)
 #' ideal_roc <- data.frame(Specificity = seq(0, 1, length.out = 101))
-#' ideal_roc$Sensitivity <- 1 - (1 -  (1-ideal_roc$Specificity)^q^(1/q))
+#' ideal_roc$Sensitivity <- 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q)
 #' # ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +
 #' #   geom_line(data = roc, color = "DarkBlue") +
 #' #   geom_line(data  = ideal_roc, color = "Orange") +
@@ -197,7 +197,7 @@ find_AUC_q <- function(modelPredictions, yValues,
     Specificity = seq(0, 1, length.out = 101))
   while(q_low + q_eps < q_high) {
     q_mid <- (q_low + q_high)/2
-    ex_frame$Sensitivity <- 1 - (1 -  (1-ex_frame$Specificity)^q_mid^(1/q_mid))
+    ex_frame$Sensitivity <- 1 - (1 -  (1-ex_frame$Specificity)^q_mid)^(1/q_mid)
     q_mid_area <- area_from_roc_graph(ex_frame)
     if(q_mid_area <= area) {
       q_high <- q_mid
