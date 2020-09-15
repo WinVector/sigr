@@ -188,11 +188,9 @@ find_AUC_q <- function(modelPredictions, yValues,
     yTarget = yTarget)
   # sum areas of segments (triangle topped vertical rectangles)
   area <- area_from_roc_graph(d)
-  q_eps = 1.e-6
+  q_eps <- 1.e-6
   q_low <- 0
-  q_low_area <- 1
   q_high <- 1
-  q_high_area = 0.5
   ex_frame <- data.frame(
     Specificity = seq(0, 1, length.out = 101))
   while(q_low + q_eps < q_high) {
@@ -201,10 +199,8 @@ find_AUC_q <- function(modelPredictions, yValues,
     q_mid_area <- area_from_roc_graph(ex_frame)
     if(q_mid_area <= area) {
       q_high <- q_mid
-      q_high_area <- q_mid_area
     } else {
       q_low <- q_mid
-      q_low_area <- q_mid_area
     }
     # print(paste(q_low, q_mid, q_high, q_mid_area, area))
   }
