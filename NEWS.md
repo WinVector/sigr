@@ -1,7 +1,8 @@
 
-# sigr 1.1.0 2020-09-14
+# sigr 1.1.1 2020-09-15
 
   * Fix paranes in AUC area matching.
+  * Asymmetric case.
 
 # sigr 1.1.0 2020-09-14
  

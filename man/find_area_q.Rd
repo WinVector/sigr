@@ -10,7 +10,7 @@ find_area_q(area)
 \item{area}{area to match}
 }
 \value{
-q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
+q that such that curve \code{1 - (1 - (1-Specificity)^q)^(1/q)} matches area
 }
 \description{
 Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}

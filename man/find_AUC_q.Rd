@@ -18,7 +18,7 @@ find_AUC_q(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 \item{yTarget}{value considered to be positive.}
 }
 \value{
-q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
+q that such that curve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
 }
 \description{
 Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}
@@ -29,7 +29,7 @@ d <- data.frame(pred = 1:4, truth = c(TRUE,FALSE,TRUE,TRUE))
 q <- find_AUC_q(d$pred, d$truth)
 roc <- build_ROC_curve(d$pred, d$truth)
 ideal_roc <- data.frame(Specificity = seq(0, 1, length.out = 101))
-ideal_roc$Sensitivity <- 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q)
+ideal_roc$Sensitivity <- sensitivity_from_specificity_q(ideal_roc$Specificity, q)
 # ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +
 #   geom_line(data = roc, color = "DarkBlue") +
 #   geom_line(data  = ideal_roc, color = "Orange") +

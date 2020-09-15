@@ -1,5 +1,6 @@
 
-
+#' @importFrom stats pbeta
+NULL
 
 #' calculate ROC curve.
 #'
@@ -19,9 +20,9 @@
 #'
 #' @export
 build_ROC_curve <- function(modelPredictions, yValues,
-                    ...,
-                    na.rm = FALSE,
-                    yTarget = TRUE) {
+                            ...,
+                            na.rm = FALSE,
+                            yTarget = TRUE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::build_ROC_curve")
   if(!is.numeric(modelPredictions)) {
     stop("sigr::calcAUC modelPredictions must be numeric")
@@ -42,9 +43,9 @@ build_ROC_curve <- function(modelPredictions, yValues,
   y <- NULL
   positive_prevalence <- 0
   if(length(yValues) <= 0) {
-      modelPredictions <- c(NA_real_, NA_real_)
-      x = c(0, 1)
-      y = c(0, 1)
+    modelPredictions <- c(NA_real_, NA_real_)
+    x = c(0, 1)
+    y = c(0, 1)
   } else {
     positive_prevalence <- mean(yValues)
     ord <- order(modelPredictions, decreasing=TRUE)
@@ -150,13 +151,32 @@ calcAUC <- function(modelPredictions, yValues,
   area
 }
 
+#' Compute the q-graph.
+#'
+#' Based on:
+#'  \url{https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html}
+#'
+#' @param Specificity vector of sensitivities to evaluate
+#' @param q shape parameter for \code{1 - (1 - (1-Specificity)^q)^(1/q)}
+#' @return Sensitivity
+#'
+#' @examples
+#'
+#' sensitivity_from_specificity_q(seq(0, 1, 0.1), 0.61)
+#'
+#' @export
+sensitivity_from_specificity_q <- function(Specificity, q) {
+  Sensitivity <- 1 - (1 - (1-Specificity)^q)^(1/q)
+  Sensitivity
+}
+
 
 #' Find area matching polynomial curve.
 #'
 #' Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}
 #'
 #' @param area area to match
-#' @return q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
+#' @return q that such that curve \code{1 - (1 - (1-Specificity)^q)^(1/q)} matches area
 #'
 #' @examples
 #'
@@ -171,7 +191,7 @@ find_area_q <- function(area) {
     Specificity = seq(0, 1, length.out = 101))
   while(q_low + q_eps < q_high) {
     q_mid <- (q_low + q_high)/2
-    ex_frame$Sensitivity <- 1 - (1 -  (1-ex_frame$Specificity)^q_mid)^(1/q_mid)
+    ex_frame$Sensitivity <- sensitivity_from_specificity_q(ex_frame$Specificity, q_mid)
     q_mid_area <- area_from_roc_graph(ex_frame)
     if(q_mid_area <= area) {
       q_high <- q_mid
@@ -192,7 +212,7 @@ find_area_q <- function(area) {
 #' @param ... force later arguments to bind by name.
 #' @param na.rm logical, if TRUE remove NA values.
 #' @param yTarget value considered to be positive.
-#' @return q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
+#' @return q that such that curve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
 #'
 #' @examples
 #'
@@ -200,7 +220,7 @@ find_area_q <- function(area) {
 #' q <- find_AUC_q(d$pred, d$truth)
 #' roc <- build_ROC_curve(d$pred, d$truth)
 #' ideal_roc <- data.frame(Specificity = seq(0, 1, length.out = 101))
-#' ideal_roc$Sensitivity <- 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q)
+#' ideal_roc$Sensitivity <- sensitivity_from_specificity_q(ideal_roc$Specificity, q)
 #' # ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +
 #' #   geom_line(data = roc, color = "DarkBlue") +
 #' #   geom_line(data  = ideal_roc, color = "Orange") +
@@ -209,9 +229,9 @@ find_area_q <- function(area) {
 #'
 #' @export
 find_AUC_q <- function(modelPredictions, yValues,
-                    ...,
-                    na.rm = FALSE,
-                    yTarget = TRUE) {
+                       ...,
+                       na.rm = FALSE,
+                       yTarget = TRUE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::find_AUC_q")
   d <- build_ROC_curve(
     modelPredictions = modelPredictions,
@@ -221,6 +241,101 @@ find_AUC_q <- function(modelPredictions, yValues,
   area <- area_from_roc_graph(d)
   q <- find_area_q(area)
   q
+}
+
+
+#' Fit beta parameters from data.
+#'
+#' Fit shape1, shape2 using the method of moments.
+#'
+#' @param x numeric predictions
+#' @return beta shape1, shape2 parameters in a named list
+#'
+#' @examples
+#'
+#' x <- rbeta(1000, shape1 = 3, shape2 = 5.5)
+#' fit_beta_shapes(x) # should often be near [3, 5.5]
+#'
+#' @export
+fit_beta_shapes <- function(x) {
+  Ex <- mean(x)
+  Vx <- mean((x - Ex)^2)
+  shape1 <- Ex * Ex * (1 - Ex) / Vx - Ex
+  shape2 <- (Ex * (1 - Ex) / Vx - 1) * (1 - Ex)
+  c(shape1 = shape1, shape2 = shape2)
+}
+
+
+#' Compute the shape1_pos, shape2_pos, shape1_neg, shape2_neg graph.
+#'
+#' Compute specificity and sensitivity given specificity and model fit parameters.
+#'
+#' @param Score vector of sensitivities to evaluate
+#' @param ... force later arguments to bind by name.
+#' @param shape1_pos beta shape1 parameter for positive examples
+#' @param shape2_pos beta shape2 parameter for positive examples
+#' @param shape1_neg beta shape1 parameter for negative examples
+#' @param shape2_neg beta shape1 parameter for negative examples
+#' @return Score, Specificity and Sensitivity data frame
+#'
+#' @examples
+#'
+#' library(wrapr)
+#'
+#' empirical_data <- rbind(
+#'   data.frame(
+#'     Score = rbeta(1000, shape1 = 3, shape2 = 2),
+#'     y = TRUE),
+#'   data.frame(
+#'     Score = rbeta(1000, shape1 = 5, shape2 = 4),
+#'     y = FALSE)
+#' )
+#'
+#' unpack[shape1_pos = shape1, shape2_pos = shape2] <-
+#'   fit_beta_shapes(empirical_data$Score[empirical_data$y])
+#'
+#' shape1_pos
+#' shape2_pos
+#'
+#' unpack[shape1_neg = shape1, shape2_neg = shape2] <-
+#'   fit_beta_shapes(empirical_data$Score[!empirical_data$y])
+#'
+#' shape1_neg
+#' shape2_neg
+#'
+#' ideal_roc <- sensitivity_and_specificity_s12p12n(
+#'   seq(0, 1, 0.1),
+#'   shape1_pos = shape1_pos,
+#'   shape1_neg = shape1_neg,
+#'   shape2_pos = shape2_pos,
+#'   shape2_neg = shape2_neg)
+#'
+#'
+#' empirical_roc <- build_ROC_curve(
+#'   modelPredictions = empirical_data$Score,
+#'   yValues = empirical_data$y
+#' )
+#'
+#' # # should look very similar
+#' # library(ggplot2)
+#' # ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +
+#' #   geom_line(data = empirical_roc, color='DarkBlue') +
+#' #   geom_line(data = ideal_roc, color = 'Orange')
+#'
+#' @export
+sensitivity_and_specificity_s12p12n <- function(
+  Score,
+  ...,
+  shape1_pos, shape2_pos,
+  shape1_neg, shape2_neg) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::sensitivity_and_specificity_s12p12n")
+
+  Specificity <- pbeta(Score, shape1 = shape1_neg, shape2 = shape2_neg)
+  Sensitivity <- 1 - pbeta(Score, shape1 = shape1_pos, shape2 = shape2_pos)
+  data.frame(
+    Score = Score,
+    Specificity = Specificity,
+    Sensitivity = Sensitivity)
 }
 
 
