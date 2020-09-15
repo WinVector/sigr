@@ -1,5 +1,9 @@
 
 # sigr 1.1.0 2020-09-14
+
+  * Fix paranes in AUC area matching.
+
+# sigr 1.1.0 2020-09-14
  
  * More on ROC
 

@@ -29,7 +29,7 @@ d <- data.frame(pred = 1:4, truth = c(TRUE,FALSE,TRUE,TRUE))
 q <- find_AUC_q(d$pred, d$truth)
 roc <- build_ROC_curve(d$pred, d$truth)
 ideal_roc <- data.frame(Specificity = seq(0, 1, length.out = 101))
-ideal_roc$Sensitivity <- 1 - (1 -  (1-ideal_roc$Specificity)^q^(1/q))
+ideal_roc$Sensitivity <- 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q)
 # ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +
 #   geom_line(data = roc, color = "DarkBlue") +
 #   geom_line(data  = ideal_roc, color = "Orange") +
