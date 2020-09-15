@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -169,7 +169,7 @@
 <span class='kw'>q</span> <span class='op'>&lt;-</span> <span class='fu'>find_AUC_q</span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>pred</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>truth</span>)
 <span class='kw'>roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_ROC_curve.html'>build_ROC_curve</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>pred</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>truth</span>)
 <span class='kw'>ideal_roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(Specificity = <span class='fu'><a href='#base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, length.out = <span class='fl'>101</span>))
-<span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Sensitivity</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>-</span> (<span class='fl'>1</span> <span class='op'>-</span>  (<span class='fl'>1</span><span class='op'>-</span><span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Specificity</span>)<span class='op'>^</span><span class='kw'>q</span><span class='op'>^</span>(<span class='fl'>1</span><span class='op'>/</span><span class='kw'>q</span>))
+<span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Sensitivity</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>-</span> (<span class='fl'>1</span> <span class='op'>-</span>  (<span class='fl'>1</span><span class='op'>-</span><span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Specificity</span>)<span class='op'>^</span><span class='kw'>q</span>)<span class='op'>^</span>(<span class='fl'>1</span><span class='op'>/</span><span class='kw'>q</span>)
 <span class='co'># ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +</span>
 <span class='co'>#   geom_line(data = roc, color = "DarkBlue") +</span>
 <span class='co'>#   geom_line(data  = ideal_roc, color = "Orange") +</span>
