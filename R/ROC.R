@@ -180,7 +180,7 @@ find_AUC_q <- function(modelPredictions, yValues,
                     ...,
                     na.rm = FALSE,
                     yTarget = TRUE) {
-  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::calcAUC")
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::find_AUC_q")
   d <- build_ROC_curve(
     modelPredictions = modelPredictions,
     yValues = yValues,
