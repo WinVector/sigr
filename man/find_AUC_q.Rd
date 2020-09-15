@@ -18,7 +18,7 @@ find_AUC_q(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 \item{yTarget}{value considered to be positive.}
 }
 \value{
-area under curve
+q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
 }
 \description{
 Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}

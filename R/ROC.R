@@ -155,12 +155,44 @@ calcAUC <- function(modelPredictions, yValues,
 #'
 #' Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}
 #'
+#' @param area area to match
+#' @return q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
+#'
+#' @examples
+#'
+#' find_area_q(0.75)
+#'
+#' @export
+find_area_q <- function(area) {
+  q_eps <- 1.e-6
+  q_low <- 0
+  q_high <- 1
+  ex_frame <- data.frame(
+    Specificity = seq(0, 1, length.out = 101))
+  while(q_low + q_eps < q_high) {
+    q_mid <- (q_low + q_high)/2
+    ex_frame$Sensitivity <- 1 - (1 -  (1-ex_frame$Specificity)^q_mid)^(1/q_mid)
+    q_mid_area <- area_from_roc_graph(ex_frame)
+    if(q_mid_area <= area) {
+      q_high <- q_mid
+    } else {
+      q_low <- q_mid
+    }
+  }
+  (q_low + q_high)/2
+}
+
+
+#' Find area matching polynomial curve.
+#'
+#' Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}
+#'
 #' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)
 #' @param yValues truth values (not empty, same length as model predictions)
 #' @param ... force later arguments to bind by name.
 #' @param na.rm logical, if TRUE remove NA values.
 #' @param yTarget value considered to be positive.
-#' @return area under curve
+#' @return q that such that cuve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
 #'
 #' @examples
 #'
@@ -186,25 +218,9 @@ find_AUC_q <- function(modelPredictions, yValues,
     yValues = yValues,
     na.rm = na.rm,
     yTarget = yTarget)
-  # sum areas of segments (triangle topped vertical rectangles)
   area <- area_from_roc_graph(d)
-  q_eps <- 1.e-6
-  q_low <- 0
-  q_high <- 1
-  ex_frame <- data.frame(
-    Specificity = seq(0, 1, length.out = 101))
-  while(q_low + q_eps < q_high) {
-    q_mid <- (q_low + q_high)/2
-    ex_frame$Sensitivity <- 1 - (1 -  (1-ex_frame$Specificity)^q_mid)^(1/q_mid)
-    q_mid_area <- area_from_roc_graph(ex_frame)
-    if(q_mid_area <= area) {
-      q_high <- q_mid
-    } else {
-      q_low <- q_mid
-    }
-    # print(paste(q_low, q_mid, q_high, q_mid_area, area))
-  }
-  (q_low + q_high)/2
+  q <- find_area_q(area)
+  q
 }
 
 
