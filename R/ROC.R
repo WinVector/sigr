@@ -221,6 +221,7 @@ find_area_q <- function(area) {
 #' roc <- build_ROC_curve(d$pred, d$truth)
 #' ideal_roc <- data.frame(Specificity = seq(0, 1, length.out = 101))
 #' ideal_roc$Sensitivity <- sensitivity_from_specificity_q(ideal_roc$Specificity, q)
+#' # library(ggplot2)
 #' # ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +
 #' #   geom_line(data = roc, color = "DarkBlue") +
 #' #   geom_line(data  = ideal_roc, color = "Orange") +
