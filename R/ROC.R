@@ -2,6 +2,10 @@
 #' @importFrom stats pbeta
 NULL
 
+#' @importFrom wrapr unpack
+NULL
+
+
 #' calculate ROC curve.
 #'
 #' Based on:
@@ -265,6 +269,123 @@ fit_beta_shapes <- function(x) {
   shape2 <- (Ex * (1 - Ex) / Vx - 1) * (1 - Ex)
   c(shape1 = shape1, shape2 = shape2)
 }
+
+
+#' Find beta shape parameters matching the conditional distributions.
+#'
+#' Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}
+#'
+#' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)
+#' @param yValues truth values (not empty, same length as model predictions)
+#' @param ... force later arguments to bind by name.
+#' @param yTarget value considered to be positive.
+#' @return beta curve shape parameters
+#'
+#' @examples
+#'
+#' d <- rbind(
+#'   data.frame(x = rbeta(1000, shape1 = 6, shape2 = 4), y = TRUE),
+#'   data.frame(x = rbeta(1000, shape1 = 2, shape2 = 3), y = FALSE)
+#' )
+#' find_ROC_matching_ab(modelPredictions = d$x, yValues = d$y)
+#' # should be near
+#' # shape1_pos shape2_pos shape1_neg shape2_neg
+#' # 6          4          2          3
+#' #
+#' # # How to land all as variables
+#' # unpack[shape1_pos, shape2_pos, shape1_neg, shape2_neg] <-
+#' #    find_ROC_matching_ab(modelPredictions = d$x, yValues = d$y)
+#'
+#' @export
+find_ROC_matching_ab <- function(
+  modelPredictions, yValues,
+  ...,
+  yTarget = TRUE) {
+  yValues <- yValues == yTarget
+  shape1 <- shape1_neg <- shape1_pos <- shape2 <- shape2_neg <- shape2_pos <- NULL  # don't look unbound
+  unpack[shape1_pos = shape1, shape2_pos = shape2] <-
+    fit_beta_shapes(modelPredictions[yValues])
+  unpack[shape1_neg = shape1, shape2_neg = shape2] <-
+    fit_beta_shapes(modelPredictions[!yValues])
+  c(shape1_pos = shape1_pos,
+    shape2_pos = shape2_pos,
+    shape1_neg = shape1_neg,
+    shape2_neg = shape2_neg)
+}
+
+
+#' Find beta-1 shape parameters matching the conditional distributions.
+#'
+#' Based on \url{https://journals.sagepub.com/doi/abs/10.1177/0272989X15582210}
+#'
+#' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)
+#' @param yValues truth values (not empty, same length as model predictions)
+#' @param ... force later arguments to bind by name.
+#' @param yTarget value considered to be positive.
+#' @return beta curve shape parameters
+#'
+#' @examples
+#'
+#' d <- rbind(
+#'   data.frame(x = rbeta(1000, shape1 = 6, shape2 = 4), y = TRUE),
+#'   data.frame(x = rbeta(1000, shape1 = 2, shape2 = 5), y = FALSE)
+#' )
+#' find_ROC_matching_ab1(modelPredictions = d$x, yValues = d$y)
+#' # should be near
+#' # shape1_pos shape2_pos shape1_neg shape2_neg          a          b
+#' #   3.985017   1.000000   1.000000   1.746613   3.985017   1.746613
+#' #
+#' # # How to land what you want as variables
+#' # unpack[a, b] <-
+#' #    find_ROC_matching_ab1(modelPredictions = d$x, yValues = d$y)
+#'
+#' @export
+find_ROC_matching_ab1 <- function(
+  modelPredictions, yValues,
+  ...,
+  yTarget = TRUE) {
+  yValues <- yValues == yTarget
+  # match the displayed curve
+  # fit by moment matching to get an initial guess
+  shape1 <- shape1_neg <- shape1_pos <- shape2 <- shape2_neg <- shape2_pos <- NULL  # don't look unbound
+  unpack[shape1_pos = shape1, shape2_pos = shape2] <-
+    fit_beta_shapes(modelPredictions[yValues])
+  unpack[shape1_neg = shape1, shape2_neg = shape2] <-
+    fit_beta_shapes(modelPredictions[!yValues])
+  a0 <- max(1, shape1_pos / shape2_pos)
+  b0 <- max(1, shape2_neg / shape1_neg)
+  # find a close fit
+  empirical_graph <- build_ROC_curve(modelPredictions, yValues)
+  curve_critique <- function(x) {
+    a <- max(1, x[[1]])
+    b <- max(1, x[[2]])
+    ideal_roc <- sensitivity_and_specificity_s12p12n(
+      seq(0, 1, 0.01),
+      shape1_pos = a,
+      shape2_pos = 1,
+      shape1_neg = 1,
+      shape2_neg = b)
+    match_fn <- suppressWarnings(approxfun(
+      x = ideal_roc$Specificity,
+      y = ideal_roc$Sensitivity,
+      yleft = 1,
+      yright = 0))
+    match_values <- match_fn(empirical_graph$Specificity)
+    loss <- mean((empirical_graph$Sensitivity - match_values)^2)
+    regularization <- 1.0e-6*sum((x - 1)^2)
+    loss + regularization
+  }
+  opt <- stats::optim(c(a0, b0), curve_critique, lower = c(1, 1), method = 'L-BFGS-B')
+  a <- max(1, opt$par[[1]])
+  b <- max(1, opt$par[[2]])
+  c(shape1_pos = a,
+    shape2_pos = 1,
+    shape1_neg = 1,
+    shape2_neg = b,
+    a = a,
+    b = b)
+}
+
 
 
 #' Compute the shape1_pos, shape2_pos, shape1_neg, shape2_neg graph.
