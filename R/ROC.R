@@ -25,7 +25,7 @@ build_ROC_curve <- function(modelPredictions, yValues,
                             yTarget = TRUE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::build_ROC_curve")
   if(!is.numeric(modelPredictions)) {
-    stop("sigr::calcAUC modelPredictions must be numeric")
+    stop("sigr::build_ROC_curve modelPredictions must be numeric")
   }
   yValues <- yValues==yTarget
   if(!is.logical(yValues)) {
