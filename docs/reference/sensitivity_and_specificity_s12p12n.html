@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find area matching polynomial curve. — find_AUC_q • sigr</title>
+<title>Compute the shape1_pos, shape2_pos, shape1_neg, shape2_neg graph. — sensitivity_and_specificity_s12p12n • sigr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Find area matching polynomial curve. — find_AUC_q" />
-<meta property="og:description" content="Based on https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/" />
+<meta property="og:title" content="Compute the shape1_pos, shape2_pos, shape1_neg, shape2_neg graph. — sensitivity_and_specificity_s12p12n" />
+<meta property="og:description" content="Compute specificity and sensitivity given specificity and model fit parameters." />
 
 
 
@@ -123,59 +123,100 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find area matching polynomial curve.</h1>
+    <h1>Compute the shape1_pos, shape2_pos, shape1_neg, shape2_neg graph.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr/blob/master/R/ROC.R'><code>R/ROC.R</code></a></small>
-    <div class="hidden name"><code>find_AUC_q.Rd</code></div>
+    <div class="hidden name"><code>sensitivity_and_specificity_s12p12n.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Based on <a href='https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/'>https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/</a></p>
+    <p>Compute specificity and sensitivity given specificity and model fit parameters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_AUC_q</span>(<span class='kw'>modelPredictions</span>, <span class='kw'>yValues</span>, <span class='kw'>...</span>, na.rm = <span class='fl'>FALSE</span>, yTarget = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sensitivity_and_specificity_s12p12n</span>(
+  <span class='kw'>Score</span>,
+  <span class='kw'>...</span>,
+  <span class='kw'>shape1_pos</span>,
+  <span class='kw'>shape2_pos</span>,
+  <span class='kw'>shape1_neg</span>,
+  <span class='kw'>shape2_neg</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>modelPredictions</th>
-      <td><p>numeric predictions (not empty), ordered (either increasing or decreasing)</p></td>
-    </tr>
-    <tr>
-      <th>yValues</th>
-      <td><p>truth values (not empty, same length as model predictions)</p></td>
+      <th>Score</th>
+      <td><p>vector of sensitivities to evaluate</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>force later arguments to bind by name.</p></td>
     </tr>
     <tr>
-      <th>na.rm</th>
-      <td><p>logical, if TRUE remove NA values.</p></td>
+      <th>shape1_pos</th>
+      <td><p>beta shape1 parameter for positive examples</p></td>
     </tr>
     <tr>
-      <th>yTarget</th>
-      <td><p>value considered to be positive.</p></td>
+      <th>shape2_pos</th>
+      <td><p>beta shape2 parameter for positive examples</p></td>
+    </tr>
+    <tr>
+      <th>shape1_neg</th>
+      <td><p>beta shape1 parameter for negative examples</p></td>
+    </tr>
+    <tr>
+      <th>shape2_neg</th>
+      <td><p>beta shape1 parameter for negative examples</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>q that such that curve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area</p>
+    <p>Score, Specificity and Sensitivity data frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(pred = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, truth = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>))
-<span class='kw'>q</span> <span class='op'>&lt;-</span> <span class='fu'>find_AUC_q</span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>pred</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>truth</span>)
-<span class='kw'>roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_ROC_curve.html'>build_ROC_curve</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>pred</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>truth</span>)
-<span class='kw'>ideal_roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(Specificity = <span class='fu'><a href='#base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, length.out = <span class='fl'>101</span>))
-<span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Sensitivity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sensitivity_from_specificity_q.html'>sensitivity_from_specificity_q</a></span>(<span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Specificity</span>, <span class='kw'>q</span>)
+<span class='fu'><a href='#base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/WinVector/wrapr'>wrapr</a></span>)
+
+<span class='kw'>empirical_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/cbind.html'>rbind</a></span>(
+  <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
+    Score = <span class='fu'><a href='#stats/Beta.html'>rbeta</a></span>(<span class='fl'>1000</span>, shape1 = <span class='fl'>3</span>, shape2 = <span class='fl'>2</span>),
+    y = <span class='fl'>TRUE</span>),
+  <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
+    Score = <span class='fu'><a href='#stats/Beta.html'>rbeta</a></span>(<span class='fl'>1000</span>, shape1 = <span class='fl'>5</span>, shape2 = <span class='fl'>4</span>),
+    y = <span class='fl'>FALSE</span>)
+)
+
+<span class='kw'>unpack</span>[shape1_pos = <span class='kw'>shape1</span>, shape2_pos = <span class='kw'>shape2</span>] <span class='op'>&lt;-</span>
+  <span class='fu'><a href='fit_beta_shapes.html'>fit_beta_shapes</a></span>(<span class='kw'>empirical_data</span><span class='op'>$</span><span class='kw'>Score</span>[<span class='kw'>empirical_data</span><span class='op'>$</span><span class='kw'>y</span>])
+
+<span class='kw'>shape1_pos</span>
+</div><div class='output co'>#&gt; [1] 2.870074</div><div class='input'><span class='kw'>shape2_pos</span>
+</div><div class='output co'>#&gt; [1] 1.972727</div><div class='input'>
+<span class='kw'>unpack</span>[shape1_neg = <span class='kw'>shape1</span>, shape2_neg = <span class='kw'>shape2</span>] <span class='op'>&lt;-</span>
+  <span class='fu'><a href='fit_beta_shapes.html'>fit_beta_shapes</a></span>(<span class='kw'>empirical_data</span><span class='op'>$</span><span class='kw'>Score</span>[<span class='op'>!</span><span class='kw'>empirical_data</span><span class='op'>$</span><span class='kw'>y</span>])
+
+<span class='kw'>shape1_neg</span>
+</div><div class='output co'>#&gt; [1] 5.006753</div><div class='input'><span class='kw'>shape2_neg</span>
+</div><div class='output co'>#&gt; [1] 4.025686</div><div class='input'>
+<span class='kw'>ideal_roc</span> <span class='op'>&lt;-</span> <span class='fu'>sensitivity_and_specificity_s12p12n</span>(
+  <span class='fu'><a href='#base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.1</span>),
+  shape1_pos = <span class='kw'>shape1_pos</span>,
+  shape1_neg = <span class='kw'>shape1_neg</span>,
+  shape2_pos = <span class='kw'>shape2_pos</span>,
+  shape2_neg = <span class='kw'>shape2_neg</span>)
+
+
+<span class='kw'>empirical_roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_ROC_curve.html'>build_ROC_curve</a></span>(
+  modelPredictions = <span class='kw'>empirical_data</span><span class='op'>$</span><span class='kw'>Score</span>,
+  yValues = <span class='kw'>empirical_data</span><span class='op'>$</span><span class='kw'>y</span>
+)
+
+<span class='co'># # should look very similar</span>
 <span class='co'># library(ggplot2)</span>
 <span class='co'># ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +</span>
-<span class='co'>#   geom_line(data = roc, color = "DarkBlue") +</span>
-<span class='co'>#   geom_line(data  = ideal_roc, color = "Orange") +</span>
-<span class='co'>#   theme(aspect.ratio=1) +</span>
-<span class='co'>#   ggtitle("example actual and ideal curve")</span>
+<span class='co'>#   geom_line(data = empirical_roc, color='DarkBlue') +</span>
+<span class='co'>#   geom_line(data = ideal_roc, color = 'Orange')</span>
 
 </div></pre>
   </div>

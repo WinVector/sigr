@@ -43,7 +43,16 @@
     <loc>https://winvector.github.io/sigr//reference/find_AUC_q.html</loc>
   </url>
   <url>
+    <loc>https://winvector.github.io/sigr//reference/find_ROC_matching_ab.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/find_ROC_matching_ab1.html</loc>
+  </url>
+  <url>
     <loc>https://winvector.github.io/sigr//reference/find_area_q.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/fit_beta_shapes.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/format.sigr_statistic.html</loc>
@@ -125,6 +134,12 @@
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/run_sigr_tests.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/sensitivity_and_specificity_s12p12n.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/sensitivity_from_specificity_q.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/sigr.html</loc>
