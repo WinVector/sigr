@@ -1,5 +1,5 @@
 
-#' @importFrom stats pbeta
+#' @importFrom stats pbeta approxfun
 NULL
 
 #' @importFrom wrapr unpack
