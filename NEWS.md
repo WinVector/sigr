@@ -1,4 +1,9 @@
 
+# sigr 1.1.2 2020-09-22
+
+  * Remove unused params from ftest-wrapper.
+  * Add htest adatper for ftest-wrapper.
+
 # sigr 1.1.1 2020-09-22
 
   * Fix parens in AUC area matching formula!

@@ -12,9 +12,7 @@
   meany = mean(x[[yColumnName]]),
   ...,
   na.rm = FALSE,
-  format = NULL,
-  pLargeCutoff = 0.05,
-  pSmallCutoff = 1e-05
+  format = NULL
 )
 }
 \arguments{
@@ -33,10 +31,6 @@
 \item{na.rm}{logical, if TRUE remove NA values}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii", "docx")}
-
-\item{pLargeCutoff}{value to declare non-significance at or above.}
-
-\item{pSmallCutoff}{smallest value to print}
 }
 \value{
 formatted string and fields

@@ -96,13 +96,12 @@ wrapFTestImpl <- function(numdf, dendf, FValue,
   r
 }
 
+
 #' Wrap quality statistic of identity r regression.
 #'
 #' @param x lm model
 #' @param ... extra arguments (not used)
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
-#' @param pLargeCutoff value to declare non-significance at or above.
-#' @param pSmallCutoff smallest value to print
 #' @return formatted string
 #'
 #' @examples
@@ -117,9 +116,7 @@ wrapFTestImpl <- function(numdf, dendf, FValue,
 #' @export
 wrapFTest.lm <- function(x,
                            ...,
-                           format = NULL,
-                           pLargeCutoff=0.05,
-                           pSmallCutoff=1.0e-5) {
+                           format = NULL) {
   linearRegressionModel <- x
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.lm")
   if(!'lm' %in% class(linearRegressionModel)) {
@@ -141,8 +138,6 @@ wrapFTest.lm <- function(x,
 #' @param x summary.lm summary(lm()) object
 #' @param ... extra arguments (not used)
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
-#' @param pLargeCutoff value to declare non-significance at or above.
-#' @param pSmallCutoff smallest value to print
 #' @return formatted string
 #'
 #' @examples
@@ -157,9 +152,7 @@ wrapFTest.lm <- function(x,
 #' @export
 wrapFTest.summary.lm <- function(x,
                          ...,
-                         format = NULL,
-                         pLargeCutoff=0.05,
-                         pSmallCutoff=1.0e-5) {
+                         format = NULL) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.summary.lm")
   fitSummary <- x
   if(!'summary.lm' %in% class(fitSummary)) {
@@ -185,8 +178,6 @@ wrapFTest.summary.lm <- function(x,
 #' @param ... extra arguments (not used)
 #' @param na.rm logical, if TRUE remove NA values
 #' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx")
-#' @param pLargeCutoff value to declare non-significance at or above.
-#' @param pSmallCutoff smallest value to print
 #' @return formatted string and fields
 #'
 #' @examples
@@ -204,10 +195,8 @@ wrapFTest.data.frame <- function(x,
                                  nParameters= 1,
                                  meany= mean(x[[yColumnName]]),
                                  ...,
-                                 na.rm= FALSE,
-                                 format = NULL,
-                                 pLargeCutoff= 0.05,
-                                 pSmallCutoff= 1.0e-5) {
+                                 na.rm = FALSE,
+                                 format = NULL) {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.data.frame")
   d <- x
   y <- d[[yColumnName]]
@@ -280,6 +269,37 @@ wrapFTest.anova <- function(x,
   names(res) <- attr(x,"row.names")[seq_len(n-1)]
   res
 }
+
+
+#' Wrap F-test (ratio of variances).
+#'
+#' @param x lm model
+#' @param ... extra arguments (not used)
+#' @param format if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)
+#' @return formatted string
+#'
+#' @examples
+#'
+#' v <- var.test(c(1,2,3,4,5,6,7,7), c(1, 1, 2))
+#' sigr::wrapFTest(v)
+#'
+#'
+#' @export
+wrapFTest.htest <- function(x,
+                            ...,
+                            format = NULL) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr::wrapFTest.htest")
+  if(!("htest" %in% class(x))) {
+    stop("sigr::wrapFTest.htest expected x to have class htest")
+  }
+  wrapFTestImpl(
+    numdf = x$parameter['num df'],
+    dendf = x$parameter['denom df'],
+    FValue = x$statistic,
+    format = format)
+}
+
+
 
 #' Wrap quality statistic of a linear relation from ezANOVA (package ez).
 #'

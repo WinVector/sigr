@@ -4,7 +4,7 @@
 \alias{wrapFTest.summary.lm}
 \title{Wrap quality statistic of linear regression summary.}
 \usage{
-\method{wrapFTest}{summary.lm}(x, ..., format = NULL, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{wrapFTest}{summary.lm}(x, ..., format = NULL)
 }
 \arguments{
 \item{x}{summary.lm summary(lm()) object}
@@ -12,10 +12,6 @@
 \item{...}{extra arguments (not used)}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)}
-
-\item{pLargeCutoff}{value to declare non-significance at or above.}
-
-\item{pSmallCutoff}{smallest value to print}
 }
 \value{
 formatted string

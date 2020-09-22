@@ -4,7 +4,7 @@
 \alias{wrapFTest.lm}
 \title{Wrap quality statistic of identity r regression.}
 \usage{
-\method{wrapFTest}{lm}(x, ..., format = NULL, pLargeCutoff = 0.05, pSmallCutoff = 1e-05)
+\method{wrapFTest}{lm}(x, ..., format = NULL)
 }
 \arguments{
 \item{x}{lm model}
@@ -12,10 +12,6 @@
 \item{...}{extra arguments (not used)}
 
 \item{format}{if set the format to return ("html", "latex", "markdown", "ascii", "docx", ...)}
-
-\item{pLargeCutoff}{value to declare non-significance at or above.}
-
-\item{pSmallCutoff}{smallest value to print}
 }
 \value{
 formatted string
