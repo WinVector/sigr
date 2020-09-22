@@ -11,7 +11,7 @@
     * using option ‘--as-cran’
     * checking for file ‘sigr/DESCRIPTION’ ... OK
     * checking extension type ... Package
-    * this is package ‘sigr’ version ‘1.1.0’
+    * this is package ‘sigr’ version ‘1.1.1’
     * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
     ...
@@ -24,14 +24,14 @@
 ### Windows
 
     devtools::check_win_devel()
-    * using R Under development (unstable) (2020-09-09 r79174)
+    * using R Under development (unstable) (2020-09-17 r79226)
     * using platform: x86_64-w64-mingw32 (64-bit)
     * using session charset: ISO8859-1
     * checking for file 'sigr/DESCRIPTION' ... OK
     * checking extension type ... Package
-    * this is package 'sigr' version '1.1.0'
+    * this is package 'sigr' version '1.1.1'
     * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
-    Maintainer: 'John Mount <jmount@win-vector.com>'
+    Maintainer: 'John Mount <jmount@win-vector.com>' 
     ...
     Status: OK
  
