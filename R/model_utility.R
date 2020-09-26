@@ -31,7 +31,8 @@
 #'   made_purchase = c(FALSE, TRUE, FALSE, FALSE),
 #'   false_positive_value = -5,    # acting on any predicted positive costs $5
 #'   true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
-#'   true_negative_value = 0,      # true negatives have no value in our application
+#'   true_negative_value = 0.001,  # true negatives have no value in our application
+#'                                 # but just give ourselves a small reward for being right
 #'   false_negative_value = -0.01  # adding a small notional tax for false negatives,
 #'                                 # don't want our competitor getting these accounts.
 #'   )
@@ -61,6 +62,11 @@ model_utility <- function(
               false_negative_value_column_name),
           drop = FALSE]
   d[[outcome_name]] <- d[[outcome_name]] == outcome_target
+  # simplify to impossible cases cost zero
+  d[[true_positive_value_column_name]][!d[[outcome_name]]] <- 0
+  d[[false_positive_value_column_name]][d[[outcome_name]]] <- 0
+  d[[true_negative_value_column_name]][d[[outcome_name]]] <- 0
+  d[[false_negative_value_column_name]][!d[[outcome_name]]] <- 0
   model_order <- order(d[[model_name]], decreasing = TRUE)
   d <- d[model_order, ]
   rownames(d) <- NULL
@@ -70,10 +76,10 @@ model_utility <- function(
     count_taken = seq_len(nrow(d)),
     true_positive_count = cumsum(d[[outcome_name]]),
     false_positive_count = cumsum(!d[[outcome_name]]),
-    true_positive_value = cumsum(ifelse(d[[outcome_name]], d[[true_positive_value_column_name]], 0)),
-    false_positive_value = cumsum(ifelse(d[[outcome_name]], 0, d[[false_positive_value_column_name]])),
-    true_negative_value_cumsum = cumsum(ifelse(d[[outcome_name]], 0, d[[true_negative_value_column_name]])),
-    false_negative_value_cumsum = cumsum(ifelse(d[[outcome_name]], d[[false_negative_value_column_name]], 0)),
+    true_positive_value = cumsum(d[[true_positive_value_column_name]]),
+    false_positive_value = cumsum(d[[false_positive_value_column_name]]),
+    true_negative_value_cumsum = cumsum(d[[true_negative_value_column_name]]),
+    false_negative_value_cumsum = cumsum(d[[false_negative_value_column_name]]),
     model = model_name
   )
   # remove inaccessible rows

@@ -61,6 +61,9 @@
     <loc>https://winvector.github.io/sigr//reference/getRenderingFormat.html</loc>
   </url>
   <url>
+    <loc>https://winvector.github.io/sigr//reference/model_utility.html</loc>
+  </url>
+  <url>
     <loc>https://winvector.github.io/sigr//reference/permTestAUC.html</loc>
   </url>
   <url>
@@ -209,6 +212,9 @@
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/wrapFTest.data.frame.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/wrapFTest.htest.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/wrapFTest.lm.html</loc>

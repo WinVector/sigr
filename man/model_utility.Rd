@@ -56,7 +56,8 @@ d <- data.frame(
   made_purchase = c(FALSE, TRUE, FALSE, FALSE),
   false_positive_value = -5,    # acting on any predicted positive costs $5
   true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
-  true_negative_value = 0,      # true negatives have no value in our application
+  true_negative_value = 0.001,  # true negatives have no value in our application
+                                # but just give ourselves a small reward for being right
   false_negative_value = -0.01  # adding a small notional tax for false negatives,
                                 # don't want our competitor getting these accounts.
   )
