@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   lmExample: lmExample.html
   sigrFormatting: sigrFormatting.html
-last_built: 2020-09-26T18:20Z
+last_built: 2020-09-27T19:54Z
 urls:
   reference: https://winvector.github.io/sigr//reference
   article: https://winvector.github.io/sigr//articles

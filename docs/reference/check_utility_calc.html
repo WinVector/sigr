@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate model utility — model_utility • sigr</title>
+<title>Check a few things we expect to be true for the utility frame. — check_utility_calc • sigr</title>
 
 
 <!-- jquery -->
@@ -39,16 +39,8 @@
 
 
 
-<meta property="og:title" content="Estimate model utility — model_utility" />
-<meta property="og:description" content="Compute the model utility on a data set for taking all items
-greater than or equal to each model-score threshold. The user
-specifies the outcome (a binary classification target), a model
-score (numeric), and the values (positive, negative, or zero) of
-each case: true positives, false positives, true negatives, and
-false negatives. What is returned is a table of model thresholds
-and the total value of using this model score plus the given threshold
-as a classification rule. NA is used to mark a threshold where no rows
-are selected." />
+<meta property="og:title" content="Check a few things we expect to be true for the utility frame. — check_utility_calc" />
+<meta property="og:description" content="Utility to inspect a utility frame for some debugging. Check is only valid for scalar utilities." />
 
 
 
@@ -131,79 +123,29 @@ are selected." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate model utility</h1>
+    <h1>Check a few things we expect to be true for the utility frame.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/sigr/blob/master/R/model_utility.R'><code>R/model_utility.R</code></a></small>
-    <div class="hidden name"><code>model_utility.Rd</code></div>
+    <div class="hidden name"><code>check_utility_calc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute the model utility on a data set for taking all items
-greater than or equal to each model-score threshold. The user
-specifies the outcome (a binary classification target), a model
-score (numeric), and the values (positive, negative, or zero) of
-each case: true positives, false positives, true negatives, and
-false negatives. What is returned is a table of model thresholds
-and the total value of using this model score plus the given threshold
-as a classification rule. NA is used to mark a threshold where no rows
-are selected.</p>
+    <p>Utility to inspect a utility frame for some debugging. Check is only valid for scalar utilities.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_utility</span>(
-  <span class='kw'>d</span>,
-  <span class='kw'>model_name</span>,
-  <span class='kw'>outcome_name</span>,
-  <span class='kw'>...</span>,
-  outcome_target = <span class='fl'>TRUE</span>,
-  true_positive_value_column_name = <span class='st'>"true_positive_value"</span>,
-  false_positive_value_column_name = <span class='st'>"false_positive_value"</span>,
-  true_negative_value_column_name = <span class='st'>"true_negative_value"</span>,
-  false_negative_value_column_name = <span class='st'>"false_negative_value"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>d</th>
-      <td><p>A data.frame containing all data and outcome values.</p></td>
-    </tr>
-    <tr>
-      <th>model_name</th>
-      <td><p>Name of the column containing model predictions.</p></td>
-    </tr>
-    <tr>
-      <th>outcome_name</th>
-      <td><p>Name of the column containing the truth values.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not used, forces later argument to be specified by name.</p></td>
-    </tr>
-    <tr>
-      <th>outcome_target</th>
-      <td><p>truth value considered to be TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>true_positive_value_column_name</th>
-      <td><p>column name of per-row values of true positive cases. Only used on positive instances.</p></td>
-    </tr>
-    <tr>
-      <th>false_positive_value_column_name</th>
-      <td><p>column name of per-row values of false positive cases. Only used on negative instances.</p></td>
-    </tr>
-    <tr>
-      <th>true_negative_value_column_name</th>
-      <td><p>column name of per-row values of true negative cases. Only used on negative instances.</p></td>
-    </tr>
-    <tr>
-      <th>false_negative_value_column_name</th>
-      <td><p>column name of per-row values of false negative cases. Only used on positive instances.</p></td>
+      <th>values</th>
+      <td><p>model_utility result</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of all threshold values.</p>
+    <p>NULL if okay, else a string describing the problem.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -218,23 +160,9 @@ are selected.</p>
                                 <span class='co'># don't want our competitor getting these accounts.</span>
   )
 
-<span class='kw'>values</span> <span class='op'>&lt;-</span> <span class='fu'>model_utility</span>(<span class='kw'>d</span>, <span class='st'>'predicted_probability'</span>, <span class='st'>'made_purchase'</span>)
-<span class='kw'>best_strategy</span> <span class='op'>&lt;-</span> <span class='kw'>values</span>[<span class='kw'>values</span><span class='op'>$</span><span class='kw'>total_value</span> <span class='op'>&gt;=</span> <span class='fu'><a href='#base/Extremes.html'>max</a></span>(<span class='kw'>values</span><span class='op'>$</span><span class='kw'>total_value</span>), ][<span class='fl'>1</span>, ]
-<span class='fu'><a href='#base/t.html'>t</a></span>(<span class='kw'>best_strategy</span>)
-</div><div class='output co'>#&gt;                      2                      
-#&gt; model                "predicted_probability"
-#&gt; threshold            "0.25"                 
-#&gt; count_taken          "3"                    
-#&gt; fraction_taken       "0.75"                 
-#&gt; true_positive_value  "95"                   
-#&gt; false_positive_value "-10"                  
-#&gt; true_negative_value  "0.001"                
-#&gt; false_negative_value "0"                    
-#&gt; total_value          "85.001"               
-#&gt; true_negative_count  "1"                    
-#&gt; false_negative_count "0"                    
-#&gt; true_positive_count  "1"                    
-#&gt; false_positive_count "2"                    </div><div class='input'>
+<span class='kw'>values</span> <span class='op'>&lt;-</span> <span class='fu'><a href='model_utility.html'>model_utility</a></span>(<span class='kw'>d</span>, <span class='st'>'predicted_probability'</span>, <span class='st'>'made_purchase'</span>)
+<span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>)
+</div><div class='output co'>#&gt; NULL</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
