@@ -183,7 +183,7 @@ model_utility <- function(
 
 #' Check a few things we expect to be true for the utility frame.
 #'
-#' Utility to inspect a utility frame for some debugging
+#' Utility to inspect a utility frame for some debugging. Check is only valid for scalar utilities.
 #'
 #' @param values model_utility result
 #' @return NULL if okay, else a string describing the problem.

@@ -13,7 +13,7 @@ check_utility_calc(values)
 NULL if okay, else a string describing the problem.
 }
 \description{
-Utility to inspect a utility frame for some debugging
+Utility to inspect a utility frame for some debugging. Check is only valid for scalar utilities.
 }
 \examples{
 
