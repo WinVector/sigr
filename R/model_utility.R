@@ -277,8 +277,7 @@ check_utility_calc <- function(values) {
     }
   }
   # check columns start at zero
-  for(col in c('threshold',
-               'true_negative_value', 'false_negative_value',
+  for(col in c('true_negative_value', 'false_negative_value',
                'true_negative_count', 'false_negative_count')) {
     if(values[[col]][[1]] != 0) {
       return(paste0("column ", col, " didn't start at zero"))
