@@ -4,16 +4,20 @@
 \alias{check_utility_calc}
 \title{Check a few things we expect to be true for the utility frame.}
 \usage{
-check_utility_calc(values)
+check_utility_calc(values, ..., constant_utilities = FALSE)
 }
 \arguments{
 \item{values}{model_utility result}
+
+\item{...}{Not used, forces later argument to be specified by name.}
+
+\item{constant_utilities}{logical, if TRUE assume utilities were constant per-row.}
 }
 \value{
 NULL if okay, else a string describing the problem.
 }
 \description{
-Utility to inspect a utility frame for some debugging. Check is only valid for single-sign utilities.
+Utility to inspect a utility frame for some debugging.
 }
 \examples{
 

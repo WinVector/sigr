@@ -12,7 +12,7 @@ test_utility_calc_1 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values)))
+  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE)))
 
   # cat(wrapr::draw_frame(values))
 
@@ -41,7 +41,7 @@ test_utility_calc_2 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values)))
+  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE)))
 
   # cat(wrapr::draw_frame(values))
 
@@ -73,7 +73,7 @@ test_utility_calc_3 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values)))
+  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE)))
 
   invisible(NULL)
 }

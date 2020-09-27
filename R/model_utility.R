@@ -183,9 +183,11 @@ model_utility <- function(
 
 #' Check a few things we expect to be true for the utility frame.
 #'
-#' Utility to inspect a utility frame for some debugging. Check is only valid for single-sign utilities.
+#' Utility to inspect a utility frame for some debugging.
 #'
 #' @param values model_utility result
+#' @param ... Not used, forces later argument to be specified by name.
+#' @param constant_utilities logical, if TRUE assume utilities were constant per-row.
 #' @return NULL if okay, else a string describing the problem.
 #'
 #' @export
@@ -207,7 +209,9 @@ model_utility <- function(
 #' check_utility_calc(values)
 #'
 #' @keywords internal
-check_utility_calc <- function(values) {
+check_utility_calc <- function(values,
+                               ...,
+                               constant_utilities = FALSE) {
   n <- nrow(values)
   if(n < 2) {
     return("too few rows")
@@ -291,8 +295,35 @@ check_utility_calc <- function(values) {
       return(paste0("column ", col, " didn't end at zero"))
     }
   }
-  if(!values$fraction_taken[[1]] == 1.0) {
+  if(values$fraction_taken[[1]] != 1.0) {
     return("fraction taken didn't start at 1")
+  }
+  if(values$fraction_taken[[n]] != 0.0) {
+    return("fraction taken didn't end at 1")
+  }
+  if(constant_utilities) {
+    # check utilities track counts
+    for(pair in list(
+      c('true_positive_count', 'true_positive_value'),
+      c('false_positive_count', 'false_positive_value'),
+      c('true_negative_count', 'true_negative_value'),
+      c('false_negative_count', 'false_negative_value')
+    )) {
+      count_col <- pair[[1]]
+      value_col <- pair[[2]]
+      if(!isTRUE(all(values[[value_col]] == 0))) {
+        if(any((values[[count_col]] == 0) & (values[[value_col]] != 0))) {
+          return(paste0("value col is non-zero where count col is zero: ", count_col))
+        }
+        ratios <- unique((values[[value_col]] / values[[count_col]])[values[[count_col]] != 0])
+        if(length(ratios) > 1) {
+          typical <- mean(ratios)
+          if(max(abs(ratios - typical)) > 1.0e-3) {
+            return(paste0("value col is not a constant ratio of count col: ", count_col))
+          }
+        }
+      }
+    }
   }
   NULL  # good
 }

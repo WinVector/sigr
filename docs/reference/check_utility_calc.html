@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Check a few things we expect to be true for the utility frame. — check_utility_calc" />
-<meta property="og:description" content="Utility to inspect a utility frame for some debugging. Check is only valid for single-sign utilities." />
+<meta property="og:description" content="Utility to inspect a utility frame for some debugging." />
 
 
 
@@ -129,10 +129,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Utility to inspect a utility frame for some debugging. Check is only valid for single-sign utilities.</p>
+    <p>Utility to inspect a utility frame for some debugging.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>)</pre>
+    <pre class="usage"><span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>, <span class='kw'>...</span>, constant_utilities = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,6 +140,14 @@
     <tr>
       <th>values</th>
       <td><p>model_utility result</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not used, forces later argument to be specified by name.</p></td>
+    </tr>
+    <tr>
+      <th>constant_utilities</th>
+      <td><p>logical, if TRUE assume utilities were constant per-row.</p></td>
     </tr>
     </table>
 
