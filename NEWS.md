@@ -1,5 +1,5 @@
 
-# sigr 1.1.2 2020-09-26
+# sigr 1.1.2 2020-09-27
 
   * Add model_utility.
   * Remove unused params from ftest-wrapper.

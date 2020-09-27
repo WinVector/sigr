@@ -1,6 +1,87 @@
 
 # TODO: confirm calculation
 
+
+calc_utility_impl <- function(
+  d,
+  model_name,
+  outcome_name,
+  ...,
+  outcome_target = TRUE,
+  true_positive_value_column_name = 'true_positive_value',
+  false_positive_value_column_name = 'false_positive_value',
+  true_negative_value_column_name = 'true_negative_value',
+  false_negative_value_column_name = 'false_negative_value') {
+  wrapr::stop_if_dot_args(substitute(list(...)), "sigr:::calc_utility_impl")
+  # narrow frame
+  d <- d[ , c(model_name,
+              outcome_name,
+              true_positive_value_column_name,
+              false_positive_value_column_name,
+              true_negative_value_column_name,
+              false_negative_value_column_name),
+          drop = FALSE]
+  # make sure outcome is TRUE/FALSE
+  d[[outcome_name]] <- d[[outcome_name]] == outcome_target
+  # simplify to impossible cases cost zero
+  d[[true_positive_value_column_name]][!d[[outcome_name]]] <- 0
+  d[[false_positive_value_column_name]][d[[outcome_name]]] <- 0
+  d[[true_negative_value_column_name]][d[[outcome_name]]] <- 0
+  d[[false_negative_value_column_name]][!d[[outcome_name]]] <- 0
+  model_order <- order(d[[model_name]], decreasing = TRUE)
+  d <- d[model_order, ]
+  rownames(d) <- NULL
+  # get basic cumulative statistics
+  result <- data.frame(
+    model = model_name,
+    threshold = d[[model_name]],
+    count_taken = seq_len(nrow(d)),
+    fraction_taken = 0,
+    true_positive_value = cumsum(d[[true_positive_value_column_name]]),
+    false_positive_value = cumsum(d[[false_positive_value_column_name]]),
+    true_negative_value_cumsum = cumsum(d[[true_negative_value_column_name]]),
+    false_negative_value_cumsum = cumsum(d[[false_negative_value_column_name]])
+  )
+  result$fraction_taken <- result$count_taken/max(result$count_taken)
+  # remove inaccessible rows
+  burried_rows <- result$threshold[-1] >= result$threshold[-nrow(result)]
+  if(any(burried_rows)) {
+    result <- result[!c(burried_rows, FALSE), ]
+    rownames(result) <- NULL
+  }
+  if(length(result$threshold) > 1) {
+    # move thresholds to midpoints (except end)
+    result$threshold <- c((result$threshold[-1] + result$threshold[-nrow(result)])/2,
+                          result$threshold[[length(result$threshold)]])
+    # resort to ascending threshold order
+    result <- result[order(result$threshold), ]
+    rownames(result) <- NULL
+  }
+  # add in ideal "nothing selected" row
+  result <- rbind(
+    result,
+    data.frame(
+      model = model_name,
+      threshold = NA_real_,  # a large number would do here
+      count_taken = 0,
+      fraction_taken = 0.0,
+      true_positive_value = 0,
+      false_positive_value = 0,
+      true_negative_value_cumsum = 0,
+      false_negative_value_cumsum = 0
+    ))
+  rownames(result) <- NULL
+  # add derived columns and clean up
+  result$true_negative_value <- sum(d[[true_negative_value_column_name]]) - result$true_negative_value_cumsum
+  result$false_negative_value <- sum(d[[false_negative_value_column_name]]) - result$false_negative_value_cumsum
+  result$true_negative_value_cumsum <- NULL
+  result$false_negative_value_cumsum <- NULL
+  result$total_value = result$true_positive_value + result$false_positive_value +
+    result$true_negative_value + result$false_negative_value
+  result
+}
+
+
 #' Estimate model utility
 #'
 #' Compute the model utility on a data set for taking all items
@@ -54,6 +135,7 @@ model_utility <- function(
   true_negative_value_column_name = 'true_negative_value',
   false_negative_value_column_name = 'false_negative_value') {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::model_utility")
+  # narrow frame
   d <- d[ , c(model_name,
               outcome_name,
               true_positive_value_column_name,
@@ -61,56 +143,157 @@ model_utility <- function(
               true_negative_value_column_name,
               false_negative_value_column_name),
           drop = FALSE]
-  d[[outcome_name]] <- d[[outcome_name]] == outcome_target
-  # simplify to impossible cases cost zero
-  d[[true_positive_value_column_name]][!d[[outcome_name]]] <- 0
-  d[[false_positive_value_column_name]][d[[outcome_name]]] <- 0
-  d[[true_negative_value_column_name]][d[[outcome_name]]] <- 0
-  d[[false_negative_value_column_name]][!d[[outcome_name]]] <- 0
-  model_order <- order(d[[model_name]], decreasing = TRUE)
-  d <- d[model_order, ]
-  rownames(d) <- NULL
-  # get basic cumulative statistics
-  result <- data.frame(
-    threshold = d[[model_name]],
-    count_taken = seq_len(nrow(d)),
-    true_positive_count = cumsum(d[[outcome_name]]),
-    false_positive_count = cumsum(!d[[outcome_name]]),
-    true_positive_value = cumsum(d[[true_positive_value_column_name]]),
-    false_positive_value = cumsum(d[[false_positive_value_column_name]]),
-    true_negative_value_cumsum = cumsum(d[[true_negative_value_column_name]]),
-    false_negative_value_cumsum = cumsum(d[[false_negative_value_column_name]]),
-    model = model_name
+  # get complete counts
+  d_count <- d
+  d_count[[true_positive_value_column_name]] <- 1
+  d_count[[false_positive_value_column_name]] <- 1
+  d_count[[true_negative_value_column_name]] <- 1
+  d_count[[false_negative_value_column_name]] <- 1
+  result_counts <- calc_utility_impl(
+    d = d_count,
+    model_name = model_name,
+    outcome_name = outcome_name,
+    outcome_target = outcome_target,
+    true_positive_value_column_name = true_positive_value_column_name,
+    false_positive_value_column_name = false_positive_value_column_name,
+    true_negative_value_column_name = true_negative_value_column_name,
+    false_negative_value_column_name = false_negative_value_column_name)
+  result_counts$true_negative_count <- result_counts$true_negative_value
+  result_counts$false_negative_count <- result_counts$false_negative_value
+  result_counts$true_positive_count <- result_counts$true_positive_value
+  result_counts$false_positive_count <- result_counts$false_positive_value
+  # get user specified utilities
+  result_utility <- calc_utility_impl(
+    d = d,
+    model_name = model_name,
+    outcome_name = outcome_name,
+    outcome_target = outcome_target,
+    true_positive_value_column_name = true_positive_value_column_name,
+    false_positive_value_column_name = false_positive_value_column_name,
+    true_negative_value_column_name = true_negative_value_column_name,
+    false_negative_value_column_name = false_negative_value_column_name)
+  # combine and return results
+  cbind(
+    result_utility,
+    result_counts[ ,
+                   c('true_negative_count', 'false_negative_count', 'true_positive_count', 'false_positive_count')]
   )
-  # remove inaccessible rows
-  burried_rows <- result$threshold[-1] >= result$threshold[-nrow(result)]
-  if(any(burried_rows)) {
-    result <- result[!c(burried_rows, FALSE), ]
-    rownames(result) <- NULL
+}
+
+
+#' Check a few things we expect to be true for the utility frame.
+#'
+#' Utility to inspect a utility frame for some debugging
+#'
+#' @param values model_utility result
+#' @return NULL if okay, else a string describing the problem.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' d <- data.frame(
+#'   predicted_probability = c(0, 0.5, 0.5, 0.5),
+#'   made_purchase = c(FALSE, TRUE, FALSE, FALSE),
+#'   false_positive_value = -5,    # acting on any predicted positive costs $5
+#'   true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
+#'   true_negative_value = 0.001,  # true negatives have no value in our application
+#'                                 # but just give ourselves a small reward for being right
+#'   false_negative_value = -0.01  # adding a small notional tax for false negatives,
+#'                                 # don't want our competitor getting these accounts.
+#'   )
+#'
+#' values <- model_utility(d, 'predicted_probability', 'made_purchase')
+#' check_utility_calc(values)
+#'
+#' @keywords internal
+check_utility_calc <- function(values) {
+  n <- nrow(values)
+  if(n < 2) {
+    return("too few rows")
   }
-  # add in ideal "nothing selected" row
-  result <- rbind(
-    data.frame(
-      threshold = NA_real_,  # a large number would do here
-      count_taken = 0,
-      true_positive_count = 0,
-      false_positive_count = 0,
-      true_positive_value = 0,
-      false_positive_value = 0,
-      true_negative_value_cumsum = 0,
-      false_negative_value_cumsum = 0,
-      model = model_name
-    ),
-    result)
-  rownames(result) <- NULL
-  # add derived columns and clean up
-  result$true_negative_count <- sum(!d[[outcome_name]]) - result$false_positive_count
-  result$false_negative_count <- sum(d[[outcome_name]]) - result$true_positive_count
-  result$true_negative_value <- sum(d[[true_negative_value_column_name]]) - result$true_negative_value_cumsum
-  result$false_negative_value <- sum(d[[false_negative_value_column_name]]) - result$false_negative_value_cumsum
-  result$true_negative_value_cumsum <- NULL
-  result$false_negative_value_cumsum <- NULL
-  result$total_value = result$true_positive_value + result$false_positive_value +
-    result$true_negative_value + result$false_negative_value
-  result
+  if(!is.na(values$threshold[[n]])) {
+    return("pseudo-observation wasn't at the end")
+  }
+  if(any(is.na(values$threshold[-n]))) {
+    return("more than one NA threshold")
+  }
+  if(!isTRUE(all(values$threshold[-c(n-1, n)] < values$threshold[-c(1, n)]))) {
+    return("non-NA threshold are not strictly increasing")
+  }
+  count_sum <- values$true_negative_count + values$false_negative_count +
+    values$true_positive_count + values$false_positive_count
+  if(length(unique(count_sum)) != 1) {
+    return("counts don't total to a constant")
+  }
+  if(count_sum[[1]] != max(values$count_taken)) {
+    return("counts total doesn't match max taken")
+  }
+  if(length(unique(values$model)) != 1) {
+    return("model name is not a constant")
+  }
+  # check columns for not-NA
+  for(col in c('model', 'count_taken', 'fraction_taken',
+               'true_positive_value', 'false_positive_value',
+               'true_negative_value', 'false_negative_value',
+               'true_negative_count', 'false_negative_count',
+               'true_positive_count', 'false_positive_count')) {
+    if(isTRUE(any(is.na(values[[col]])))) {
+      return(paste0('column ', col, ' had a NA value'))
+    }
+  }
+  # check columns for non-negativity
+  for(col in c('count_taken', 'fraction_taken',
+               'true_negative_count', 'false_negative_count',
+               'true_positive_count', 'false_positive_count')) {
+    if(!isTRUE(all(values[[col]] >= 0))) {
+      return(paste0('column ', col, ' had a negative value'))
+    }
+  }
+  # check columns are strictly decreasing
+  for(col in c('count_taken', 'fraction_taken')) {
+    if(!isTRUE(all(values[[col]][-n] > values[[col]][-1]))) {
+      return(paste0("column ", col, " is not strictly decreasing"))
+    }
+  }
+  # check columns are non-increasing
+  for(col in c('true_positive_count', 'false_positive_count')) {
+    if(!isTRUE(all(values[[col]][-n] >= values[[col]][-1]))) {
+      return(paste0("column ", col, " is not strictly decreasing"))
+    }
+  }
+  # check columns are non-decreasing
+  for(col in c('true_negative_count', 'false_negative_count')) {
+    if(!isTRUE(all(values[[col]][-n] <= values[[col]][-1]))) {
+      return(paste0("column ", col, " is not strictly decreasing"))
+    }
+  }
+  # check columns are monotone
+  for(col in c('true_positive_value', 'false_positive_value',
+               'true_negative_value', 'false_negative_value')) {
+    if((!isTRUE(all(values[[col]][-n] <= values[[col]][-1]))) &&
+       (!isTRUE(all(values[[col]][-n] >= values[[col]][-1])))) {
+      return(paste0("column ", col, " is not monotone"))
+    }
+  }
+  # check columns start at zero
+  for(col in c('threshold',
+               'true_negative_value', 'false_negative_value',
+               'true_negative_count', 'false_negative_count')) {
+    if(values[[col]][[1]] != 0) {
+      return(paste0("column ", col, " didn't start at zero"))
+    }
+  }
+  # check columns end at zero
+  for(col in c('count_taken', 'fraction_taken',
+               'true_positive_value', 'false_positive_value',
+               'true_positive_count', 'false_positive_count')) {
+    if(values[[col]][[n]] != 0) {
+      return(paste0("column ", col, " didn't end at zero"))
+    }
+  }
+  if(!values$fraction_taken[[1]] == 1.0) {
+    return("fraction taken didn't start at 1")
+  }
+  NULL  # good
 }
