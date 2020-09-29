@@ -1,0 +1,160 @@
+---
+title: "temp"
+author: "Nina Zumel"
+date: "9/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(wrapr)
+library(ggplot2)
+library(sigr)
+```
+
+functions 
+
+```{r}
+# Plot data and thresholds
+plot_data_and_T = function(d, expect) {
+  df = d[, dvars]
+  df$y = runif(nrow(df), max=0.1)
+  ggplot() + 
+    geom_point(data=df, aes(x=predicted_probability, y=y, color=made_purchase)) + 
+    geom_vline(data=expect, aes(xintercept=threshold), linetype=2) + 
+    scale_color_brewer(palette="Dark2")
+}
+
+# calculate the counts for a threshold
+get_counts = function(d, threshold) {
+  p = d$predicted_probability
+  cls = d$made_purchase
+  
+  total = sum(p >= threshold)
+  tn_count = sum(p < threshold & cls==FALSE)
+  fn_count = sum(p < threshold & cls==TRUE)
+  tp_count = sum(p >= threshold & cls==TRUE)
+  fp_count = sum(p >= threshold & cls==FALSE)
+  
+  data.frame(threshold=threshold,
+             total=total,
+             tn_count=tn_count,
+             fn_count=fn_count,
+             tp_count=tp_count,
+             fp_count=fp_count)
+}
+
+get_all_counts = function(d, expect) {
+  thresholds = expect$threshold
+  thresholds = ifelse(is.na(thresholds), 1.01, thresholds)
+  flist = lapply(thresholds, function(th) get_counts(d, th))
+  data.table::rbindlist(flist)
+}
+
+```
+
+test 1
+
+```{r}
+ d <- data.frame(
+    predicted_probability = c(0, 0.5, 0.5, 0.5),
+    made_purchase = c(FALSE, TRUE, FALSE, FALSE),
+    false_positive_value = -5,    # acting on any predicted positive costs $5
+    true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
+    true_negative_value = 0.001,  # true negatives have no value in our application
+    # but just give ourselves a small reward for being right
+    false_negative_value = -0.01  # adding a small notional tax for false negatives,
+    # don't want our competitor getting these accounts.
+  )
+dvars = qc(predicted_probability, made_purchase)
+
+values <- model_utility(d, 'predicted_probability', 'made_purchase')
+
+evars = qc(threshold, count_taken, true_negative_count, false_negative_count, true_positive_count, false_positive_count)
+
+d[, dvars]
+plot_data_and_T(d, values) + ggtitle("test 1")
+get_all_counts(d, values)
+values[, evars]
+
+```
+
+test 2
+
+```{r}
+ d <- data.frame(
+    predicted_probability = c(0, 0.25, 0.5, 0.5, 0.5, 0.75, 0.8, 1.0),
+    made_purchase = c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, TRUE),
+    false_positive_value = -5,    # acting on any predicted positive costs $5
+    true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
+    true_negative_value = 0.001,  # true negatives have no value in our application
+    # but just give ourselves a small reward for being right
+    false_negative_value = -0.01  # adding a small notional tax for false negatives,
+    # don't want our competitor getting these accounts.
+  )
+
+values <- model_utility(d, 'predicted_probability', 'made_purchase')
+ 
+d[, dvars]
+plot_data_and_T(d, values) + ggtitle("test 2")
+get_all_counts(d, values)
+values[, evars]
+  
+  
+```
+
+test 3
+
+```{r}
+ d <- data.frame(
+    predicted_probability = runif(100),
+    made_purchase = sample(c(FALSE, TRUE), replace = TRUE, size = 100),
+    false_positive_value = -5,    # acting on any predicted positive costs $5
+    true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
+    true_negative_value = 0.001,  # true negatives have no value in our application
+    # but just give ourselves a small reward for being right
+    false_negative_value = -0.01  # adding a small notional tax for false negatives,
+    # don't want our competitor getting these accounts.
+  )
+
+values <- model_utility(d, 'predicted_probability', 'made_purchase')
+
+# d[, dvars]
+
+mycheck = get_all_counts(d, values)
+vals = values[, evars]
+
+thr = vals$threshold
+vals$threshold = ifelse(is.na(thr), 1.01, thr)
+colnames(mycheck) = colnames(vals)
+```
+
+```{r}
+wrapr::check_equiv_frames(mycheck, vals, tolerance = 1.e-3)
+
+mycheck$calc = "my check"
+vals$calc = "model_utility"
+
+allf = rbind(mycheck, vals)
+
+library(cdata)
+
+allf_long = pivot_to_blocks(allf,
+                            nameForNewKeyColumn = "count_type",
+                            nameForNewValueColumn = "count",
+                            columnsToTakeFrom = evars[-1] # no threshold
+)
+
+ggplot() + 
+  geom_vline(data=d, aes(xintercept=predicted_probability), color="darkgray") + 
+  geom_vline(data=values, aes(xintercept=threshold), linetype=2, color="darkblue") +
+  ggtitle("test 3")
+
+ggplot(allf_long, aes(x=threshold, y=count, color=calc)) + 
+  geom_point() + geom_line() + 
+  facet_wrap(~count_type, ncol=1, scale="free_y") + 
+  scale_color_brewer(palette="Dark2")
+
+
+  
+```
