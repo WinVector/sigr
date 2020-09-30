@@ -155,14 +155,23 @@ model_utility <- function(
   true_negative_value_column_name = 'true_negative_value',
   false_negative_value_column_name = 'false_negative_value') {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::model_utility")
+  have_value_columns <- length(setdiff(
+    c(true_positive_value_column_name, false_positive_value_column_name, true_negative_value_column_name, false_negative_value_column_name),
+    colnames(d))) == 0
   # narrow frame
-  d <- d[ , c(model_name,
-              outcome_name,
-              true_positive_value_column_name,
-              false_positive_value_column_name,
-              true_negative_value_column_name,
-              false_negative_value_column_name),
-          drop = FALSE]
+  if(have_value_columns) {
+    d <- d[ , c(model_name,
+                outcome_name,
+                true_positive_value_column_name,
+                false_positive_value_column_name,
+                true_negative_value_column_name,
+                false_negative_value_column_name),
+            drop = FALSE]
+  } else {
+    d <- d[ , c(model_name,
+                outcome_name),
+            drop = FALSE]
+  }
   # get complete counts
   d_count <- d
   d_count[[true_positive_value_column_name]] <- 1
@@ -182,22 +191,31 @@ model_utility <- function(
   result_counts$false_negative_count <- result_counts$false_negative_value
   result_counts$true_positive_count <- result_counts$true_positive_value
   result_counts$false_positive_count <- result_counts$false_positive_value
-  # get user specified utilities
-  result_utility <- calc_utility_impl(
-    d = d,
-    model_name = model_name,
-    outcome_name = outcome_name,
-    outcome_target = outcome_target,
-    true_positive_value_column_name = true_positive_value_column_name,
-    false_positive_value_column_name = false_positive_value_column_name,
-    true_negative_value_column_name = true_negative_value_column_name,
-    false_negative_value_column_name = false_negative_value_column_name)
-  # combine and return results
-  cbind(
-    result_utility,
-    result_counts[ ,
-                   c('true_negative_count', 'false_negative_count', 'true_positive_count', 'false_positive_count')]
-  )
+  result_counts$true_positive_value <- NULL
+  result_counts$false_positive_value <- NULL
+  result_counts$true_negative_value <- NULL
+  result_counts$false_negative_value <- NULL
+  result_counts$total_value <- NULL
+  result <- result_counts
+  if(have_value_columns) {
+    # get user specified utilities
+    result_utility <- calc_utility_impl(
+      d = d,
+      model_name = model_name,
+      outcome_name = outcome_name,
+      outcome_target = outcome_target,
+      true_positive_value_column_name = true_positive_value_column_name,
+      false_positive_value_column_name = false_positive_value_column_name,
+      true_negative_value_column_name = true_negative_value_column_name,
+      false_negative_value_column_name = false_negative_value_column_name)
+    # combine and return results
+    result <- cbind(
+      result_utility,
+      result_counts[ ,
+                     c('true_negative_count', 'false_negative_count', 'true_positive_count', 'false_positive_count')]
+    )
+  }
+  result
 }
 
 
