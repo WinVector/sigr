@@ -66,4 +66,25 @@ values <- model_utility(d, 'predicted_probability', 'made_purchase')
 best_strategy <- values[values$total_value >= max(values$total_value), ][1, ]
 t(best_strategy)
 
+# a bigger example
+
+d <- data.frame(
+  predicted_probability = runif(100),
+  made_purchase = sample(c(FALSE, TRUE), replace = TRUE, size = 100),
+  false_positive_value = -5,    # acting on any predicted positive costs $5
+  true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
+  true_negative_value = 0.001,  # true negatives have no value in our application
+  # but just give ourselves a small reward for being right
+  false_negative_value = -0.01  # adding a small notional tax for false negatives,
+  # don't want our competitor getting these accounts.
+)
+
+values <- model_utility(d, 'predicted_probability', 'made_purchase')
+
+# plot the estimated total utility as a function of threshold
+plot(values$threshold, values$total_value)
+
+best_strategy <- values[values$total_value >= max(values$total_value), ][1, ]
+t(best_strategy)
+
 }
