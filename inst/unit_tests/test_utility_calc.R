@@ -12,7 +12,9 @@ test_utility_calc_1 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE)))
+  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE,
+                                              orig_score = d$predicted_probability,
+                                              orig_outcome = d$made_purchase)))
 
   # cat(wrapr::draw_frame(values))
 
