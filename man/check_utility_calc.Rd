@@ -4,7 +4,13 @@
 \alias{check_utility_calc}
 \title{Check a few things we expect to be true for the utility frame.}
 \usage{
-check_utility_calc(values, ..., constant_utilities = FALSE)
+check_utility_calc(
+  values,
+  ...,
+  orig_score = NULL,
+  orig_outcome = NULL,
+  constant_utilities = FALSE
+)
 }
 \arguments{
 \item{values}{model_utility result}
@@ -33,7 +39,9 @@ d <- data.frame(
   )
 
 values <- model_utility(d, 'predicted_probability', 'made_purchase')
-check_utility_calc(values)
+check_utility_calc(values,
+                   orig_score = d$predicted_probability,
+                   orig_outcome = d$made_purchase)
 
 }
 \keyword{internal}

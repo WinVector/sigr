@@ -180,6 +180,9 @@ model_utility <- function(
 }
 
 
+
+
+
 #' Check a few things we expect to be true for the utility frame.
 #'
 #' Utility to inspect a utility frame for some debugging.
@@ -205,11 +208,14 @@ model_utility <- function(
 #'   )
 #'
 #' values <- model_utility(d, 'predicted_probability', 'made_purchase')
-#' check_utility_calc(values)
+#' check_utility_calc(values,
+#'                    orig_score = d$predicted_probability,
+#'                    orig_outcome = d$made_purchase)
 #'
 #' @keywords internal
 check_utility_calc <- function(values,
                                ...,
+                               orig_score = NULL, orig_outcome = NULL,
                                constant_utilities = FALSE) {
   n <- nrow(values)
   if(n < 2) {
@@ -331,6 +337,30 @@ check_utility_calc <- function(values,
         }
       }
     }
+  }
+  if(!is.null(orig_score)) {
+    # calculate the counts for a threshold
+    # slow, used to confirm cumsum calculation
+    get_counts = function(threshold, score, cls) {
+      data.frame(threshold = threshold,
+                 count_taken = sum(score >= threshold),
+                 true_negative_count = sum((score < threshold) & (cls==FALSE)),
+                 false_negative_count = sum((score < threshold) & (cls==TRUE)),
+                 true_positive_count = sum((score >= threshold) & (cls==TRUE)),
+                 false_positive_count = sum((score >= threshold) & (cls==FALSE)))
+    }
+
+    get_all_counts = function(scores, cls) {
+      thresholds <- sort(unique(scores[!is.na(scores)]))
+      thresholds <- c(thresholds, max(thresholds) + 1)
+      flist = lapply(thresholds, function(th) get_counts(th, scores, cls))
+      do.call(rbind, flist)
+    }
+
+    # now check against a slower, simpler to document calculation
+    check <- get_all_counts(orig_score, orig_outcome)
+    check_cols <- c("true_negative_count", "false_negative_count", "true_positive_count", "false_positive_count")
+    wrapr::check_equiv_frames(values[,  check_cols], check[, check_cols])
   }
   NULL  # good
 }
