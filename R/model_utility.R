@@ -1,5 +1,4 @@
 
-# TODO: confirm calculation
 
 
 calc_utility_impl <- function(
@@ -300,6 +299,14 @@ check_utility_calc <- function(values,
   }
   if(values$fraction_taken[[n]] != 0.0) {
     return("fraction taken didn't end at 1")
+  }
+  sum_negative <- values$true_negative_count + values$false_positive_count
+  if(length(unique(sum_negative)) != 1) {
+    return("true_negative_count + false_positive_count didn't sum to a constant")
+  }
+  sum_positive <- values$true_positive_count + values$false_negative_count
+  if(length(unique(sum_positive)) != 1) {
+    return("true_positive_count + false_negative_count didn't sum to a constant")
   }
   if(constant_utilities) {
     # check utilities track counts
