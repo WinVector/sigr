@@ -132,7 +132,13 @@
     <p>Utility to inspect a utility frame for some debugging.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>, <span class='kw'>...</span>, constant_utilities = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>check_utility_calc</span>(
+  <span class='kw'>values</span>,
+  <span class='kw'>...</span>,
+  orig_score = <span class='kw'>NULL</span>,
+  orig_outcome = <span class='kw'>NULL</span>,
+  constant_utilities = <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,7 +175,9 @@
   )
 
 <span class='kw'>values</span> <span class='op'>&lt;-</span> <span class='fu'><a href='model_utility.html'>model_utility</a></span>(<span class='kw'>d</span>, <span class='st'>'predicted_probability'</span>, <span class='st'>'made_purchase'</span>)
-<span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>)
+<span class='fu'>check_utility_calc</span>(<span class='kw'>values</span>,
+                   orig_score = <span class='kw'>d</span><span class='op'>$</span><span class='kw'>predicted_probability</span>,
+                   orig_outcome = <span class='kw'>d</span><span class='op'>$</span><span class='kw'>made_purchase</span>)
 </div><div class='output co'>#&gt; NULL</div><div class='input'>
 </div></pre>
   </div>
