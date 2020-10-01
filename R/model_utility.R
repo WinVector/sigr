@@ -93,6 +93,8 @@ calc_utility_impl <- function(
 #' as a classification rule. NA is used to mark a threshold where no rows
 #' are selected.
 #'
+#' A worked example can be found here: \url{https://github.com/WinVector/sigr/blob/main/extras/UtilityExample.md}.
+#'
 #' @param d A data.frame containing all data and outcome values.
 #' @param model_name Name of the column containing model predictions.
 #' @param outcome_name Name of the column containing the truth values.

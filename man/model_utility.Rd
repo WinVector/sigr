@@ -49,6 +49,9 @@ and the total value of using this model score plus the given threshold
 as a classification rule. NA is used to mark a threshold where no rows
 are selected.
 }
+\details{
+A worked example can be found here: \url{https://github.com/WinVector/sigr/blob/main/extras/UtilityExample.md}.
+}
 \examples{
 
 d <- data.frame(
