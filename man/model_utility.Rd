@@ -39,10 +39,11 @@ model_utility(
 data.frame of all threshold values.
 }
 \description{
-Compute the model utility on a data set for taking all items
-greater than or equal to each model-score threshold. The user
+Compute the utility of a model score on a classification data set. For each
+threshold of interest we compute the utility of the classification rule of taking all items
+with model score greater than or equal to the threshold. The user
 specifies the outcome (a binary classification target), a model
-score (numeric), and the values (positive, negative, or zero) of
+score (numeric), and the utility values (positive, negative, or zero) of
 each case: true positives, false positives, true negatives, and
 false negatives. What is returned is a table of model thresholds
 and the total value of using this model score plus the given threshold
@@ -72,7 +73,7 @@ t(best_strategy)
 # a bigger example
 
 d <- data.frame(
-  predicted_probability = runif(100),
+  predicted_probability = stats::runif(100),
   made_purchase = sample(c(FALSE, TRUE), replace = TRUE, size = 100),
   false_positive_value = -5,    # acting on any predicted positive costs $5
   true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
