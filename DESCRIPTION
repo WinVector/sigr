@@ -13,8 +13,7 @@ Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/sigr/issues
 Description: Succinctly and correctly format statistical summaries of
     various models and tests (F-test, Chi-Sq-test, Fisher-test, T-test, and rank-significance).  The main purpose is unified reporting 
-    of experimental results, working around issue such as the difficulty of
-    extracting model summary facts (such as with 'lm'/'glm').  This package also
+    of experimental results.  This package also
     includes empirical tests, such as bootstrap estimates.
 License: GPL-2 | GPL-3
 LazyData: TRUE
