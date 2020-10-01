@@ -124,6 +124,8 @@ calc_utility_impl <- function(
 #' best_strategy <- values[values$total_value >= max(values$total_value), ][1, ]
 #' t(best_strategy)
 #'
+#'
+#'
 #'# a bigger example
 #'
 #' d <- data.frame(
@@ -132,7 +134,7 @@ calc_utility_impl <- function(
 #'   false_positive_value = -5,    # acting on any predicted positive costs $5
 #'   true_positive_value = 95,     # revenue on a true positive is $100 minus action cost
 #'   true_negative_value = 0.001,  # true negatives have no value in our application
-#'   # but just give ourselves a small reward for being right
+#'                                 # but just give ourselves a small reward for being right
 #'   false_negative_value = -0.01  # adding a small notional tax for false negatives,
 #'   # don't want our competitor getting these accounts.
 #' )
@@ -144,6 +146,14 @@ calc_utility_impl <- function(
 #'
 #' best_strategy <- values[values$total_value >= max(values$total_value), ][1, ]
 #' t(best_strategy)
+#'
+#'
+#' # without utilities example
+#'
+#' d <- data.frame(
+#'   predicted_probability = c(0, 0.5, 0.5, 0.5),
+#'   made_purchase = c(FALSE, TRUE, FALSE, FALSE))
+#' model_utility(d, 'predicted_probability', 'made_purchase')
 #'
 #' @export
 #'

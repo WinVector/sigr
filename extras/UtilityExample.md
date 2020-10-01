@@ -3,6 +3,11 @@ Utility Example
 Nina Zumel
 9/30/2020
 
+This is an example of how to use
+[`sigr::model_utility()`](https://winvector.github.io/sigr/reference/model_utility.html)
+to estimate model utility and pick model thresholds for classificaiton
+problems.
+
 Define our data generator function, which we will use to simply
 *simulate* the kind of results our data scientist is seeing.
 
