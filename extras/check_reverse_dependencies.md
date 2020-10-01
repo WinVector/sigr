@@ -8,7 +8,7 @@ package = "sigr"
 date()
 ```
 
-    ## [1] "Tue Sep 22 07:17:01 2020"
+    ## [1] "Thu Oct  1 07:19:39 2020"
 
 ``` r
 parallelCluster <- NULL
@@ -27,7 +27,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpcyX9ox"
+    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmphOd6e1"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -52,8 +52,8 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## ## Reverse depends check of sigr 1.1.1 
-    ## WVPlots_1.2.9 started at 2020-09-22 07:17:03 success at 2020-09-22 07:17:51 (1/0/0)
+    ## ## Reverse depends check of sigr 1.1.2 
+    ## WVPlots_1.2.9 started at 2020-10-01 07:19:41 success at 2020-10-01 07:20:31 (1/0/0)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -62,9 +62,9 @@ if(!is.null(parallelCluster)) {
 summariseQueue(package=package, directory=td)
 ```
 
-    ## Test of sigr 1.1.1 had 1 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-09-22 07:17:03 to 2020-09-22 07:17:51 for 48 secs 
-    ## Average of 48 secs relative to 48.113 secs using 1 runners
+    ## Test of sigr 1.1.2 had 1 successes, 0 failures, and 0 skipped packages. 
+    ## Ran from 2020-10-01 07:19:41 to 2020-10-01 07:20:31 for 50 secs 
+    ## Average of 50 secs relative to 50.11 secs using 1 runners
     ## 
     ## Failed packages:   
     ## 
