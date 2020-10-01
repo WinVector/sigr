@@ -168,9 +168,15 @@ model_utility <- function(
   true_negative_value_column_name = 'true_negative_value',
   false_negative_value_column_name = 'false_negative_value') {
   wrapr::stop_if_dot_args(substitute(list(...)), "sigr::model_utility")
-  have_value_columns <- length(setdiff(
-    c(true_positive_value_column_name, false_positive_value_column_name, true_negative_value_column_name, false_negative_value_column_name),
-    colnames(d))) == 0
+  have_value_columns <-
+    (!is.null(true_positive_value_column_name)) &&
+    (!is.null(false_positive_value_column_name)) &&
+    (!is.null(true_negative_value_column_name)) &&
+    (!is.null(false_negative_value_column_name)) &&
+    (length(setdiff(
+      c(true_positive_value_column_name, false_positive_value_column_name,
+        true_negative_value_column_name, false_negative_value_column_name),
+      colnames(d))) == 0)
   # narrow frame
   if(have_value_columns) {
     d <- d[ , c(model_name,
