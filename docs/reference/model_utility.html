@@ -40,10 +40,11 @@
 
 
 <meta property="og:title" content="Estimate model utility — model_utility" />
-<meta property="og:description" content="Compute the model utility on a data set for taking all items
-greater than or equal to each model-score threshold. The user
+<meta property="og:description" content="Compute the utility of a model score on a classification data set. For each
+threshold of interest we compute the utility of the classification rule of taking all items
+with model score greater than or equal to the threshold. The user
 specifies the outcome (a binary classification target), a model
-score (numeric), and the values (positive, negative, or zero) of
+score (numeric), and the utility values (positive, negative, or zero) of
 each case: true positives, false positives, true negatives, and
 false negatives. What is returned is a table of model thresholds
 and the total value of using this model score plus the given threshold
@@ -137,10 +138,11 @@ are selected." />
     </div>
 
     <div class="ref-description">
-    <p>Compute the model utility on a data set for taking all items
-greater than or equal to each model-score threshold. The user
+    <p>Compute the utility of a model score on a classification data set. For each
+threshold of interest we compute the utility of the classification rule of taking all items
+with model score greater than or equal to the threshold. The user
 specifies the outcome (a binary classification target), a model
-score (numeric), and the values (positive, negative, or zero) of
+score (numeric), and the utility values (positive, negative, or zero) of
 each case: true positives, false positives, true negatives, and
 false negatives. What is returned is a table of model thresholds
 and the total value of using this model score plus the given threshold
@@ -238,15 +240,17 @@ are selected.</p>
 #&gt; false_negative_count "0"                    
 #&gt; true_positive_count  "1"                    
 #&gt; false_positive_count "2"                    </div><div class='input'>
+
+
 <span class='co'># a bigger example</span>
 
 <span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
-  predicted_probability = <span class='fu'><a href='#stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>),
+  predicted_probability = <span class='kw'>stats</span>::<span class='fu'><a href='#stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>),
   made_purchase = <span class='fu'><a href='#base/sample.html'>sample</a></span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>), replace = <span class='fl'>TRUE</span>, size = <span class='fl'>100</span>),
   false_positive_value = <span class='op'>-</span><span class='fl'>5</span>,    <span class='co'># acting on any predicted positive costs $5</span>
   true_positive_value = <span class='fl'>95</span>,     <span class='co'># revenue on a true positive is $100 minus action cost</span>
   true_negative_value = <span class='fl'>0.001</span>,  <span class='co'># true negatives have no value in our application</span>
-  <span class='co'># but just give ourselves a small reward for being right</span>
+                                <span class='co'># but just give ourselves a small reward for being right</span>
   false_negative_value = <span class='op'>-</span><span class='fl'>0.01</span>  <span class='co'># adding a small notional tax for false negatives,</span>
   <span class='co'># don't want our competitor getting these accounts.</span>
 )
@@ -272,6 +276,25 @@ are selected.</p>
 #&gt; false_negative_count "0"                    
 #&gt; true_positive_count  "53"                   
 #&gt; false_positive_count "46"                   </div><div class='input'>
+
+<span class='co'># without utilities example</span>
+
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
+  predicted_probability = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>),
+  made_purchase = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>, <span class='fl'>FALSE</span>))
+<span class='fu'>model_utility</span>(<span class='kw'>d</span>, <span class='st'>'predicted_probability'</span>, <span class='st'>'made_purchase'</span>)
+</div><div class='output co'>#&gt;                   model threshold count_taken fraction_taken
+#&gt; 1 predicted_probability      0.00           4           1.00
+#&gt; 2 predicted_probability      0.25           3           0.75
+#&gt; 3 predicted_probability        NA           0           0.00
+#&gt;   true_negative_count false_negative_count true_positive_count
+#&gt; 1                   0                    0                   1
+#&gt; 2                   1                    0                   1
+#&gt; 3                   3                    1                   0
+#&gt;   false_positive_count
+#&gt; 1                    3
+#&gt; 2                    2
+#&gt; 3                    0</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
