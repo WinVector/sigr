@@ -9,11 +9,11 @@ classification rules as long as possible. But decisions have to be made,
 and eventually you will have to set that threshold. How do you do it?
 
 A good threshold balances classifier precision/recall or
-sensitivity/specificity in such a way that best meets the project or
-business needs. One way to quantify and think about this balance is the
-notion of *model utility*, which maps the performance of a model to some
-notion of the value achieved by that performance. In this article, we
-demonstrate the use of
+sensitivity/specificity in a way that best meets the project or business
+needs. One way to quantify and think about this balance is the notion of
+*model utility*, which maps the performance of a model to some notion of
+the value achieved by that performance. In this article, we demonstrate
+the use of
 [`sigr::model_utility()`](https://winvector.github.io/sigr/reference/model_utility.html)
 to estimate model utility and pick model thresholds for classification
 problems.
@@ -108,12 +108,12 @@ columns:
 
 | model                  | threshold | count\_taken | fraction\_taken | true\_positive\_value | false\_positive\_value | true\_negative\_value | false\_negative\_value | total\_value | true\_negative\_count | false\_negative\_count | true\_positive\_count | false\_positive\_count |
 | :--------------------- | --------: | -----------: | --------------: | --------------------: | ---------------------: | --------------------: | ---------------------: | -----------: | --------------------: | ---------------------: | --------------------: | ---------------------: |
-| predicted\_probability | 0.0940454 |        10000 |          1.0000 |                 10070 |                \-49470 |                  0.00 |                      0 |   \-39400.00 |                     0 |                      0 |                   106 |                   9894 |
-| predicted\_probability | 0.0954406 |         9999 |          0.9999 |                 10070 |                \-49465 |                  0.01 |                      0 |   \-39394.99 |                     1 |                      0 |                   106 |                   9893 |
-| predicted\_probability | 0.0972906 |         9998 |          0.9998 |                 10070 |                \-49460 |                  0.02 |                      0 |   \-39389.98 |                     2 |                      0 |                   106 |                   9892 |
-| predicted\_probability | 0.1001940 |         9997 |          0.9997 |                 10070 |                \-49455 |                  0.03 |                      0 |   \-39384.97 |                     3 |                      0 |                   106 |                   9891 |
-| predicted\_probability | 0.1064230 |         9996 |          0.9996 |                 10070 |                \-49450 |                  0.04 |                      0 |   \-39379.96 |                     4 |                      0 |                   106 |                   9890 |
-| predicted\_probability | 0.1107978 |         9995 |          0.9995 |                 10070 |                \-49445 |                  0.05 |                      0 |   \-39374.95 |                     5 |                      0 |                   106 |                   9889 |
+| predicted\_probability | 0.0002494 |        10000 |          1.0000 |                 10070 |                \-49470 |                  0.00 |                      0 |   \-39400.00 |                     0 |                      0 |                   106 |                   9894 |
+| predicted\_probability | 0.0002564 |         9999 |          0.9999 |                 10070 |                \-49465 |                  0.01 |                      0 |   \-39394.99 |                     1 |                      0 |                   106 |                   9893 |
+| predicted\_probability | 0.0002711 |         9998 |          0.9998 |                 10070 |                \-49460 |                  0.02 |                      0 |   \-39389.98 |                     2 |                      0 |                   106 |                   9892 |
+| predicted\_probability | 0.0003787 |         9997 |          0.9997 |                 10070 |                \-49455 |                  0.03 |                      0 |   \-39384.97 |                     3 |                      0 |                   106 |                   9891 |
+| predicted\_probability | 0.0004992 |         9996 |          0.9996 |                 10070 |                \-49450 |                  0.04 |                      0 |   \-39379.96 |                     4 |                      0 |                   106 |                   9890 |
+| predicted\_probability | 0.0005422 |         9995 |          0.9995 |                 10070 |                \-49445 |                  0.05 |                      0 |   \-39374.95 |                     5 |                      0 |                   106 |                   9889 |
 
 Each row of `values` returns the appropriate counts and values for a
 classifier rule that labels cases as TRUE when `predicted_probability >=
@@ -123,7 +123,8 @@ on our evaluation set, as a function of threshold.
 ``` r
 library(ggplot2)
 
-vhigh <- subset(values, threshold >= 0.5) # just look at thresholds > 0.5
+t_bound <- 0.015
+vhigh <- subset(values, threshold >= t_bound) # just look at thresholds >= t_bound
 p <- ggplot(vhigh, aes(x = threshold, y = total_value)) + 
   geom_line() + 
   ggtitle("Estimated model utility as a function of threshold")
@@ -146,10 +147,10 @@ knitr::kable(best_info)
 
 |      | threshold | count\_taken | fraction\_taken | total\_value |
 | :--- | --------: | -----------: | --------------: | -----------: |
-| 9892 | 0.8146655 |          109 |          0.0109 |      3252.53 |
+| 9574 |  0.021672 |          427 |          0.0427 |      2159.45 |
 
-This suggests that with this model we should use threshold 0.81, which
-translates to calling the top 1.09% of the prospects.
+This suggests that with this model we should use threshold 0.022, which
+translates to calling the top 4.27% of the prospects.
 
 We can compare this to the best possible performance on this data
 (contacting all of the successful prospects, and only them), simply by
@@ -183,8 +184,8 @@ frac_realized = realized/potential
 ```
 
 The `threshold = 0.5` row tells us that the potential value of this
-population sample is $10168.94, of which our model realized $3252.53, or
-32%. This is easier and more reliable than just eyeballing a threshold
+population sample is $10168.94, of which our model realized $2159.45, or
+21.2%. This is easier and more reliable than just eyeballing a threshold
 from the abstract recall/precision graph.
 
 ### Advanced: Variable Utilities
@@ -211,7 +212,7 @@ wizard_values <- model_utility(d,
 Here we replot the utility curve.
 
 ``` r
-vhigh <- subset(values, threshold >= 0.5) # just look at thresholds > 0.5
+vhigh <- subset(values, threshold >= t_bound) # just look at thresholds >= t_bound
 p <- ggplot(vhigh, aes(x = threshold, y = total_value)) + 
   geom_line() + 
   ggtitle("Estimated model utility as a function of threshold, variable utility case")
@@ -230,8 +231,8 @@ p + geom_vline(xintercept = best_threshold, linetype=3)
 (best_info <- vhigh[max_ix, c("threshold", "count_taken", "fraction_taken", "total_value")])
 ```
 
-    ##      threshold count_taken fraction_taken total_value
-    ## 9892 0.8146655         109         0.0109    3231.148
+    ##       threshold count_taken fraction_taken total_value
+    ## 9574 0.02167201         427         0.0427    2041.251
 
 ``` r
 # compare to potential
@@ -239,7 +240,7 @@ wizard_values[2, c("threshold", "count_taken", "fraction_taken", "total_value")]
 ```
 
     ##   threshold count_taken fraction_taken total_value
-    ## 2       0.5         106         0.0106    9779.299
+    ## 2       0.5         106         0.0106    10136.36
 
 ### Reporting Uncertainty
 

@@ -43,14 +43,27 @@ beta_variable <- function(
 # generate the example
 #
 
-d <- y_example(10000, prevalence = 0.01)
+prevalence <- 0.01
 
+a_pos <- 6
+b_pos <- 300
+a_neg <- 3
+
+p_odds_ratio <- prevalence / (1-prevalence)
+pos_mean <- a_pos / (a_pos + b_pos)
+b_neg <- a_neg * (  1 / (p_odds_ratio * (1 - pos_mean)) - 1)
+stopifnot(b_neg >= 0)
+neg_mean <- a_neg / (a_neg + b_neg)
+check_p <- prevalence * pos_mean + (1 - prevalence) * neg_mean
+stopifnot(abs(prevalence - check_p) < 1e-5)
+
+d <- y_example(10000, prevalence = prevalence)
 d$predicted_probability <- beta_variable(
   d,
-  shape1_pos = 2, 
-  shape2_pos = 1,
-  shape1_neg = 6, # 5
-  shape2_neg = 6)
+  shape1_pos = a_pos, 
+  shape2_pos = b_pos,
+  shape1_neg = a_neg,
+  shape2_neg = b_neg)
 
 # change the column name to better match the example
 colnames(d) <- c("converted", "predicted_probability")
@@ -115,7 +128,8 @@ Each row of `values` returns the appropriate counts and values for a classifier 
 ```{r}
 library(ggplot2)
 
-vhigh <- subset(values, threshold >= 0.5) # just look at thresholds > 0.5
+t_bound <- 0.015
+vhigh <- subset(values, threshold >= t_bound) # just look at thresholds >= t_bound
 p <- ggplot(vhigh, aes(x = threshold, y = total_value)) + 
   geom_line() + 
   ggtitle("Estimated model utility as a function of threshold")
@@ -182,7 +196,7 @@ wizard_values <- model_utility(d,
 Here we replot the utility curve.
 
 ```{r}
-vhigh <- subset(values, threshold >= 0.5) # just look at thresholds > 0.5
+vhigh <- subset(values, threshold >= t_bound) # just look at thresholds >= t_bound
 p <- ggplot(vhigh, aes(x = threshold, y = total_value)) + 
   geom_line() + 
   ggtitle("Estimated model utility as a function of threshold, variable utility case")
