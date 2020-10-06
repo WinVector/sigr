@@ -161,21 +161,26 @@ plot_thin <- plot_thin[
 
 plot_thin <- plot_thin[plot_thin$estimate != 'bootstrapped value', , drop = FALSE]
 
+pal <- c('#841c17', 'white')
 ggplot() +
   geom_ribbon(
     data = boot_summary,
     mapping = aes(x = threshold, ymin = q_0.025, ymax = q_0.975),
     alpha = 0.2,
-    fill = 'blue') +
+    fill = '#5e8190') +
   geom_ribbon(
     data = boot_summary,
     mapping = aes(x = threshold, ymin = q_0.25, ymax = q_0.75),
     alpha = 0.3,
-    fill = 'green') +
+    fill = '#263743') +
   geom_line(
     data = plot_thin,
-    mapping = aes(x = threshold, y = total_value, color = estimate, linetype = estimate)) + 
-  geom_vline(xintercept = chosen_threshold) +
-  ggtitle("actual versus bootstrap re-sampled utility by threshold")
+    mapping = aes(x = threshold, y = total_value, color = estimate),
+    alpha = 0.8) + 
+  scale_color_manual(values = pal) +
+  geom_vline(xintercept = chosen_threshold, linetype = 2) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  ggtitle("total value as function of utility", subtitle = "95% and 50% quartile ranges shown")
 ```
 
