@@ -94,9 +94,10 @@ WVPlots::ROCPlot(d, xvar = 'predicted_probability', truthVar = 'converted', trut
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
+# get a plot region
 threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -200)]
 diff_left <- max(chosen_threshold - threshold_list)
-threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= diff_left]
+threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= 2*diff_left]
 
 f <- function(d, indices, ...) {
   vi <- model_utility(d[indices, ], 'predicted_probability', 'converted')
@@ -145,6 +146,7 @@ value_thin <- value_range %.>%
   extend(., which = 'estimated value')
 
 plot_thin <- rbind(boot_thin, value_thin)
+plot_thin <- plot_thin[complete.cases(plot_thin), , drop = FALSE]
 
 ggplot() +
   geom_ribbon(
@@ -159,11 +161,9 @@ ggplot() +
     fill = 'green') +
   geom_line(
     data = plot_thin,
-    mapping = aes(x = threshold, y = total_value, color = which)) + 
+    mapping = aes(x = threshold, y = total_value, color = which, linetype = which)) + 
   geom_vline(xintercept = chosen_threshold) +
   ggtitle("actual versus bootstrap re-sampled utility by threshold")
 ```
-
-    ## Warning: Removed 1 row(s) containing missing values (geom_path).
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
