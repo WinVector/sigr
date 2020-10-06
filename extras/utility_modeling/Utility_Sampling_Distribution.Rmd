@@ -161,7 +161,7 @@ plot_thin <- plot_thin[
 
 plot_thin <- plot_thin[plot_thin$estimate != 'bootstrapped value', , drop = FALSE]
 
-pal <- c('#841c17', 'white')
+pal <- c('#841c17', 'yellow')
 ggplot() +
   geom_ribbon(
     data = boot_summary,
