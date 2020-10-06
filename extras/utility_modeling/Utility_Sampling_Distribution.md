@@ -128,6 +128,17 @@ value_range <- values[
   (values$threshold >= min(threshold_list)) &
      (values$threshold <= max(threshold_list)), ]
 
+boot_thin <- boot_summary %.>%
+  select_columns(., qc(threshold, mean_total_value)) %.>%
+  rename_columns(., 'total_value' := 'mean_total_value') %.>%
+  extend(., which = 'boostrapped value')
+
+value_thin <- value_range %.>%
+  select_columns(., qc(threshold, total_value)) %.>%
+  extend(., which = 'estimated value')
+
+plot_thin <- rbind(boot_thin, value_thin)
+
 ggplot() +
   geom_ribbon(
     data = boot_summary,
@@ -139,17 +150,13 @@ ggplot() +
     mapping = aes(x = threshold, ymin = q_0.25, ymax = q_0.75),
     alpha = 0.3,
     fill = 'green') +
-  geom_point(
-    data = value_range,
-    mapping = aes(x = threshold, y = total_value)) + 
   geom_line(
-    data = boot_summary,
-    mapping = aes(x = threshold, y = mean_total_value),
-    color = 'red') + 
+    data = plot_thin,
+    mapping = aes(x = threshold, y = total_value, color = which)) + 
   geom_vline(xintercept = chosen_threshold) +
   ggtitle("actual versus bootstrap re-sampled utility by threshold")
 ```
 
-    ## Warning: Removed 1 rows containing missing values (geom_point).
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
