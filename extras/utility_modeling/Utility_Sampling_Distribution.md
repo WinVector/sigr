@@ -20,6 +20,7 @@ library(ggplot2)
 library(boot)
 source("calculate_utility_graph.R")
 
+# generate data
 set.seed(2020)
 y_example <- function(n, prevalence = 0.5) {
   data.frame(
@@ -64,6 +65,9 @@ d$predicted_probability <- beta_variable(
 # change the column name to better match the example
 colnames(d) <- c("converted", "predicted_probability")
 
+
+# work example
+
 # utilities
 true_positive_value <- 100 - 5   # net revenue - cost
 false_positive_value <- -5       # the cost of a call
@@ -88,7 +92,8 @@ best_idx <- which.max(values$total_value)
 chosen_threshold <- values$threshold[[best_idx]]
 
 # limit to a nice range
-threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -0.5*max(values$total_value))]
+# threshold_list <- values$threshold[!is.na(values$threshold)]  # all
+threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -0.5*max(values$total_value))]  # nice
 diff_left <- max(chosen_threshold - threshold_list)
 threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= 2*diff_left]
 plot_thin <- plot_thin[
