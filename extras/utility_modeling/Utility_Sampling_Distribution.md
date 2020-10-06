@@ -201,7 +201,7 @@ ggplot() +
     mapping = aes(x = threshold, y = total_value, color = estimate),
     alpha = 0.8) + 
   scale_color_manual(values = pal) +
-  geom_vline(xintercept = chosen_threshold, linetype = 2) +
+  geom_vline(xintercept = chosen_threshold, linetype = 2, color='darkgray') +
   theme_bw() +
   theme(legend.position = "none") +
   ggtitle("total value as function of utility", subtitle = "95% and 50% quartile ranges shown")
