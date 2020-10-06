@@ -1,7 +1,9 @@
-Untitled
+Estimating Uncertainty of Utility Curves
 ================
 
 ``` r
+knitr::opts_chunk$set(echo = FALSE)
+
 library(wrapr)
 library(sigr)
 library(rquery)
@@ -19,114 +21,8 @@ library(ggplot2)
 ``` r
 library(boot)
 source("calculate_utility_graph.R")
-
-# generate data
-set.seed(2020)
-y_example <- function(n, prevalence = 0.5) {
-  data.frame(
-    y = sample(
-      c(TRUE, FALSE), 
-      size = n, 
-      replace = TRUE,
-      prob = c(prevalence, 1 - prevalence))
-  )
-}
-beta_variable <- function(
-  d, 
-  shape1_pos, shape2_pos, 
-  shape1_neg, shape2_neg) {
-  score <- numeric(nrow(d))
-  score[d$y] <- rbeta(sum(d$y), shape1 = shape1_pos, shape2 = shape2_pos)
-  score[!d$y] <- rbeta(sum(!d$y), shape1 = shape1_neg, shape2 = shape2_neg)
-  score
-}
-#
-# generate the example. This looks complicated, but we are trying to generate
-# predictions consistent with a calibrated model (like logistic regression)
-#
-prevalence <- 0.01
-a_pos <- 6
-b_pos <- 300
-a_neg <- 3
-p_odds_ratio <- prevalence / (1-prevalence)
-pos_mean <- a_pos / (a_pos + b_pos)
-b_neg <- a_neg * (  1 / (p_odds_ratio * (1 - pos_mean)) - 1)
-stopifnot(b_neg >= 0)
-neg_mean <- a_neg / (a_neg + b_neg)
-check_p <- prevalence * pos_mean + (1 - prevalence) * neg_mean
-stopifnot(abs(prevalence - check_p) < 1e-5)
-d <- y_example(10000, prevalence = prevalence)
-d$predicted_probability <- beta_variable(
-  d,
-  shape1_pos = a_pos, 
-  shape2_pos = b_pos,
-  shape1_neg = a_neg,
-  shape2_neg = b_neg)
-# change the column name to better match the example
-colnames(d) <- c("converted", "predicted_probability")
-
-
-# work example
-
-# utilities
-true_positive_value <- 100 - 5   # net revenue - cost
-false_positive_value <- -5       # the cost of a call
-true_negative_value <-  0.01     # a small reward for getting them right
-false_negative_value <- -0.01    # a small penalty for having missed them
-
-
-unpack[plot_thin, boot_summary] <- estimate_utility_graph(
-  d,
-  prediction_column_name = "predicted_probability",
-  outcome_column_name = "converted",
-  true_positive_value = true_positive_value,
-  false_positive_value = false_positive_value,
-  true_negative_value = true_negative_value,
-  false_negative_value = false_negative_value)
-
-
-# get a plot region
-values <- plot_thin[plot_thin$estimate == 'estimated value', ]
-# get optimal
-best_idx <- which.max(values$total_value)
-chosen_threshold <- values$threshold[[best_idx]]
-
-# limit to a nice range
-# threshold_list <- values$threshold[!is.na(values$threshold)]  # all
-threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -0.5*max(values$total_value))]  # nice
-diff_left <- max(chosen_threshold - threshold_list)
-threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= 2*diff_left]
-plot_thin <- plot_thin[
-  (complete.cases(plot_thin)) &
-    (plot_thin$threshold >= min(threshold_list)) &
-    (plot_thin$threshold <= max(threshold_list)), ]
-plot_thin <- plot_thin[plot_thin$estimate != 'bootstrapped value', , drop = FALSE]
-boot_summary <- boot_summary[
-  (complete.cases(boot_summary)) &
-    (boot_summary$threshold >= min(threshold_list)) &
-    (boot_summary$threshold <= max(threshold_list)), ]
-
-pal <- c('#841c17', 'yellow')
-ggplot() +
-  geom_ribbon(
-    data = boot_summary,
-    mapping = aes(x = threshold, ymin = q_0.025, ymax = q_0.975),
-    alpha = 0.2,
-    fill = '#5e8190') +
-  geom_ribbon(
-    data = boot_summary,
-    mapping = aes(x = threshold, ymin = q_0.25, ymax = q_0.75),
-    alpha = 0.3,
-    fill = '#263743') +
-  geom_line(
-    data = plot_thin,
-    mapping = aes(x = threshold, y = total_value, color = estimate),
-    alpha = 0.8) + 
-  scale_color_manual(values = pal) +
-  geom_vline(xintercept = chosen_threshold, linetype = 2, color='darkgray') +
-  theme_bw() +
-  theme(legend.position = "none") +
-  ggtitle("total value as function of utility", subtitle = "(raw) bootstrapped 95% and 50% quantile ranges shown")
 ```
 
-![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->

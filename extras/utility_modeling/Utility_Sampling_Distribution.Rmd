@@ -1,9 +1,11 @@
 ---
-title: "Untitled"
+title: "Estimating Uncertainty of Utility Curves"
 output: github_document
 ---
 
 ```{r}
+knitr::opts_chunk$set(echo = FALSE)
+
 library(wrapr)
 library(sigr)
 library(rquery)
@@ -11,8 +13,10 @@ library(cdata)
 library(ggplot2)
 library(boot)
 source("calculate_utility_graph.R")
+```
 
-# generate data
+```{r}
+# generate data  (same example as ../UtilityExample.Rmd)
 set.seed(2020)
 y_example <- function(n, prevalence = 0.5) {
   data.frame(
@@ -57,8 +61,10 @@ d$predicted_probability <- beta_variable(
 # change the column name to better match the example
 colnames(d) <- c("converted", "predicted_probability")
 
+```
 
-# work example
+```{r}
+# work example (same example as ../UtilityExample.Rmd)
 
 # utilities
 true_positive_value <- 100 - 5   # net revenue - cost
@@ -67,6 +73,7 @@ true_negative_value <-  0.01     # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
 
 
+# estimate_utility_graph defined in calculate_utility_graph.R
 unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   d,
   prediction_column_name = "predicted_probability",
@@ -75,7 +82,53 @@ unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   false_positive_value = false_positive_value,
   true_negative_value = true_negative_value,
   false_negative_value = false_negative_value)
+```
 
+
+```{r}
+# plot actual utility curve and parametric smooth
+
+unpack[bframe = "bootstrapped value",
+       eframe = "estimated value",
+       parframe = "parametric fit"] <- split(plot_thin, plot_thin$estimate)
+
+
+get_best_threshold <- function(dframe) {
+  max_ix <- which.max(dframe$total_value)
+  best_threshold <- dframe$threshold[max_ix]
+}
+
+thresholds = data.frame(estimate = c(eframe$estimate[1], 
+                                     parframe$estimate[1]),
+                        threshold = c(get_best_threshold(eframe), 
+                                      get_best_threshold(parframe)))
+
+# use the threshold from the actual data
+# in this case they are the same to 2 sig figs anyway
+best_threshold <- thresholds$threshold[1]
+subtitle = paste("Optimal threshold:", format(best_threshold, digits=2))
+
+t_bound <- 0.015 # only look at thresholds above t_bound
+pltframe <- subset(rbind(eframe, parframe), threshold >= t_bound)
+
+# color-blind friendly
+pal <- c("#5D3A9B", "#E66100")
+
+ggplot() + 
+  geom_line(data=pltframe, 
+            mapping=aes(x=threshold, y=total_value, color=estimate)) + 
+  geom_vline(data=thresholds,
+             mapping=aes(xintercept=threshold, color=estimate),
+             linetype=2) + 
+  ggtitle("Estimated model utility as a function of threshold",
+          subtitle=subtitle) + 
+  scale_color_manual(values=pal) + 
+  theme(legend.position='bottom')
+
+```
+
+
+```{r}
 
 # get a plot region
 values <- plot_thin[plot_thin$estimate == 'estimated value', ]
