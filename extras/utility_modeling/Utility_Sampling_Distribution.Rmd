@@ -116,11 +116,11 @@ value_range <- values[
 boot_thin <- boot_summary %.>%
   select_columns(., qc(threshold, mean_total_value)) %.>%
   rename_columns(., 'total_value' := 'mean_total_value') %.>%
-  extend(., which = 'boostrapped value')
+  extend(., estimate = 'boostrapped value')
 
 value_thin <- value_range %.>%
   select_columns(., qc(threshold, total_value)) %.>%
-  extend(., which = 'estimated value')
+  extend(., estimate = 'estimated value')
 
 plot_thin <- rbind(boot_thin, value_thin)
 plot_thin <- plot_thin[complete.cases(plot_thin), , drop = FALSE]
@@ -138,7 +138,7 @@ ggplot() +
     fill = 'green') +
   geom_line(
     data = plot_thin,
-    mapping = aes(x = threshold, y = total_value, color = which, linetype = which)) + 
+    mapping = aes(x = threshold, y = total_value, color = estimate, linetype = estimate)) + 
   geom_vline(xintercept = chosen_threshold) +
   ggtitle("actual versus bootstrap re-sampled utility by threshold")
 ```
