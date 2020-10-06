@@ -42,7 +42,10 @@ article](https://github.com/WinVector/sigr/blob/main/extras/UtilityExample.Rmd))
 
 We want to contact prospects with a higher probability of converting;
 that is, prospects who score above a certain threshold. How how do we
-set that threshold?
+set that threshold? Note that the usual default threshold of 0.5 will
+fail spectacularly with this model, since both positive and negative
+examples score quite low. This is not uncommon in low positive
+prevalence situations.
 
 ## Picking a threshold based on model performance
 
@@ -59,11 +62,14 @@ ThresholdPlot(d, "predicted_probability", "converted",
 
 ![](UtilityExample_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-In the abstract, we think we want to use a threshold of at least 0.87 or
-so to get decent precision (above 75%). This would only recover us at
-most 25% of the actual positives. Is that good enough for our business
-needs? This can be hard to tell, as the business needs are likely in
-dollars, rather than in false positives/false negatives, and so on.
+For the sake of efficiency, we’d like to reduce the number of
+unsuccessful calls as much as possible, which implies we’d like a
+decision policy with high precision. The best precision we can get with
+this model occurs at a threshold of around 0.034 or 0.035 or so, and at
+that point the recall is quite low. Is that classifier good enough for
+our business needs? This can be hard to tell, as the business needs are
+likely in dollars, rather than in false positive/false negatives, and so
+on.
 
 ## Picking a threshold based on model *utility*
 
@@ -89,9 +95,9 @@ d$false_negative_value <- -0.01    # a small penalty for having missed them
 As we vary the decision threshold, we vary the number of prospects
 contacted, and the number of successful conversions. We can use the
 costs and rewards above to calculate the total value (or the *total
-utility*) realized by the decision process over the evaluation set. The
-threshold that realizes the highest utility is the “best” threshold to
-use with a given model (for now, we ignore also modeling uncertainty).
+utility*) realized by a decision policy over the evaluation set. The
+threshold that realizes the highest utility is the best threshold to use
+with a given model (for now, we ignore also modeling uncertainty).
 
 The `sigr::model_utility()` function can calculate all the costs for
 various thresholds.
@@ -140,22 +146,38 @@ p + geom_vline(xintercept = best_threshold, linetype=3)
 
 ``` r
 # print out some information about the optimum
-best_info <- vhigh[max_ix, c("threshold", "count_taken", 
-                             "fraction_taken", "total_value")]
-knitr::kable(best_info)
+(best_info <- vhigh[max_ix, c("threshold", "count_taken", 
+                             "fraction_taken", "total_value")]) %.>%
+  knitr::kable(.)
 ```
 
 |      | threshold | count\_taken | fraction\_taken | total\_value |
 | :--- | --------: | -----------: | --------------: | -----------: |
 | 9574 |  0.021672 |          427 |          0.0427 |      2159.45 |
 
-This suggests that with this model we should use threshold 0.022, which
-translates to calling the top 4.27% of the prospects.
+The graph shows that a policy that contacts too many prospects (lower
+threshold) will *lose* money (negative utility), while contacting too
+few prospects (higher threshold) goes to zero utility. The best tradeoff
+with this model is a threshold of 0.022, which translates to contacting
+the top 4.27% of the prospects.
 
-We can compare this to the best possible performance on this data
-(contacting all of the successful prospects, and only them), simply by
-positing a “wizard model” that scores true cases as 1.0 and false cases
-as 0.0
+If we go back to the precision/recall graph, we see that this optimal
+threshold actually doesn’t give us the policy with the highest
+precision, but it makes up for that by making more successful contacts.
+Picking the threshold from the utility calculation is easier and more
+reliable than just eyeballing a threshold from the abstract
+recall/precision graph.
+
+### Comparing to best possible performance
+
+We can compare this model’s optimal policy to the best possible
+performance on this data (contacting all of the successful prospects,
+and only them), simply by positing a “wizard model” that scores true
+cases as 1.0 and false cases as 0.0. In this case any threshold between
+zero and one (say, 0.5) will perform the same. IFor this situation, the
+`model_utility` function will return three rows: one for the policy of
+contacting everyone (threshold = 0), one for threshold = 0.5, and one
+for the policy of contacting no one (marked as threshold = NA).
 
 ``` r
 # add a column for the wizard model
@@ -165,12 +187,16 @@ d$wizard <- with(d, ifelse(converted, 1.0, 0.0))
 wizard_values <- model_utility(d, 
                                model_name = 'wizard',
                                outcome_name = 'converted')
-wizard_values[2, c("threshold", "count_taken", 
-                  "fraction_taken", "total_value")]
+wizard_values[, c("threshold", "count_taken", 
+                  "fraction_taken", "total_value")] %.>%
+  knitr::kable(.)
 ```
 
-    ##   threshold count_taken fraction_taken total_value
-    ## 2       0.5         106         0.0106    10168.94
+| threshold | count\_taken | fraction\_taken | total\_value |
+| --------: | -----------: | --------------: | -----------: |
+|       0.0 |        10000 |          1.0000 |   \-39400.00 |
+|       0.5 |          106 |          0.0106 |     10168.94 |
+|        NA |            0 |          0.0000 |        97.88 |
 
 ``` r
 # amount of potential value in this population
@@ -185,15 +211,16 @@ frac_realized = realized/potential
 
 The `threshold = 0.5` row tells us that the potential value of this
 population sample is $10168.94, of which our model realized $2159.45, or
-21.2%. This is easier and more reliable than just eyeballing a threshold
-from the abstract recall/precision graph.
+21.2% of the total available value.
 
 ### Advanced: Variable Utilities
 
 In the above example, we assigned constant utilities and costs to the
 data set. Here, instead of assuming a fixed revenue of $100 dollars on
 conversions, we’ll assume that projected potential revenue varies by
-prospect (with an average of $100).
+prospect (with an average of $100). This potential value could be
+contract sizes that we are bidding on, which varies from prospect to
+prospect.
 
 ``` r
 # replace the true positive value with a varying value
@@ -228,19 +255,23 @@ p + geom_vline(xintercept = best_threshold, linetype=3)
 
 ``` r
 # print out some information about the optimum
-(best_info <- vhigh[max_ix, c("threshold", "count_taken", "fraction_taken", "total_value")])
+vhigh[max_ix, c("threshold", "count_taken", "fraction_taken", "total_value")] %.>%
+  knitr::kable(.)
 ```
 
-    ##       threshold count_taken fraction_taken total_value
-    ## 9574 0.02167201         427         0.0427    2041.251
+|      | threshold | count\_taken | fraction\_taken | total\_value |
+| :--- | --------: | -----------: | --------------: | -----------: |
+| 9574 |  0.021672 |          427 |          0.0427 |     2041.251 |
 
 ``` r
 # compare to potential
-wizard_values[2, c("threshold", "count_taken", "fraction_taken", "total_value")]
+wizard_values[2, c("threshold", "count_taken", "fraction_taken", "total_value")] %.>%
+  knitr::kable(.)
 ```
 
-    ##   threshold count_taken fraction_taken total_value
-    ## 2       0.5         106         0.0106    10136.36
+|   | threshold | count\_taken | fraction\_taken | total\_value |
+| :- | --------: | -----------: | --------------: | -----------: |
+| 2 |       0.5 |          106 |          0.0106 |     10136.36 |
 
 ### Reporting Uncertainty
 
@@ -251,5 +282,5 @@ note, we will deal with estimating and reporting uncertainty.
 ## Conclusion
 
 We have shown how to select a classifier threshold directly from policy
-utility. Thinking in terms of utility is simple, because it’s already
-the language of your business partners.
+utility, using `sigr::model_utility()`. Thinking in terms of utility is
+simple, because it’s already the language of your business partners.
