@@ -94,19 +94,20 @@ WVPlots::ROCPlot(d, xvar = 'predicted_probability', truthVar = 'converted', trut
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
-threshold_list <- chosen_threshold + seq(-0.01, 0.01, by = 0.001)
+threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -200)]
+diff_left <- max(chosen_threshold - threshold_list)
+threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= diff_left]
 
 f <- function(d, indices, ...) {
   vi <- model_utility(d[indices, ], 'predicted_probability', 'converted')
-  ret <- numeric(length(threshold_list))
-  for(i in seq_len(length(threshold_list))) {
-    ii <- which.min(abs(vi$threshold - threshold_list[[i]]))
-    ret[[i]] <- vi$total_value[[ii]]
-  }
-  ret
+  fn <- approxfun(vi$threshold, vi$total_value, 
+                  yleft = min(vi$total_value),
+                  yright = max(vi$total_value))
+  fn(threshold_list)
 }
 
-boot_stats <- boot(data = d, statistic = f, R = 1000)
+boot_stats <- boot(data = d, statistic = f, R = 1000, 
+                   parallel = 'multicore', ncpus = parallel::detectCores())
 boot_data <- as.data.frame(boot_stats$t)
 colnames(boot_data) <- threshold_list
 boot_data <- pivot_to_blocks(boot_data, 
