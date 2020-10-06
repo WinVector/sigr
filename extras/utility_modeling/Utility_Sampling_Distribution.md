@@ -126,7 +126,7 @@ ggplot() +
   geom_vline(xintercept = chosen_threshold, linetype = 2, color='darkgray') +
   theme_bw() +
   theme(legend.position = "none") +
-  ggtitle("total value as function of utility", subtitle = "95% and 50% quartile ranges shown")
+  ggtitle("total value as function of utility", subtitle = "(raw) bootstrapped 95% and 50% quantile ranges shown")
 ```
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
