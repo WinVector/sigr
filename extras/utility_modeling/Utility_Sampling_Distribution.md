@@ -88,6 +88,12 @@ print(chosen_threshold)
     ## [1] 0.02167201
 
 ``` r
+WVPlots::ROCPlot(d, xvar = 'predicted_probability', truthVar = 'converted', truthTarget = TRUE, title = 'ROC')
+```
+
+![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+``` r
 threshold_list <- chosen_threshold + seq(-0.01, 0.01, by = 0.001)
 
 f <- function(d, indices, ...) {
@@ -159,4 +165,4 @@ ggplot() +
 
     ## Warning: Removed 1 row(s) containing missing values (geom_path).
 
-![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->

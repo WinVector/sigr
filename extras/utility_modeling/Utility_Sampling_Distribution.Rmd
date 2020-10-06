@@ -69,6 +69,9 @@ knitr::kable(values[best_idx, ])
 chosen_threshold <- values$threshold[[best_idx]]
 print(chosen_threshold)
 
+WVPlots::ROCPlot(d, xvar = 'predicted_probability', truthVar = 'converted', truthTarget = TRUE, title = 'ROC')
+
+
 threshold_list <- chosen_threshold + seq(-0.01, 0.01, by = 0.001)
 
 f <- function(d, indices, ...) {
