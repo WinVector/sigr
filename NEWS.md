@@ -1,4 +1,8 @@
 
+# sigr 1.1.3 2020-10-05
+
+  * Improve package description.
+
 # sigr 1.1.2 2020-10-01
 
   * Add model_utility.
