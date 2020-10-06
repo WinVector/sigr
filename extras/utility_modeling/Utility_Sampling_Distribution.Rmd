@@ -76,7 +76,7 @@ print(chosen_threshold)
 WVPlots::ROCPlot(d, xvar = 'predicted_probability', truthVar = 'converted', truthTarget = TRUE, title = 'ROC')
 
 # get a plot region
-threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -200)]
+threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -0.5*max(values$total_value))]
 diff_left <- max(chosen_threshold - threshold_list)
 threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= 2*diff_left]
 

@@ -99,7 +99,7 @@ WVPlots::ROCPlot(d, xvar = 'predicted_probability', truthVar = 'converted', trut
 
 ``` r
 # get a plot region
-threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -200)]
+threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -0.5*max(values$total_value))]
 diff_left <- max(chosen_threshold - threshold_list)
 threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= 2*diff_left]
 
@@ -184,22 +184,27 @@ plot_thin <- plot_thin[
 
 plot_thin <- plot_thin[plot_thin$estimate != 'bootstrapped value', , drop = FALSE]
 
+pal <- c('#841c17', 'yellow')
 ggplot() +
   geom_ribbon(
     data = boot_summary,
     mapping = aes(x = threshold, ymin = q_0.025, ymax = q_0.975),
     alpha = 0.2,
-    fill = 'blue') +
+    fill = '#5e8190') +
   geom_ribbon(
     data = boot_summary,
     mapping = aes(x = threshold, ymin = q_0.25, ymax = q_0.75),
     alpha = 0.3,
-    fill = 'green') +
+    fill = '#263743') +
   geom_line(
     data = plot_thin,
-    mapping = aes(x = threshold, y = total_value, color = estimate, linetype = estimate)) + 
-  geom_vline(xintercept = chosen_threshold) +
-  ggtitle("actual versus bootstrap re-sampled utility by threshold")
+    mapping = aes(x = threshold, y = total_value, color = estimate),
+    alpha = 0.8) + 
+  scale_color_manual(values = pal) +
+  geom_vline(xintercept = chosen_threshold, linetype = 2) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  ggtitle("total value as function of utility", subtitle = "95% and 50% quartile ranges shown")
 ```
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
