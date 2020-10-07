@@ -43,7 +43,7 @@ estimate_utility_graph <- function(
   # get the thresholds
   threshold_list <- values$threshold[(!is.na(values$threshold))]
 
-  # calculates the utility curve from a bootsrap sample (described by indices)
+  # calculates the utility curve from a bootstrap sample (described by indices)
   f <- function(d, indices, ...) {
     vi <- model_utility(d[indices, ], prediction_column_name, outcome_column_name)
     fn <- approxfun(vi$threshold, vi$total_value,

@@ -3,9 +3,17 @@ title: "Estimating Uncertainty of Utility Curves"
 output: github_document
 ---
 
-```{r}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+```
 
+
+Recently, we showed [how to use utility estimates to pick good classifier thresholds](https://win-vector.com/2020/10/05/squeezing-the-most-utility-from-your-models/). In that article, we used
+model performance on an evaluation set, combined with estimates of rewards and penalties for correct and incorrect classifications, to find a threshold that optimized model utility. This assumes that the evaluation set is similar to the environment where you plan to apply your model; but of course there will be some variation. In this article, we will show one way to estimated the uncertainties of your utility estimates.
+
+## Reviewing the Example
+
+```{r message=FALSE}
 library(wrapr)
 library(sigr)
 library(rquery)
@@ -63,17 +71,27 @@ colnames(d) <- c("converted", "predicted_probability")
 
 ```
 
-```{r}
-# work example (same example as ../UtilityExample.Rmd)
+We'll use the same example as in the previous article: a sales environment where we want to pick which prospects to target,
+using a model that predicts probability of conversion. We start with a data frame `d` of predicted probabilities and actual outcomes, and then determine the costs and rewards of different decisions. In our example, every contact costs \$5 and every 
+conversion brings a net revenue of \$100. For demonstration purposes, we also add a small notional reward for true negatives and a small notional penalty for conversions that we missed.
 
-# utilities
+```{r echo=TRUE}
+# the data frame of model predictions and true outcome
+knitr::kable(head(d, n=3))
+
+#  utilities
 true_positive_value <- 100 - 5   # net revenue - cost
 false_positive_value <- -5       # the cost of a call
 true_negative_value <-  0.01     # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
 
+```
 
-# estimate_utility_graph defined in calculate_utility_graph.R
+
+```{r}
+# estimate_utility_graph defined in 
+# https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R
+
 unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   d,
   prediction_column_name = "predicted_probability",
@@ -82,10 +100,18 @@ unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   false_positive_value = false_positive_value,
   true_negative_value = true_negative_value,
   false_negative_value = false_negative_value)
+
+
 ```
 
+As we saw in the last article, this results in the following utility curve:
 
 ```{r}
+# formatting
+dollars_cents = function(x) {
+  format(round(x, 2), nsmall=2)
+}
+
 # plot actual utility curve and parametric smooth
 
 unpack[bframe = "bootstrapped value",
@@ -106,13 +132,17 @@ thresholds = data.frame(estimate = c(eframe$estimate[1],
 # use the threshold from the actual data
 # in this case they are the same to 2 sig figs anyway
 best_threshold <- thresholds$threshold[1]
-subtitle = paste("Optimal threshold:", format(best_threshold, digits=2))
+total_utility <- max(eframe$total_value)
+
+subtitle = paste("Optimal threshold:", format(best_threshold, digits=2), 
+                 "Estimated utility:", dollars_cents(total_utility))
+
+
 
 t_bound <- 0.015 # only look at thresholds above t_bound
 pltframe <- subset(rbind(eframe, parframe), threshold >= t_bound)
 
-# color-blind friendly
-pal <- c("#5D3A9B", "#E66100")
+pal <- c('#841c17', 'darkgray')
 
 ggplot() + 
   geom_line(data=pltframe, 
@@ -127,9 +157,93 @@ ggplot() +
 
 ```
 
+The best threshold is around `r format(best_threshold, digits=2)`, which brings in an estimated utility of 
+`r dollars_cents(total_utility)` on the evaluation set. We've also plotted a smoothed version of the utility curve as well. Since utility curves estimated on noisy data sets can be, well, noisy, it might be more stable to estimate the optimal threshold on a smoothed curve (we'll discuss the smoothing method used here a bit later, below). In this case, we see the optimal thresholds estimated on the raw data and on the smoothed curve are quite close (they match to two significant figures), although the total utility estimate from the smoothed curve at the optimal threshold appears to be biased down.
+
+## Estimating uncertainty bounds with bootstrapping
+
+Now we have an optimal threshold, which we'll call `best_threshold`, and a estimate of the utility of that threshold. You might also want some uncertainty bars around that estimate. One way to estimate those uncertainty bars is with [bootstrap sampling](https://en.wikipedia.org/wiki/Bootstrapping_%28statistics%29#Deriving_confidence_intervals_from_the_bootstrap_distribution). In fact, if we are patient, we can simulate uncertainty bars for multiple thresholds (or the entire utility curve) simultaneously.
+
+Bootstrap sampling simulates having multiple evaluation sets with similar characteristics by sampling from the original data set with replacement. We generate a new data set by resampling, then call `sigr::model_utility()` on the new data to generate a new utility curve. Repeating the procedure over and over again produces a large collection of curves. These curves give us a distribution of plausible utility values for every threshold that we are interested in -- in particular, `best_threshold`. 
+
+From this distribution, we can estimate uncertainty bounds: for example plus/minus one standard deviation from the mean, or the interquartile range (the range between the 25th and 75th percentiles, which holds 50% of the data). One good uncertainty bound is the range between the 2.5th percentile and the 97.5th percentile, which holds 95% of the observations around the median; with some abuse of terminology, you can consider this analogous to a "95% confidence interval" around your estimated utility.
+
+We used the `boot()` function from the `boot` library to implement our bootstrapping, in a function called `estimate_utility_graph()`; the source for the function is on github, [here](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R).  This function generates
+1000 bootstrap estimates from the original data, and returns the relevant summary statistics.
+
+An example use is as follows:
+
+```{r eval=FALSE, echo=TRUE}
+library(wrapr)  # misc convenience functions
+library(sigr)   # for model_utility()
+library(rquery) # data manipulation
+library(cdata)  # data manipulation
+library(boot)   # bootstrap sampling library
+source("calculate_utility_graph.R")
+
+# d is the data frame of model predictions and outcomes
+
+#  utilities
+true_positive_value <- 100 - 5   # net revenue - cost
+false_positive_value <- -5       # the cost of a call
+true_negative_value <-  0.01     # a small reward for getting them right
+false_negative_value <- -0.01    # a small penalty for having missed them
+
+# estimate_utility_graph defined in 
+# https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R
+
+unpack[plot_thin, boot_summary] <- estimate_utility_graph(
+  d,
+  prediction_column_name = "predicted_probability",
+  outcome_column_name = "converted",
+  true_positive_value = true_positive_value,
+  false_positive_value = false_positive_value,
+  true_negative_value = true_negative_value,
+  false_negative_value = false_negative_value)
+
+```
+
+(You can see the full use example in [the source code for this article](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/Utility_Sampling_Distribution.Rmd)).
+
+The data frame `boot_summary` has columns for the mean utility curve over all the bootstrap samples, as well as
+curves for several key quantiles.
+
+```{r echo=TRUE}
+knitr::kable(head(boot_summary, n=3))
+```
+
+The `plot_thin` data frame (in long form so it's easy to use with `ggplot2`) again has the mean utility curve over all
+the bootstrap samples, the original utility curve from real data, and the smoothed curve that we showed at the beginning of the article.
+
+```{r echo=TRUE}
+knitr::kable(head(plot_thin, n=3))
+unique(plot_thin$estimate)
+```
+
+Right now, the function is hard coded to return estimates at all the same thresholds used in the original utility curve.
+You can use this data to get utility estimates at key threshold values, like `best_threshold`.
+
+```{r echo=TRUE}
+# find the statistics corresponding to best_threshold
+ix = which(abs(boot_summary$threshold - best_threshold) < 1e-5)[1]
+best_stats = boot_summary[ix, ] 
+knitr::kable(best_stats)
+```
 
 ```{r}
 
+interval95 = with(best_stats, c(dollars_cents(q_0.025), 
+                                dollars_cents(q_0.975)))
+
+```
+
+So you can estimate that at `best_threshold`, the total value realized will be in the interval
+`r paste0("(", paste(interval95, collapse=","), ")")` 95% of the time.
+
+The `boot_summary` frame can also be used to plot the utility curve with uncertainty.
+Here we show the original curve, the smoothed curve, and the 50% and 95% quantile ranges around them. 
+
+```{r}
 # get a plot region
 values <- plot_thin[plot_thin$estimate == 'estimated value', ]
 # get optimal
@@ -173,4 +287,5 @@ ggplot() +
   theme(legend.position = "none") +
   ggtitle("total value as function of utility", subtitle = "(raw) bootstrapped 95% and 50% quantile ranges shown")
 ```
+
 
