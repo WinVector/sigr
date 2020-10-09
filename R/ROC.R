@@ -273,7 +273,8 @@ fit_beta_shapes <- function(x) {
 
 #' Find beta shape parameters matching the conditional distributions.
 #'
-#' Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}
+#' Based on \url{https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/}. Used to find
+#' one beta distribution on positive examples, and another on negative examples.
 #'
 #' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)
 #' @param yValues truth values (not empty, same length as model predictions)
@@ -287,7 +288,7 @@ fit_beta_shapes <- function(x) {
 #'   data.frame(x = rbeta(1000, shape1 = 6, shape2 = 4), y = TRUE),
 #'   data.frame(x = rbeta(1000, shape1 = 2, shape2 = 3), y = FALSE)
 #' )
-#' find_ROC_matching_ab(modelPredictions = d$x, yValues = d$y)
+#' find_matching_conditional_betas(modelPredictions = d$x, yValues = d$y)
 #' # should be near
 #' # shape1_pos shape2_pos shape1_neg shape2_neg
 #' # 6          4          2          3
@@ -297,7 +298,7 @@ fit_beta_shapes <- function(x) {
 #' #    find_ROC_matching_ab(modelPredictions = d$x, yValues = d$y)
 #'
 #' @export
-find_ROC_matching_ab <- function(
+find_matching_conditional_betas <- function(
   modelPredictions, yValues,
   ...,
   yTarget = TRUE) {
@@ -314,9 +315,16 @@ find_ROC_matching_ab <- function(
 }
 
 
+#' @export
+#' @rdname find_matching_conditional_betas
+find_ROC_matching_ab <- find_matching_conditional_betas
+
+
+
 #' Find beta-1 shape parameters matching the conditional distributions.
 #'
-#' Based on \url{https://journals.sagepub.com/doi/abs/10.1177/0272989X15582210}
+#' Based on \url{https://journals.sagepub.com/doi/abs/10.1177/0272989X15582210}. Fits a Beta(a, 1) distribuiton on
+#' positive examples and an Beta(1, b) distribution on negative examples.
 #'
 #' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)
 #' @param yValues truth values (not empty, same length as model predictions)
@@ -337,10 +345,10 @@ find_ROC_matching_ab <- function(
 #' #
 #' # # How to land what you want as variables
 #' # unpack[a, b] <-
-#' #    find_ROC_matching_ab1(modelPredictions = d$x, yValues = d$y)
+#' #    find_matching_a1_1b(modelPredictions = d$x, yValues = d$y)
 #'
 #' @export
-find_ROC_matching_ab1 <- function(
+find_matching_a1_1b <- function(
   modelPredictions, yValues,
   ...,
   yTarget = TRUE) {
@@ -386,6 +394,10 @@ find_ROC_matching_ab1 <- function(
     b = b)
 }
 
+
+#' @export
+#' @rdname find_matching_a1_1b
+find_ROC_matching_ab1 <- find_matching_a1_1b
 
 
 #' Compute the shape1_pos, shape2_pos, shape1_neg, shape2_neg graph.
