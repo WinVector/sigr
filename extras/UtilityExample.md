@@ -110,16 +110,26 @@ values <- model_utility(d,
 ```
 
 The `model_utility()` function returns a data frame with the following
-columns:
+columns (with one example row):
 
-| model                  | threshold | count\_taken | fraction\_taken | true\_positive\_value | false\_positive\_value | true\_negative\_value | false\_negative\_value | total\_value | true\_negative\_count | false\_negative\_count | true\_positive\_count | false\_positive\_count |
-| :--------------------- | --------: | -----------: | --------------: | --------------------: | ---------------------: | --------------------: | ---------------------: | -----------: | --------------------: | ---------------------: | --------------------: | ---------------------: |
-| predicted\_probability | 0.0002494 |        10000 |          1.0000 |                 10070 |                \-49470 |                  0.00 |                      0 |   \-39400.00 |                     0 |                      0 |                   106 |                   9894 |
-| predicted\_probability | 0.0002564 |         9999 |          0.9999 |                 10070 |                \-49465 |                  0.01 |                      0 |   \-39394.99 |                     1 |                      0 |                   106 |                   9893 |
-| predicted\_probability | 0.0002711 |         9998 |          0.9998 |                 10070 |                \-49460 |                  0.02 |                      0 |   \-39389.98 |                     2 |                      0 |                   106 |                   9892 |
-| predicted\_probability | 0.0003787 |         9997 |          0.9997 |                 10070 |                \-49455 |                  0.03 |                      0 |   \-39384.97 |                     3 |                      0 |                   106 |                   9891 |
-| predicted\_probability | 0.0004992 |         9996 |          0.9996 |                 10070 |                \-49450 |                  0.04 |                      0 |   \-39379.96 |                     4 |                      0 |                   106 |                   9890 |
-| predicted\_probability | 0.0005422 |         9995 |          0.9995 |                 10070 |                \-49445 |                  0.05 |                      0 |   \-39374.95 |                     5 |                      0 |                   106 |                   9889 |
+``` r
+t(values[1, ])
+```
+
+    ##                      1                      
+    ## model                "predicted_probability"
+    ## threshold            "0.0002494199"         
+    ## count_taken          "10000"                
+    ## fraction_taken       "1"                    
+    ## true_positive_value  "10070"                
+    ## false_positive_value "-49470"               
+    ## true_negative_value  "0"                    
+    ## false_negative_value "0"                    
+    ## total_value          "-39400"               
+    ## true_negative_count  "0"                    
+    ## false_negative_count "0"                    
+    ## true_positive_count  "106"                  
+    ## false_positive_count "9894"
 
 Each row of `values` returns the appropriate counts and values for a
 classifier rule that labels cases as TRUE when `predicted_probability >=

@@ -117,10 +117,10 @@ values <- model_utility(d,
                         outcome_name = 'converted')
 ```
 
-The `model_utility()` function returns a data frame with the following columns:
+The `model_utility()` function returns a data frame with the following columns (with one example row):
 
-```{r echo=FALSE}
-knitr::kable(head(values))
+```{r}
+t(values[1, ])
 ```
 
 Each row of `values` returns the appropriate counts and values for a classifier rule that labels cases as TRUE when `predicted_probability >= threshold`. Now we can determine the total value returned by the model on our evaluation set, as a function of threshold.
