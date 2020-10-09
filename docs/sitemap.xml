@@ -46,13 +46,13 @@
     <loc>https://winvector.github.io/sigr//reference/find_AUC_q.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/find_ROC_matching_ab.html</loc>
-  </url>
-  <url>
-    <loc>https://winvector.github.io/sigr//reference/find_ROC_matching_ab1.html</loc>
-  </url>
-  <url>
     <loc>https://winvector.github.io/sigr//reference/find_area_q.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/find_matching_a1_1b.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr//reference/find_matching_conditional_betas.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/sigr//reference/fit_beta_shapes.html</loc>

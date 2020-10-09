@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@
  <a href='https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html'>https://blog.revolutionanalytics.com/2016/08/roc-curves-in-two-lines-of-code.html</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_ROC_curve</span>(<span class='kw'>modelPredictions</span>, <span class='kw'>yValues</span>, <span class='kw'>...</span>, na.rm = <span class='fl'>FALSE</span>, yTarget = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>build_ROC_curve</span><span class='op'>(</span><span class='va'>modelPredictions</span>, <span class='va'>yValues</span>, <span class='va'>...</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>, yTarget <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +167,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>sigr</span>::<span class='fu'>build_ROC_curve</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>))
+<span class='fu'>sigr</span><span class='fu'>::</span><span class='fu'>build_ROC_curve</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>,<span class='cn'>FALSE</span>,<span class='cn'>TRUE</span>,<span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   Score Sensitivity Specificity
 #&gt; 1    NA   0.0000000           1
 #&gt; 2     4   0.3333333           1
