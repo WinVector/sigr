@@ -1,0 +1,175 @@
+---
+title: "ROC optimization"
+output: github_document
+---
+
+```{r}
+library(ggplot2)
+library(sigr)
+library(WVPlots)
+```
+
+Let's take the example data and utility from [Nina Zumel's "Squeezing the Most Utility from Your Models"](https://win-vector.com/2020/10/05/squeezing-the-most-utility-from-your-models/).
+
+```{r}
+# generate data  (same example as ../UtilityExample.Rmd)
+set.seed(2020)
+y_example <- function(n, prevalence = 0.5) {
+  data.frame(
+    y = sample(
+      c(TRUE, FALSE), 
+      size = n, 
+      replace = TRUE,
+      prob = c(prevalence, 1 - prevalence))
+  )
+}
+beta_variable <- function(
+  d, 
+  shape1_pos, shape2_pos, 
+  shape1_neg, shape2_neg) {
+  score <- numeric(nrow(d))
+  score[d$y] <- rbeta(sum(d$y), shape1 = shape1_pos, shape2 = shape2_pos)
+  score[!d$y] <- rbeta(sum(!d$y), shape1 = shape1_neg, shape2 = shape2_neg)
+  score
+}
+#
+# generate the example. This looks complicated, but we are trying to generate
+# predictions consistent with a calibrated model (like logistic regression)
+#
+prevalence <- 0.01
+a_pos <- 6
+b_pos <- 300
+a_neg <- 3
+p_odds_ratio <- prevalence / (1-prevalence)
+pos_mean <- a_pos / (a_pos + b_pos)
+b_neg <- a_neg * (  1 / (p_odds_ratio * (1 - pos_mean)) - 1)
+stopifnot(b_neg >= 0)
+neg_mean <- a_neg / (a_neg + b_neg)
+check_p <- prevalence * pos_mean + (1 - prevalence) * neg_mean
+stopifnot(abs(prevalence - check_p) < 1e-5)
+d <- y_example(10000, prevalence = prevalence)
+d$predicted_probability <- beta_variable(
+  d,
+  shape1_pos = a_pos, 
+  shape2_pos = b_pos,
+  shape1_neg = a_neg,
+  shape2_neg = b_neg)
+# change the column name to better match the example
+colnames(d) <- c("converted", "predicted_probability")
+
+# observed obseved_prevalence
+obseved_prevalence <- mean(d$converted)
+
+#  utilities
+true_positive_value <- 100 - 5   # net revenue - cost
+false_positive_value <- -5       # the cost of a call
+true_negative_value <-  0.01     # a small reward for getting them right
+false_negative_value <- -0.01    # a small penalty for having missed them
+```
+
+```{r}
+plt <- ROCPlot(
+  d,
+  xvar = 'predicted_probability',
+  truthVar = 'converted',
+  truthTarget = TRUE,
+  title = "ROC plot for our example (ideal curve shown)")
+
+ideal_roc <- sigr::sensitivity_and_specificity_s12p12n(
+    seq(0, 1, 0.0001),
+    shape1_pos = a_pos,
+    shape2_pos = b_pos,
+    shape1_neg = a_neg,
+    shape2_neg = b_neg)
+
+plt + 
+  ggplot2::geom_line(
+    data = ideal_roc,
+    mapping = ggplot2::aes(x = 1 - Specificity, y = Sensitivity),
+    color = "#fd8d3c",
+    alpha = 0.8,
+    linetype = 2)
+```
+
+```{r}
+ideal_roc$FalsePositiveRate <- 1 - ideal_roc$Specificity
+ideal_roc$slope <- c((ideal_roc$Sensitivity[-nrow(ideal_roc)] - ideal_roc$Sensitivity[-1])/
+  (ideal_roc$FalsePositiveRate[-nrow(ideal_roc)] - ideal_roc$FalsePositiveRate[-1]), NA)
+ideal_roc <- ideal_roc[complete.cases(ideal_roc), ]
+
+ggplot(
+  mapping = aes(x = FalsePositiveRate, y = slope),
+  data = ideal_roc) + 
+  geom_line() + 
+  scale_y_log10() + 
+  ggtitle("ideal ROC slope as a function of FalsePositiveRate")
+```
+
+```{r}
+ggplot(
+  mapping = aes(x = Score, y = slope),
+  data = ideal_roc) + 
+  geom_line() + 
+  scale_y_log10() + 
+  ggtitle("ideal ROC slope as a function of model score threshold")
+```
+
+Let's optimize this system by finding the optimum target slope for this combination of ROC plot, prevalence, and utility. This is standard method in ROC optimization and we have a derivation of it [here](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/ROC_utility.ipynb).
+
+
+```{r}
+target_slope <- (true_negative_value - false_positive_value) * (1 - obseved_prevalence) / 
+  (obseved_prevalence * (true_positive_value - false_negative_value))
+target_slope
+```
+
+Now we find what model score threshold achieves this slope on the ROC curve.
+
+```{r}
+idx <- which.min(abs(ideal_roc$slope - target_slope))
+opt <- ideal_roc[idx, ]
+t(opt)
+```
+
+```{r}
+ggplot(
+  mapping = aes(x = Score, y = slope),
+  data = ideal_roc) + 
+  geom_line() + 
+  geom_vline(xintercept = opt$Score, color = "red", linetype = 2) + 
+  geom_hline(yintercept = opt$slope, color = "red", linetype = 2) + 
+  scale_y_log10() + 
+  ggtitle("ideal ROC slope as a function of model score threshold",
+          subtitle = "optimal pick annotated")
+```
+
+```{r}
+ggplot(
+  mapping = aes(x = FalsePositiveRate, y = slope),
+  data = ideal_roc) + 
+  geom_line() + 
+  scale_y_log10() + 
+  geom_vline(xintercept = opt$FalsePositiveRate, color = "red", linetype = 2) + 
+  geom_hline(yintercept = opt$slope, color = "red", linetype = 2) + 
+  ggtitle("ideal ROC slope as a function of FalsePositiveRate",
+          subtitle = "optimal pick annotated")
+```
+
+```{r}
+ROCPlot(
+  d,
+  xvar = 'predicted_probability',
+  truthVar = 'converted',
+  truthTarget = TRUE,
+  title = "ROC plot for our example (estimated optimal point shown)") + 
+  ggplot2::geom_line(
+    data = ideal_roc,
+    mapping = ggplot2::aes(x = 1 - Specificity, y = Sensitivity),
+    color = "#fd8d3c",
+    alpha = 0.8,
+    linetype = 2) + 
+  geom_vline(xintercept = opt$FalsePositiveRate, color = "red", linetype = 2) + 
+  geom_hline(yintercept = opt$Sensitivity, color = "red", linetype = 2) 
+```
+
+
