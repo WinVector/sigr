@@ -5,9 +5,21 @@
 \alias{find_ROC_matching_ab1}
 \title{Find beta-1 shape parameters matching the conditional distributions.}
 \usage{
-find_matching_a1_1b(modelPredictions, yValues, ..., yTarget = TRUE)
+find_matching_a1_1b(
+  modelPredictions,
+  yValues,
+  ...,
+  yTarget = TRUE,
+  step_size = 0.001
+)
 
-find_ROC_matching_ab1(modelPredictions, yValues, ..., yTarget = TRUE)
+find_ROC_matching_ab1(
+  modelPredictions,
+  yValues,
+  ...,
+  yTarget = TRUE,
+  step_size = 0.001
+)
 }
 \arguments{
 \item{modelPredictions}{numeric predictions (not empty), ordered (either increasing or decreasing)}
@@ -17,6 +29,8 @@ find_ROC_matching_ab1(modelPredictions, yValues, ..., yTarget = TRUE)
 \item{...}{force later arguments to bind by name.}
 
 \item{yTarget}{value considered to be positive.}
+
+\item{step_size}{size of steps in curve drawing}
 }
 \value{
 beta curve shape parameters

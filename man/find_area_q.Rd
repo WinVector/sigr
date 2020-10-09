@@ -4,10 +4,14 @@
 \alias{find_area_q}
 \title{Find area matching polynomial curve.}
 \usage{
-find_area_q(area)
+find_area_q(area, ..., n_points = 101)
 }
 \arguments{
 \item{area}{area to match}
+
+\item{...}{not used, force later arguments to bind by name}
+
+\item{n_points}{how many points to use to estimte area.}
 }
 \value{
 q that such that curve \code{1 - (1 - (1-Specificity)^q)^(1/q)} matches area

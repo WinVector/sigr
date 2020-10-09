@@ -4,7 +4,14 @@
 \alias{find_AUC_q}
 \title{Find area matching polynomial curve.}
 \usage{
-find_AUC_q(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
+find_AUC_q(
+  modelPredictions,
+  yValues,
+  ...,
+  na.rm = FALSE,
+  yTarget = TRUE,
+  n_points = 101
+)
 }
 \arguments{
 \item{modelPredictions}{numeric predictions (not empty), ordered (either increasing or decreasing)}
@@ -16,6 +23,8 @@ find_AUC_q(modelPredictions, yValues, ..., na.rm = FALSE, yTarget = TRUE)
 \item{na.rm}{logical, if TRUE remove NA values.}
 
 \item{yTarget}{value considered to be positive.}
+
+\item{n_points}{number of points to use in estimates.}
 }
 \value{
 q that such that curve 1 - (1 -  (1-ideal_roc$Specificity)^q)^(1/q) matches area
