@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
     <p>Based on <a href='https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/'>https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_AUC_q</span>(<span class='kw'>modelPredictions</span>, <span class='kw'>yValues</span>, <span class='kw'>...</span>, na.rm = <span class='fl'>FALSE</span>, yTarget = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>find_AUC_q</span><span class='op'>(</span><span class='va'>modelPredictions</span>, <span class='va'>yValues</span>, <span class='va'>...</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>, yTarget <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,11 +165,11 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(pred = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, truth = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>))
-<span class='kw'>q</span> <span class='op'>&lt;-</span> <span class='fu'>find_AUC_q</span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>pred</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>truth</span>)
-<span class='kw'>roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_ROC_curve.html'>build_ROC_curve</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>pred</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>truth</span>)
-<span class='kw'>ideal_roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(Specificity = <span class='fu'><a href='#base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, length.out = <span class='fl'>101</span>))
-<span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Sensitivity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sensitivity_from_specificity_q.html'>sensitivity_from_specificity_q</a></span>(<span class='kw'>ideal_roc</span><span class='op'>$</span><span class='kw'>Specificity</span>, <span class='kw'>q</span>)
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>pred <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, truth <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>,<span class='cn'>FALSE</span>,<span class='cn'>TRUE</span>,<span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'>find_AUC_q</span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>pred</span>, <span class='va'>d</span><span class='op'>$</span><span class='va'>truth</span><span class='op'>)</span>
+<span class='va'>roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_ROC_curve.html'>build_ROC_curve</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>pred</span>, <span class='va'>d</span><span class='op'>$</span><span class='va'>truth</span><span class='op'>)</span>
+<span class='va'>ideal_roc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Specificity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, length.out <span class='op'>=</span> <span class='fl'>101</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>ideal_roc</span><span class='op'>$</span><span class='va'>Sensitivity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sensitivity_from_specificity_q.html'>sensitivity_from_specificity_q</a></span><span class='op'>(</span><span class='va'>ideal_roc</span><span class='op'>$</span><span class='va'>Specificity</span>, <span class='va'>q</span><span class='op'>)</span>
 <span class='co'># library(ggplot2)</span>
 <span class='co'># ggplot(mapping = aes(x = 1 - Specificity, y = Sensitivity)) +</span>
 <span class='co'>#   geom_line(data = roc, color = "DarkBlue") +</span>
