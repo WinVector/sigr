@@ -26,7 +26,7 @@ missed.
 
 ``` r
 # the data frame of model predictions and true outcome
-knitr::kable(head(d))
+knitr::kable(head(d, n=3))
 ```
 
 | converted | predicted\_probability |
@@ -34,9 +34,6 @@ knitr::kable(head(d))
 | FALSE     |              0.0040164 |
 | FALSE     |              0.0199652 |
 | FALSE     |              0.0132867 |
-| FALSE     |              0.0051605 |
-| FALSE     |              0.0038753 |
-| FALSE     |              0.0057591 |
 
 ``` r
 #  utilities
@@ -79,25 +76,20 @@ replacement. We generate a new data set by resampling, then call
 Repeating the procedure over and over again produces a large collection
 of curves. These curves give us a distribution of plausible utility
 values for every threshold that we are interested in – in particular,
-`best_threshold`.
-
-From this distribution, we can estimate uncertainty bounds: for example
-plus/minus one standard deviation from the mean, or the interquartile
-range (the range between the 25th and 75th percentiles, which holds 50%
-of the data). One good uncertainty bound is the range between the 2.5th
-percentile and the 97.5th percentile, which holds 95% of the
-observations around the median; with some abuse of terminology, you can
-consider this analogous to a “95% confidence interval” around your
-estimated utility.
+`best_threshold`. From this distribution, we can estimate uncertainty
+bounds.
 
 We used the `boot()` function from the `boot` library to implement our
 bootstrapping, in a function called `estimate_utility_graph()`; the
 source for the function is on github,
 [here](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R).
 This function generates 1000 bootstrap estimates from the original data,
-and returns the relevant summary statistics.
+and returns the relevant summary statistics, in two data frames, as we
+[`unpack[]`](https://winvector.github.io/wrapr/reference/unpack.html)
+below.
 
-An example use is as follows:
+An example use is as follows (we’ll restart from the beginning, so the
+code is all in one place):
 
 ``` r
 library(wrapr)  # misc convenience functions
@@ -129,14 +121,14 @@ unpack[plot_thin, boot_summary] <- estimate_utility_graph(
 ```
 
 (You can see the full use example in [the source code for this
-article](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/Utility_Sampling_Distribution.Rmd)).
+article](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/Utility_Sampling_Distribution.Rmd).)
 
 The data frame `boot_summary` has columns for the mean utility curve
 over all the bootstrap samples, as well as curves for several key
 quantiles.
 
 ``` r
-knitr::kable(head(boot_summary))
+knitr::kable(head(boot_summary, n=3))
 ```
 
 | threshold | mean\_total\_value |   q\_0.025 |    q\_0.25 |    q\_0.50 |    q\_0.75 |   q\_0.975 |
@@ -144,33 +136,12 @@ knitr::kable(head(boot_summary))
 | 0.0002494 |         \-39415.70 | \-41500.00 | \-40100.00 | \-39500.00 | \-38700.00 | \-37400.00 |
 | 0.0002564 |         \-39411.70 | \-41494.99 | \-40099.69 | \-39487.47 | \-38694.99 | \-37399.99 |
 | 0.0002711 |         \-39407.39 | \-41489.98 | \-40093.71 | \-39479.96 | \-38689.98 | \-37394.86 |
-| 0.0003787 |         \-39400.80 | \-41484.99 | \-40084.97 | \-39471.14 | \-38684.90 | \-37384.88 |
-| 0.0004992 |         \-39394.24 | \-41478.85 | \-40079.96 | \-39464.57 | \-38678.90 | \-37380.67 |
-| 0.0005422 |         \-39389.66 | \-41475.81 | \-40074.16 | \-39455.23 | \-38672.95 | \-37374.95 |
 
-The `plot_thin` data frame (in long form so it’s easy to use with
-`ggplot2`) again has the mean utility curve over all the bootstrap
-samples, the original utility curve from real data, and the smoothed
-curve that we showed at the beginning of the article.
-
-``` r
-knitr::kable(head(plot_thin))
-```
-
-| threshold | total\_value | estimate           |
-| --------: | -----------: | :----------------- |
-| 0.0002494 |   \-39415.70 | bootstrapped value |
-| 0.0002564 |   \-39411.70 | bootstrapped value |
-| 0.0002711 |   \-39407.39 | bootstrapped value |
-| 0.0003787 |   \-39400.80 | bootstrapped value |
-| 0.0004992 |   \-39394.24 | bootstrapped value |
-| 0.0005422 |   \-39389.66 | bootstrapped value |
-
-``` r
-unique(plot_thin$estimate)
-```
-
-    ## [1] "bootstrapped value" "estimated value"    "parametric fit"
+One interesting uncertainty bound is the range between the 2.5th
+percentile (`q_.0.025`) and the 97.5th percentile (`q_0.975`), which
+holds 95% of the observations around the median. With some abuse of
+terminology, you can consider this analogous to a “95% confidence
+interval” around your estimated utility.
 
 Right now, the function is hard coded to return estimates at all the
 same thresholds used in the original utility curve. You can use this
@@ -178,7 +149,7 @@ data to get utility estimates at key threshold values, like
 `best_threshold`.
 
 ``` r
-# take the first one
+# find the statistics corresponding to best_threshold
 ix = which(abs(boot_summary$threshold - best_threshold) < 1e-5)[1]
 best_stats = boot_summary[ix, ] 
 knitr::kable(best_stats)
@@ -188,11 +159,58 @@ knitr::kable(best_stats)
 | :--- | --------: | -----------------: | -------: | -------: | -------: | -------: | -------: |
 | 9574 |  0.021672 |           2114.719 | 1020.626 | 1705.634 | 2083.686 | 2520.049 | 3379.423 |
 
-So you can estimate that at `best_threshold`, the total value realized
-will be in the interval (1020.63,3379.42) 95% of the time.
+At `best_threshold`, we estimate that the total value realized will be
+in the interval (1020.63, 3379.42) 95% of the time.
 
-The `boot_summary` frame can also be used to plot the utility curve with
+The `plot_thin` data frame (in long form so it’s easy to use with
+`ggplot2`) again has the mean utility curve over all the bootstrap
+samples, the original utility curve from real data, and the smoothed
+curve that we showed at the beginning of the article.
+
+``` r
+knitr::kable(head(plot_thin, n=3))
+```
+
+| threshold | total\_value | estimate           |
+| --------: | -----------: | :----------------- |
+| 0.0002494 |   \-39415.70 | bootstrapped value |
+| 0.0002564 |   \-39411.70 | bootstrapped value |
+| 0.0002711 |   \-39407.39 | bootstrapped value |
+
+``` r
+unique(plot_thin$estimate)
+```
+
+    ## [1] "bootstrapped value" "estimated value"    "parametric fit"
+
+We can use these two data frames to plot the utility curve with
 uncertainty. Here we show the original curve, the smoothed curve, and
 the 50% and 95% quantile ranges around them.
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+## The smoothing curve
+
+Note that our `estimate_utility_graph()` function assumes that all
+rewards and costs are constant. This assumption isn’t necessary for the
+bootstrapping procedure; it’s only needed for the parametric smoothing
+curve that we calculate and add to the `plot_thin` data frame.
+
+For models that return probability scores, we estimate the smoothing
+curve by assuming that the conditional distributions of scores for the
+positive and negative instances (the distributions shown in the [double
+density
+plot](https://winvector.github.io/WVPlots/reference/DoubleDensityPlot.html)
+of model scores) are both [beta
+distributions](https://en.wikipedia.org/wiki/Beta_distribution). We can
+find the parameters of the best fit betas with
+[sigr::find\_ROC\_matching\_ab()](https://winvector.github.io/sigr/reference/find_ROC_matching_ab.html).
+The smoothed utility curve is then the utility curve calculated with the
+estimated beta distributions, rather than the raw data.
+
+Why beta distributions? Simply because beta distributions are bound
+between 0 and 1 and seem to be a plausible family of shapes for
+probability model scores. For logistic regression models, assuming
+[logit-normal
+distributions](https://en.wikipedia.org/wiki/Logit-normal_distribution)
+is also an interesting choice.
