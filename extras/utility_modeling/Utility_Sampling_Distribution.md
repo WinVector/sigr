@@ -7,10 +7,8 @@ thresholds](https://win-vector.com/2020/10/05/squeezing-the-most-utility-from-yo
 In that article, we used model performance on an evaluation set,
 combined with estimates of rewards and penalties for correct and
 incorrect classifications, to find a threshold that optimized model
-utility. This assumes that the evaluation set is similar to the
-environment where you plan to apply your model; but of course there will
-be some variation. In this article, we will show one way to estimated
-the uncertainties of your utility estimates.
+utility. In this article, we will show one way to estimate the
+uncertainties of your utility estimates.
 
 ## Reviewing the Example
 
@@ -48,16 +46,16 @@ curve:
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-The best threshold is around 0.022, which brings in an estimated utility
-of 2159.45 on the evaluation set. We’ve also plotted a smoothed version
-of the utility curve as well. Since utility curves estimated on noisy
-data sets can be, well, noisy, it might be more stable to estimate the
-optimal threshold on a smoothed curve (we’ll discuss the smoothing
-method used here a bit later, below). In this case, we see the optimal
+The best threshold is around 0.022, which realizes an estimated utility
+of $2159.45 on the evaluation set.
+
+Since utility curves estimated on raw data sets can be noisy, it might
+be more stable to estimate the optimal threshold on a smoothed curve,
+like the one we’ve also plotted above. In this case, the optimal
 thresholds estimated on the raw data and on the smoothed curve are quite
 close (they match to two significant figures), although the total
-utility estimate from the smoothed curve at the optimal threshold
-appears to be biased down.
+utility estimate from the smoothed curve appears to be biased down.
+We’ll discuss the smoothing method used here a bit later, below.
 
 ## Estimating uncertainty bounds with bootstrapping
 
@@ -79,14 +77,14 @@ values for every threshold that we are interested in – in particular,
 `best_threshold`. From this distribution, we can estimate uncertainty
 bounds.
 
-We used the `boot()` function from the `boot` library to implement our
-bootstrapping, in a function called `estimate_utility_graph()`; the
-source for the function is on github,
+We used the `boot::boot()` function to implement our bootstrapping. For
+simplicity, we use the raw percentiles from the replicants, and don’t
+attempt to correct for subsampling bias (which should be small for large
+data). We’ve wrapped the whole procedure in a function called
+`estimate_utility_graph()`; the source for the function is on github,
 [here](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R).
 This function generates 1000 bootstrap estimates from the original data,
-and returns the relevant summary statistics, in two data frames, as we
-[`unpack[]`](https://winvector.github.io/wrapr/reference/unpack.html)
-below.
+and returns the relevant summary statistics.
 
 An example use is as follows (we’ll restart from the beginning, so the
 code is all in one place):
@@ -107,7 +105,7 @@ false_positive_value <- -5       # the cost of a call
 true_negative_value <-  0.01     # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
 
-# estimate_utility_graph defined in 
+# estimate_utility_graph() defined in 
 # https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R
 
 unpack[plot_thin, boot_summary] <- estimate_utility_graph(
@@ -123,9 +121,10 @@ unpack[plot_thin, boot_summary] <- estimate_utility_graph(
 (You can see the full use example in [the source code for this
 article](https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/Utility_Sampling_Distribution.Rmd).)
 
-The data frame `boot_summary` has columns for the mean utility curve
-over all the bootstrap samples, as well as curves for several key
-quantiles.
+The `estimate_utility_graph()` function returns two data frames,
+`boot_summary` and `plot_thin`. The data frame `boot_summary` has
+columns for the mean utility curve over all the bootstrap samples, as
+well as curves for several key quantiles.
 
 ``` r
 knitr::kable(head(boot_summary, n=3))
@@ -139,9 +138,9 @@ knitr::kable(head(boot_summary, n=3))
 
 One interesting uncertainty bound is the range between the 2.5th
 percentile (`q_.0.025`) and the 97.5th percentile (`q_0.975`), which
-holds 95% of the observations around the median. With some abuse of
-terminology, you can consider this analogous to a “95% confidence
-interval” around your estimated utility.
+holds 95% of the observations. With some abuse of terminology, you can
+consider this analogous to a “95% confidence interval” for your
+estimated utility.
 
 Right now, the function is hard coded to return estimates at all the
 same thresholds used in the original utility curve. You can use this
@@ -159,12 +158,12 @@ knitr::kable(best_stats)
 | :--- | --------: | -----------------: | -------: | -------: | -------: | -------: | -------: |
 | 9574 |  0.021672 |           2114.719 | 1020.626 | 1705.634 | 2083.686 | 2520.049 | 3379.423 |
 
-At `best_threshold`, we estimate that the total value realized will be
-in the interval (1020.63, 3379.42) 95% of the time.
+At `best_threshold`, we estimate that 95% of the time, the total utility
+realized will be in the range $1020.63 to $3379.42.
 
 The `plot_thin` data frame (in long form so it’s easy to use with
 `ggplot2`) again has the mean utility curve over all the bootstrap
-samples, the original utility curve from real data, and the smoothed
+samples, the original utility curve from the real data, and the smoothed
 curve that we showed at the beginning of the article.
 
 ``` r
@@ -189,28 +188,36 @@ the 50% and 95% quantile ranges around them.
 
 ![](Utility_Sampling_Distribution_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-## The smoothing curve
+### The smoothing curve
 
 Note that our `estimate_utility_graph()` function assumes that all
 rewards and costs are constant. This assumption isn’t necessary for the
 bootstrapping procedure; it’s only needed for the parametric smoothing
 curve that we calculate and add to the `plot_thin` data frame.
 
-For models that return probability scores, we estimate the smoothing
-curve by assuming that the conditional distributions of scores for the
-positive and negative instances (the distributions shown in the [double
-density
-plot](https://winvector.github.io/WVPlots/reference/DoubleDensityPlot.html)
-of model scores) are both [beta
+For a model that returns probability scores, we assume that the
+distributions of both the positive and negative scores (which you can
+plot with a [double density
+plot](https://winvector.github.io/WVPlots/reference/DoubleDensityPlot.html))
+are both [beta
 distributions](https://en.wikipedia.org/wiki/Beta_distribution). We can
-find the parameters of the best fit betas with
-[sigr::find\_ROC\_matching\_ab()](https://winvector.github.io/sigr/reference/find_ROC_matching_ab.html).
-The smoothed utility curve is then the utility curve calculated with the
-estimated beta distributions, rather than the raw data.
+find the parameters of the best fit betas with [this
+function](https://winvector.github.io/sigr/reference/find_matching_conditional_betas.html),
+from `sigr`. The smoothed utility curve is then the utility curve
+calculated with the estimated beta distributions, rather than the raw
+data.
 
 Why beta distributions? Simply because beta distributions are bound
-between 0 and 1 and seem to be a plausible family of shapes for
-probability model scores. For logistic regression models, assuming
-[logit-normal
+between 0 and 1, seem to be a plausible family of shapes to describe the
+distributions of probability model scores, and are easy to fit. For
+logistic regression models, assuming [logit-normal
 distributions](https://en.wikipedia.org/wiki/Logit-normal_distribution)
 is also an interesting choice.
+
+## Conclusion
+
+Utility is a simple and intuitive metric for selecting good classifier
+thresholds. In this note, we’ve shown how to estimate uncertainty bands
+around your utility calculations. The clarity of the original utility
+graph makes visualizing uncertainty quite easy. We feel this is a good
+tool to add to your decision-making arsenal.
