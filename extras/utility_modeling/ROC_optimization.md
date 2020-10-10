@@ -197,12 +197,19 @@ science unbalanced problems are very common: advertisement click-through
 rates, account cancelation, fraud detection, and many others fall into
 this category.
 
-The great advantage of the ROC system was: the ROC plot did not have to
-be re-done if prevalence or utility changed. If prevalence or utility
-change simple arithmetic yields the new slope, and using a protractor to
-orient a ruler finds the point. Or one could rotate the ROC plot so that
-the desired slope is mapped to a horizontal line and then look for the
-highest point in this orientation.
+The great advantage of the ROC system were:
+
+  - The ROC plot did not have to be re-done if prevalence or utility
+    changed. If prevalence or utility change simple arithmetic yields
+    the new slope, and using a protractor to orient a ruler finds the
+    point. Or one could rotate the ROC plot so that the desired slope is
+    mapped to a horizontal line and then look for the highest point in
+    this orientation.
+  - Only a few, often as few as one or two, evaluations were needed to
+    fit the curve if a proper parametric form was posited. Historically
+    ROC was used to characterize actual physical systems, so each point
+    was an experiment- not just another evaluation of an already extant
+    model.
 
 In 2020 not having to re-graph is not much of an advantage, regenerating
 the graph is not hard and can even be part of an interactive tool. A
