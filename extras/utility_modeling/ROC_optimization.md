@@ -10,6 +10,13 @@ Let’s see how one might implement a similar decision in terms of the
 [receiver operating characteristic (ROC)
 plot](https://en.wikipedia.org/wiki/Receiver_operating_characteristic).
 
+As a note: I consider the utility based methods better for working with
+classifiers than the ROC based methods I show here. The difference is
+with utility based methods you spend more time working in your business
+or application oriented space. But let’s see how to perform the related
+calculation using the ROC plot and demonstrate the auxiliary structures
+required to complete the task.
+
 First let’s attach some packages we are going to use.
 
 ``` r
@@ -69,11 +76,11 @@ plt +
 ![](ROC_optimization_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 The standard advice is: given an ROC plot, a population prevalence and
-the utilites of true positives, false positives, true negatives, and
+the utilities of true positives, false positives, true negatives, and
 false negatives we can determine the optimal classifier threshold by
 find a point on the ideal ROC curve that has a given slope.
 
-I say “ideal ROC curve” as we want a curve that is both conves (called
+I say “ideal ROC curve” as we want a curve that is both convex (called
 “proper” in [James P. Egan, *Signal Detection Theory and ROC
 Analysis*, Academic Press,
 1975](https://www.amazon.com/SDT/dp/0122328507)) and continuous. In this
@@ -83,7 +90,7 @@ tie-scores literally made up only of vertical and horizontal steps (and
 thus not convex, and not continuous\!). So we have the burden of needing
 to move to an ideal curve either through parametric means, as we did
 here, or through a smoothing filter. In 1975 likely an engineer used a
-ruled paper or laid an angle-controlled grid or ruller against the ROC
+ruled paper or laid an angle-controlled grid or ruler against the ROC
 plot to find the optimal point.
 
 We are also going to have to translate the point on the ROC curve with
@@ -194,7 +201,7 @@ deep into the left are of the graph where the ROC curve is very
 vertical. This greatly hampers the legibility of the graph, and the
 reliability of picking off the ideal point graphically. For modern data
 science unbalanced problems are very common: advertisement click-through
-rates, account cancelation, fraud detection, and many others fall into
+rates, account cancellation, fraud detection, and many others fall into
 this category.
 
 The great advantage of the ROC system were:
