@@ -132,7 +132,14 @@
     <p>Based on <a href='https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/'>https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_AUC_q</span><span class='op'>(</span><span class='va'>modelPredictions</span>, <span class='va'>yValues</span>, <span class='va'>...</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>, yTarget <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>find_AUC_q</span><span class='op'>(</span>
+  <span class='va'>modelPredictions</span>,
+  <span class='va'>yValues</span>,
+  <span class='va'>...</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  yTarget <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  n_points <span class='op'>=</span> <span class='fl'>101</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +163,10 @@
     <tr>
       <th>yTarget</th>
       <td><p>value considered to be positive.</p></td>
+    </tr>
+    <tr>
+      <th>n_points</th>
+      <td><p>number of points to use in estimates.</p></td>
     </tr>
     </table>
 

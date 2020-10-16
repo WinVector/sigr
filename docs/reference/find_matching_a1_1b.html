@@ -134,9 +134,21 @@ positive examples and an Beta(1, b) distribution on negative examples." />
 positive examples and an Beta(1, b) distribution on negative examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_matching_a1_1b</span><span class='op'>(</span><span class='va'>modelPredictions</span>, <span class='va'>yValues</span>, <span class='va'>...</span>, yTarget <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>find_matching_a1_1b</span><span class='op'>(</span>
+  <span class='va'>modelPredictions</span>,
+  <span class='va'>yValues</span>,
+  <span class='va'>...</span>,
+  yTarget <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  step_size <span class='op'>=</span> <span class='fl'>0.001</span>
+<span class='op'>)</span>
 
-<span class='fu'>find_ROC_matching_ab1</span><span class='op'>(</span><span class='va'>modelPredictions</span>, <span class='va'>yValues</span>, <span class='va'>...</span>, yTarget <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'>find_ROC_matching_ab1</span><span class='op'>(</span>
+  <span class='va'>modelPredictions</span>,
+  <span class='va'>yValues</span>,
+  <span class='va'>...</span>,
+  yTarget <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  step_size <span class='op'>=</span> <span class='fl'>0.001</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,6 +169,10 @@ positive examples and an Beta(1, b) distribution on negative examples.</p>
       <th>yTarget</th>
       <td><p>value considered to be positive.</p></td>
     </tr>
+    <tr>
+      <th>step_size</th>
+      <td><p>size of steps in curve drawing</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -171,7 +187,7 @@ positive examples and an Beta(1, b) distribution on negative examples.</p>
 <span class='op'>)</span>
 <span class='fu'>find_ROC_matching_ab1</span><span class='op'>(</span>modelPredictions <span class='op'>=</span> <span class='va'>d</span><span class='op'>$</span><span class='va'>x</span>, yValues <span class='op'>=</span> <span class='va'>d</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; shape1_pos shape2_pos shape1_neg shape2_neg          a          b 
-#&gt;   4.640844   1.000000   1.000000   1.624415   4.640844   1.624415 </div><div class='input'><span class='co'># should be near</span>
+#&gt;   4.664314   1.000000   1.000000   1.619383   4.664314   1.619383 </div><div class='input'><span class='co'># should be near</span>
 <span class='co'># shape1_pos shape2_pos shape1_neg shape2_neg          a          b</span>
 <span class='co'>#   3.985017   1.000000   1.000000   1.746613   3.985017   1.746613</span>
 <span class='co'>#</span>

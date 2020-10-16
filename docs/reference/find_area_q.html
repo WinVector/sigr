@@ -132,7 +132,7 @@
     <p>Based on <a href='https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/'>https://win-vector.com/2020/09/13/why-working-with-auc-is-more-powerful-than-one-might-think/</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_area_q</span><span class='op'>(</span><span class='va'>area</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>find_area_q</span><span class='op'>(</span><span class='va'>area</span>, <span class='va'>...</span>, n_points <span class='op'>=</span> <span class='fl'>101</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,6 +140,14 @@
     <tr>
       <th>area</th>
       <td><p>area to match</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>not used, force later arguments to bind by name</p></td>
+    </tr>
+    <tr>
+      <th>n_points</th>
+      <td><p>how many points to use to estimte area.</p></td>
     </tr>
     </table>
 
