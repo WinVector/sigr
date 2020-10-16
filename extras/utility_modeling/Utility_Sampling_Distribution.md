@@ -37,8 +37,12 @@ knitr::kable(head(d, n=3))
 #  utilities
 true_positive_value <- 100 - 5   # net revenue - cost
 false_positive_value <- -5       # the cost of a call
-true_negative_value <-  0.01     # a small reward for getting them right
+true_negative_value <- 0.01      # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
+d$true_positive_value <- true_positive_value
+d$false_positive_value <- false_positive_value
+d$true_negative_value <- true_negative_value
+d$false_negative_value <- false_negative_value
 ```
 
 As we saw in the last article, this results in the following utility
@@ -102,8 +106,12 @@ source("calculate_utility_graph.R")
 #  utilities
 true_positive_value <- 100 - 5   # net revenue - cost
 false_positive_value <- -5       # the cost of a call
-true_negative_value <-  0.01     # a small reward for getting them right
+true_negative_value <- 0.01      # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
+d$true_positive_value <- true_positive_value
+d$false_positive_value <- false_positive_value
+d$true_negative_value <- true_negative_value
+d$false_negative_value <- false_negative_value
 
 # estimate_utility_graph() defined in 
 # https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R
@@ -111,11 +119,7 @@ false_negative_value <- -0.01    # a small penalty for having missed them
 unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   d,
   prediction_column_name = "predicted_probability",
-  outcome_column_name = "converted",
-  true_positive_value = true_positive_value,
-  false_positive_value = false_positive_value,
-  true_negative_value = true_negative_value,
-  false_negative_value = false_negative_value)
+  outcome_column_name = "converted")
 ```
 
 (You can see the full use example in [the source code for this
@@ -180,7 +184,7 @@ knitr::kable(head(plot_thin, n=3))
 unique(plot_thin$estimate)
 ```
 
-    ## [1] "bootstrapped value" "estimated value"    "parametric fit"
+    ## [1] "bootstrapped value" "estimated value"
 
 We can use these two data frames to plot the utility curve with
 uncertainty. Here we show the original curve, the smoothed curve, and
@@ -190,10 +194,10 @@ the 50% and 95% quantile ranges around them.
 
 ### The smoothing curve
 
-Note that our `estimate_utility_graph()` function assumes that all
-rewards and costs are constant. This assumption isn’t necessary for the
-bootstrapping procedure; it’s only needed for the parametric smoothing
-curve that we calculate and add to the `plot_thin` data frame.
+Note that example uses constant rewards and costs. This assumption isn’t
+necessary for the bootstrapping procedure; it’s only needed for the
+parametric smoothing curve that we calculate and add to the `plot_thin`
+data frame.
 
 For a model that returns probability scores, we assume that the
 distributions of both the positive and negative scores (which you can

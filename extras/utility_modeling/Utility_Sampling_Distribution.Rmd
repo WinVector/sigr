@@ -82,8 +82,12 @@ knitr::kable(head(d, n=3))
 #  utilities
 true_positive_value <- 100 - 5   # net revenue - cost
 false_positive_value <- -5       # the cost of a call
-true_negative_value <-  0.01     # a small reward for getting them right
+true_negative_value <- 0.01      # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
+d$true_positive_value <- true_positive_value
+d$false_positive_value <- false_positive_value
+d$true_negative_value <- true_negative_value
+d$false_negative_value <- false_negative_value
 
 ```
 
@@ -95,11 +99,7 @@ false_negative_value <- -0.01    # a small penalty for having missed them
 unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   d,
   prediction_column_name = "predicted_probability",
-  outcome_column_name = "converted",
-  true_positive_value = true_positive_value,
-  false_positive_value = false_positive_value,
-  true_negative_value = true_negative_value,
-  false_negative_value = false_negative_value)
+  outcome_column_name = "converted")
 
 
 ```
@@ -112,11 +112,10 @@ dollars_cents = function(x) {
   format(round(x, 2), nsmall=2)
 }
 
-# plot actual utility curve and parametric smooth
+# plot actual utility curve
 
 unpack[bframe = "bootstrapped value",
-       eframe = "estimated value",
-       parframe = "parametric fit"] <- split(plot_thin, plot_thin$estimate)
+       eframe = "estimated value"] <- split(plot_thin, plot_thin$estimate)
 
 
 get_best_threshold <- function(dframe) {
@@ -124,10 +123,8 @@ get_best_threshold <- function(dframe) {
   best_threshold <- dframe$threshold[max_ix]
 }
 
-thresholds = data.frame(estimate = c(eframe$estimate[1], 
-                                     parframe$estimate[1]),
-                        threshold = c(get_best_threshold(eframe), 
-                                      get_best_threshold(parframe)))
+thresholds = data.frame(estimate = c(eframe$estimate[1]),
+                        threshold = c(get_best_threshold(eframe)))
 
 # use the threshold from the actual data
 # in this case they are the same to 2 sig figs anyway
@@ -140,7 +137,7 @@ subtitle = paste("Optimal threshold:", format(best_threshold, digits=2),
 
 
 t_bound <- 0.015 # only look at thresholds above t_bound
-pltframe <- subset(rbind(eframe, parframe), threshold >= t_bound)
+pltframe <- subset(eframe, threshold >= t_bound)
 
 pal <- c('#841c17', 'darkgray')
 
@@ -185,8 +182,12 @@ source("calculate_utility_graph.R")
 #  utilities
 true_positive_value <- 100 - 5   # net revenue - cost
 false_positive_value <- -5       # the cost of a call
-true_negative_value <-  0.01     # a small reward for getting them right
+true_negative_value <- 0.01      # a small reward for getting them right
 false_negative_value <- -0.01    # a small penalty for having missed them
+d$true_positive_value <- true_positive_value
+d$false_positive_value <- false_positive_value
+d$true_negative_value <- true_negative_value
+d$false_negative_value <- false_negative_value
 
 # estimate_utility_graph() defined in 
 # https://github.com/WinVector/sigr/blob/main/extras/utility_modeling/calculate_utility_graph.R
@@ -194,11 +195,7 @@ false_negative_value <- -0.01    # a small penalty for having missed them
 unpack[plot_thin, boot_summary] <- estimate_utility_graph(
   d,
   prediction_column_name = "predicted_probability",
-  outcome_column_name = "converted",
-  true_positive_value = true_positive_value,
-  false_positive_value = false_positive_value,
-  true_negative_value = true_negative_value,
-  false_negative_value = false_negative_value)
+  outcome_column_name = "converted")
 
 ```
 
@@ -253,11 +250,24 @@ chosen_threshold <- values$threshold[[best_idx]]
 threshold_list <- values$threshold[(!is.na(values$threshold)) & (values$total_value >= -0.5*max(values$total_value))]  # nice
 diff_left <- max(chosen_threshold - threshold_list)
 threshold_list <- threshold_list[abs(threshold_list - chosen_threshold) <= 2*diff_left]
+plot_thin <- plot_thin[plot_thin$estimate != 'bootstrapped value', , drop = FALSE]
+
+theoretical_graph <- parametric_utility_graph(
+  d,
+  prediction_column_name = "predicted_probability",
+  outcome_column_name = "converted",
+  true_positive_value = true_positive_value,
+  false_positive_value = false_positive_value,
+  true_negative_value = true_negative_value,
+  false_negative_value = false_negative_value
+)
+theoretical_graph <- theoretical_graph[, colnames(plot_thin)]
+plot_thin <- rbind(plot_thin, theoretical_graph)
+
 plot_thin <- plot_thin[
   (complete.cases(plot_thin)) &
     (plot_thin$threshold >= min(threshold_list)) &
     (plot_thin$threshold <= max(threshold_list)), ]
-plot_thin <- plot_thin[plot_thin$estimate != 'bootstrapped value', , drop = FALSE]
 boot_summary <- boot_summary[
   (complete.cases(boot_summary)) &
     (boot_summary$threshold >= min(threshold_list)) &
@@ -288,7 +298,7 @@ ggplot() +
 
 ### The smoothing curve
 
-Note that our `estimate_utility_graph()` function assumes that all rewards and costs are constant. This assumption isn't necessary for the bootstrapping procedure; it's only needed for the parametric smoothing curve that we calculate and add to the `plot_thin` data frame. 
+Note that example uses constant rewards and costs. This assumption isn't necessary for the bootstrapping procedure; it's only needed for the parametric smoothing curve that we calculate and add to the `plot_thin` data frame. 
 
 For a model that returns probability scores, we assume that the distributions of both the positive and negative scores (which you can plot with a [double density plot](https://winvector.github.io/WVPlots/reference/DoubleDensityPlot.html)) are both [beta distributions](https://en.wikipedia.org/wiki/Beta_distribution). We can find the parameters of the best fit betas with [this function](https://winvector.github.io/sigr/reference/find_matching_conditional_betas.html), from `sigr`. The smoothed utility curve is then the utility curve calculated with the estimated beta distributions, rather than the raw data.
 

@@ -5,17 +5,17 @@
 # Libraries used: sigr, boot, cdata, rquery/rqdatatable, wrapr
 #
 # Inputs:
-# d: data frame of predictions and outcomes
+# d: data frame of predictions, outcomes, and utilities
+#     'true_positive_value': reward for a true positive (column name)
+#     'false_positive_value': penalty for a false positive (column name)
+#     'true_negative_value': reward for a true negative (column name)
+#     'false_negative_value': penalty for a false negative (column name)
 # prediction_column_name: name of predictions column
 # outcome_column_name: name of outcome column
-# true_positive_value : reward for a true positive (scalar)
-# false_positive_value: penalty for a false positive (scalar)
-# true_negative_value: reward for a true negative (scalar)
-# false_negative_value: penalty for a false negative (scalar)
 #
 # Returns a list:
-# plot_thin: data frame in thin form of total value (utility) curve,
-#            mean curve of bootstrap estimates, and curve from a parametric estimate,
+# plot_thin: data frame in thin form of total value (utility) curve, and
+#            mean curve of bootstrap estimates;
 #            all as functions of threshold
 # boot_stats: frame of mean and median curves of bootstrap estimates, along with
 #             the boundary curves of the 95% and 50% quantiles, in wide form
@@ -24,20 +24,10 @@ estimate_utility_graph <- function(
   d,
   ...,
   prediction_column_name,
-  outcome_column_name,
-  true_positive_value,
-  false_positive_value,
-  true_negative_value,
-  false_negative_value) {
+  outcome_column_name) {
   wrapr::stop_if_dot_args(substitute(list(...)), "estimate_utility_graph")
 
-  # set costs
-  d$true_positive_value <- true_positive_value
-  d$false_positive_value <- false_positive_value
-  d$true_negative_value <- true_negative_value
-  d$false_negative_value <- false_negative_value
-
-  # calculate untility curve (actual values)
+  # calculate utility curve (actual values)
   values <- model_utility(d, prediction_column_name, outcome_column_name)
 
   # get the thresholds
@@ -101,6 +91,49 @@ estimate_utility_graph <- function(
     extend(., estimate = 'estimated value')
   value_thin <- value_thin[complete.cases(value_thin), , drop = FALSE]
 
+  plot_thin <- rbind(boot_thin, value_thin)
+  plot_thin <- plot_thin[
+    (complete.cases(plot_thin)) &
+      (plot_thin$threshold >= min(threshold_list)) &
+      (plot_thin$threshold <= max(threshold_list)), ]
+
+  list(plot_thin = plot_thin, boot_summary = boot_summary)
+}
+
+
+#
+# Estimate parametric ideal utility.
+#
+# Fit ideal beta curves and compute utility with respect to those curves
+#
+# Libraries used: sigr, cdata, rquery/rqdatatable, wrapr
+#
+# Inputs:
+# d: data frame of predictions, outcomes, and utilities
+# prediction_column_name: name of predictions column
+# outcome_column_name: name of outcome column
+# true_positive_value: reward for a true positive (scalar)
+# false_positive_value: penalty for a false positive (scalar)
+# true_negative_value: reward for a true negative (scalar)
+# false_negative_value: penalty for a false negative (scalar)
+#
+# Returns a list:
+# plot_thin: data frame in thin form of total value (utility) curve, and
+#            mean curve of bootstrap estimates;
+#            all as functions of threshold
+# boot_stats: frame of mean and median curves of bootstrap estimates, along with
+#             the boundary curves of the 95% and 50% quantiles, in wide form
+#
+parametric_utility_graph <- function(
+  d,
+  ...,
+  prediction_column_name,
+  outcome_column_name,
+  true_positive_value,
+  false_positive_value,
+  true_negative_value,
+  false_negative_value) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "estimate_utility_graph")
 
   # estimate a parametric value curve
   # try to recover per-class beta distribution parameters
@@ -126,13 +159,5 @@ estimate_utility_graph <- function(
     theoretical_values$false_negative_count * false_negative_value +
     theoretical_values$true_positive_count * true_positive_value +
     theoretical_values$false_positive_count * false_positive_value
-
-
-  plot_thin <- rbind(boot_thin, value_thin, theoretical_values[, qc(threshold, total_value, estimate)])
-  plot_thin <- plot_thin[
-    (complete.cases(plot_thin)) &
-      (plot_thin$threshold >= min(threshold_list)) &
-      (plot_thin$threshold <= max(threshold_list)), ]
-
-  list(plot_thin = plot_thin, boot_summary = boot_summary)
+  theoretical_values
 }
