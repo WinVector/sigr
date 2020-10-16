@@ -12,7 +12,7 @@ test_utility_calc_1 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE,
+  expect_true(is.null(check_utility_calc(values, constant_utilities = TRUE,
                                               orig_score = d$predicted_probability,
                                               orig_outcome = d$made_purchase)))
 
@@ -29,6 +29,9 @@ test_utility_calc_1 <- function() {
   invisible(NULL)
 }
 
+test_utility_calc_1()
+
+
 test_utility_calc_1b <- function() {
   d <- data.frame(
     predicted_probability = c(0, 0, 0, 0.5),
@@ -42,7 +45,7 @@ test_utility_calc_1b <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE,
+  expect_true(is.null(check_utility_calc(values, constant_utilities = TRUE,
                                               orig_score = d$predicted_probability,
                                               orig_outcome = d$made_purchase)))
 
@@ -59,6 +62,9 @@ test_utility_calc_1b <- function() {
   invisible(NULL)
 }
 
+test_utility_calc_1b()
+
+
 
 test_utility_calc_2 <- function() {
   d <- data.frame(
@@ -73,7 +79,7 @@ test_utility_calc_2 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE,
+  expect_true(is.null(check_utility_calc(values, constant_utilities = TRUE,
                                               orig_score = d$predicted_probability,
                                               orig_outcome = d$made_purchase)))
 
@@ -93,6 +99,8 @@ test_utility_calc_2 <- function() {
   invisible(NULL)
 }
 
+test_utility_calc_2()
+
 
 test_utility_calc_3 <- function() {
   d <- data.frame(
@@ -107,9 +115,12 @@ test_utility_calc_3 <- function() {
   )
 
   values <- model_utility(d, 'predicted_probability', 'made_purchase')
-  RUnit::checkTrue(is.null(check_utility_calc(values, constant_utilities = TRUE,
+  expect_true(is.null(check_utility_calc(values, constant_utilities = TRUE,
                                               orig_score = d$predicted_probability,
                                               orig_outcome = d$made_purchase)))
 
   invisible(NULL)
 }
+
+test_utility_calc_3()
+

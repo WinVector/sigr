@@ -12,9 +12,11 @@ test_T1 <- function() {
   expect <- 3.094301e-05
   d$pred <- predict(model,newdata=d)
   s4 <- sigr::wrapFTest(model)
-  RUnit::checkTrue(abs(s4$pValue - expect)<1e-6)
+  expect_true(abs(s4$pValue - expect)<1e-6)
   s5 <- sigr::wrapFTest(d,'pred','y')
-  RUnit::checkTrue(abs(s5$pValue - expect)<1e-6)
+  expect_true(abs(s5$pValue - expect)<1e-6)
 
   invisible(NULL)
 }
+
+test_T1()

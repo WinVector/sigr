@@ -3,6 +3,7 @@
 
   * Better fitting function names.
   * Improve package description.
+  * Move to tinytest.
 
 # sigr 1.1.2 2020-10-01
 

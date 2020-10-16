@@ -27,6 +27,6 @@ Suggests:
     parallel,
     knitr,
     rmarkdown,
-    RUnit
+    tinytest
 VignetteBuilder: knitr
 ByteCompile: true
