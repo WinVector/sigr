@@ -1,4 +1,8 @@
 
+# sigr 1.1.4 2021-06-11
+
+  * Remove LazyData decl.
+
 # sigr 1.1.3 2020-10-16
 
   * Better fitting function names.

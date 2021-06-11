@@ -1,8 +1,8 @@
 Package: sigr
 Type: Package
 Title: Succinct and Correct Statistical Summaries for Reports
-Version: 1.1.3
-Date: 2020-10-16
+Version: 1.1.4
+Date: 2021-06-11
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -15,7 +15,6 @@ Description: Succinctly and correctly format statistical summaries of
     various models and tests (F-test, Chi-Sq-test, Fisher-test, T-test, and rank-significance). 
     This package also includes empirical tests, such as Monte Carlo and bootstrap distribution estimates.
 License: GPL-2 | GPL-3
-LazyData: TRUE
 RoxygenNote: 7.1.1
 Depends:
   R (>= 3.2.1)
