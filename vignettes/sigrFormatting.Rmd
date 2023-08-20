@@ -12,7 +12,7 @@ vignette: >
 Examples of `sigr` formatting.  Inspired by APA format
 (American Psychological Association), but not fully compliant.  Discussed [here](https://win-vector.com/2016/10/02/proofing-statistics-in-papers/).
 
-Please see [here](https://my.ilstu.edu/~jhkahn/apastats.html) for some notes.
+Please see the APA stat guidelines for more notes.
 
 Simple formatting.
 

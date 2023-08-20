@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sigr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -67,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com/">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com/" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -79,242 +75,254 @@
 
       
 
-      </header><script src="sigrFormatting_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>sigr formatting</h1>
-                        <h4 class="author">John Mount</h4>
+                        <h4 data-toc-skip class="author">John Mount</h4>
             
-            <h4 class="date">2020-10-16</h4>
+            <h4 data-toc-skip class="date">2023-08-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/WinVector/sigr/blob/master/vignettes/sigrFormatting.Rmd"><code>vignettes/sigrFormatting.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WinVector/sigr/blob/HEAD/vignettes/sigrFormatting.Rmd" class="external-link"><code>vignettes/sigrFormatting.Rmd</code></a></small>
       <div class="hidden name"><code>sigrFormatting.Rmd</code></div>
 
     </div>
 
     
     
-<p>Examples of <code>sigr</code> formatting. Inspired by APA format (American Psychological Association), but not fully compliant. Discussed <a href="https://win-vector.com/2016/10/02/proofing-statistics-in-papers/">here</a>.</p>
-<p>Please see <a href="https://my.ilstu.edu/~jhkahn/apastats.html">here</a> for some notes.</p>
+<p>Examples of <code>sigr</code> formatting. Inspired by APA format
+(American Psychological Association), but not fully compliant. Discussed
+<a href="https://win-vector.com/2016/10/02/proofing-statistics-in-papers/" class="external-link">here</a>.</p>
+<p>Please see the APA stat guidelines for more notes.</p>
 <p>Simple formatting.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/sigr/">"sigr"</a></span><span class="op">)</span>
-<span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/getRenderingFormat.html">getRenderingFormat</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/sigr/" class="external-link">"sigr"</a></span><span class="op">)</span></span>
+<span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/getRenderingFormat.html">getRenderingFormat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>[1] “html”</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapSignificance.html">wrapSignificance</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">300</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapSignificance.html">wrapSignificance</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">300</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><i>p</i>=0.003333</p>
-<p>F-test examples (quality of a numeric model of a numeric outcome).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFTestImpl.html">wrapFTestImpl</a></span><span class="op">(</span>numdf<span class="op">=</span><span class="fl">2</span>,dendf<span class="op">=</span><span class="fl">55</span>,FValue<span class="op">=</span><span class="fl">5.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.1682, <i>F</i>(2,55)=5.56, <i>p</i>=0.006322).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">0.2</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span>
-<span class="va">d</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>
-<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">x</span>,data<span class="op">=</span><span class="va">d</span><span class="op">)</span>
-<span class="va">d</span><span class="op">$</span><span class="va">prediction</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model</span>,newdata<span class="op">=</span><span class="va">d</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = y ~ x, data = d)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -0.34441 -0.24493  0.00103  0.18320  0.65001 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  0.95686    0.12869   7.436 6.84e-07 ***
-## x           -0.56513    0.05371 -10.521 4.06e-09 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.277 on 18 degrees of freedom
-## Multiple R-squared:  0.8601, Adjusted R-squared:  0.8524 
-## F-statistic: 110.7 on 1 and 18 DF,  p-value: 4.062e-09</code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFTest.html">wrapFTest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,pSmallCutoff<span class="op">=</span><span class="fl">1.0e-12</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.8601, <i>F</i>(1,18)=110.7, <i>p</i>=4.062e-09).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFTest.html">wrapFTest</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'prediction'</span>,<span class="st">'y'</span><span class="op">)</span>,
-                              pSmallCutoff<span class="op">=</span><span class="fl">1.0e-12</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.8601, <i>F</i>(1,18)=110.7, <i>p</i>=4.062e-09).</p>
-<p>Chi-squared test examples (quality of a probability model of a two category outcome).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,
-       y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">x</span>,data<span class="op">=</span><span class="va">d</span>,family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span>
-<span class="va">model</span><span class="op">$</span><span class="va">converged</span></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = y ~ x, family = binomial, data = d)
-## 
-## Deviance Residuals: 
-##      Min        1Q    Median        3Q       Max  
-## -1.37180  -1.09714  -0.00811   1.08024   1.42939  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)
-## (Intercept)  -0.7455     1.6672  -0.447    0.655
-## x             0.1702     0.3429   0.496    0.620
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 11.090  on 7  degrees of freedom
-## Residual deviance: 10.837  on 6  degrees of freedom
-## AIC: 14.837
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="va">d</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model</span>,type<span class="op">=</span><span class="st">'response'</span>,newdata<span class="op">=</span><span class="va">d</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapChiSqTest.html">wrapChiSqTest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>Chi-Square Test</b> summary: <i>pseudo-<i>R<sup>2</sup></i></i>=0.02282 (<i>χ<sup>2</sup></i>(1,<i>N</i>=8)=0.2531, <i>p</i>=0.6149).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapChiSqTest.html">wrapChiSqTest</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'pred'</span>,<span class="st">'y'</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>Chi-Square Test</b> summary: <i>pseudo-<i>R<sup>2</sup></i></i>=0.02282 (<i>χ<sup>2</sup></i>(1,<i>N</i>=8)=0.2531, <i>p</i>=0.6149).</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,
-               y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
-<span class="va">ct</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span>,<span class="va">d</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapCorTest.html">wrapCorTest</a></span><span class="op">(</span><span class="va">ct</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>Pearson’s product-moment correlation</b>: (<i>r</i>=0.9767, <i>p</i>=3.094e-05).</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'a'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>,<span class="st">'b'</span><span class="op">)</span>,
-                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'2'</span>,<span class="st">'2'</span>,<span class="st">'2'</span>,<span class="st">'2'</span><span class="op">)</span><span class="op">)</span>
-<span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/fisher.test.html">fisher.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFisherTest.html">wrapFisherTest</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>Fisher’s Exact Test for Count Data</b>: (<i>odds.ratio</i>=4.45, <i>p</i>=0.4857).</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,
-                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
-<span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span>,<span class="va">d</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapTTest.html">wrapTTest</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><b>Welch Two Sample t-test</b>, two.sided: (<i>t</i>=2.072, <i>df</i>=10.62, <i>p</i>=0.06349).</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="va">parallelCluster</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
-<span class="co">#parallelCluster &lt;- parallel::makeCluster(parallel::detectCores())</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,
-                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,
-                    <span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span><span class="op">)</span>
-<span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/resampleTestAUC.html">resampleTestAUC</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'x1'</span>,<span class="st">'y'</span>,<span class="cn">TRUE</span>,
-                nrep<span class="op">=</span><span class="fl">200</span>,
-                parallelCluster<span class="op">=</span><span class="va">parallelCluster</span><span class="op">)</span></pre></div>
-<p>[1] “<b>AUC test alt. hyp. AUC&gt;0.5</b>: (<i>AUC</i>=0.6562, <i>s.d.</i>=0.09311, <i>p</i>=n.s.).”</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,
-                x2<span class="op">=</span><span class="fl">1</span>,
-                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,
-                    <span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span><span class="op">)</span>
-<span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/testAUCpair.html">testAUCpair</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'x1'</span>,<span class="st">'x2'</span>,<span class="st">'y'</span>,<span class="cn">TRUE</span>,
-                    nrep<span class="op">=</span><span class="fl">200</span>,
-                    parallelCluster<span class="op">=</span><span class="va">parallelCluster</span><span class="op">)</span></pre></div>
-<p>[1] “<b>AUC test resampled AUC1&gt;AUC2</b>: (<i>AUCs</i>=0.6562;0.5, <i>s.d.</i>=0.09694, <i>e</i>=n.s.).”</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">parallelCluster</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">parallelCluster</span><span class="op">)</span>
-<span class="op">}</span></pre></div>
+<p>F-test examples (quality of a numeric model of a numeric
+outcome).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFTestImpl.html">wrapFTestImpl</a></span><span class="op">(</span>numdf<span class="op">=</span><span class="fl">2</span>,dendf<span class="op">=</span><span class="fl">55</span>,FValue<span class="op">=</span><span class="fl">5.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.1682,
+<i>F</i>(2,55)=5.56, <i>p</i>=0.006322).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">0.2</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">d</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">x</span>,data<span class="op">=</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="va">d</span><span class="op">$</span><span class="va">prediction</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>,newdata<span class="op">=</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">## lm(formula = y ~ x, data = d)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residuals:</span></span>
+<span><span class="co">##      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">## -0.34441 -0.24493  0.00103  0.18320  0.65001 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Coefficients:</span></span>
+<span><span class="co">##             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">## (Intercept)  0.95686    0.12869   7.436 6.84e-07 ***</span></span>
+<span><span class="co">## x           -0.56513    0.05371 -10.521 4.06e-09 ***</span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residual standard error: 0.277 on 18 degrees of freedom</span></span>
+<span><span class="co">## Multiple R-squared:  0.8601, Adjusted R-squared:  0.8524 </span></span>
+<span><span class="co">## F-statistic: 110.7 on 1 and 18 DF,  p-value: 4.062e-09</span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFTest.html">wrapFTest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,pSmallCutoff<span class="op">=</span><span class="fl">1.0e-12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.8601,
+<i>F</i>(1,18)=110.7, <i>p</i>=4.062e-09).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFTest.html">wrapFTest</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'prediction'</span>,<span class="st">'y'</span><span class="op">)</span>,</span>
+<span>                              pSmallCutoff<span class="op">=</span><span class="fl">1.0e-12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>F Test</b> summary: (<i>R<sup>2</sup></i>=0.8601,
+<i>F</i>(1,18)=110.7, <i>p</i>=4.062e-09).</p>
+<p>Chi-squared test examples (quality of a probability model of a two
+category outcome).</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,</span>
+<span>       y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">x</span>,data<span class="op">=</span><span class="va">d</span>,family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span><span class="va">model</span><span class="op">$</span><span class="va">converged</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">## glm(formula = y ~ x, family = binomial, data = d)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Coefficients:</span></span>
+<span><span class="co">##             Estimate Std. Error z value Pr(&gt;|z|)</span></span>
+<span><span class="co">## (Intercept)  -0.7455     1.6672  -0.447    0.655</span></span>
+<span><span class="co">## x             0.1702     0.3429   0.496    0.620</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     Null deviance: 11.090  on 7  degrees of freedom</span></span>
+<span><span class="co">## Residual deviance: 10.837  on 6  degrees of freedom</span></span>
+<span><span class="co">## AIC: 14.837</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Number of Fisher Scoring iterations: 4</span></span></code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>,type<span class="op">=</span><span class="st">'response'</span>,newdata<span class="op">=</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapChiSqTest.html">wrapChiSqTest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>Chi-Square Test</b> summary:
+<i>pseudo-<i>R<sup>2</sup></i></i>=0.02282
+(<i>χ<sup>2</sup></i>(1,<i>N</i>=8)=0.2531, <i>p</i>=0.6149).</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapChiSqTest.html">wrapChiSqTest</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'pred'</span>,<span class="st">'y'</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>Chi-Square Test</b> summary:
+<i>pseudo-<i>R<sup>2</sup></i></i>=0.02282
+(<i>χ<sup>2</sup></i>(1,<i>N</i>=8)=0.2531, <i>p</i>=0.6149).</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,</span>
+<span>               y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ct</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span>,<span class="va">d</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapCorTest.html">wrapCorTest</a></span><span class="op">(</span><span class="va">ct</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>Pearson’s product-moment correlation</b>: (<i>r</i>=0.9767,
+<i>p</i>=3.094e-05).</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'a'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>,<span class="st">'b'</span><span class="op">)</span>,</span>
+<span>                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'2'</span>,<span class="st">'2'</span>,<span class="st">'2'</span>,<span class="st">'2'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">fisher.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapFisherTest.html">wrapFisherTest</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>Fisher’s Exact Test for Count Data</b>: (<i>odds.ratio</i>=4.45,
+<i>p</i>=0.4857).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,</span>
+<span>                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span>,<span class="va">d</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="../reference/wrapTTest.html">wrapTTest</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span>,pLargeCutoff<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><b>Welch Two Sample t-test</b>, two.sided: (<i>t</i>=2.072,
+<i>df</i>=10.62, <i>p</i>=0.06349).</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">parallelCluster</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span><span class="co">#parallelCluster &lt;- parallel::makeCluster(parallel::detectCores())</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,</span>
+<span>                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,</span>
+<span>                    <span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span><span class="op">)</span></span>
+<span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/resampleTestAUC.html">resampleTestAUC</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'x1'</span>,<span class="st">'y'</span>,<span class="cn">TRUE</span>,</span>
+<span>                nrep<span class="op">=</span><span class="fl">200</span>,</span>
+<span>                parallelCluster<span class="op">=</span><span class="va">parallelCluster</span><span class="op">)</span></span></code></pre></div>
+<p>[1] “<b>AUC test alt. hyp. AUC&gt;0.5</b>: (<i>AUC</i>=0.6562,
+<i>s.d.</i>=0.09311, <i>p</i>=n.s.).”</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,</span>
+<span>                x2<span class="op">=</span><span class="fl">1</span>,</span>
+<span>                y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,</span>
+<span>                    <span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span>,<span class="va">d</span><span class="op">)</span></span>
+<span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/testAUCpair.html">testAUCpair</a></span><span class="op">(</span><span class="va">d</span>,<span class="st">'x1'</span>,<span class="st">'x2'</span>,<span class="st">'y'</span>,<span class="cn">TRUE</span>,</span>
+<span>                    nrep<span class="op">=</span><span class="fl">200</span>,</span>
+<span>                    parallelCluster<span class="op">=</span><span class="va">parallelCluster</span><span class="op">)</span></span></code></pre></div>
+<p>[1] “<b>AUC test resampled AUC1&gt;AUC2</b>: (<i>AUCs</i>=0.6562;0.5,
+<i>s.d.</i>=0.09694, <i>e</i>=n.s.).”</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">parallelCluster</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span><span class="va">parallelCluster</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>permutationScoreModel</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>
-<span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">m</span>,<span class="va">y</span>,alternative<span class="op">=</span><span class="st">'greater'</span><span class="op">)</span></pre></div>
-<pre><code>## 
-##  Pearson's product-moment correlation
-## 
-## data:  m and y
-## t = 3, df = 3, p-value = 0.02883
-## alternative hypothesis: true correlation is greater than 0
-## 95 percent confidence interval:
-##  0.1526678 1.0000000
-## sample estimates:
-##       cor 
-## 0.8660254</code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">modelValues</span>, <span class="va">yValues</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">modelValues</span>, <span class="va">yValues</span><span class="op">)</span> <span class="op">}</span>
-<span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/permutationScoreModel.html">permutationScoreModel</a></span><span class="op">(</span><span class="va">m</span>,<span class="va">y</span>,<span class="va">f</span><span class="op">)</span></pre></div>
-<pre><code>## [1] "&lt;b&gt;Studentized permutation test&lt;/b&gt;: is observed score greater than permuted score,  summary: &lt;i&gt;p&lt;/i&gt;=0.04162"</code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></span><span class="op">(</span><span class="va">m</span>,<span class="va">y</span>,alternative<span class="op">=</span><span class="st">'greater'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Pearson's product-moment correlation</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## data:  m and y</span></span>
+<span><span class="co">## t = 3, df = 3, p-value = 0.02883</span></span>
+<span><span class="co">## alternative hypothesis: true correlation is greater than 0</span></span>
+<span><span class="co">## 95 percent confidence interval:</span></span>
+<span><span class="co">##  0.1526678 1.0000000</span></span>
+<span><span class="co">## sample estimates:</span></span>
+<span><span class="co">##       cor </span></span>
+<span><span class="co">## 0.8660254</span></span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">modelValues</span>, <span class="va">yValues</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">modelValues</span>, <span class="va">yValues</span><span class="op">)</span> <span class="op">}</span></span>
+<span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/permutationScoreModel.html">permutationScoreModel</a></span><span class="op">(</span><span class="va">m</span>,<span class="va">y</span>,<span class="va">f</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "&lt;b&gt;Studentized permutation test&lt;/b&gt;: is observed score greater than permuted score,  summary: &lt;i&gt;p&lt;/i&gt;=0.04162"</span></span></code></pre>
 <p>resampleScoreModel</p>
-<div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>
-<span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">y</span>,alternative<span class="op">=</span><span class="st">'greater'</span><span class="op">)</span></pre></div>
-<pre><code>## 
-##  Pearson's product-moment correlation
-## 
-## data:  m1 and y
-## t = 3, df = 3, p-value = 0.02883
-## alternative hypothesis: true correlation is greater than 0
-## 95 percent confidence interval:
-##  0.1526678 1.0000000
-## sample estimates:
-##       cor 
-## 0.8660254</code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw">if</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">modelValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">||</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">yValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>
-  <span class="op">}</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/resampleScoreModel.html">resampleScoreModel</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">y</span>,<span class="va">f</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></pre></div>
-<pre><code>## $fnName
-## [1] "resampleScoreModel"
-## 
-## $observedScore
-## [1] 0.8660254
-## 
-## $bias
-## [1] -0.06201873
-## 
-## $sd
-## [1] 0.2768382
-## 
-## $nNA
-## [1] 0
-## 
-## $n
-## [1] 5</code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="va">z</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">$</span><span class="va">observedScore</span><span class="op">/</span><span class="va">s</span><span class="op">$</span><span class="va">sd</span>  <span class="co"># always check size of z relative to bias!</span>
-<span class="va">pValue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="va">z</span>,df<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">-</span><span class="fl">2</span>,lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">pValue</span></pre></div>
-<pre><code>## [1] 0.0260677</code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
+<span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">y</span>,alternative<span class="op">=</span><span class="st">'greater'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Pearson's product-moment correlation</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## data:  m1 and y</span></span>
+<span><span class="co">## t = 3, df = 3, p-value = 0.02883</span></span>
+<span><span class="co">## alternative hypothesis: true correlation is greater than 0</span></span>
+<span><span class="co">## 95 percent confidence interval:</span></span>
+<span><span class="co">##  0.1526678 1.0000000</span></span>
+<span><span class="co">## sample estimates:</span></span>
+<span><span class="co">##       cor </span></span>
+<span><span class="co">## 0.8660254</span></span></code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">modelValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">||</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">yValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/resampleScoreModel.html">resampleScoreModel</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">y</span>,<span class="va">f</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $fnName</span></span>
+<span><span class="co">## [1] "resampleScoreModel"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $observedScore</span></span>
+<span><span class="co">## [1] 0.8660254</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $bias</span></span>
+<span><span class="co">## [1] -0.06201873</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $sd</span></span>
+<span><span class="co">## [1] 0.2768382</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $nNA</span></span>
+<span><span class="co">## [1] 0</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $n</span></span>
+<span><span class="co">## [1] 5</span></span></code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">$</span><span class="va">observedScore</span><span class="op">/</span><span class="va">s</span><span class="op">$</span><span class="va">sd</span>  <span class="co"># always check size of z relative to bias!</span></span>
+<span><span class="va">pValue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">pt</a></span><span class="op">(</span><span class="va">z</span>,df<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">-</span><span class="fl">2</span>,lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">pValue</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0.0260677</span></span></code></pre>
 <p>resampleScoreModelPair</p>
-<div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>
-<span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>
-<span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">y</span><span class="op">)</span></pre></div>
-<pre><code>## [1] 0.8660254</code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">m2</span>,<span class="va">y</span><span class="op">)</span></pre></div>
-<pre><code>## [1] 0.7071068</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit">
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw">if</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">modelValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">||</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">yValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>
-  <span class="op">}</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/resampleScoreModelPair.html">resampleScoreModelPair</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">m2</span>,<span class="va">y</span>,<span class="va">f</span><span class="op">)</span>,
-             pLargeCutoff<span class="op">=</span><span class="fl">1</span>,format<span class="op">=</span><span class="st">'ascii'</span><span class="op">)</span></pre></div>
-<pre><code>## [1] "Studentized empirical test: is difference greater than zero on re-samples,  summary: e=0.3331"</code></pre>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">25325</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
+<span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0.8660254</span></span></code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">m2</span>,<span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0.7071068</span></span></code></pre>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">modelValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">||</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">yValues</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">modelValues</span>,<span class="va">yValues</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="fu">sigr</span><span class="fu">::</span><span class="fu"><a href="../reference/resampleScoreModelPair.html">resampleScoreModelPair</a></span><span class="op">(</span><span class="va">m1</span>,<span class="va">m2</span>,<span class="va">y</span>,<span class="va">f</span><span class="op">)</span>,</span>
+<span>             pLargeCutoff<span class="op">=</span><span class="fl">1</span>,format<span class="op">=</span><span class="st">'ascii'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Studentized empirical test: is difference greater than zero on re-samples,  summary: e=0.3331"</span></span></code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -326,11 +334,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -338,6 +348,8 @@
 
   
 
+
+  
 
   </body>
 </html>

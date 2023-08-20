@@ -36,7 +36,7 @@ find_ROC_matching_ab1(
 beta curve shape parameters
 }
 \description{
-Based on \url{https://journals.sagepub.com/doi/abs/10.1177/0272989X15582210}. Fits a Beta(a, 1) distribuiton on
+Based on \doi{10.1177/0272989X15582210}. Fits a Beta(a, 1) distribuiton on
 positive examples and an Beta(1, b) distribution on negative examples.
 }
 \examples{

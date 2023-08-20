@@ -1,270 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://winvector.github.io/sigr//index.html</loc>
+    <loc>https://winvector.github.io/sigr/404.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/Bernoulli_diff_stat.html</loc>
+    <loc>https://winvector.github.io/sigr/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/TInterval.html</loc>
+    <loc>https://winvector.github.io/sigr/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/TInterval.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/articles/lmExample.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/TInterval.numeric.html</loc>
+    <loc>https://winvector.github.io/sigr/articles/sigrFormatting.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/TIntervalS.html</loc>
+    <loc>https://winvector.github.io/sigr/authors.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/add_ROC_derived_columns.html</loc>
+    <loc>https://winvector.github.io/sigr/index.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/as.character.sigr_statistic.html</loc>
+    <loc>https://winvector.github.io/sigr/news/index.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/build_ROC_curve.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/Bernoulli_diff_stat.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/calcAUC.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/TInterval.data.frame.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/calcDeviance.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/TInterval.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/calcSSE.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/TInterval.numeric.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/check_utility_calc.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/TIntervalS.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/estimateDifferenceZeroCrossing.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/add_ROC_derived_columns.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/find_AUC_q.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/as.character.sigr_statistic.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/find_area_q.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/build_ROC_curve.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/find_matching_a1_1b.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/calcAUC.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/find_matching_conditional_betas.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/calcDeviance.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/fit_beta_shapes.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/calcSSE.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/format.sigr_statistic.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/check_utility_calc.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/getRenderingFormat.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/estimateDifferenceZeroCrossing.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/model_utility.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/find_AUC_q.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/permTestAUC.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/find_ROC_matching_ab.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/permutationScoreModel.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/find_ROC_matching_ab1.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/print.sigr_statistic.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/find_area_q.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/reexports.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/find_matching_a1_1b.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/find_matching_conditional_betas.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_Bernoulli_diff_test.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/fit_beta_shapes.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_aucpairtest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/format.sigr_statistic.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_aucpermtest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/getRenderingFormat.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_aucresamptest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_binomtest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/model_utility.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_chisqtest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/permTestAUC.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_cohend.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/permutationScoreModel.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_cortest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/print.sigr_statistic.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_emptest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_fishertest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_ftest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_Bernoulli_diff_test.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_permtest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_aucpairtest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_pwr_htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_aucpermtest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_significance.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_aucresamptest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_tinterval.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_binomtest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/render.sigr_ttest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_chisqtest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/resampleScoreModel.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_cohend.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/resampleScoreModelPair.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_cortest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/resampleTestAUC.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_emptest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/sensitivity_and_specificity_s12p12n.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_fishertest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/sensitivity_from_specificity_q.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_ftest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/sigr.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_permtest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/testAUCpair.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_pwr_htest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapBinomTest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_significance.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapBinomTest.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_tinterval.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapBinomTest.htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/render.sigr_ttest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapBinomTest.logical.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/resampleScoreModel.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapBinomTest.numeric.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/resampleScoreModelPair.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapBinomTestS.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/resampleTestAUC.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapChiSqTest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/run_sigr_tests.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapChiSqTest.anova.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/sensitivity_and_specificity_s12p12n.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapChiSqTest.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/sensitivity_from_specificity_q.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapChiSqTest.glm.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/sigr-package.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapChiSqTest.summary.glm.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/sigr.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapChiSqTestImpl.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/testAUCpair.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapCohenD.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapBinomTest.data.frame.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapCohenD.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapBinomTest.htest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapCohenD.numeric.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapBinomTest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapCorTest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapBinomTest.logical.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapCorTest.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapBinomTest.numeric.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapCorTest.htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapBinomTestS.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapChiSqTest.anova.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTest.anova.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapChiSqTest.data.frame.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTest.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapChiSqTest.glm.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTest.htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapChiSqTest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTest.lm.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapChiSqTest.summary.glm.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTest.summary.lm.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapChiSqTestImpl.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTestImpl.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapCohenD.data.frame.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFTestezANOVA.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapCohenD.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFisherTest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapCohenD.numeric.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFisherTest.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapCorTest.data.frame.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFisherTest.htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapCorTest.htest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapFisherTest.table.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapCorTest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapPWR.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTest.anova.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapPWR.power.htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTest.data.frame.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapSignificance.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTest.htest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapTTest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTest.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapTTest.data.frame.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTest.lm.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapTTest.htest.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTest.summary.lm.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//reference/wrapTTest.numeric.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTestImpl.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//articles/lmExample.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFTestezANOVA.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/sigr//articles/sigrFormatting.html</loc>
+    <loc>https://winvector.github.io/sigr/reference/wrapFisherTest.data.frame.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapFisherTest.htest.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapFisherTest.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapFisherTest.table.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapPWR.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapPWR.power.htest.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapSignificance.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapTTest.data.frame.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapTTest.htest.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapTTest.html</loc>
+  </url>
+  <url>
+    <loc>https://winvector.github.io/sigr/reference/wrapTTest.numeric.html</loc>
   </url>
 </urlset>

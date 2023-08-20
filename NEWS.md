@@ -1,4 +1,8 @@
 
+# sigr 1.1.5 2023-08-19
+
+  * Work around https://github.com/r-lib/roxygen2/issues/1491
+
 # sigr 1.1.4 2021-06-11
 
   * Remove LazyData decl.

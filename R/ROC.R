@@ -329,7 +329,7 @@ find_ROC_matching_ab <- find_matching_conditional_betas
 
 #' Find beta-1 shape parameters matching the conditional distributions.
 #'
-#' Based on \url{https://journals.sagepub.com/doi/abs/10.1177/0272989X15582210}. Fits a Beta(a, 1) distribuiton on
+#' Based on \doi{10.1177/0272989X15582210}. Fits a Beta(a, 1) distribuiton on
 #' positive examples and an Beta(1, b) distribution on negative examples.
 #'
 #' @param modelPredictions numeric predictions (not empty), ordered (either increasing or decreasing)

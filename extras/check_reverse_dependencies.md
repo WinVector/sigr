@@ -1,4 +1,4 @@
-check\_reverse\_dependencies
+check_reverse_dependencies
 ================
 
 ``` r
@@ -8,7 +8,7 @@ package = "sigr"
 date()
 ```
 
-    ## [1] "Fri Oct 16 11:46:34 2020"
+    ## [1] "Sat Aug 19 16:52:21 2023"
 
 ``` r
 parallelCluster <- NULL
@@ -27,7 +27,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpLR4dLn"
+    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpN9AUSz"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -52,8 +52,8 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## ## Reverse depends check of sigr 1.1.3 
-    ## WVPlots_1.3.0 started at 2020-10-16 11:46:35 success at 2020-10-16 11:47:25 (1/0/0)
+    ## ## Reverse depends check of sigr 1.1.5 
+    ## WVPlots_1.3.5 started at 2023-08-19 16:52:22 success at 2023-08-19 16:53:17 (1/0/0)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -62,9 +62,9 @@ if(!is.null(parallelCluster)) {
 summariseQueue(package=package, directory=td)
 ```
 
-    ## Test of sigr 1.1.3 had 1 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-10-16 11:46:35 to 2020-10-16 11:47:25 for 50 secs 
-    ## Average of 50 secs relative to 49.363 secs using 1 runners
+    ## Test of sigr 1.1.5 had 1 successes, 0 failures, and 0 skipped packages. 
+    ## Ran from 2023-08-19 16:52:22 to 2023-08-19 16:53:17 for 55 secs 
+    ## Average of 55 secs relative to 54.887 secs using 1 runners
     ## 
     ## Failed packages:   
     ## 

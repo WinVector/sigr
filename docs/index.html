@@ -21,6 +21,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,23 +35,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sigr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -69,7 +65,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com/">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com/" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -86,115 +82,121 @@
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="sigr" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#sigr" class="anchor"></a>sigr</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="sigr">sigr<a class="anchor" aria-label="anchor" href="#sigr"></a>
+</h1></div>
 <p>Concise formatting of significances in R.</p>
 <p><img src="https://github.com/WinVector/sigr/raw/master/tools/sigr.png"></p>
-<p>Please see <a href="https://win-vector.com/2016/10/04/adding-polished-significance-summaries-to-papers-using-r/">Adding polished significance summaries to papers using R</a> for some discussion.</p>
+<p>Please see <a href="https://win-vector.com/2016/10/04/adding-polished-significance-summaries-to-papers-using-r/" class="external-link">Adding polished significance summaries to papers using R</a> for some discussion.</p>
 <p>See also:</p>
 <ul>
-<li><a href="https://link.springer.com/article/10.3758/s13428-015-0664-2">“The prevalence of statistical reporting errors in psychology (1985–2013)”, Nuijten, M.B., Hartgerink, C.H.J., van Assen, M.A.L.M. et al., Behav Res (2015), doi:10.3758/s13428-015-0664-2</a></li>
-<li><a href="https://my.ilstu.edu/~jhkahn/apastats.html">Reporting Statistics in APA Style</a></li>
-<li><a href="https://apastyle.apa.org/products/publication-manual-7th-edition">Publication Manual of the American Psychological Association, Seventh Edition</a></li>
-<li><a href="https://win-vector.com/2016/10/02/proofing-statistics-in-papers/">Proofing statistics in papers</a></li>
-<li><a href="https://CRAN.R-project.org/package=apa">apa</a></li>
-<li><a href="https://CRAN.R-project.org/package=bootstrap">bootstrap</a></li>
-<li><a href="https://cran.r-project.org/package=broom">broom</a></li>
-<li><a href="https://github.com/achetverikov/APAstats">achetverikov/APAstats</a></li>
-<li><a href="https://CRAN.R-project.org/package=pwr">pwr</a></li>
-<li><a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a></li>
-<li><a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124">“Why Most Published Research Findings Are False”, John P. A. Ioannidis PLOS Medicine, August 30, 2005</a></li>
-<li><a href="http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf">“The garden of forking paths”, Andrew Gelman and Eric Loken, 14 Nov 2013</a></li>
+<li><a href="https://link.springer.com/article/10.3758/s13428-015-0664-2" class="external-link">“The prevalence of statistical reporting errors in psychology (1985–2013)”, Nuijten, M.B., Hartgerink, C.H.J., van Assen, M.A.L.M. et al., Behav Res (2015), doi:10.3758/s13428-015-0664-2</a></li>
+<li>Reporting Statistics in APA Style</li>
+<li><a href="https://apastyle.apa.org/products/publication-manual-7th-edition" class="external-link">Publication Manual of the American Psychological Association, Seventh Edition</a></li>
+<li><a href="https://win-vector.com/2016/10/02/proofing-statistics-in-papers/" class="external-link">Proofing statistics in papers</a></li>
+<li><a href="https://CRAN.R-project.org/package=apa" class="external-link">apa</a></li>
+<li><a href="https://CRAN.R-project.org/package=bootstrap" class="external-link">bootstrap</a></li>
+<li><a href="https://cran.r-project.org/package=broom" class="external-link">broom</a></li>
+<li><a href="https://github.com/achetverikov/APAstats" class="external-link">achetverikov/APAstats</a></li>
+<li><a href="https://CRAN.R-project.org/package=pwr" class="external-link">pwr</a></li>
+<li><a href="https://indrajeetpatil.github.io/ggstatsplot/" class="external-link">ggstatsplot</a></li>
+<li><a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124" class="external-link">“Why Most Published Research Findings Are False”, John P. A. Ioannidis PLOS Medicine, August 30, 2005</a></li>
+<li><a href="http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf" class="external-link">“The garden of forking paths”, Andrew Gelman and Eric Loken, 14 Nov 2013</a></li>
 </ul>
 <hr>
 <p><em>sigr</em> is a small package that concentrates on computing summary statistics and reporting in an appropriate format.</p>
 <p>For example here is formatting the quality of a logistic regression.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,
-      y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">x</span>,data<span class="op">=</span><span class="va">d</span>,family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">## Call:</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">## glm(formula = y ~ x, family = binomial, data = d)</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">## </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">## Deviance Residuals: </span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">##      Min        1Q    Median        3Q       Max  </span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">## -1.37180  -1.09714  -0.00811   1.08024   1.42939  </span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">## </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## Coefficients:</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">##             Estimate Std. Error z value Pr(&gt;|z|)</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">## (Intercept)  -0.7455     1.6672  -0.447    0.655</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">## x             0.1702     0.3429   0.496    0.620</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">## </span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">## (Dispersion parameter for binomial family taken to be 1)</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">## </span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">##     Null deviance: 11.090  on 7  degrees of freedom</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">## Residual deviance: 10.837  on 6  degrees of freedom</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">## AIC: 14.837</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">## </span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">## Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/sigr/">"sigr"</a></span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="reference/wrapChiSqTest.html">wrapChiSqTest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,
-           pLargeCutoff<span class="op">=</span><span class="fl">1</span>, format<span class="op">=</span><span class="st">'markdown'</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span>,</span>
+<span>      y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">x</span>,data<span class="op">=</span><span class="va">d</span>,family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="do">## glm(formula = y ~ x, family = binomial, data = d)</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="do">##             Estimate Std. Error z value Pr(&gt;|z|)</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="do">## (Intercept)  -0.7455     1.6672  -0.447    0.655</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="do">## x             0.1702     0.3429   0.496    0.620</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="do">## (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="do">##     Null deviance: 11.090  on 7  degrees of freedom</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="do">## Residual deviance: 10.837  on 6  degrees of freedom</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="do">## AIC: 14.837</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="do">## Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/sigr/" class="external-link">"sigr"</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/render.html">render</a></span><span class="op">(</span><span class="fu"><a href="reference/wrapChiSqTest.html">wrapChiSqTest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,</span>
+<span>           pLargeCutoff<span class="op">=</span><span class="fl">1</span>, format<span class="op">=</span><span class="st">'markdown'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Chi-Square Test</strong> summary: <em>pseudo-<i>R<sup>2</sup></i></em>=0.02282 (<i>χ<sup>2</sup></i>(1,<em>N</em>=8)=0.2531, <em>p</em>=0.6149).</p>
 <hr>
 <p>To install, from inside <code>R</code> please run:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"sigr"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sigr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=sigr">https://​cloud.r-project.org/​package=sigr</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/WinVector/sigr/">https://​github.com/​WinVector/​sigr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/WinVector/sigr/issues">https://​github.com/​WinVector/​sigr/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a> | <a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a>
-</li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>John Mount <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Nina Zumel <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=sigr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/WinVector/sigr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/WinVector/sigr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=sigr"><img src="https://www.r-pkg.org/badges/version/sigr" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://CRAN.R-project.org/package=sigr"><img src="https://tinyverse.netlify.com/badge/sigr" alt="status"></a></li>
+<li>
+<a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a> | <a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a>
+</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing sigr</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>John Mount <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Nina Zumel <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=sigr" class="external-link"><img src="https://www.r-pkg.org/badges/version/sigr" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://CRAN.R-project.org/package=sigr" class="external-link"><img src="https://tinyverse.netlify.com/badge/sigr" alt="status"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -202,6 +204,8 @@
 
   
 
+
+  
 
   </body>
 </html>

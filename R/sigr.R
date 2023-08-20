@@ -10,9 +10,7 @@
 #' To learn more about sigr, please start with the vignette:
 #' \code{vignette('sigrFormatting','sigr')}
 #'
-#' @docType package
-#' @name sigr
-NULL
+"_PACKAGE"
 
 #' @importFrom wrapr stop_if_dot_args
 NULL
